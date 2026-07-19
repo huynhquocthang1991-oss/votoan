@@ -4,13 +4,24 @@ import { fileURLToPath } from "node:url";
 
 const projectDir = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const distDir = resolve(projectDir, "dist");
-const html = await readFile(resolve(projectDir, "index.html"), "utf8");
-const worker = `const html = ${JSON.stringify(html)};
+const homeHtml = await readFile(resolve(projectDir, "index.html"), "utf8");
+const lessonHtml = await readFile(
+  resolve(projectDir, "bai-hoc/lop-8/chuong-01/bai-01/index.html"),
+  "utf8",
+);
+const worker = `const pages = new Map([
+  ["/", ${JSON.stringify(homeHtml)}],
+  ["/index.html", ${JSON.stringify(homeHtml)}],
+  ["/bai-hoc/lop-8/chuong-01/bai-01", ${JSON.stringify(lessonHtml)}],
+  ["/bai-hoc/lop-8/chuong-01/bai-01/", ${JSON.stringify(lessonHtml)}],
+  ["/bai-hoc/lop-8/chuong-01/bai-01/index.html", ${JSON.stringify(lessonHtml)}]
+]);
 
 export default {
   async fetch(request) {
     const url = new URL(request.url);
-    if (url.pathname !== "/" && url.pathname !== "/index.html") {
+    const html = pages.get(url.pathname);
+    if (!html) {
       return new Response("Không tìm thấy trang", {
         status: 404,
         headers: { "content-type": "text/plain; charset=UTF-8" }

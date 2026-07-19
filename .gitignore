@@ -1,0 +1,5 @@
+# Thư mục build tự sinh — tạo lại bằng: npm run build
+dist/
+
+# Rác của macOS
+.DS_Store

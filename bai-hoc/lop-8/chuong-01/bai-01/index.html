@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bài 1. Đơn thức — Toán 8 (KNTT)</title>
+<script>
+MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#1565c0; --blue-d:#0d47a1; --blue-l:#eaf4fd;
+    --orange:#e65100; --orange-l:#fff5e9;
+    --green:#2e7d32; --green-l:#edf8ee;
+    --red:#c62828; --red-l:#fff0f0;
+    --purple:#6a1b9a; --purple-l:#f7eefb;
+    --ink:#20303c; --muted:#687783; --line:#d9e1e7;
+    --paper:#f3f6f8; --surface:#fff;
+    --body:"Be Vietnam Pro",system-ui,-apple-system,sans-serif;
+    --display:"Bricolage Grotesque","Be Vietnam Pro",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{font-family:var(--body);color:var(--ink);margin:0;background:var(--paper);line-height:1.65;font-size:16px;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:3px solid rgba(21,101,192,.3);outline-offset:4px;border-radius:5px}
+  .page{width:min(1580px,calc(100% - 40px));margin:0 auto;padding:24px 0 72px;display:grid;grid-template-columns:250px minmax(0,1fr);gap:24px;align-items:start}
+  .lesson-content{min-width:0}
+
+  /* Mục lục trên máy tính, thanh điều hướng gọn trên điện thoại */
+  .lesson-nav{position:sticky;top:20px;min-width:0;padding:22px;background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:20px;box-shadow:0 16px 42px rgba(39,55,67,.07);backdrop-filter:blur(12px)}
+  .lesson-brand{display:flex;align-items:center;gap:10px;margin-bottom:28px;font:700 1rem/1 var(--display);letter-spacing:-.02em}
+  .lesson-brand span:first-child{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:var(--blue);color:#fff;font-size:.72rem}
+  .nav-label{margin:0 0 10px;color:var(--muted);font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+  .lesson-nav nav{display:grid;gap:5px}
+  .lesson-nav nav a{display:flex;align-items:center;gap:10px;padding:10px 11px;border-radius:10px;color:#465763;font-size:.82rem;line-height:1.35;transition:background .2s ease,color .2s ease}
+  .lesson-nav nav a::before{content:"";width:6px;height:6px;flex:0 0 auto;border:1.5px solid currentColor;border-radius:50%}
+  .lesson-nav nav a:hover{color:var(--blue);background:var(--blue-l)}
+  .lesson-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+  .lesson-meta span{display:block;color:var(--muted);font-size:.67rem;line-height:1.4}
+  .lesson-meta b{display:block;margin-bottom:2px;color:var(--ink);font:700 1rem/1 var(--display)}
+
+  /* Đầu bài */
+  header{position:relative;min-height:250px;display:grid;align-content:end;overflow:hidden;background:linear-gradient(125deg,var(--blue-d),#1976d2);color:#fff;border-radius:24px;padding:clamp(28px,5vw,58px);margin-bottom:32px;box-shadow:0 24px 58px rgba(13,71,161,.18)}
+  header::before,header::after{content:"";position:absolute;border:1px solid rgba(255,255,255,.16);border-radius:50%;pointer-events:none}
+  header::before{width:340px;height:340px;right:-105px;top:-175px}
+  header::after{width:210px;height:210px;right:80px;top:-120px}
+  .breadcrumb{position:relative;z-index:1;margin:0 0 34px;font-size:.73rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;opacity:.78}
+  .hero-row{position:relative;z-index:1;display:flex;align-items:end;justify-content:space-between;gap:32px}
+  header h1{margin:0;font:800 clamp(2.25rem,5vw,4.8rem)/.95 var(--display);letter-spacing:-.055em}
+  header p{max-width:580px;margin:15px 0 0;opacity:.85;font-size:.94rem}
+  .hero-number{font:700 clamp(4.5rem,10vw,8rem)/.72 var(--display);letter-spacing:-.07em;color:rgba(255,255,255,.17)}
+
+  /* Tiêu đề mục lớn */
+  h2.sec{scroll-margin-top:24px;display:flex;align-items:center;gap:14px;font:700 clamp(1.15rem,2vw,1.45rem)/1.3 var(--display);letter-spacing:-.02em;margin:46px 0 18px;padding:16px 18px;background:var(--surface);color:var(--blue);border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:0 14px 14px 0;box-shadow:0 9px 30px rgba(35,51,64,.045)}
+  h2.sec .num{display:grid;place-items:center;min-width:35px;height:31px;padding:0 8px;background:var(--blue-l);color:var(--blue);border-radius:8px;font-size:.88rem}
+  h2.sec.red{color:var(--red);border-left-color:var(--red)} h2.sec.red .num{background:var(--red-l);color:var(--red)}
+  h3.sub{scroll-margin-top:24px;font:700 1.08rem/1.4 var(--display);color:var(--blue);margin:28px 0 11px;padding-left:12px;border-left:3px solid var(--blue)}
+
+  /* Sơ đồ kiến thức */
+  .map{border:1px solid rgba(21,101,192,.28);border-radius:18px;padding:16px;background:var(--surface);margin:12px 0 16px;box-shadow:0 12px 36px rgba(35,51,64,.045)}
+  .map .root{background:var(--blue);color:#fff;font-weight:700;text-align:center;padding:11px 14px;border-radius:11px;font-size:.91rem;letter-spacing:.02em}
+  .map.orange{border-color:rgba(230,81,0,.28)} .map.orange .root{background:var(--orange)}
+  .map.purple{border-color:rgba(106,27,154,.27)} .map.purple .root{background:var(--purple)}
+  .branches{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:12px;margin-top:12px}
+  .node{min-width:0;border-radius:13px;padding:15px 16px;border:1px solid}
+  .node h4{margin:0 0 8px;font:700 1rem/1.35 var(--display)}
+  .node ul{margin:0;padding-left:19px}
+  .node li{margin:5px 0}
+  .n-blue{background:var(--blue-l);border-color:rgba(21,101,192,.24)} .n-blue h4{color:var(--blue)}
+  .n-orange{background:var(--orange-l);border-color:rgba(230,81,0,.22)} .n-orange h4{color:var(--orange)}
+  .n-green{background:var(--green-l);border-color:rgba(46,125,50,.22)} .n-green h4{color:var(--green)}
+  .n-purple{background:var(--purple-l);border-color:rgba(106,27,154,.2)} .n-purple h4{color:var(--purple)}
+  .def{background:rgba(255,255,255,.86);border-left:3px solid #f9a825;padding:9px 11px;border-radius:0 8px 8px 0;margin:7px 0;font-weight:600}
+  .note{font-size:.9rem;color:#4f606c;background:#eef2f4;border-radius:9px;padding:9px 11px;margin-top:9px}
+  .anno{display:flex;justify-content:center;margin:10px 0 3px;font-size:1.13rem}
+  .anno .hs{color:var(--green);font-weight:700;border-bottom:2px solid var(--green);padding:0 4px}
+  .anno .pb{color:var(--blue);font-weight:700;border-bottom:2px solid var(--blue);padding:0 4px}
+  .anno-lbl{display:flex;justify-content:center;gap:28px;font-size:.82rem;margin-bottom:7px}
+  .anno-lbl .hs{color:var(--green)} .anno-lbl .pb{color:var(--blue)}
+
+  /* Ví dụ, luyện tập và bài tập */
+  .card{min-width:0;overflow:hidden;background:var(--surface);border:1px solid var(--line);border-radius:15px;padding:17px 19px;margin:14px 0;box-shadow:0 8px 28px rgba(35,51,64,.035)}
+  .card .tag{display:inline-flex;align-items:center;min-height:27px;font-weight:700;color:#fff;border-radius:7px;padding:3px 11px;font-size:.78rem;margin-bottom:7px;letter-spacing:.01em}
+  .tag.vd{background:var(--blue)} .tag.lt{background:var(--green)} .tag.vdung{background:var(--purple)} .tag.bt{background:var(--red)}
+  .card .de{margin:5px 0 9px;overflow-wrap:anywhere}
+  .giai{border-top:1px dashed var(--line);margin-top:10px;padding-top:11px}
+  .solution{margin-top:12px;border-top:1px dashed var(--line)}
+  .solution summary{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:46px;cursor:pointer;color:var(--blue);font-size:.82rem;font-weight:700;list-style:none;user-select:none}
+  .solution summary::-webkit-details-marker{display:none}
+  .solution summary::after{content:"+";display:grid;place-items:center;width:25px;height:25px;border-radius:50%;background:var(--blue-l);font-size:1.05rem;transition:transform .2s ease}
+  .solution[open] summary::after{transform:rotate(45deg)}
+  .solution .giai{margin-top:0;padding-bottom:3px}
+  .solution .giai::before{content:"Lời giải. ";font-weight:700;color:var(--blue)}
+  .kq{max-width:100%;background:var(--green-l);border-left:3px solid var(--green);padding:7px 11px;border-radius:0 8px 8px 0;display:inline-block;margin-top:8px}
+  table.grp{display:block;width:100%;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border-collapse:collapse;margin:10px 0;white-space:nowrap}
+  table.grp td,table.grp th{border:1px solid var(--line);padding:8px 13px;text-align:center}
+  table.grp th{background:var(--blue-l);color:var(--blue)}
+  figure{margin:16px 0;text-align:center}
+  figure svg{display:block;width:min(100%,520px);height:auto;margin-inline:auto}
+  figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}
+  mjx-container{overflow-x:auto;overflow-y:hidden;max-width:100%;vertical-align:middle;-webkit-overflow-scrolling:touch}
+  mjx-container:not([display="true"]){display:inline-block!important;max-width:100%!important}
+
+  @media (min-width:1280px){
+    .page{grid-template-columns:270px minmax(0,1fr);gap:30px}
+    .lesson-content{font-size:16.5px}
+    .map{padding:19px}
+    .card{padding:19px 22px}
+  }
+  @media (max-width:900px){
+    .page{width:min(100% - 28px,780px);grid-template-columns:minmax(0,1fr);padding-top:14px;gap:14px}
+    .lesson-nav{position:static;padding:15px;border-radius:15px}
+    .lesson-brand{margin-bottom:14px}
+    .lesson-nav nav{display:flex;flex-wrap:wrap;gap:6px}
+    .lesson-nav nav a{padding:8px 10px;background:#f4f7f9}
+    .lesson-meta{display:none}
+    header{min-height:230px;margin-bottom:22px;border-radius:18px}
+  }
+  @media (max-width:560px){
+    body{font-size:15px;line-height:1.62}
+    .page{width:min(100% - 20px,780px);padding-bottom:46px}
+    .lesson-nav{padding:12px}
+    .lesson-brand{font-size:.92rem}
+    .lesson-brand span:first-child{width:31px;height:31px}
+    .nav-label{display:none}
+    .lesson-nav nav a{font-size:.74rem;padding:7px 9px}
+    header{min-height:215px;padding:25px 22px}
+    .breadcrumb{margin-bottom:26px;font-size:.65rem}
+    .hero-row{align-items:flex-end}
+    header h1{font-size:clamp(2.15rem,12vw,3.2rem)}
+    header p{font-size:.82rem;line-height:1.55}
+    .hero-number{font-size:4.25rem}
+    h2.sec{margin-top:34px;padding:13px 12px;gap:10px;font-size:1.02rem}
+    h2.sec .num{min-width:31px;height:29px}
+    h3.sub{margin-top:23px;font-size:1rem}
+    .map{padding:11px;border-radius:14px}
+    .map .root{padding:9px 10px;font-size:.76rem}
+    .node{padding:13px}
+    .card{padding:14px 13px;border-radius:13px}
+    .solution summary{min-height:44px}
+    table.grp td,table.grp th{padding:7px 10px}
+  }
+  @media print{
+    body{background:#fff}
+    .page{display:block;width:100%;padding:0}
+    .lesson-nav{display:none}
+    header,.map,.card{box-shadow:none;break-inside:avoid}
+    .solution summary{display:none}
+    .solution:not([open])>*:not(summary){display:block}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<aside class="lesson-nav" aria-label="Mục lục bài học">
+  <a class="lesson-brand" href="#top"><span aria-hidden="true">VT</span><span>Vở Toán</span></a>
+  <p class="nav-label">Trong bài này</p>
+  <nav>
+    <a href="#phan-1">Đơn thức và thu gọn</a>
+    <a href="#phan-2">Đơn thức đồng dạng</a>
+    <a href="#bai-tap">Bài tập cuối bài</a>
+  </nav>
+  <div class="lesson-meta" aria-label="Thông tin bài học">
+    <span><b>02</b>phần học</span>
+    <span><b>07</b>bài tập</span>
+  </div>
+</aside>
+
+<main class="lesson-content">
+
+<header id="top">
+  <p class="breadcrumb">Toán 8 · Chương I — Đa thức</p>
+  <div class="hero-row">
+    <div>
+      <h1>Bài 1.<br>Đơn thức</h1>
+      <p>Nhận biết, thu gọn và thực hiện phép tính với các đơn thức đồng dạng.</p>
+    </div>
+    <span class="hero-number" aria-hidden="true">01</span>
+  </div>
+</header>
+
+<!-- ==================================================== -->
+<!-- MỤC 1 -->
+<!-- ==================================================== -->
+<h2 class="sec" id="phan-1"><span class="num">1</span> ĐƠN THỨC VÀ ĐƠN THỨC THU GỌN</h2>
+
+<h3 class="sub">Khái niệm đơn thức</h3>
+<div class="map">
+  <div class="root">ĐƠN THỨC</div>
+  <div class="branches">
+    <div class="node n-blue">
+      <h4>Định nghĩa</h4>
+      <div class="def">Đơn thức là biểu thức đại số chỉ gồm <b>một số</b>, hoặc <b>một biến</b>, hoặc <b>tích của những số và biến</b>.</div>
+      <ul>
+        <li>Ví dụ: \( -5x^2y;\ 17z^4;\ xy\cdot 4x^2;\ 3 \)</li>
+        <li>Một lũy thừa cũng là một tích: \(x^3 = x\cdot x\cdot x\).</li>
+      </ul>
+    </div>
+    <div class="node n-orange">
+      <h4>Không là đơn thức khi…</h4>
+      <ul>
+        <li>Chứa phép <b>cộng / trừ</b> giữa các biến: \(x+2y\)</li>
+        <li>Chứa biến ở <b>mẫu</b>: \(\dfrac{3}{x}\)</li>
+        <li>Chứa <b>căn</b> của biến: \(5x\sqrt{y}\)</li>
+      </ul>
+      <div class="note">Hệ số dạng \((1+\sqrt{2})\) vẫn là <b>một số</b>, nên \((1+\sqrt 2)x^2y\) là đơn thức.</div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag vd">Ví dụ 1</span>
+  <p class="de">Tìm đơn thức trong các biểu thức: \( -x\cdot 6y;\quad x+2y;\quad 0{,}3xy\cdot x^2;\quad 5x\sqrt{y} \).</p>
+  <div class="giai">
+    <b>Giải.</b><br>
+    Biểu thức \(x+2y\) không là đơn thức vì có chứa phép cộng.<br>
+    Biểu thức \(5x\sqrt y\) không là đơn thức vì có chứa căn bậc hai của biến.<br>
+    <div class="kq">Vậy các đơn thức là \(-x\cdot 6y\) và \(0{,}3xy\cdot x^2\).</div>
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag lt">Luyện tập 1</span>
+  <p class="de">Biểu thức nào là đơn thức?
+  \( 3x^3y;\quad -4;\quad (3-x)x^2y^2;\quad 12x^5;\quad -\dfrac{5}{9}xyz;\quad \dfrac{x^2y}{2};\quad \dfrac{3}{x}+y^2 \).</p>
+  <div class="show">
+    <div class="giai">
+      Biểu thức \((3-x)x^2y^2\) không là đơn thức vì có chứa hiệu \(3-x\).<br>
+      Biểu thức \(\dfrac3x+y^2\) không là đơn thức vì có chứa phép cộng và biến ở mẫu.<br>
+      <div class="kq">Vậy các đơn thức là \(3x^3y;\ -4;\ 12x^5;\ -\dfrac59xyz;\ \dfrac{x^2y}{2}\).</div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag lt">Tranh luận</span>
+  <p class="de">Biểu thức \((1+\sqrt2)x^2y\) có phải là đơn thức không?</p>
+  <div class="show">
+    <div class="giai">
+      Ta có \(1+\sqrt2\) là <b>một số</b> (không chứa biến).<br>
+      Do đó biểu thức \((1+\sqrt2)x^2y\) có dạng tích của một số với các biến.<br>
+      <div class="kq">Vậy \((1+\sqrt2)x^2y\) là đơn thức, hệ số \(1+\sqrt2\), phần biến \(x^2y\), bậc 3.</div>
+    </div>
+  </div>
+</div>
+
+<h3 class="sub">Đơn thức thu gọn, bậc của một đơn thức</h3>
+<div class="map orange">
+  <div class="root">ĐƠN THỨC THU GỌN — HỆ SỐ — PHẦN BIẾN — BẬC</div>
+  <div class="branches">
+    <div class="node n-orange">
+      <h4>Đơn thức thu gọn</h4>
+      <div class="def">Chỉ gồm một số, hoặc tích của một số với các biến, <b>mỗi biến xuất hiện một lần</b> dưới dạng lũy thừa với số mũ nguyên dương.</div>
+      <ul>
+        <li>Cách thu gọn: nhân các số với nhau, nhân các lũy thừa cùng biến với nhau.</li>
+        <li>\( 2xy(-3)x^2 \) \( = 2\cdot(-3)\cdot(x\cdot x^2)\cdot y \) \( = -6x^3y \)</li>
+      </ul>
+    </div>
+    <div class="node n-green">
+      <h4>Hệ số — Phần biến</h4>
+      <div class="anno"><span class="hs">−6</span><span class="pb">x³y</span></div>
+      <div class="anno-lbl"><span class="hs">Hệ số</span><span class="pb">Phần biến</span></div>
+      <ul>
+        <li>Viết <b>hệ số trước, phần biến sau</b>; các biến theo thứ tự bảng chữ cái.</li>
+        <li>Hệ số \(+1,\ -1\): không viết số 1 (\(xy^2\) có hệ số 1; \(-x^2y^2\) có hệ số −1).</li>
+      </ul>
+    </div>
+    <div class="node n-blue">
+      <h4>Bậc</h4>
+      <div class="def"><b>Bậc</b> = tổng số mũ của các biến (đơn thức thu gọn, hệ số ≠ 0).</div>
+      <ul>
+        <li>\(5x^2y^3z\) có bậc \(2+3+1=6\).</li>
+        <li>Muốn tìm bậc, phải <b>thu gọn đơn thức trước</b>.</li>
+        <li>Số khác 0 là đơn thức bậc 0; số 0 là đơn thức <b>không có bậc</b>.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag lt">Câu hỏi ?</span>
+  <p class="de">Cho biết hệ số, phần biến và bậc của: \( 2{,}5x;\quad -\dfrac14y^2z^3;\quad 0{,}35xy^2z^4 \).</p>
+  <div class="show">
+    <div class="giai">
+      <table class="grp">
+        <tr><th>Đơn thức</th><th>Hệ số</th><th>Phần biến</th><th>Bậc</th></tr>
+        <tr><td>\(2{,}5x\)</td><td>\(2{,}5\)</td><td>\(x\)</td><td>1</td></tr>
+        <tr><td>\(-\dfrac14y^2z^3\)</td><td>\(-\dfrac14\)</td><td>\(y^2z^3\)</td><td>5</td></tr>
+        <tr><td>\(0{,}35xy^2z^4\)</td><td>\(0{,}35\)</td><td>\(xy^2z^4\)</td><td>7</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag vd">Ví dụ 2</span>
+  <p class="de">Xác định hệ số, phần biến và bậc của đơn thức \(0{,}5xy^2\cdot 4x^2\).</p>
+  <div class="giai">
+    <b>Giải.</b><br>
+    Thu gọn đơn thức: \(0{,}5xy^2\cdot 4x^2=(0{,}5\cdot 4)(x\cdot x^2)y^2=2x^3y^2\).<br>
+    <div class="kq">Vậy đơn thức có hệ số \(2\); phần biến \(x^3y^2\); bậc \(3+2=5\).</div>
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag lt">Luyện tập 2</span>
+  <p class="de">Thu gọn và xác định bậc của đơn thức \(4{,}5x^2y(-2)xyz\).</p>
+  <div class="show">
+    <div class="giai">
+      Ta có \(4{,}5x^2y(-2)xyz=[4{,}5\cdot(-2)](x^2\cdot x)(y\cdot y)z=-9x^3y^2z\).<br>
+      <div class="kq">Vậy đơn thức có bậc \(3+2+1=6\).</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================================================== -->
+<!-- MỤC 2 -->
+<!-- ==================================================== -->
+<h2 class="sec" id="phan-2"><span class="num">2</span> ĐƠN THỨC ĐỒNG DẠNG</h2>
+<p class="note" style="margin:0 0 6px">Từ đây, nói đến một đơn thức ta hiểu rằng <i>đơn thức đó đã được thu gọn</i>.</p>
+
+<h3 class="sub">Khái niệm đơn thức đồng dạng</h3>
+<div class="map purple">
+  <div class="root">ĐƠN THỨC ĐỒNG DẠNG</div>
+  <div class="branches">
+    <div class="node n-purple">
+      <h4>Định nghĩa</h4>
+      <div class="def">Hai đơn thức đồng dạng là hai đơn thức có hệ số <b>khác 0</b> và có <b>phần biến giống nhau</b>.</div>
+      <ul>
+        <li>VD: \(2x^2y^3\) và \(-\dfrac12 x^2y^3\) đồng dạng.</li>
+        <li>\(x^3y^2\) không đồng dạng với chúng (phần biến khác).</li>
+      </ul>
+    </div>
+    <div class="node n-blue">
+      <h4>Nhận xét</h4>
+      <ul>
+        <li>Hai đơn thức đồng dạng thì <b>cùng bậc</b> (điều ngược lại không đúng với đơn thức nhiều biến).</li>
+        <li>Hai số khác 0 cũng là hai đơn thức đồng dạng.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag lt">Luyện tập 3</span>
+  <p class="de">Xếp các đơn thức thành từng nhóm đồng dạng:
+  \( \dfrac53x^2y;\quad -xy^2;\quad 0{,}5x^4;\quad -2xy^2;\quad 2{,}75x^4;\quad -\dfrac14x^2y;\quad 3xy^2 \).</p>
+  <div class="show">
+    <div class="giai">
+      <table class="grp">
+        <tr><th>Phần biến \(x^2y\)</th><th>Phần biến \(xy^2\)</th><th>Phần biến \(x^4\)</th></tr>
+        <tr><td>\(\dfrac53x^2y;\ -\dfrac14x^2y\)</td><td>\(-xy^2;\ -2xy^2;\ 3xy^2\)</td><td>\(0{,}5x^4;\ 2{,}75x^4\)</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag lt">Tranh luận</span>
+  <p class="de">Hai đơn thức một biến có cùng biến, cùng bậc thì đồng dạng. Điều đó còn đúng với đơn thức hai biến (nhiều hơn một biến) không?</p>
+  <div class="show">
+    <div class="giai">
+      Điều đó không còn đúng với đơn thức nhiều hơn một biến.<br>
+      Chẳng hạn \(A=2x^2y^3\) và \(C=x^3y^2\) cùng có bậc 5.<br>
+      Nhưng phần biến của chúng khác nhau (\(x^2y^3 \ne x^3y^2\)) nên \(A\) và \(C\) <b>không đồng dạng</b>.
+    </div>
+  </div>
+</div>
+
+<h3 class="sub">Cộng và trừ đơn thức đồng dạng</h3>
+<div class="map purple">
+  <div class="root">QUY TẮC CỘNG — TRỪ ĐƠN THỨC ĐỒNG DẠNG</div>
+  <div class="branches">
+    <div class="node n-purple">
+      <h4>Quy tắc</h4>
+      <div class="def">Cộng (hay trừ) <b>các hệ số</b> với nhau và <b>giữ nguyên phần biến</b>.</div>
+      <ul>
+        <li>\(2{,}5x^2y^3+8{,}5x^2y^3=(2{,}5+8{,}5)x^2y^3=11x^2y^3\)</li>
+        <li>Cơ sở: tính chất phân phối \(ab+cb=(a+c)b\).</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag vd">Ví dụ 3</span>
+  <p class="de">Cho \(A=3xy^2;\ B=-5xy^2;\ C=xy^2\). Tính \(A+B;\ A-B;\ A+B+C\).</p>
+  <div class="giai">
+    <b>Giải.</b><br>
+    \(A+B=[3+(-5)]xy^2=-2xy^2\);<br>
+    \(A-B=[3-(-5)]xy^2=8xy^2\);<br>
+    \(A+B+C=(3-5+1)xy^2=-xy^2\).
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag lt">Luyện tập 4</span>
+  <p class="de">Cho các đơn thức \(-x^3y;\ 4x^3y;\ -2x^3y\).<br>
+  a) Tính tổng \(S\) của ba đơn thức. &nbsp; b) Tính giá trị của \(S\) tại \(x=2;\ y=-3\).</p>
+  <div class="show">
+    <div class="giai">
+      a) \(S=(-1+4-2)x^3y=x^3y\).<br>
+      b) Tại \(x=2;\ y=-3\): \(S=2^3\cdot(-3)=-24\).
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag vdung">Vận dụng</span>
+  <p class="de">Mỗi phần quà gồm \(x\) kg gạo (12 nghìn đồng/kg) và \(x\) gói mì (4,5 nghìn đồng/gói); có \(y\) phần quà. Tròn viết \(12xy+4{,}5xy\), Vuông viết \(16{,}5xy\). Bạn nào đúng?</p>
+  <div class="show">
+    <div class="giai">
+      Hai đơn thức \(12xy\) và \(4{,}5xy\) đồng dạng (cùng phần biến \(xy\)).<br>
+      Do đó \(12xy+4{,}5xy=(12+4{,}5)xy=16{,}5xy\) (nghìn đồng).<br>
+      <div class="kq">Vậy cả hai bạn đều giải đúng.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================================================== -->
+<!-- BÀI TẬP -->
+<!-- ==================================================== -->
+<h2 class="sec red" id="bai-tap"><span class="num">BT</span> BÀI TẬP (SGK tr.9–10)</h2>
+
+<div class="card">
+  <span class="tag bt">1.1</span>
+  <p class="de">Biểu thức nào là đơn thức?
+  \( -x;\quad (1+x)y^2;\quad (3+\sqrt3)xy;\quad 0;\quad \dfrac1y x^2;\quad 2\sqrt{xy} \).</p>
+  <div class="show">
+    <div class="giai">
+      Biểu thức \((1+x)y^2\) không là đơn thức vì có chứa tổng \(1+x\).<br>
+      Biểu thức \(\dfrac1yx^2\) không là đơn thức vì có biến ở mẫu.<br>
+      Biểu thức \(2\sqrt{xy}\) không là đơn thức vì có chứa căn của biến.<br>
+      <div class="kq">Vậy các đơn thức là \(-x;\ (3+\sqrt3)xy;\ 0\).</div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag bt">1.2</span>
+  <p class="de">Cho \( A=4x(-2)x^2y;\ B=12{,}75xyz;\ C=(1+2\cdot4{,}5)x^2y\dfrac15y^3;\ D=(2-\sqrt5)x \).<br>
+  a) Liệt kê các đơn thức thu gọn, thu gọn các đơn thức còn lại.<br>
+  b) Với mỗi đơn thức nhận được, cho biết hệ số, phần biến và bậc.</p>
+  <div class="show">
+    <div class="giai">
+      a) Các đơn thức thu gọn là \(B\) và \(D\).<br>
+      Thu gọn \(A=4\cdot(-2)(x\cdot x^2)y=-8x^3y\).<br>
+      Thu gọn \(C=10\cdot\dfrac15x^2(y\cdot y^3)=2x^2y^4\).<br>
+      b)
+      <table class="grp">
+        <tr><th>Đơn thức</th><th>Hệ số</th><th>Phần biến</th><th>Bậc</th></tr>
+        <tr><td>\(A=-8x^3y\)</td><td>\(-8\)</td><td>\(x^3y\)</td><td>4</td></tr>
+        <tr><td>\(B=12{,}75xyz\)</td><td>\(12{,}75\)</td><td>\(xyz\)</td><td>3</td></tr>
+        <tr><td>\(C=2x^2y^4\)</td><td>\(2\)</td><td>\(x^2y^4\)</td><td>6</td></tr>
+        <tr><td>\(D=(2-\sqrt5)x\)</td><td>\(2-\sqrt5\)</td><td>\(x\)</td><td>1</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag bt">1.3</span>
+  <p class="de">Thu gọn rồi tính giá trị:<br>
+  a) \(A=(-2)x^2y\dfrac12xy\) khi \(x=-2;\ y=\dfrac12\); &nbsp;
+  b) \(B=xyz(-0{,}5)y^2z\) khi \(x=4;\ y=0{,}5;\ z=2\).</p>
+  <div class="show">
+    <div class="giai">
+      a) \(A=(-2)\cdot\dfrac12(x^2\cdot x)(y\cdot y)=-x^3y^2\).<br>
+      Tại \(x=-2;\ y=\dfrac12\): \(A=-(-2)^3\left(\dfrac12\right)^2=8\cdot\dfrac14=2\).<br><br>
+      b) \(B=-0{,}5x(y\cdot y^2)(z\cdot z)=-0{,}5xy^3z^2\).<br>
+      Tại \(x=4;\ y=0{,}5;\ z=2\): \(B=-0{,}5\cdot4\cdot(0{,}5)^3\cdot2^2=-1\).
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag bt">1.4</span>
+  <p class="de">Xếp thành từng nhóm đồng dạng:
+  \( 3x^3y^2;\quad -0{,}2x^2y^3;\quad 7x^3y^2;\quad -4y;\quad \dfrac34x^2y^3;\quad y\sqrt2 \).</p>
+  <div class="show">
+    <div class="giai">
+      <table class="grp">
+        <tr><th>Phần biến \(x^3y^2\)</th><th>Phần biến \(x^2y^3\)</th><th>Phần biến \(y\)</th></tr>
+        <tr><td>\(3x^3y^2;\ 7x^3y^2\)</td><td>\(-0{,}2x^2y^3;\ \dfrac34x^2y^3\)</td><td>\(-4y;\ \sqrt2\,y\)</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag bt">1.5</span>
+  <p class="de">Rút gọn rồi tính giá trị của \(S=\dfrac12x^2y^5-\dfrac52x^2y^5\) khi \(x=-2;\ y=1\).</p>
+  <div class="show">
+    <div class="giai">
+      \(S=\left(\dfrac12-\dfrac52\right)x^2y^5=-2x^2y^5\).<br>
+      Tại \(x=-2;\ y=1\): \(S=-2\cdot(-2)^2\cdot1^5=-8\).
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag bt">1.6</span>
+  <p class="de">Tính tổng của bốn đơn thức: \( 2x^2y^3;\quad -\dfrac35x^2y^3;\quad -14x^2y^3;\quad \dfrac85x^2y^3 \).</p>
+  <div class="show">
+    <div class="giai">
+      Tổng \(=\left(2-\dfrac35-14+\dfrac85\right)x^2y^3=(-12+1)x^2y^3=-11x^2y^3\).
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag bt">1.7</span>
+  <p class="de">Tìm đơn thức (thu gọn) hai biến \(x,y\) biểu thị diện tích mảnh đất tô màu bằng hai cách:<br>
+  <i>Cách 1</i>: tổng diện tích hai hình chữ nhật \(ABCD\) và \(EFGC\); &nbsp;
+  <i>Cách 2</i>: diện tích \(HFGD\) trừ diện tích \(HEBA\).</p>
+  <figure>
+    <svg viewBox="0 0 340 210" width="330" xmlns="http://www.w3.org/2000/svg">
+      <rect x="40" y="70" width="180" height="110" fill="#b3e5fc" stroke="#0277bd"/>
+      <rect x="220" y="20" width="90" height="160" fill="#81d4fa" stroke="#0277bd"/>
+      <rect x="40" y="20" width="180" height="50" fill="none" stroke="#90a4ae" stroke-dasharray="4 3"/>
+      <text x="30" y="18" font-size="13" fill="#01579b">H</text>
+      <text x="214" y="18" font-size="13" fill="#01579b">E</text>
+      <text x="314" y="18" font-size="13" fill="#01579b">F</text>
+      <text x="28" y="70" font-size="13" fill="#01579b">A</text>
+      <text x="225" y="62" font-size="13" fill="#01579b">B</text>
+      <text x="28" y="192" font-size="13" fill="#01579b">D</text>
+      <text x="214" y="196" font-size="13" fill="#01579b">C</text>
+      <text x="314" y="196" font-size="13" fill="#01579b">G</text>
+      <text x="14" y="130" font-size="13" font-style="italic">2x</text>
+      <text x="318" y="105" font-size="13" font-style="italic">3x</text>
+      <text x="122" y="170" font-size="13" font-style="italic">2y</text>
+      <text x="260" y="170" font-size="13" font-style="italic">y</text>
+    </svg>
+    <figcaption>Hình bài 1.7</figcaption>
+  </figure>
+  <div class="show">
+    <div class="giai">
+      <b>Cách 1.</b><br>
+      Diện tích hình chữ nhật \(ABCD\): \(S_{ABCD}=2x\cdot2y=4xy\).<br>
+      Diện tích hình chữ nhật \(EFGC\): \(S_{EFGC}=3x\cdot y=3xy\).<br>
+      Diện tích mảnh đất: \(S=4xy+3xy=7xy\).<br><br>
+      <b>Cách 2.</b><br>
+      Diện tích hình chữ nhật \(HFGD\): \(S_{HFGD}=3x\cdot(2y+y)=9xy\).<br>
+      Diện tích hình chữ nhật \(HEBA\): \(S_{HEBA}=(3x-2x)\cdot2y=2xy\).<br>
+      Diện tích mảnh đất: \(S=9xy-2xy=7xy\).
+      <div class="kq">Diện tích mảnh đất: \(7xy\) (m²).</div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+<script>
+document.querySelectorAll('.show').forEach(function (panel) {
+  var details = document.createElement('details');
+  var summary = document.createElement('summary');
+  details.className = 'solution';
+  summary.textContent = 'Xem lời giải';
+  details.appendChild(summary);
+  while (panel.firstChild) details.appendChild(panel.firstChild);
+  panel.replaceWith(details);
+  details.addEventListener('toggle', function () {
+    summary.textContent = details.open ? 'Ẩn lời giải' : 'Xem lời giải';
+  });
+});
+</script>
+</body>
+</html>
