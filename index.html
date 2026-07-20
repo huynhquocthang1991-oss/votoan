@@ -125,15 +125,17 @@ h1 span{color:var(--accent)}
 .answer-choice{min-height:41px;padding:0 8px;cursor:pointer;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:11px;font:800 .76rem/1 var(--display);transition:color .16s ease,border-color .16s ease,background .16s ease,transform .16s ease}
 .answer-choice:hover{color:var(--accent);border-color:var(--accent);transform:translateY(-2px)}.answer-choice.is-correct{color:#fff;background:var(--success);border-color:var(--success)}.answer-choice.is-wrong{color:#fff;background:var(--accent-2);border-color:var(--accent-2)}
 .challenge-feedback{height:18px;margin:7px 0 0;text-align:center;color:var(--muted);font-size:.58rem}.challenge-feedback.is-good{color:var(--success);font-weight:700}.challenge-feedback.is-bad{color:var(--accent-2);font-weight:700}
-.pet-panel{display:grid;grid-template-columns:.78fr 1.22fr;gap:11px;align-items:center}
-.pet-scene{position:relative;display:grid;place-items:center;align-self:stretch;min-height:0;background:radial-gradient(circle,color-mix(in srgb,var(--accent-soft) 85%,transparent),transparent 68%);border-radius:15px}
-.pet-avatar{position:relative;width:min(100%,150px);aspect-ratio:1;transition:transform .22s ease}
-.pet-avatar img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 14px 17px color-mix(in srgb,var(--accent) 28%,transparent));transform:translateZ(0);transition:filter .22s ease,transform .22s cubic-bezier(.2,.8,.2,1)}
-.pet-avatar.is-happy img{filter:drop-shadow(0 17px 19px color-mix(in srgb,var(--accent-2) 34%,transparent));transform:translateY(-6px) rotate(-3deg) scale(1.07)}
-.pet-hearts{position:absolute;top:8px;right:8px;color:var(--accent-2);font-size:.68rem;letter-spacing:1px}
-.pet-copy{display:flex;flex-direction:column;min-width:0}.pet-order{margin:0;color:var(--muted);font-size:.59rem;line-height:1.5}.pet-order strong{display:block;margin-top:3px;color:var(--ink);font:800 1.28rem/1.1 var(--display)}
-.food-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:11px}.food-choice{display:grid;place-items:center;gap:2px;min-height:55px;padding:5px;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:11px;transition:border-color .16s ease,transform .16s ease}.food-choice:hover{border-color:var(--accent);transform:translateY(-2px)}.food-choice span{font-size:1rem}.food-choice strong{font:800 .67rem/1 var(--display)}
-.pet-progress{margin-top:8px;color:var(--muted);font-size:.55rem}.pet-progress strong{color:var(--success)}
+.pet-panel{display:grid;grid-template-columns:.82fr 1.18fr;gap:11px;align-items:center}
+.pet-scene{position:relative;display:grid;place-items:end center;align-self:stretch;min-height:0;overflow:hidden;background:radial-gradient(circle at 50% 58%,color-mix(in srgb,var(--accent-soft) 92%,transparent),transparent 65%);border:1px solid color-mix(in srgb,var(--line) 70%,transparent);border-radius:15px}
+.pet-scene::after{content:"";position:absolute;right:12%;bottom:5px;left:12%;height:9px;background:color-mix(in srgb,var(--accent) 14%,transparent);border-radius:50%;filter:blur(5px)}
+.pet-avatar{position:relative;z-index:1;width:min(100%,148px);aspect-ratio:1;transform-origin:50% 88%}
+.pet-avatar img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 10px 14px color-mix(in srgb,var(--accent) 23%,transparent));transform:translateZ(0);transition:filter .22s ease,transform .22s cubic-bezier(.2,.8,.2,1)}
+.pet-avatar.is-happy{animation:petHappy .5s cubic-bezier(.2,.8,.2,1)}.pet-avatar.is-happy img{filter:drop-shadow(0 15px 18px color-mix(in srgb,var(--accent-2) 31%,transparent))}.pet-avatar.is-sad{animation:petSad .42s ease}.pet-avatar.is-sad img{filter:saturate(.78) drop-shadow(0 8px 12px color-mix(in srgb,var(--muted) 24%,transparent))}
+.pet-hearts{position:absolute;z-index:2;top:8px;right:8px;color:var(--accent-2);font-size:.62rem;letter-spacing:.5px}.pet-mood{position:absolute;z-index:2;top:7px;left:7px;padding:5px 7px;color:var(--accent);background:color-mix(in srgb,var(--surface) 86%,transparent);border:1px solid color-mix(in srgb,var(--line) 76%,transparent);border-radius:999px;font:700 .48rem/1 var(--display);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.pet-copy{display:flex;flex-direction:column;min-width:0}.pet-order{margin:7px 0 0;color:var(--muted);font-size:.56rem;line-height:1.45}.pet-order strong{display:block;margin-top:3px;color:var(--ink);font:800 1.22rem/1.1 var(--display)}
+.pet-need{margin-top:7px}.pet-need>span{display:flex;align-items:center;justify-content:space-between;gap:8px;color:var(--muted);font:700 .5rem/1 var(--display)}.pet-need>span strong{color:var(--accent);font-size:.56rem}.pet-need i{display:block;height:5px;margin-top:5px;overflow:hidden;background:var(--line);border-radius:99px}.pet-need i em{display:block;width:20%;height:100%;background:linear-gradient(90deg,var(--accent-2),var(--success));border-radius:inherit;transition:width .4s cubic-bezier(.2,.8,.2,1)}
+.food-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}.food-choice{display:grid;place-items:center;gap:1px;min-height:50px;padding:4px;cursor:pointer;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:11px;transition:color .16s ease,border-color .16s ease,background .16s ease,transform .16s ease}.food-choice:hover{color:var(--accent);border-color:var(--accent);transform:translateY(-2px)}.food-choice.is-correct{color:#fff;background:var(--success);border-color:var(--success)}.food-choice.is-wrong{color:#fff;background:var(--accent-2);border-color:var(--accent-2)}.food-choice span{font-size:.92rem}.food-choice strong{font:800 .64rem/1 var(--display)}
+.pet-progress{min-height:13px;margin:6px 0 0;color:var(--muted);font-size:.52rem;line-height:1.25}.pet-progress strong{color:var(--success)}
 .game-overlay{position:absolute;z-index:4;inset:0;display:grid;place-items:center;padding:18px;text-align:center;background:linear-gradient(180deg,color-mix(in srgb,var(--surface) 23%,transparent),color-mix(in srgb,var(--surface) 86%,transparent));opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s ease,visibility .2s ease}
 .game-overlay.is-visible{opacity:1;visibility:visible}
 .game-overlay-card{width:min(100%,260px);padding:17px;background:color-mix(in srgb,var(--surface) 88%,transparent);border:1px solid color-mix(in srgb,var(--line) 82%,var(--accent) 18%);border-radius:18px;box-shadow:0 16px 38px color-mix(in srgb,var(--ink) 13%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
@@ -158,6 +160,8 @@ footer{flex:0 0 38px;border-top:1px solid color-mix(in srgb,var(--line) 72%,tran
 .footer-name{display:inline-flex;align-items:center;gap:7px;color:var(--ink);font:700 .72rem/1 var(--display)}.footer-name .icon{width:15px;height:15px;color:var(--accent)}
 
 @keyframes enter{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes petHappy{0%,100%{transform:translateY(0) rotate(0)}38%{transform:translateY(-9px) rotate(-3deg)}70%{transform:translateY(-3px) rotate(2deg)}}
+@keyframes petSad{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px) rotate(-2deg)}55%{transform:translateX(4px) rotate(2deg)}80%{transform:translateX(-2px)}}
 .hero-copy>*{animation:enter .62s cubic-bezier(.2,.8,.2,1) both}.hero-copy>:nth-child(2){animation-delay:.06s}.hero-copy>:nth-child(3){animation-delay:.12s}.hero-copy>:nth-child(4){animation-delay:.18s}.hero-copy>:nth-child(5){animation-delay:.24s}
 .play-wrap{animation:enter .7s .16s cubic-bezier(.2,.8,.2,1) both}
 @keyframes pulse{50%{opacity:.45;transform:scale(.7)}}
@@ -268,7 +272,7 @@ footer{flex:0 0 38px;border-top:1px solid color-mix(in srgb,var(--line) 72%,tran
             <button class="game-tab" type="button" role="tab" aria-controls="arcade-stage" aria-selected="true" data-game-tab="runner" title="Math Runner"><svg class="icon" aria-hidden="true"><use href="#i-run"/></svg><span>Chạy</span></button>
             <button class="game-tab" type="button" role="tab" aria-controls="arcade-stage" aria-selected="false" data-game-tab="stack" title="Xếp Gạch"><svg class="icon" aria-hidden="true"><use href="#i-stack"/></svg><span>Gạch</span></button>
             <button class="game-tab" type="button" role="tab" aria-controls="arcade-stage" aria-selected="false" data-game-tab="quiz" title="Tính Nhanh"><svg class="icon" aria-hidden="true"><use href="#i-quiz"/></svg><span>Nhanh</span></button>
-            <button class="game-tab" type="button" role="tab" aria-controls="arcade-stage" aria-selected="false" data-game-tab="pet" title="Pet Café"><svg class="icon" aria-hidden="true"><use href="#i-paw"/></svg><span>Pet</span></button>
+            <button class="game-tab" type="button" role="tab" aria-controls="arcade-stage" aria-selected="false" data-game-tab="pet" title="Nuôi Bé Miu"><svg class="icon" aria-hidden="true"><use href="#i-paw"/></svg><span>Pet</span></button>
             <button class="game-tab" type="button" role="tab" aria-controls="arcade-stage" aria-selected="false" data-game-tab="geometry" title="Geometry Rush"><svg class="icon" aria-hidden="true"><use href="#i-geometry"/></svg><span>Rush</span></button>
           </div>
           <div class="game-frame" id="arcade-stage" role="tabpanel" aria-label="Math Runner">
@@ -281,12 +285,16 @@ footer{flex:0 0 38px;border-top:1px solid color-mix(in srgb,var(--line) 72%,tran
               <p class="challenge-feedback" data-quiz-feedback>Chọn đáp án đúng nhanh nhất.</p>
             </div>
             <div class="game-panel pet-panel" data-pet-panel hidden>
-              <div class="pet-scene"><span class="pet-hearts" data-pet-hearts>♡♡♡♡♡</span><div class="pet-avatar" data-pet-avatar><img src="/assets/game/pet-miu.png" alt="Bé Miu đội mũ đầu bếp và cầm thìa gỗ." width="512" height="512" decoding="async"></div></div>
+              <div class="pet-scene">
+                <span class="pet-mood" data-pet-mood>Đang đói</span><span class="pet-hearts" data-pet-hearts>♥♥♥♡♡</span>
+                <div class="pet-avatar" data-pet-avatar><img src="/assets/game/pet-miu-v2.png" alt="Bé Miu, mèo cưng màu kem đeo vòng cổ ngôi sao." width="512" height="512" decoding="async"></div>
+              </div>
               <div class="pet-copy">
-                <div class="challenge-top"><span>Pet Café</span><strong data-pet-round>Món 1 / 5</strong></div>
-                <p class="pet-order">Nấu món có kết quả đúng để chăm bé Miu.<strong data-pet-question>6 + 3 = ?</strong></p>
+                <div class="challenge-top"><span>Nuôi Bé Miu</span><strong data-pet-round>Bữa 1 / 5</strong></div>
+                <div class="pet-need"><span><span>🥣 No bụng</span><strong data-pet-hunger>20%</strong></span><i aria-hidden="true"><em data-pet-hunger-bar></em></i></div>
+                <p class="pet-order">Tính đúng để chọn bát thức ăn cho Miu.<strong data-pet-question>6 + 3 = ?</strong></p>
                 <div class="food-grid" data-pet-answers></div>
-                <p class="pet-progress" data-pet-feedback><strong>Bé Miu đang đói</strong> · Chọn món nhé!</p>
+                <p class="pet-progress" data-pet-feedback aria-live="polite"><strong>Miu đang đói</strong> · Chọn một bát nhé!</p>
               </div>
             </div>
             <div class="game-overlay is-visible" data-game-overlay>
@@ -387,18 +395,22 @@ footer{flex:0 0 38px;border-top:1px solid color-mix(in srgb,var(--line) 72%,tran
     const petPanel = arcade.querySelector('[data-pet-panel]');
     const petRoundNode = arcade.querySelector('[data-pet-round]');
     const petHeartsNode = arcade.querySelector('[data-pet-hearts]');
+    const petMoodNode = arcade.querySelector('[data-pet-mood]');
+    const petHungerNode = arcade.querySelector('[data-pet-hunger]');
+    const petHungerBar = arcade.querySelector('[data-pet-hunger-bar]');
     const petAvatar = arcade.querySelector('[data-pet-avatar]');
     const petQuestion = arcade.querySelector('[data-pet-question]');
     const petAnswers = arcade.querySelector('[data-pet-answers]');
     const petFeedback = arcade.querySelector('[data-pet-feedback]');
     const reduceMotion = matchMedia('(prefers-reduced-motion:reduce)').matches;
-    const mathSymbols = ['+','×','÷','−','√'];
+    const runnerSymbols = ['+','×','−','√'];
+    const runnerDivisions = ['8 : 2','12 : 3','15 : 5','18 : 6','20 : 4','24 : 6'];
     const foodIcons = ['🍓','🧁','🥕','🥛','🍪','🍎'];
     const gameInfo = {
       runner:{name:'Math Runner',score:'Điểm',heading:'Sẵn sàng chạy?',message:'Nhảy qua khối phép tính, nhặt sao và lập kỷ lục.',key:'Space',hint:'hoặc chạm để nhảy'},
       stack:{name:'Xếp Gạch',score:'Tầng',heading:'Xây tháp thật cao!',message:'Thả đúng nhịp. Phần gạch lệch sẽ bị cắt đi.',key:'Space',hint:'hoặc chạm để thả gạch'},
       quiz:{name:'Tính Nhanh',score:'Điểm',heading:'10 câu tính nhanh',message:'Mỗi câu có 8 giây. Đúng và nhanh sẽ được nhiều điểm.',key:'A–D',hint:'hoặc chạm vào đáp án'},
-      pet:{name:'Pet Café',score:'Điểm',heading:'Bé Miu đang đói!',message:'Tính đúng để nấu 5 món ngon và chăm bé Miu.',key:'A–C',hint:'chọn món có đáp án đúng'},
+      pet:{name:'Nuôi Bé Miu',score:'Điểm',heading:'Miu đang chờ bạn!',message:'Tính đúng để cho Miu ăn, tăng no bụng và giữ tâm trạng vui.',key:'A–C',hint:'chọn bát có đáp án đúng'},
       geometry:{name:'Geometry Rush',score:'Điểm',heading:'Sẵn sàng bứt tốc?',message:'Nhảy qua gai, thu quỹ đạo sáng và đừng chạm cạnh.',key:'Space',hint:'hoặc chạm để nhảy'}
     };
     let current = 'runner', mode = 'idle', score = 0, width = 1, height = 1, lastTime = performance.now(), palette = {}, particles = [], lastState = '';
@@ -411,7 +423,7 @@ footer{flex:0 0 38px;border-top:1px solid color-mix(in srgb,var(--line) 72%,tran
     const runner = {distance:0,speed:220,spawnIn:1.2,starIn:1.8,collected:0,obstacles:[],stars:[],player:{x:54,y:0,vy:0,w:40,h:48,grounded:true}};
     const stack = {blocks:[],moving:null,direction:1,speed:125,blockH:18};
     const quiz = {round:0,correct:0,time:8,answer:0,locked:false,token:0,lastTenth:-1};
-    const pet = {round:0,hearts:3,answer:0,locked:false,token:0};
+    const pet = {round:0,hearts:3,hunger:20,answer:0,locked:false,token:0};
     const geometry = {distance:0,speed:245,spawnIn:1.05,orbIn:1.65,collected:0,spikes:[],orbs:[],player:{x:58,y:0,vy:0,size:35,grounded:true,rotation:0}};
 
     function formatScore(value) { return String(Math.max(0,Math.round(value))).padStart(3,'0'); }
@@ -451,7 +463,11 @@ footer{flex:0 0 38px;border-top:1px solid color-mix(in srgb,var(--line) 72%,tran
       const blockW=Math.min(112,width*.34),baseY=Math.max(65,height-24);stack.blocks=[{x:(width-blockW)/2,y:baseY,w:blockW,h:stack.blockH,color:0}];stack.moving={x:8,y:baseY-stack.blockH,w:blockW,h:stack.blockH,color:1};stack.direction=1;stack.speed=125;
     }
     function resetQuiz() { Object.assign(quiz,{round:0,correct:0,time:8,answer:0,locked:false,lastTenth:-1});quiz.token=++asyncToken;quizAnswers.replaceChildren();quizRoundNode.textContent='Câu 1 / 10';quizTimeNode.textContent='8 giây';quizTimer.style.width='100%';quizQuestion.textContent='8 × 7 = ?';quizFeedback.textContent='Chọn đáp án đúng nhanh nhất.';quizFeedback.className='challenge-feedback'; }
-    function resetPet() { Object.assign(pet,{round:0,hearts:3,answer:0,locked:false});pet.token=++asyncToken;petAnswers.replaceChildren();petAvatar.classList.remove('is-happy');petRoundNode.textContent='Món 1 / 5';petHeartsNode.textContent='♥♥♥♡♡';petQuestion.textContent='6 + 3 = ?';petFeedback.innerHTML='<strong>Bé Miu đang đói</strong> · Chọn món nhé!'; }
+    function updatePetStatus(mood) {
+      const hunger=Math.max(0,Math.min(100,pet.hunger));pet.hunger=hunger;petHungerNode.textContent=hunger+'%';petHungerBar.style.width=hunger+'%';petHeartsNode.textContent='♥'.repeat(pet.hearts)+'♡'.repeat(5-pet.hearts);
+      petMoodNode.textContent=mood||(hunger>=80?'No bụng':hunger>=50?'Vui vẻ':'Đang đói');
+    }
+    function resetPet() { Object.assign(pet,{round:0,hearts:3,hunger:20,answer:0,locked:false});pet.token=++asyncToken;petAnswers.replaceChildren();petAvatar.classList.remove('is-happy','is-sad');petRoundNode.textContent='Bữa 1 / 5';petQuestion.textContent='6 + 3 = ?';petFeedback.innerHTML='<strong>Miu đang đói</strong> · Chọn một bát nhé!';updatePetStatus('Đang đói'); }
     function resetGeometry() { Object.assign(geometry,{distance:0,speed:245,spawnIn:1.05,orbIn:1.65,collected:0,spikes:[],orbs:[]});Object.assign(geometry.player,{y:0,vy:0,grounded:true,rotation:0});particles=[]; }
     function resetCurrent() { if(current==='runner')resetRunner();else if(current==='stack')initStack();else if(current==='quiz')resetQuiz();else if(current==='pet')resetPet();else resetGeometry(); }
     function showIntro() {
@@ -465,7 +481,7 @@ footer{flex:0 0 38px;border-top:1px solid color-mix(in srgb,var(--line) 72%,tran
       if(current==='runner'){setState('<strong>Đang chạy</strong> · 0 sao');if(immediate)jumpRunner();}
       else if(current==='stack')setState('<strong>Đang xếp</strong> · Canh thật chuẩn');
       else if(current==='quiz'){setState('<strong>Câu 1 / 10</strong> · Tập trung nhé');renderQuizQuestion();}
-      else if(current==='pet'){setState('<strong>Bé Miu đang đói</strong> · Nấu 5 món');renderPetQuestion();}
+      else if(current==='pet'){setState('<strong>Miu đang đói</strong> · No bụng 20%');renderPetQuestion();}
       else {setState('<strong>Rush!</strong> · Giữ đúng nhịp');if(immediate)jumpGeometry();}
     }
     function createQuestion(level=1,choices=4) {
@@ -493,19 +509,21 @@ footer{flex:0 0 38px;border-top:1px solid color-mix(in srgb,var(--line) 72%,tran
       if(mode!=='running'||quiz.locked)return;quiz.time=Math.max(0,quiz.time-dt);const tenth=Math.ceil(quiz.time*10);if(tenth!==quiz.lastTenth){quiz.lastTenth=tenth;quizTimeNode.textContent=quiz.time.toFixed(1)+' giây';quizTimer.style.width=(quiz.time/8*100)+'%';}if(quiz.time<=0)chooseQuiz(null,null);
     }
     function renderPetQuestion() {
-      const q=createQuestion(1+Math.floor(pet.round/2),3);pet.answer=q.answer;pet.locked=false;petQuestion.textContent=q.text;petRoundNode.textContent='Món '+(pet.round+1)+' / 5';petHeartsNode.textContent='♥'.repeat(pet.hearts)+'♡'.repeat(5-pet.hearts);petFeedback.innerHTML='<strong>Bé Miu đang chờ</strong> · Chọn món nhé!';petAnswers.replaceChildren();petAvatar.classList.remove('is-happy');
+      const q=createQuestion(1+Math.floor(pet.round/2),3);pet.answer=q.answer;pet.locked=false;petQuestion.textContent=q.text;petRoundNode.textContent='Bữa '+(pet.round+1)+' / 5';petFeedback.innerHTML='<strong>Miu đang chờ</strong> · Chọn một bát nhé!';petAnswers.replaceChildren();petAvatar.classList.remove('is-happy','is-sad');updatePetStatus();
       q.options.forEach((value,index)=>{const button=document.createElement('button');button.type='button';button.className='food-choice';button.dataset.answer=String(value);button.innerHTML='<span aria-hidden="true">'+foodIcons[(pet.round+index)%foodIcons.length]+'</span><strong>'+String.fromCharCode(65+index)+'. '+value+'</strong>';button.addEventListener('click',()=>choosePet(value,button));petAnswers.append(button);});
     }
     function choosePet(value,clickedButton) {
       if(current!=='pet'||mode!=='running'||pet.locked)return;pet.locked=true;const correct=value===pet.answer;Array.from(petAnswers.children).forEach((button)=>button.disabled=true);
-      if(correct){pet.hearts=Math.min(5,pet.hearts+1);setScore(score+20);petAvatar.classList.add('is-happy');petFeedback.innerHTML='<strong>Ngon quá!</strong> · Bé Miu thêm một tim';if(clickedButton)clickedButton.style.borderColor='var(--success)';}
-      else {pet.hearts=Math.max(0,pet.hearts-1);petFeedback.innerHTML='<strong>Ôi, nhầm món rồi</strong> · Đáp án là '+pet.answer;if(clickedButton)clickedButton.style.borderColor='var(--accent-2)';}
-      petHeartsNode.textContent='♥'.repeat(pet.hearts)+'♡'.repeat(5-pet.hearts);pet.round++;setState('<strong>'+pet.hearts+' tim</strong> · '+score+' điểm');const token=pet.token;
-      window.setTimeout(()=>{if(current!=='pet'||mode!=='running'||token!==pet.token)return;if(pet.round>=5)finishGame('Bé Miu no rồi!','Bạn nấu xong 5 món, bé Miu còn '+pet.hearts+' tim.');else renderPetQuestion();},560);
+      Array.from(petAnswers.children).forEach((button)=>{if(Number(button.dataset.answer)===pet.answer)button.classList.add('is-correct');});
+      if(correct){pet.hunger=Math.min(100,pet.hunger+20);pet.hearts=Math.min(5,pet.hearts+1);setScore(score+20);petAvatar.classList.add('is-happy');petFeedback.innerHTML='<strong>Miu ăn ngon quá!</strong> · No bụng +20%';updatePetStatus('Vui quá!');}
+      else {pet.hunger=Math.max(0,pet.hunger-5);pet.hearts=Math.max(0,pet.hearts-1);petAvatar.classList.add('is-sad');petFeedback.innerHTML='<strong>Miu chưa ăn được</strong> · Đáp án là '+pet.answer;if(clickedButton)clickedButton.classList.add('is-wrong');updatePetStatus('Hơi buồn');}
+      pet.round++;setState('<strong>No bụng '+pet.hunger+'%</strong> · '+pet.hearts+' tim');const token=pet.token;
+      window.setTimeout(()=>{if(current!=='pet'||mode!=='running'||token!==pet.token)return;if(pet.round>=5)finishGame(pet.hunger>=80?'Miu no bụng rồi!':'Miu vẫn muốn chơi thêm!','Bạn chăm Miu đạt '+pet.hunger+'% no bụng và còn '+pet.hearts+' tim vui.');else renderPetQuestion();},700);
     }
     function runnerGround() { return height-34; }
     function jumpRunner() { const p=runner.player;if(mode!=='running'||!p.grounded)return;p.vy=Math.min(590,Math.max(530,height*2.15));p.grounded=false;addParticles(p.x+p.w/2,runnerGround()-2,palette.accent,5); }
-    function spawnRunnerObstacle() { const tall=Math.random()>.7,w=tall?31:34+Math.random()*9,h=tall?50:34+Math.random()*12;runner.obstacles.push({x:width+18,w,h,symbol:mathSymbols[Math.floor(Math.random()*mathSymbols.length)]});runner.spawnIn=1.2+Math.random()*.42; }
+    function runnerObstacleLabel() { return Math.random()<.3?runnerDivisions[Math.floor(Math.random()*runnerDivisions.length)]:runnerSymbols[Math.floor(Math.random()*runnerSymbols.length)]; }
+    function spawnRunnerObstacle() { const label=runnerObstacleLabel(),isDivision=label.includes(':'),tall=!isDivision&&Math.random()>.7,w=isDivision?60:(tall?31:34+Math.random()*9),h=tall?50:34+Math.random()*12;runner.obstacles.push({x:width+18,w,h,label,isDivision});runner.spawnIn=1.2+Math.random()*.42; }
     function spawnRunnerStar() { runner.stars.push({x:width+18,y:runnerGround()-68-Math.random()*42,r:8});runner.starIn=2+Math.random()*1.25; }
     function updateRunner(dt) {
       updateParticles(dt);if(mode!=='running')return;const p=runner.player;runner.speed=Math.min(345,220+runner.distance/230);runner.distance+=runner.speed*dt;
@@ -542,7 +560,7 @@ footer{flex:0 0 38px;border-top:1px solid color-mix(in srgb,var(--line) 72%,tran
     function drawStar(x,y,r,color) { ctx.save();ctx.translate(x,y);ctx.fillStyle=color;ctx.beginPath();for(let i=0;i<10;i++){const radius=i%2?r:r*.45,angle=-Math.PI/2+i*Math.PI/5;const px=Math.cos(angle)*radius,py=Math.sin(angle)*radius;i?ctx.lineTo(px,py):ctx.moveTo(px,py);}ctx.closePath();ctx.fill();ctx.restore(); }
     function drawRunner(time) {
       drawGrid(runner.distance*.08);const ground=runnerGround();ctx.strokeStyle=palette.line;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(0,ground+.5);ctx.lineTo(width,ground+.5);ctx.stroke();ctx.save();ctx.strokeStyle=palette.accent;ctx.lineWidth=3;ctx.setLineDash([8,14]);ctx.lineDashOffset=-(runner.distance*.15)%22;ctx.beginPath();ctx.moveTo(0,ground+14);ctx.lineTo(width,ground+14);ctx.stroke();ctx.restore();
-      runner.stars.forEach((s)=>{ctx.save();ctx.shadowColor=palette.success;ctx.shadowBlur=10;drawStar(s.x,s.y,s.r,palette.success);ctx.restore();});runner.obstacles.forEach((o)=>{const y=ground-o.h;pathRoundRect(o.x,y,o.w,o.h,9);ctx.fillStyle=palette.accent2;ctx.fill();ctx.fillStyle='#fff';ctx.font='800 18px '+palette.font;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(o.symbol,o.x+o.w/2,y+o.h/2);});
+      runner.stars.forEach((s)=>{ctx.save();ctx.shadowColor=palette.success;ctx.shadowBlur=10;drawStar(s.x,s.y,s.r,palette.success);ctx.restore();});runner.obstacles.forEach((o)=>{const y=ground-o.h;pathRoundRect(o.x,y,o.w,o.h,9);ctx.fillStyle=palette.accent2;ctx.fill();ctx.fillStyle='#fff';ctx.font='800 '+(o.isDivision?'12px':'18px')+' '+palette.font;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(o.label,o.x+o.w/2,y+o.h/2);});
       const p=runner.player,idle=mode==='idle'&&!reduceMotion?Math.sin(time*3)*2:0,x=p.x,y=ground-p.h-p.y+idle;ctx.save();if(mode==='over'){ctx.translate(x+p.w/2,y+p.h/2);ctx.rotate(.18);ctx.translate(-x-p.w/2,-y-p.h/2);}ctx.shadowColor=palette.accent;ctx.shadowBlur=14;pathRoundRect(x,y+4,p.w,p.h-4,12);ctx.fillStyle=palette.accent;ctx.fill();ctx.shadowBlur=0;pathRoundRect(x+7,y+11,p.w-14,24,8);ctx.fillStyle='#fff';ctx.fill();ctx.fillStyle='#172037';ctx.beginPath();ctx.arc(x+14,y+20,2.7,0,Math.PI*2);ctx.arc(x+26,y+20,2.7,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#172037';ctx.lineWidth=2;ctx.beginPath();ctx.arc(x+20,y+22,6,0.2*Math.PI,.8*Math.PI);ctx.stroke();ctx.fillStyle=palette.accent2;ctx.fillRect(x+18.5,y,3,6);ctx.beginPath();ctx.arc(x+20,y,3.8,0,Math.PI*2);ctx.fill();ctx.restore();drawParticles();
     }
     function drawStack() {
