@@ -97,30 +97,32 @@ h1 span{color:var(--accent)}
 .trust{display:flex;flex-wrap:wrap;gap:12px 24px;margin:25px 0 0;padding:0;color:var(--muted);list-style:none;font-size:.75rem}
 .trust li{display:inline-flex;align-items:center;gap:7px}.trust .icon{width:15px;height:15px;color:var(--success);stroke-width:2.2}
 
-/* Infinite math animation */
+/* Math Runner mini game */
 .play-wrap{position:relative;width:100%;max-width:490px;justify-self:end;padding:12px}
 .play-wrap::before{content:"";position:absolute;inset:8% 0 0 9%;background:var(--accent);border-radius:30px;opacity:.14;transform:rotate(3.5deg)}
-.play-card{--tilt-x:0deg;--tilt-y:0deg;--spot-x:50%;--spot-y:50%;position:relative;isolation:isolate;height:clamp(390px,48vh,480px);min-height:0;padding:25px;overflow:hidden;background:linear-gradient(145deg,var(--surface),color-mix(in srgb,var(--surface) 86%,var(--accent-soft)));border:1px solid color-mix(in srgb,var(--line) 75%,var(--accent) 25%);border-radius:28px;box-shadow:var(--shadow);transform:perspective(1000px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));transition:transform .16s ease,box-shadow .25s ease}
-.play-card::before{content:"";position:absolute;z-index:-1;inset:0;background:radial-gradient(circle at var(--spot-x) var(--spot-y),color-mix(in srgb,var(--accent) 15%,transparent),transparent 38%);pointer-events:none}
-.play-head{position:relative;z-index:3;display:flex;align-items:center;justify-content:space-between;gap:15px}
-.live-label{display:inline-flex;align-items:center;gap:8px;color:var(--success);font:700 .65rem/1 var(--display);letter-spacing:.07em;text-transform:uppercase}
+.play-card{position:relative;isolation:isolate;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:12px;height:clamp(390px,48vh,480px);min-height:0;padding:18px;overflow:hidden;background:linear-gradient(145deg,var(--surface),color-mix(in srgb,var(--surface) 86%,var(--accent-soft)));border:1px solid color-mix(in srgb,var(--line) 72%,var(--accent) 28%);border-radius:28px;box-shadow:var(--shadow);transition:border-color .25s ease,box-shadow .25s ease,transform .25s ease}
+.play-card::before{content:"";position:absolute;z-index:-1;inset:0;background:radial-gradient(circle at 85% 18%,color-mix(in srgb,var(--accent) 13%,transparent),transparent 36%);pointer-events:none}
+.play-card:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 48%,transparent);outline-offset:5px}
+.play-head{position:relative;z-index:3;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:30px}
+.game-title{display:flex;align-items:center;gap:9px;min-width:0}
+.live-label{display:inline-flex;align-items:center;gap:8px;color:var(--success);font:700 .65rem/1 var(--display);letter-spacing:.07em;text-transform:uppercase;white-space:nowrap}
 .live-label::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;box-shadow:0 0 0 5px color-mix(in srgb,var(--success) 13%,transparent);animation:pulse 1.8s ease-in-out infinite}
-.infinity-chip{padding:7px 10px;color:var(--accent);background:var(--accent-soft);border-radius:999px;font:700 .61rem/1 var(--display)}
-.math-stage{position:absolute;inset:52px 13px 42px;display:grid;place-items:center}
-.infinity-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-.infinity-base{fill:none;stroke:color-mix(in srgb,var(--accent) 13%,var(--line));stroke-width:17;stroke-linecap:round}
-.infinity-flow{fill:none;stroke:var(--accent);stroke-width:4;stroke-linecap:round;stroke-dasharray:10 15;animation:dash 4s linear infinite}
-.orbit-particle{fill:var(--accent-2);filter:drop-shadow(0 3px 5px color-mix(in srgb,var(--accent-2) 38%,transparent))}.orbit-particle.alt{fill:var(--accent)}
-.math-buddy{position:relative;z-index:2;display:grid;place-items:center;width:122px;height:122px;background:linear-gradient(145deg,var(--accent),color-mix(in srgb,var(--accent) 70%,var(--accent-2)));border:7px solid color-mix(in srgb,var(--surface) 82%,transparent);border-radius:36px;box-shadow:0 22px 45px color-mix(in srgb,var(--accent) 28%,transparent);animation:buddy-bob 3.1s ease-in-out infinite}
-.math-buddy::before{content:"";position:absolute;top:-20px;width:3px;height:18px;background:var(--accent);border-radius:3px}
-.math-buddy::after{content:"";position:absolute;top:-29px;width:12px;height:12px;background:var(--accent-2);border:4px solid var(--surface);border-radius:50%;animation:antenna 1.5s ease-in-out infinite}
-.buddy-face{position:relative;width:74px;height:61px;background:rgba(255,255,255,.95);border-radius:23px}
-.eye{position:absolute;top:17px;width:9px;height:12px;background:#172037;border-radius:50%;animation:blink 4s infinite}.eye.left{left:18px}.eye.right{right:18px}
-.smile{position:absolute;left:50%;bottom:12px;width:27px;height:14px;border-bottom:4px solid #172037;border-radius:0 0 22px 22px;transform:translateX(-50%)}
-.buddy-sign{position:absolute;right:-12px;bottom:-10px;display:grid;place-items:center;width:38px;height:38px;color:var(--accent);background:var(--surface);border:3px solid var(--accent-soft);border-radius:13px;font:800 1.08rem/1 var(--display);animation:sign-spin 6s ease-in-out infinite}
-.math-symbol{position:absolute;z-index:3;display:grid;place-items:center;width:43px;height:43px;color:var(--accent);background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:0 11px 24px color-mix(in srgb,var(--ink) 9%,transparent);font:800 .95rem/1 var(--display)}
-.math-symbol.s1{top:13%;left:12%;animation:float-a 3.4s ease-in-out infinite}.math-symbol.s2{top:20%;right:7%;animation:float-b 3.8s .4s ease-in-out infinite}.math-symbol.s3{bottom:12%;left:16%;animation:float-b 3.5s .8s ease-in-out infinite}.math-symbol.s4{right:14%;bottom:9%;animation:float-a 4s .2s ease-in-out infinite}
-.play-caption{position:absolute;right:20px;bottom:16px;left:20px;z-index:4;margin:0;text-align:center;color:var(--muted);font-size:.7rem}.play-caption strong{color:var(--ink);font-family:var(--display)}
+.game-badge{padding:7px 10px;color:var(--accent);background:var(--accent-soft);border-radius:999px;font:700 .61rem/1 var(--display);white-space:nowrap}
+.game-scoreboard{display:flex;align-items:center;gap:7px;margin-left:auto}
+.score-pill{display:flex;align-items:baseline;gap:4px;padding:7px 9px;color:var(--muted);background:color-mix(in srgb,var(--surface) 75%,transparent);border:1px solid var(--line);border-radius:10px;font:600 .54rem/1 var(--display);letter-spacing:.06em;text-transform:uppercase}
+.score-pill strong{min-width:20px;color:var(--ink);font-size:.7rem;letter-spacing:0;text-align:right}
+.game-frame{position:relative;min-height:0;overflow:hidden;touch-action:manipulation;background:linear-gradient(180deg,color-mix(in srgb,var(--accent-soft) 48%,transparent),color-mix(in srgb,var(--surface) 86%,transparent));border:1px solid var(--line);border-radius:20px;box-shadow:inset 0 1px 0 color-mix(in srgb,#fff 70%,transparent)}
+.game-canvas{width:100%;height:100%;cursor:pointer;touch-action:manipulation}
+.game-overlay{position:absolute;z-index:4;inset:0;display:grid;place-items:center;padding:18px;text-align:center;background:linear-gradient(180deg,color-mix(in srgb,var(--surface) 23%,transparent),color-mix(in srgb,var(--surface) 86%,transparent));opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s ease,visibility .2s ease}
+.game-overlay.is-visible{opacity:1;visibility:visible}
+.game-overlay-card{width:min(100%,260px);padding:17px;background:color-mix(in srgb,var(--surface) 88%,transparent);border:1px solid color-mix(in srgb,var(--line) 82%,var(--accent) 18%);border-radius:18px;box-shadow:0 16px 38px color-mix(in srgb,var(--ink) 13%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.game-overlay strong{display:block;font:800 1rem/1.2 var(--display);letter-spacing:-.02em}.game-overlay p{margin:7px 0 13px;color:var(--muted);font-size:.66rem;line-height:1.55}
+.game-start{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:38px;padding:0 14px;cursor:pointer;color:#fff;background:var(--accent);border:0;border-radius:11px;box-shadow:0 9px 20px color-mix(in srgb,var(--accent) 27%,transparent);font:700 .68rem/1 var(--display);pointer-events:auto;transition:transform .2s ease,box-shadow .2s ease}
+.game-start:hover{transform:translateY(-2px);box-shadow:0 12px 25px color-mix(in srgb,var(--accent) 34%,transparent)}
+.game-start svg{width:14px;height:14px;fill:currentColor}
+.game-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--muted);font-size:.61rem;line-height:1.3}
+.game-hint{display:inline-flex;align-items:center;gap:6px}.keycap{display:inline-grid;place-items:center;min-width:29px;height:21px;padding:0 6px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;font:700 .53rem/1 var(--display)}
+.game-state{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right}.game-state strong{color:var(--ink);font-family:var(--display)}
 
 /* Bottom rail */
 .quick-rail{display:grid;grid-template-columns:1.15fr .9fr .9fr;gap:10px}
@@ -137,14 +139,8 @@ footer{flex:0 0 38px;border-top:1px solid color-mix(in srgb,var(--line) 72%,tran
 @keyframes enter{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 .hero-copy>*{animation:enter .62s cubic-bezier(.2,.8,.2,1) both}.hero-copy>:nth-child(2){animation-delay:.06s}.hero-copy>:nth-child(3){animation-delay:.12s}.hero-copy>:nth-child(4){animation-delay:.18s}.hero-copy>:nth-child(5){animation-delay:.24s}
 .play-wrap{animation:enter .7s .16s cubic-bezier(.2,.8,.2,1) both}
-@keyframes dash{to{stroke-dashoffset:-100}}@keyframes pulse{50%{opacity:.45;transform:scale(.7)}}
-@keyframes buddy-bob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-11px) rotate(2deg)}}
-@keyframes blink{0%,44%,48%,100%{transform:scaleY(1)}46%{transform:scaleY(.12)}}
-@keyframes antenna{50%{transform:translateY(-3px);box-shadow:0 0 0 7px color-mix(in srgb,var(--accent-2) 13%,transparent)}}
-@keyframes sign-spin{0%,100%{transform:rotate(-7deg)}50%{transform:rotate(8deg) scale(1.06)}}
-@keyframes float-a{0%,100%{transform:translate(0,0) rotate(-5deg)}50%{transform:translate(8px,-11px) rotate(7deg)}}
-@keyframes float-b{0%,100%{transform:translate(0,0) rotate(6deg)}50%{transform:translate(-7px,10px) rotate(-6deg)}}
-@media (hover:hover) and (pointer:fine){.play-card:hover{box-shadow:0 34px 82px color-mix(in srgb,var(--ink) 18%,transparent)}}
+@keyframes pulse{50%{opacity:.45;transform:scale(.7)}}
+@media (hover:hover) and (pointer:fine){.play-card:hover{border-color:color-mix(in srgb,var(--accent) 48%,var(--line));box-shadow:0 34px 82px color-mix(in srgb,var(--ink) 18%,transparent);transform:translateY(-3px)}}
 
 @media (max-height:780px) and (min-width:981px){
   .home{padding:20px 0 14px;gap:12px}.play-card{height:390px}.hero-copy>p:not(.eyebrow){margin-top:18px}.actions{margin-top:22px}.trust{margin-top:18px}
@@ -165,13 +161,12 @@ footer{flex:0 0 38px;border-top:1px solid color-mix(in srgb,var(--line) 72%,tran
   .grade-menu-item:hover .grade-popover,.grade-menu-item:focus-within .grade-popover,.grade-menu-item.is-open .grade-popover{transform:translateY(0)}
   .home{padding:44px 0 28px}.hero-grid{gap:38px}
   h1{font-size:clamp(2.72rem,14vw,4.15rem)}.hero-copy>p:not(.eyebrow){margin-top:20px}.actions{align-items:stretch;margin-top:26px}.button{flex:1 1 180px}
-  .trust{gap:11px 17px;margin-top:22px}.play-wrap{padding:8px}.play-card{height:390px;padding:21px;border-radius:23px}
-  .math-stage{inset:49px 5px 40px}.math-buddy{width:108px;height:108px;border-radius:31px}.buddy-face{width:68px;height:56px}
-  .math-symbol{width:39px;height:39px;border-radius:12px}.play-caption{font-size:.66rem}
+  .trust{gap:11px 17px;margin-top:22px}.play-wrap{padding:8px}.play-card{height:390px;padding:14px;border-radius:23px}
+  .game-scoreboard{gap:4px}.score-pill{padding:6px 7px}.game-badge{display:none}.game-foot{font-size:.58rem}
   footer{flex-basis:auto}.footer-inner{height:auto;min-height:54px;padding:11px 0;align-items:flex-start;flex-direction:column;justify-content:center;gap:5px}
 }
 @media (max-width:380px){.brand>span:last-child{display:none}.grade-trigger{min-width:32px;padding:0 6px}.actions{display:grid;grid-template-columns:1fr}.button{width:100%}}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.play-card{transform:none!important}.orbit-particle{display:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.play-card{transform:none!important}}
 </style>
 </head>
 <body>
@@ -186,6 +181,7 @@ footer{flex:0 0 38px;border-top:1px solid color-mix(in srgb,var(--line) 72%,tran
   <symbol id="i-note" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h6M9 17h4"/></symbol>
   <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M20 4 12 12"/></symbol>
   <symbol id="i-device" viewBox="0 0 24 24"><rect x="3" y="4" width="14" height="11" rx="2"/><path d="M8 20h4m-2-5v5"/><rect x="17" y="10" width="4" height="10" rx="1"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7z" fill="currentColor" stroke="none"/></symbol>
 </svg>
 
 <header class="site-header">
@@ -234,19 +230,28 @@ footer{flex:0 0 38px;border-top:1px solid color-mix(in srgb,var(--line) 72%,tran
       </div>
 
       <div class="play-wrap">
-        <div class="play-card" data-tilt-card role="img" aria-label="Nhân vật Toán học vui nhộn chuyển động giữa quỹ đạo vô cực và các ký hiệu toán.">
-          <div class="play-head"><span class="live-label">Toán không đứng yên</span><span class="infinity-chip">∞ vui học</span></div>
-          <div class="math-stage" aria-hidden="true">
-            <svg class="infinity-svg" viewBox="0 0 420 360">
-              <path class="infinity-base" d="M42 180C92 83 158 83 210 180s118 97 168 0c-50-97-116-97-168 0S92 277 42 180"/>
-              <path class="infinity-flow" d="M42 180C92 83 158 83 210 180s118 97 168 0c-50-97-116-97-168 0S92 277 42 180"/>
-              <circle class="orbit-particle" r="8"><animateMotion dur="4.8s" repeatCount="indefinite" path="M42 180C92 83 158 83 210 180s118 97 168 0c-50-97-116-97-168 0S92 277 42 180"/></circle>
-              <circle class="orbit-particle alt" r="6"><animateMotion dur="4.8s" begin="-2.4s" repeatCount="indefinite" path="M42 180C92 83 158 83 210 180s118 97 168 0c-50-97-116-97-168 0S92 277 42 180"/></circle>
-            </svg>
-            <span class="math-symbol s1">π</span><span class="math-symbol s2">√</span><span class="math-symbol s3">x²</span><span class="math-symbol s4">÷</span>
-            <div class="math-buddy"><div class="buddy-face"><span class="eye left"></span><span class="eye right"></span><span class="smile"></span></div><span class="buddy-sign">∑</span></div>
+        <div class="play-card" data-math-runner tabindex="0" role="application" aria-label="Mini game Math Runner. Nhấn phím cách, mũi tên lên hoặc chạm để nhân vật nhảy qua chướng ngại vật.">
+          <div class="play-head">
+            <div class="game-title"><span class="live-label">Math Runner</span><span class="game-badge">Mini game</span></div>
+            <div class="game-scoreboard" aria-label="Bảng điểm">
+              <span class="score-pill">Điểm <strong data-game-score>000</strong></span>
+              <span class="score-pill">Kỷ lục <strong data-game-best>000</strong></span>
+            </div>
           </div>
-          <p class="play-caption"><strong>Mỗi vòng lặp, hiểu thêm một chút.</strong></p>
+          <div class="game-frame">
+            <canvas class="game-canvas" data-game-canvas aria-hidden="true"></canvas>
+            <div class="game-overlay is-visible" data-game-overlay>
+              <div class="game-overlay-card">
+                <strong data-game-heading>Sẵn sàng chạy?</strong>
+                <p data-game-message>Nhảy qua các khối phép tính và lập kỷ lục mới.</p>
+                <button class="game-start" type="button" data-game-start><svg aria-hidden="true"><use href="#i-play"/></svg><span data-game-button-text>Chơi ngay</span></button>
+              </div>
+            </div>
+          </div>
+          <div class="game-foot">
+            <span class="game-hint"><span class="keycap">Space</span><span>hoặc chạm để nhảy</span></span>
+            <span class="game-state" data-game-state aria-live="polite"><strong>Sẵn sàng</strong> · Vui mà học</span>
+          </div>
         </div>
       </div>
     </div>
@@ -282,6 +287,7 @@ footer{flex:0 0 38px;border-top:1px solid color-mix(in srgb,var(--line) 72%,tran
     themeButtons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.themeChoice === theme)));
     themeMeta?.setAttribute('content', themeColors[theme]);
     if (remember) try { localStorage.setItem('vo-toan-theme', theme); } catch (error) {}
+    requestAnimationFrame(() => window.dispatchEvent(new Event('vo-theme-change')));
   }
   themeButtons.forEach((button) => button.addEventListener('click', () => applyTheme(button.dataset.themeChoice, true)));
   applyTheme(root.dataset.theme || 'light', false);
@@ -304,18 +310,133 @@ footer{flex:0 0 38px;border-top:1px solid color-mix(in srgb,var(--line) 72%,tran
   document.addEventListener('pointerdown', (event) => { if (!event.target.closest('.grade-menu')) closeMenus(); });
   document.addEventListener('keydown', (event) => { if (event.key === 'Escape') { closeMenus();document.activeElement?.blur(); } });
 
-  const card = document.querySelector('[data-tilt-card]');
-  const canTilt = matchMedia('(hover:hover) and (pointer:fine)').matches;
-  const reduceMotion = matchMedia('(prefers-reduced-motion:reduce)').matches;
-  if (card && canTilt && !reduceMotion) {
-    card.addEventListener('pointermove', (event) => {
-      const rect = card.getBoundingClientRect(), x = (event.clientX-rect.left)/rect.width, y = (event.clientY-rect.top)/rect.height;
-      card.style.setProperty('--tilt-x',((.5-y)*4).toFixed(2)+'deg');card.style.setProperty('--tilt-y',((x-.5)*5).toFixed(2)+'deg');
-      card.style.setProperty('--spot-x',(x*100).toFixed(1)+'%');card.style.setProperty('--spot-y',(y*100).toFixed(1)+'%');
-    });
-    card.addEventListener('pointerleave', () => {
-      card.style.setProperty('--tilt-x','0deg');card.style.setProperty('--tilt-y','0deg');card.style.setProperty('--spot-x','50%');card.style.setProperty('--spot-y','50%');
-    });
+  const game = document.querySelector('[data-math-runner]');
+  const canvas = game?.querySelector('[data-game-canvas]');
+  if (game && canvas) {
+    const ctx = canvas.getContext('2d');
+    const overlay = game.querySelector('[data-game-overlay]');
+    const startButton = game.querySelector('[data-game-start]');
+    const heading = game.querySelector('[data-game-heading]');
+    const message = game.querySelector('[data-game-message]');
+    const buttonText = game.querySelector('[data-game-button-text]');
+    const scoreNode = game.querySelector('[data-game-score]');
+    const bestNode = game.querySelector('[data-game-best]');
+    const stateNode = game.querySelector('[data-game-state]');
+    const reduceMotion = matchMedia('(prefers-reduced-motion:reduce)').matches;
+    const symbols = ['+', '×', '÷', '−', '√'];
+    let width = 0, height = 0, mode = 'idle', score = 0, distance = 0, speed = 220, spawnIn = 1.25, lastTime = performance.now();
+    let obstacles = [], particles = [], palette = {};
+    const player = {x:56,y:0,vy:0,w:42,h:50,grounded:true};
+    let best = 0;
+    try { best = Number(localStorage.getItem('vo-toan-runner-best')) || 0; } catch (error) {}
+
+    function formatScore(value) { return String(Math.max(0,value)).padStart(3,'0'); }
+    function updateScore() { scoreNode.textContent = formatScore(score);bestNode.textContent = formatScore(best); }
+    function refreshPalette() {
+      const styles = getComputedStyle(root);
+      palette = ['surface','surface-2','ink','muted','line','accent','accent-2','accent-soft','success'].reduce((colors,key) => {
+        colors[key] = styles.getPropertyValue('--'+key).trim();return colors;
+      },{});
+    }
+    function resizeGame() {
+      const rect = canvas.getBoundingClientRect();
+      const ratio = Math.min(window.devicePixelRatio || 1,2);
+      width = Math.max(1,rect.width);height = Math.max(1,rect.height);
+      canvas.width = Math.round(width*ratio);canvas.height = Math.round(height*ratio);
+      ctx.setTransform(ratio,0,0,ratio,0,0);
+      player.x = Math.max(38,Math.min(58,width*.13));
+    }
+    function pathRoundRect(x,y,w,h,r) {
+      const radius = Math.min(r,w/2,h/2);ctx.beginPath();ctx.moveTo(x+radius,y);ctx.arcTo(x+w,y,x+w,y+h,radius);ctx.arcTo(x+w,y+h,x,y+h,radius);ctx.arcTo(x,y+h,x,y,radius);ctx.arcTo(x,y,x+w,y,radius);ctx.closePath();
+    }
+    function groundY() { return height-41; }
+    function addParticles(x,y,color,count=7) {
+      for (let i=0;i<count;i++) particles.push({x,y,vx:(Math.random()-.5)*125,vy:-35-Math.random()*100,life:.35+Math.random()*.28,size:2+Math.random()*3,color});
+    }
+    function jump() {
+      if (mode !== 'running' || !player.grounded) return;
+      player.vy = Math.min(620,Math.max(570,height*2.05));player.grounded = false;
+      addParticles(player.x+player.w/2,groundY()-2,palette.accent,5);
+    }
+    function setOverlay(visible) { overlay.classList.toggle('is-visible',visible); }
+    function startGame(jumpImmediately=false) {
+      mode = 'running';score = 0;distance = 0;speed = 220;spawnIn = 1.24;obstacles = [];particles = [];
+      player.y = 0;player.vy = 0;player.grounded = true;updateScore();setOverlay(false);
+      stateNode.innerHTML = '<strong>Đang chạy</strong> · Càng lâu càng nhanh';game.focus({preventScroll:true});
+      if (jumpImmediately) jump();
+    }
+    function endGame() {
+      if (mode !== 'running') return;
+      mode = 'over';addParticles(player.x+player.w,groundY()-player.y-player.h/2,palette.accent2,13);
+      const isRecord = score > best;
+      if (isRecord) { best = score;try { localStorage.setItem('vo-toan-runner-best',String(best)); } catch (error) {} }
+      updateScore();heading.textContent = isRecord ? 'Kỷ lục mới!' : 'Suýt nữa thì qua!';
+      message.textContent = 'Bạn đạt '+score+' điểm. Nhấn chơi lại để vượt xa hơn.';buttonText.textContent = 'Chơi lại';
+      stateNode.innerHTML = '<strong>'+score+' điểm</strong> · '+(isRecord ? 'Kỷ lục mới!' : 'Thử thêm lần nữa');
+      window.setTimeout(() => { if (mode === 'over') setOverlay(true); },260);
+    }
+    function spawnObstacle() {
+      const tall = Math.random()>.68,w = tall ? 33 : 37+Math.random()*9,h = tall ? 54 : 36+Math.random()*12;
+      obstacles.push({x:width+20,w,h,symbol:symbols[Math.floor(Math.random()*symbols.length)],passed:false});
+      spawnIn = Math.max(.78,1.35-Math.min(distance/11000,.36))+Math.random()*.38;
+    }
+    function update(dt) {
+      if (mode !== 'running') {
+        particles.forEach((p) => { p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=320*dt;p.life-=dt; });particles = particles.filter((p) => p.life>0);return;
+      }
+      speed = Math.min(360,220+distance/205);distance += speed*dt;score = Math.floor(distance/24);updateScore();
+      if (!player.grounded) { player.y += player.vy*dt;player.vy -= 1300*dt;if (player.y<=0) { player.y=0;player.vy=0;player.grounded=true;addParticles(player.x+player.w/2,groundY()-1,palette.accent,4); } }
+      spawnIn -= dt;if (spawnIn<=0) spawnObstacle();
+      obstacles.forEach((obstacle) => { obstacle.x -= speed*dt;if (!obstacle.passed && obstacle.x+obstacle.w<player.x) obstacle.passed=true; });
+      obstacles = obstacles.filter((obstacle) => obstacle.x>-80);
+      particles.forEach((p) => { p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=320*dt;p.life-=dt; });particles = particles.filter((p) => p.life>0);
+      const px=player.x+6,py=groundY()-player.h-player.y+5,pw=player.w-12,ph=player.h-8;
+      for (const obstacle of obstacles) {
+        const ox=obstacle.x+4,oy=groundY()-obstacle.h+4,ow=obstacle.w-8,oh=obstacle.h-4;
+        if (px<ox+ow && px+pw>ox && py<oy+oh && py+ph>oy) { endGame();break; }
+      }
+    }
+    function drawBackdrop(time) {
+      ctx.clearRect(0,0,width,height);const ground=groundY();
+      ctx.save();ctx.globalAlpha=.12;ctx.fillStyle=palette.accent;
+      for (let i=0;i<4;i++) { const x=((i*137-time*(mode==='running'?speed*.075:8))%(width+90)+width+90)%(width+90)-35,y=36+(i%2)*43;ctx.font='700 '+(16+i%2*5)+'px '+getComputedStyle(root).getPropertyValue('--display');ctx.fillText(['π','x²','√','∞'][i],x,y); }
+      ctx.globalAlpha=.16;ctx.strokeStyle=palette.accent;ctx.lineWidth=1;
+      for (let y=ground%24;y<ground;y+=24) { ctx.beginPath();ctx.moveTo(0,y+.5);ctx.lineTo(width,y+.5);ctx.stroke(); }
+      ctx.restore();
+      ctx.strokeStyle=palette.line;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(0,ground+.5);ctx.lineTo(width,ground+.5);ctx.stroke();
+      ctx.save();ctx.strokeStyle=palette.accent;ctx.lineWidth=3;ctx.setLineDash([8,14]);ctx.lineDashOffset=mode==='running' ? -(distance*.16)%22 : 0;ctx.beginPath();ctx.moveTo(0,ground+16);ctx.lineTo(width,ground+16);ctx.stroke();ctx.restore();
+    }
+    function drawObstacle(obstacle) {
+      const y=groundY()-obstacle.h;ctx.save();ctx.shadowColor=palette.accent2;ctx.shadowBlur=12;ctx.globalAlpha=.26;pathRoundRect(obstacle.x,y,obstacle.w,obstacle.h,10);ctx.fillStyle=palette.accent2;ctx.fill();ctx.restore();
+      pathRoundRect(obstacle.x,y,obstacle.w,obstacle.h,10);ctx.fillStyle=palette.accent2;ctx.fill();
+      ctx.fillStyle='#fff';ctx.font='800 '+Math.min(22,obstacle.w*.5)+'px Manrope, sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(obstacle.symbol,obstacle.x+obstacle.w/2,y+obstacle.h/2+1);
+      ctx.fillStyle=palette.surface;ctx.beginPath();ctx.arc(obstacle.x+8,y+9,2.3,0,Math.PI*2);ctx.arc(obstacle.x+obstacle.w-8,y+9,2.3,0,Math.PI*2);ctx.fill();
+    }
+    function drawPlayer(time) {
+      const idleBob=mode==='idle'&&!reduceMotion?Math.sin(time*3)*3:0,x=player.x,y=groundY()-player.h-player.y+idleBob;
+      ctx.save();if (mode==='over') { ctx.translate(x+player.w/2,y+player.h/2);ctx.rotate(.16);ctx.translate(-x-player.w/2,-y-player.h/2); }
+      ctx.shadowColor=palette.accent;ctx.shadowBlur=16;ctx.globalAlpha=.24;pathRoundRect(x,y+4,player.w,player.h-4,13);ctx.fillStyle=palette.accent;ctx.fill();ctx.globalAlpha=1;ctx.shadowBlur=0;
+      pathRoundRect(x,y+4,player.w,player.h-4,13);ctx.fillStyle=palette.accent;ctx.fill();
+      pathRoundRect(x+7,y+11,player.w-14,25,9);ctx.fillStyle='#fff';ctx.fill();
+      ctx.fillStyle='#172037';ctx.beginPath();ctx.arc(x+15,y+21,2.8,0,Math.PI*2);ctx.arc(x+27,y+21,2.8,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle='#172037';ctx.lineWidth=2;ctx.lineCap='round';ctx.beginPath();ctx.arc(x+21,y+23,7,0.25*Math.PI,.75*Math.PI);ctx.stroke();
+      ctx.fillStyle=palette.accent2;ctx.fillRect(x+19.5,y,3,6);ctx.beginPath();ctx.arc(x+21,y,4,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle=palette.accent;const legShift=mode==='running'&&player.grounded?Math.sin(time*13)*2:0;pathRoundRect(x+8+legShift,y+45,9,5,2);ctx.fill();pathRoundRect(x+25-legShift,y+45,9,5,2);ctx.fill();ctx.restore();
+    }
+    function draw(time) {
+      drawBackdrop(time);obstacles.forEach(drawObstacle);drawPlayer(time);
+      particles.forEach((p) => { ctx.save();ctx.globalAlpha=Math.max(0,p.life*2);ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();ctx.restore(); });
+    }
+    function frame(now) {
+      const dt=Math.min((now-lastTime)/1000,.034);lastTime=now;update(dt);draw(now/1000);requestAnimationFrame(frame);
+    }
+    function activateGame() { if (mode==='running') jump();else startGame(true); }
+    canvas.addEventListener('pointerdown',(event) => { event.preventDefault();activateGame(); });
+    startButton.addEventListener('click',(event) => { event.stopPropagation();startGame(false); });
+    game.addEventListener('keydown',(event) => { if (event.code==='Space'||event.key===' '||event.code==='ArrowUp') { event.preventDefault();activateGame(); } });
+    window.addEventListener('vo-theme-change',refreshPalette);
+    new ResizeObserver(resizeGame).observe(canvas);
+    refreshPalette();resizeGame();updateScore();requestAnimationFrame(frame);
   }
 })();
 </script>
