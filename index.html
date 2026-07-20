@@ -9,7 +9,7 @@
 <script>
 try {
   const saved = localStorage.getItem('vo-toan-theme');
-  if (['light','night','sand'].includes(saved)) document.documentElement.dataset.theme = saved;
+  if (['light','night','sand','ocean','rose','forest'].includes(saved)) document.documentElement.dataset.theme = saved;
 } catch (error) {}
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,6 +37,24 @@ html[data-theme="sand"]{
   --line:#ddcfbc;--accent:#b54c2e;--accent-2:#1e8178;--accent-soft:#f4ddcf;--success:#1e8178;
   --header:rgba(245,239,228,.9);--shadow:0 28px 72px rgba(77,55,38,.15);
 }
+html[data-theme="ocean"]{
+  color-scheme:light;
+  --bg:#eaf7fa;--surface:#fafdff;--surface-2:#dff1f5;--ink:#102a36;--muted:#587581;
+  --line:#c7e2e9;--accent:#087ea4;--accent-2:#f06d52;--accent-soft:#d8f0f6;--success:#168b74;
+  --header:rgba(234,247,250,.9);--shadow:0 28px 72px rgba(18,88,110,.15);
+}
+html[data-theme="rose"]{
+  color-scheme:light;
+  --bg:#fff2f6;--surface:#fffafd;--surface-2:#f9e4ed;--ink:#321d2a;--muted:#7b6270;
+  --line:#edd2df;--accent:#d34478;--accent-2:#7657d8;--accent-soft:#f9dce8;--success:#16896f;
+  --header:rgba(255,242,246,.9);--shadow:0 28px 72px rgba(112,48,78,.15);
+}
+html[data-theme="forest"]{
+  color-scheme:dark;
+  --bg:#071a17;--surface:#102824;--surface-2:#17342e;--ink:#f2fbf8;--muted:#a5c2b9;
+  --line:#295048;--accent:#6ee7b7;--accent-2:#f3b94f;--accent-soft:#193f36;--success:#6ee7b7;
+  --header:rgba(7,26,23,.9);--shadow:0 30px 78px rgba(0,0,0,.36);
+}
 html{height:100%;scroll-behavior:smooth;-webkit-text-size-adjust:100%;background:var(--bg)}
 body{
   display:flex;flex-direction:column;min-width:280px;min-height:100svh;margin:0;overflow:hidden;
@@ -59,15 +77,18 @@ a{color:inherit;text-decoration:none}button{color:inherit;font:inherit}svg{displ
 .brand-mark{position:relative;display:grid;place-items:center;width:38px;height:38px;overflow:hidden;color:#fff;background:var(--accent);border-radius:12px;box-shadow:0 8px 18px color-mix(in srgb,var(--accent) 25%,transparent)}
 .brand-mark::after{content:"";position:absolute;right:-8px;bottom:-11px;width:27px;height:27px;border-radius:50%;background:var(--accent-2)}
 .brand-mark .icon{position:relative;z-index:1;width:20px;height:20px;stroke-width:2}
-.grade-menu{display:flex;align-items:center;gap:3px;margin:0;padding:0;list-style:none}
+.grade-menu{display:flex;align-items:center;gap:7px;margin:0;padding:5px;background:color-mix(in srgb,var(--surface) 74%,transparent);border:1px solid color-mix(in srgb,var(--line) 78%,transparent);border-radius:16px;box-shadow:0 8px 24px color-mix(in srgb,var(--ink) 6%,transparent);list-style:none}
 .grade-menu-item{position:relative}
-.grade-trigger{position:relative;display:grid;place-items:center;min-width:34px;height:34px;padding:0 8px;cursor:pointer;color:var(--muted);background:transparent;border:0;border-radius:10px;font:700 .72rem/1 var(--display);transition:color .2s ease,background .2s ease,transform .2s ease}
-.grade-trigger:hover,.grade-trigger[aria-expanded="true"],.grade-menu-item:focus-within .grade-trigger{color:var(--accent);background:var(--accent-soft);transform:translateY(-1px)}
-.grade-trigger.is-ready{color:var(--accent)}
-.grade-trigger.is-ready::after{content:"";position:absolute;top:4px;right:4px;width:5px;height:5px;background:var(--success);border:2px solid var(--header);border-radius:50%}
-.grade-popover{position:absolute;top:calc(100% + 12px);left:50%;z-index:90;width:250px;padding:12px;visibility:hidden;opacity:0;pointer-events:none;background:var(--surface);border:1px solid var(--line);border-radius:17px;box-shadow:var(--shadow);transform:translate(-50%,-8px);transition:opacity .18s ease,transform .18s ease,visibility .18s ease}
+.grade-trigger{position:relative;display:grid;place-items:center;min-width:44px;height:42px;padding:0 11px;overflow:hidden;cursor:pointer;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:0 4px 11px color-mix(in srgb,var(--ink) 6%,transparent);font:800 .78rem/1 var(--display);transition:color .24s ease,background .24s ease,border-color .24s ease,box-shadow .24s ease,transform .24s cubic-bezier(.2,.8,.2,1)}
+.grade-trigger:hover{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 62%,var(--line));box-shadow:0 10px 20px color-mix(in srgb,var(--accent) 17%,transparent);transform:translateY(-3px) scale(1.04)}
+.grade-trigger[aria-expanded="true"],.grade-menu-item:focus-within .grade-trigger{color:var(--accent);background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent) 52%,var(--line));transform:translateY(-2px)}
+.grade-trigger.is-ready{color:#fff;background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 56%,var(--accent-2)));border-color:transparent;box-shadow:0 9px 21px color-mix(in srgb,var(--accent) 28%,transparent)}
+.grade-trigger.is-ready[aria-expanded="true"],.grade-menu-item:focus-within .grade-trigger.is-ready{color:#fff;background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 56%,var(--accent-2)));border-color:transparent;box-shadow:0 11px 24px color-mix(in srgb,var(--accent) 32%,transparent)}
+.grade-trigger.is-ready::before{content:"";position:absolute;top:-45%;bottom:-45%;left:-18px;width:12px;background:color-mix(in srgb,#fff 38%,transparent);transform:rotate(18deg) translateX(-22px);transition:transform .5s ease}.grade-trigger.is-ready:hover::before{transform:rotate(18deg) translateX(84px)}
+.grade-trigger.is-ready::after{content:"";position:absolute;top:5px;right:5px;width:5px;height:5px;background:#7ff0cf;border:2px solid color-mix(in srgb,var(--accent) 72%,#000);border-radius:50%;box-shadow:0 0 0 3px color-mix(in srgb,#7ff0cf 18%,transparent)}
+.grade-popover{position:absolute;top:calc(100% + 13px);left:50%;z-index:90;width:250px;padding:12px;visibility:hidden;opacity:0;pointer-events:none;background:var(--surface);border:1px solid var(--line);border-radius:17px;box-shadow:var(--shadow);transform:translate(-50%,-10px) scale(.98);transform-origin:50% 0;transition:opacity .2s ease,transform .24s cubic-bezier(.2,.8,.2,1),visibility .2s ease}
 .grade-popover::before{content:"";position:absolute;right:0;bottom:100%;left:0;height:14px}
-.grade-menu-item:hover .grade-popover,.grade-menu-item:focus-within .grade-popover,.grade-menu-item.is-open .grade-popover{visibility:visible;opacity:1;pointer-events:auto;transform:translate(-50%,0)}
+.grade-menu-item:hover .grade-popover,.grade-menu-item:focus-within .grade-popover,.grade-menu-item.is-open .grade-popover{visibility:visible;opacity:1;pointer-events:auto;transform:translate(-50%,0) scale(1)}
 .popover-kicker{display:block;margin:2px 4px 9px;color:var(--muted);font:700 .61rem/1 var(--display);letter-spacing:.09em;text-transform:uppercase}
 .lesson-link{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px;color:var(--ink);background:var(--surface-2);border:1px solid var(--line);border-radius:12px;font-size:.78rem;font-weight:600;transition:color .2s ease,border-color .2s ease,transform .2s ease}
 .lesson-link .icon{width:16px;height:16px;color:var(--accent)}.lesson-link:hover{color:var(--accent);border-color:var(--accent);transform:translateX(2px)}
@@ -75,8 +96,9 @@ a{color:inherit;text-decoration:none}button{color:inherit;font:inherit}svg{displ
 .nav-tools{display:flex;align-items:center;margin-left:auto}
 .theme-switcher{display:flex;align-items:center;gap:5px;padding:5px;background:var(--surface);border:1px solid var(--line);border-radius:999px;box-shadow:0 7px 20px color-mix(in srgb,var(--ink) 7%,transparent)}
 .theme-label{padding:0 5px 0 7px;color:var(--muted);font:600 .68rem/1 var(--display)}
-.theme-button{display:grid;place-items:center;width:31px;height:31px;padding:0;cursor:pointer;color:var(--muted);background:transparent;border:0;border-radius:50%;transition:color .2s ease,background .2s ease,transform .2s ease}
-.theme-button .icon{width:16px;height:16px}.theme-button:hover{color:var(--accent);transform:translateY(-1px)}.theme-button[aria-pressed="true"]{color:var(--accent);background:var(--accent-soft)}
+.theme-button{--choice-color:var(--muted);display:grid;place-items:center;width:31px;height:31px;padding:0;cursor:pointer;color:var(--choice-color);background:transparent;border:0;border-radius:50%;transition:color .2s ease,background .2s ease,box-shadow .2s ease,transform .2s ease}
+.theme-button[data-theme-choice="light"]{--choice-color:#315efb}.theme-button[data-theme-choice="night"]{--choice-color:#8d7dff}.theme-button[data-theme-choice="sand"]{--choice-color:#b54c2e}.theme-button[data-theme-choice="ocean"]{--choice-color:#087ea4}.theme-button[data-theme-choice="rose"]{--choice-color:#d34478}.theme-button[data-theme-choice="forest"]{--choice-color:#168b6c}
+.theme-button .icon{width:16px;height:16px}.theme-button:hover{background:color-mix(in srgb,var(--choice-color) 12%,transparent);transform:translateY(-2px) scale(1.06)}.theme-button[aria-pressed="true"]{color:#fff;background:var(--choice-color);box-shadow:0 6px 14px color-mix(in srgb,var(--choice-color) 30%,transparent)}
 
 /* One-page content */
 main{display:flex;flex:1;min-height:0}
@@ -177,11 +199,14 @@ footer{flex:0 0 38px;border-top:1px solid color-mix(in srgb,var(--line) 72%,tran
   .hero-grid{grid-template-columns:1fr;gap:46px}.hero-copy{max-width:760px}.play-wrap{justify-self:start;width:min(100%,590px)}
   .play-card{height:430px}.quick-rail{grid-template-columns:1fr}.rail-item{min-height:68px}
 }
+@media (max-width:900px) and (min-width:701px){
+  .nav{gap:8px}.grade-menu{gap:3px;padding:4px}.grade-trigger{min-width:38px;height:40px;padding:0 6px}.theme-label{display:none}.theme-switcher{gap:2px;padding:4px}.theme-button{width:28px;height:28px}
+}
 @media (max-width:700px){
   .shell{width:min(1220px,calc(100% - 28px))}
   .site-header{flex-basis:auto}.nav{height:auto;min-height:108px;padding:9px 0 8px;flex-wrap:wrap;gap:5px 10px}
-  .brand{height:40px}.nav-tools{height:40px}.theme-label{display:none}
-  .grade-menu{order:3;flex:1 0 100%;justify-content:space-between}.grade-trigger{min-width:34px;height:32px;padding:0 7px}
+  .brand{height:40px}.nav-tools{height:40px}.theme-label{display:none}.theme-switcher{gap:3px;padding:4px}.theme-button{width:29px;height:29px}
+  .grade-menu{order:3;flex:1 0 100%;justify-content:space-between;gap:4px;padding:4px}.grade-menu-item{flex:1 1 0}.grade-trigger{width:100%;min-width:40px;height:42px;padding:0 6px}
   .grade-popover{position:fixed;top:111px;right:14px;left:14px;width:auto;transform:translateY(-7px)}
   .grade-menu-item:hover .grade-popover,.grade-menu-item:focus-within .grade-popover,.grade-menu-item.is-open .grade-popover{transform:translateY(0)}
   .home{padding:44px 0 28px}.hero-grid{gap:38px}
@@ -190,7 +215,7 @@ footer{flex:0 0 38px;border-top:1px solid color-mix(in srgb,var(--line) 72%,tran
   .game-scoreboard{gap:4px}.score-pill{padding:6px 7px}.game-badge{display:none}.game-tab{height:44px}.game-start{min-height:44px}.answer-choice{min-height:44px}.game-foot{font-size:.58rem}
   footer{flex-basis:auto}.footer-inner{height:auto;min-height:54px;padding:11px 0;align-items:flex-start;flex-direction:column;justify-content:center;gap:5px}
 }
-@media (max-width:380px){.brand>span:last-child{display:none}.grade-trigger{min-width:32px;padding:0 6px}.actions{display:grid;grid-template-columns:1fr}.button{width:100%}.game-tab span{display:none}.game-tab .icon{width:16px;height:16px}.pet-panel{grid-template-columns:.72fr 1.28fr}.pet-avatar{transform:scale(.86)}}
+@media (max-width:380px){.brand>span:last-child{display:none}.grade-trigger{min-width:36px;padding:0 4px}.actions{display:grid;grid-template-columns:1fr}.button{width:100%}.game-tab span{display:none}.game-tab .icon{width:16px;height:16px}.pet-panel{grid-template-columns:.72fr 1.28fr}.pet-avatar{transform:scale(.86)}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.play-card{transform:none!important}}
 </style>
 </head>
@@ -200,6 +225,9 @@ footer{flex:0 0 38px;border-top:1px solid color-mix(in srgb,var(--line) 72%,tran
   <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.31 11.31 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"/></symbol>
   <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.2 15.1A8 8 0 0 1 8.9 3.8 8.5 8.5 0 1 0 20.2 15.1Z"/></symbol>
   <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M20 4C12 4 6 8 6 14c0 3 2 5 5 5 6 0 9-7 9-15ZM4 21c2-6 6-10 12-13"/></symbol>
+  <symbol id="i-wave" viewBox="0 0 24 24"><path d="M3 8c3 0 3 2 6 2s3-2 6-2 3 2 6 2M3 14c3 0 3 2 6 2s3-2 6-2 3 2 6 2"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 5.8a5 5 0 0 0-7.1 0L12 7.5l-1.7-1.7a5 5 0 0 0-7.1 7.1L12 21l8.8-8.1a5 5 0 0 0 0-7.1Z"/></symbol>
+  <symbol id="i-tree" viewBox="0 0 24 24"><path d="m12 3-5 7h3l-5 7h14l-5-7h3zM12 17v4"/></symbol>
   <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3 1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5Zm7 12 .7 2.3L22 18l-2.3.7L19 21l-.7-2.3L16 18l2.3-.7Z"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
@@ -220,16 +248,16 @@ footer{flex:0 0 38px;border-top:1px solid color-mix(in srgb,var(--line) 72%,tran
       <span class="brand-mark" aria-hidden="true"><svg class="icon"><use href="#i-book"/></svg></span><span>Vở Toán</span>
     </a>
     <ul class="grade-menu" aria-label="Chọn lớp và bài học">
-      <li class="grade-menu-item"><button class="grade-trigger" type="button" aria-expanded="false">6</button><div class="grade-popover"><span class="popover-kicker">Toán 6</span><p class="empty-lessons">Các bài học đang được biên soạn.</p></div></li>
-      <li class="grade-menu-item"><button class="grade-trigger" type="button" aria-expanded="false">7</button><div class="grade-popover"><span class="popover-kicker">Toán 7</span><p class="empty-lessons">Các bài học đang được biên soạn.</p></div></li>
+      <li class="grade-menu-item"><button class="grade-trigger" type="button" aria-label="Lớp 6" title="Lớp 6" aria-expanded="false">6</button><div class="grade-popover"><span class="popover-kicker">Toán 6</span><p class="empty-lessons">Các bài học đang được biên soạn.</p></div></li>
+      <li class="grade-menu-item"><button class="grade-trigger" type="button" aria-label="Lớp 7" title="Lớp 7" aria-expanded="false">7</button><div class="grade-popover"><span class="popover-kicker">Toán 7</span><p class="empty-lessons">Các bài học đang được biên soạn.</p></div></li>
       <li class="grade-menu-item">
-        <button class="grade-trigger is-ready" type="button" aria-expanded="false">8</button>
+        <button class="grade-trigger is-ready" type="button" aria-label="Lớp 8 · Có bài học" title="Lớp 8 · Có bài học" aria-expanded="false">8</button>
         <div class="grade-popover"><span class="popover-kicker">Toán 8 · 1 bài học</span><a class="lesson-link" href="/bai-hoc/lop-8/chuong-01/bai-01/"><span>Bài 1. Đơn thức</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
       </li>
-      <li class="grade-menu-item"><button class="grade-trigger" type="button" aria-expanded="false">9</button><div class="grade-popover"><span class="popover-kicker">Toán 9</span><p class="empty-lessons">Các bài học đang được biên soạn.</p></div></li>
-      <li class="grade-menu-item"><button class="grade-trigger" type="button" aria-expanded="false">10</button><div class="grade-popover"><span class="popover-kicker">Toán 10</span><p class="empty-lessons">Các bài học đang được biên soạn.</p></div></li>
-      <li class="grade-menu-item"><button class="grade-trigger" type="button" aria-expanded="false">11</button><div class="grade-popover"><span class="popover-kicker">Toán 11</span><p class="empty-lessons">Các bài học đang được biên soạn.</p></div></li>
-      <li class="grade-menu-item"><button class="grade-trigger" type="button" aria-expanded="false">12</button><div class="grade-popover"><span class="popover-kicker">Toán 12</span><p class="empty-lessons">Các bài học đang được biên soạn.</p></div></li>
+      <li class="grade-menu-item"><button class="grade-trigger" type="button" aria-label="Lớp 9" title="Lớp 9" aria-expanded="false">9</button><div class="grade-popover"><span class="popover-kicker">Toán 9</span><p class="empty-lessons">Các bài học đang được biên soạn.</p></div></li>
+      <li class="grade-menu-item"><button class="grade-trigger" type="button" aria-label="Lớp 10" title="Lớp 10" aria-expanded="false">10</button><div class="grade-popover"><span class="popover-kicker">Toán 10</span><p class="empty-lessons">Các bài học đang được biên soạn.</p></div></li>
+      <li class="grade-menu-item"><button class="grade-trigger" type="button" aria-label="Lớp 11" title="Lớp 11" aria-expanded="false">11</button><div class="grade-popover"><span class="popover-kicker">Toán 11</span><p class="empty-lessons">Các bài học đang được biên soạn.</p></div></li>
+      <li class="grade-menu-item"><button class="grade-trigger" type="button" aria-label="Lớp 12" title="Lớp 12" aria-expanded="false">12</button><div class="grade-popover"><span class="popover-kicker">Toán 12</span><p class="empty-lessons">Các bài học đang được biên soạn.</p></div></li>
     </ul>
     <div class="nav-tools">
       <div class="theme-switcher" role="group" aria-label="Chọn giao diện">
@@ -237,6 +265,9 @@ footer{flex:0 0 38px;border-top:1px solid color-mix(in srgb,var(--line) 72%,tran
         <button class="theme-button" type="button" data-theme-choice="light" aria-label="Dùng giao diện Sáng xanh" title="Sáng xanh"><svg class="icon" aria-hidden="true"><use href="#i-sun"/></svg></button>
         <button class="theme-button" type="button" data-theme-choice="night" aria-label="Dùng giao diện Tím đêm" title="Tím đêm"><svg class="icon" aria-hidden="true"><use href="#i-moon"/></svg></button>
         <button class="theme-button" type="button" data-theme-choice="sand" aria-label="Dùng giao diện Cát ấm" title="Cát ấm"><svg class="icon" aria-hidden="true"><use href="#i-leaf"/></svg></button>
+        <button class="theme-button" type="button" data-theme-choice="ocean" aria-label="Dùng giao diện Đại dương" title="Đại dương"><svg class="icon" aria-hidden="true"><use href="#i-wave"/></svg></button>
+        <button class="theme-button" type="button" data-theme-choice="rose" aria-label="Dùng giao diện Hồng phấn" title="Hồng phấn"><svg class="icon" aria-hidden="true"><use href="#i-heart"/></svg></button>
+        <button class="theme-button" type="button" data-theme-choice="forest" aria-label="Dùng giao diện Rừng đêm" title="Rừng đêm"><svg class="icon" aria-hidden="true"><use href="#i-tree"/></svg></button>
       </div>
     </div>
   </nav>
@@ -336,7 +367,7 @@ footer{flex:0 0 38px;border-top:1px solid color-mix(in srgb,var(--line) 72%,tran
 (() => {
   const root = document.documentElement;
   const themeButtons = Array.from(document.querySelectorAll('[data-theme-choice]'));
-  const themeColors = {light:'#f3f6fb',night:'#0b1020',sand:'#f5efe4'};
+  const themeColors = {light:'#f3f6fb',night:'#0b1020',sand:'#f5efe4',ocean:'#eaf7fa',rose:'#fff2f6',forest:'#071a17'};
   const themeMeta = document.querySelector('meta[name="theme-color"]');
   function applyTheme(theme, remember) {
     if (!themeColors[theme]) return;
