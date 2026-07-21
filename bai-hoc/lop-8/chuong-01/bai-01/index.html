@@ -32,7 +32,7 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
   .lesson-content{min-width:0}
 
   /* Mục lục trên máy tính, thanh điều hướng gọn trên điện thoại */
-  .lesson-nav{position:sticky;top:20px;min-width:0;padding:22px;background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:20px;box-shadow:0 16px 42px rgba(39,55,67,.07);backdrop-filter:blur(12px)}
+  .lesson-nav{position:sticky;top:20px;min-width:0;max-height:calc(100vh - 40px);overflow-y:auto;padding:22px;background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:20px;box-shadow:0 16px 42px rgba(39,55,67,.07);backdrop-filter:blur(12px)}
   .lesson-brand{display:flex;align-items:center;gap:10px;margin-bottom:28px;font:700 1rem/1 var(--display);letter-spacing:-.02em}
   .lesson-brand span:first-child{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:var(--blue);color:#fff;font-size:.72rem}
   .nav-label{margin:0 0 10px;color:var(--muted);font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
@@ -40,6 +40,8 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
   .lesson-nav nav a{display:flex;align-items:center;gap:10px;padding:10px 11px;border-radius:10px;color:#465763;font-size:.82rem;line-height:1.35;transition:background .2s ease,color .2s ease}
   .lesson-nav nav a::before{content:"";width:6px;height:6px;flex:0 0 auto;border:1.5px solid currentColor;border-radius:50%}
   .lesson-nav nav a:hover{color:var(--blue);background:var(--blue-l)}
+  .lesson-nav nav a.active{color:var(--blue);background:var(--blue-l);font-weight:600}
+  .lesson-nav nav a.active::before{background:var(--blue);border-color:var(--blue)}
   .lesson-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
   .lesson-meta span{display:block;color:var(--muted);font-size:.67rem;line-height:1.4}
   .lesson-meta b{display:block;margin-bottom:2px;color:var(--ink);font:700 1rem/1 var(--display)}
@@ -132,12 +134,15 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
   }
   @media (max-width:900px){
     .page{width:min(100% - 28px,780px);grid-template-columns:minmax(0,1fr);padding-top:14px;gap:14px}
-    .lesson-nav{position:static;padding:15px;border-radius:15px}
-    .lesson-brand{margin-bottom:14px}
-    .lesson-nav nav{display:flex;flex-wrap:wrap;gap:6px}
-    .lesson-nav nav a{padding:8px 10px;background:#f4f7f9}
+    .lesson-nav{position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:9px;max-height:none;overflow-y:visible;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:9px 12px;border-radius:0 0 15px 15px;border-top:0}
+    .lesson-brand{margin-bottom:0;flex:0 0 auto}
+    .lesson-brand span:last-child{display:none}
+    .nav-label{display:none}
+    .lesson-nav nav{display:flex;flex-wrap:nowrap;gap:6px}
+    .lesson-nav nav a{padding:8px 10px;background:#f4f7f9;white-space:nowrap}
     .lesson-meta{display:none}
-    .nav-them{margin-top:10px;padding-top:10px}
+    .nav-them{display:flex;margin:0 0 0 3px;padding:0 0 0 12px;border-top:0;border-left:1px solid var(--line)}
+    h2.sec,h3.sub{scroll-margin-top:74px}
     .hoc-tiep{margin-top:34px;padding-top:24px}
     header{min-height:230px;margin-bottom:22px;border-radius:18px}
   }
@@ -632,6 +637,21 @@ document.querySelectorAll('.show').forEach(function (panel) {
     summary.textContent = details.open ? 'Ẩn lời giải' : 'Xem lời giải';
   });
 });
+
+// Đánh dấu mục đang xem trên thanh mục lục
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.lesson-nav nav a[href^="#"]'));
+  var sections = links.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); }).filter(Boolean);
+  if (!sections.length) return;
+  function capNhat() {
+    var moc = window.scrollY + 140, hienId = null;
+    sections.forEach(function (s) { if (s.offsetTop <= moc) hienId = s.id; });
+    links.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + hienId); });
+  }
+  window.addEventListener('scroll', capNhat, { passive: true });
+  window.addEventListener('resize', capNhat, { passive: true });
+  capNhat();
+})();
 </script>
 </body>
 </html>
