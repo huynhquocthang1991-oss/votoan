@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trắc nghiệm — Bài 1. Đơn thức (Toán 8 KNTT)</title>
+<script>
+MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#1565c0; --blue-d:#0d47a1; --blue-l:#eaf4fd;
+    --orange:#e65100; --orange-l:#fff5e9;
+    --green:#2e7d32; --green-l:#edf8ee;
+    --red:#c62828; --red-l:#fff0f0;
+    --ink:#20303c; --muted:#687783; --line:#d9e1e7;
+    --paper:#f3f6f8; --surface:#fff;
+    --body:"Be Vietnam Pro",system-ui,-apple-system,sans-serif;
+    --display:"Bricolage Grotesque","Be Vietnam Pro",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{font-family:var(--body);color:var(--ink);margin:0;background:var(--paper);line-height:1.65;font-size:16px;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:3px solid rgba(21,101,192,.3);outline-offset:4px;border-radius:5px}
+  .page{width:min(1580px,calc(100% - 40px));margin:0 auto;padding:24px 0 72px;display:grid;grid-template-columns:250px minmax(0,1fr);gap:24px;align-items:start}
+  .lesson-content{min-width:0}
+
+  /* Sidebar — giống trang bài học */
+  .lesson-nav{position:sticky;top:20px;min-width:0;padding:22px;background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:20px;box-shadow:0 16px 42px rgba(39,55,67,.07);backdrop-filter:blur(12px)}
+  .lesson-brand{display:flex;align-items:center;gap:10px;margin-bottom:28px;font:700 1rem/1 var(--display);letter-spacing:-.02em}
+  .lesson-brand span:first-child{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:var(--blue);color:#fff;font-size:.72rem}
+  .nav-label{margin:0 0 10px;color:var(--muted);font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+  .lesson-nav nav{display:grid;gap:5px}
+  .lesson-nav nav a{display:flex;align-items:center;gap:10px;padding:10px 11px;border-radius:10px;color:#465763;font-size:.82rem;line-height:1.35;transition:background .2s ease,color .2s ease}
+  .lesson-nav nav a::before{content:"";width:6px;height:6px;flex:0 0 auto;border:1.5px solid currentColor;border-radius:50%}
+  .lesson-nav nav a:hover{color:var(--blue);background:var(--blue-l)}
+  .nav-them{margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+  .lesson-nav nav.them a{color:var(--blue);background:var(--blue-l);font-weight:600}
+  .lesson-nav nav.them a::before{border-color:var(--blue)}
+  .lesson-nav nav.them a:hover{background:#dbeafd}
+
+  /* Bảng điểm dính ở sidebar */
+  .diem-hop{margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+  .diem-so{font:800 2.1rem/1 var(--display);color:var(--blue);letter-spacing:-.03em}
+  .diem-so small{font-size:1rem;color:var(--muted);font-weight:600}
+  .diem-chu{margin:6px 0 0;font-size:.74rem;color:var(--muted)}
+  .thanh{height:7px;margin-top:11px;border-radius:99px;background:#e6ecf0;overflow:hidden}
+  .thanh i{display:block;height:100%;width:0;border-radius:99px;background:var(--blue);transition:width .35s ease}
+
+  /* Đầu trang */
+  header{position:relative;min-height:210px;display:grid;align-content:end;overflow:hidden;background:linear-gradient(125deg,var(--blue-d),#1976d2);color:#fff;border-radius:24px;padding:clamp(28px,5vw,52px);margin-bottom:30px;box-shadow:0 24px 58px rgba(13,71,161,.18)}
+  header::before,header::after{content:"";position:absolute;border:1px solid rgba(255,255,255,.16);border-radius:50%;pointer-events:none}
+  header::before{width:340px;height:340px;right:-105px;top:-175px}
+  header::after{width:210px;height:210px;right:80px;top:-120px}
+  .breadcrumb{position:relative;z-index:1;margin:0 0 30px;font-size:.73rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;opacity:.78}
+  .hero-row{position:relative;z-index:1;display:flex;align-items:end;justify-content:space-between;gap:32px}
+  header h1{margin:0;font:800 clamp(2rem,4.4vw,3.6rem)/1 var(--display);letter-spacing:-.05em}
+  header p{max-width:580px;margin:14px 0 0;opacity:.85;font-size:.94rem}
+  .hero-number{font:700 clamp(3.5rem,8vw,6rem)/.72 var(--display);letter-spacing:-.07em;color:rgba(255,255,255,.17)}
+
+  /* Câu hỏi */
+  .cau{background:var(--surface);border:1px solid var(--line);border-radius:15px;padding:19px 21px;margin:14px 0;box-shadow:0 8px 28px rgba(35,51,64,.035)}
+  .cau-dau{display:flex;align-items:center;gap:11px;margin-bottom:9px}
+  .cau-so{display:grid;place-items:center;min-width:31px;height:31px;padding:0 8px;background:var(--blue-l);color:var(--blue);border-radius:8px;font:700 .86rem/1 var(--display)}
+  .cau-de{margin:0;font-weight:600;overflow-wrap:anywhere}
+  .dap-an{display:grid;gap:8px;margin-top:13px}
+  .lua-chon{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 14px;font:inherit;font-size:.94rem;color:var(--ink);background:#f7f9fb;border:1.5px solid var(--line);border-radius:11px;cursor:pointer;transition:border-color .18s ease,background .18s ease}
+  .lua-chon:hover:not(:disabled){border-color:var(--blue);background:var(--blue-l)}
+  .lua-chon:disabled{cursor:default}
+  .chu{display:grid;place-items:center;flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:#fff;border:1.5px solid var(--line);font-weight:700;font-size:.8rem}
+  .lua-chon.dung{border-color:var(--green);background:var(--green-l)}
+  .lua-chon.dung .chu{border-color:var(--green);background:var(--green);color:#fff}
+  .lua-chon.sai{border-color:var(--red);background:var(--red-l)}
+  .lua-chon.sai .chu{border-color:var(--red);background:var(--red);color:#fff}
+  .giai-thich{display:none;margin-top:12px;padding:12px 14px;background:var(--blue-l);border-left:3px solid var(--blue);border-radius:0 9px 9px 0;font-size:.9rem}
+  .giai-thich.hien{display:block}
+  .giai-thich b{color:var(--blue)}
+
+  /* Kết quả cuối bài */
+  .ket-qua{display:none;margin-top:30px;padding:26px 24px;background:var(--surface);border:1px solid var(--line);border-radius:18px;text-align:center;box-shadow:0 12px 36px rgba(35,51,64,.05)}
+  .ket-qua.hien{display:block}
+  .kq-diem{font:800 3rem/1 var(--display);color:var(--blue);letter-spacing:-.04em}
+  .kq-loi{margin:10px 0 0;color:var(--muted)}
+  .nut-lam-lai{margin-top:18px;padding:12px 26px;font:600 .92rem var(--body);color:#fff;background:var(--blue);border:0;border-radius:11px;cursor:pointer;transition:background .2s ease}
+  .nut-lam-lai:hover{background:var(--blue-d)}
+
+  /* Học tiếp */
+  .hoc-tiep{margin:40px 0 0;padding-top:28px;border-top:1px solid var(--line)}
+  .hoc-tiep .nav-label{margin-bottom:14px}
+  .tiep-luoi{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:14px}
+  .tiep-the{display:flex;align-items:center;gap:15px;padding:18px 20px;background:var(--surface);border:1px solid var(--line);border-radius:15px;box-shadow:0 8px 28px rgba(35,51,64,.035);transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease}
+  .tiep-the:hover{border-color:var(--blue);box-shadow:0 14px 36px rgba(21,101,192,.13);transform:translateY(-2px)}
+  .tiep-ico{display:grid;place-items:center;flex:0 0 auto;width:44px;height:44px;border-radius:12px;background:var(--blue-l);color:var(--blue);font:700 1.15rem/1 var(--display)}
+  .tiep-chu{min-width:0;flex:1}
+  .tiep-chu b{display:block;font:700 1rem/1.3 var(--display);color:var(--ink)}
+  .tiep-chu i{display:block;margin-top:3px;font-style:normal;font-size:.82rem;color:var(--muted);line-height:1.45}
+  .tiep-mui{flex:0 0 auto;color:var(--blue);font-size:1.2rem;transition:transform .2s ease}
+  .tiep-the:hover .tiep-mui{transform:translateX(4px)}
+
+  mjx-container{overflow-x:auto;overflow-y:hidden;max-width:100%;vertical-align:middle;-webkit-overflow-scrolling:touch}
+  mjx-container:not([display="true"]){display:inline-block!important;max-width:100%!important}
+
+  @media (min-width:1280px){
+    .page{grid-template-columns:270px minmax(0,1fr);gap:30px}
+    .lesson-content{font-size:16.5px}
+    .cau{padding:21px 24px}
+  }
+  @media (max-width:900px){
+    .page{width:min(100% - 28px,780px);grid-template-columns:minmax(0,1fr);padding-top:14px;gap:14px}
+    .lesson-nav{position:static;padding:15px;border-radius:15px}
+    .lesson-brand{margin-bottom:14px}
+    .lesson-nav nav{display:flex;flex-wrap:wrap;gap:6px}
+    .lesson-nav nav a{padding:8px 10px;background:#f4f7f9}
+    .nav-them{margin-top:10px;padding-top:10px}
+    .diem-hop{margin-top:12px;padding-top:12px;display:flex;align-items:center;gap:14px}
+    .diem-hop .thanh{flex:1;margin-top:0}
+    .diem-chu{display:none}
+    .hoc-tiep{margin-top:32px;padding-top:24px}
+    header{min-height:190px;margin-bottom:22px;border-radius:18px}
+  }
+  @media (max-width:560px){
+    body{font-size:15px;line-height:1.62}
+    .page{width:min(100% - 20px,780px);padding-bottom:46px}
+    .lesson-nav{padding:12px}
+    .nav-label{display:none}
+    .lesson-nav nav a{font-size:.74rem;padding:7px 9px}
+    header{min-height:175px;padding:25px 22px}
+    .breadcrumb{margin-bottom:22px;font-size:.65rem}
+    header h1{font-size:clamp(1.6rem,7.5vw,2.6rem)}
+    header p{font-size:.82rem;line-height:1.55}
+    .hero-number{display:none}
+    .cau{padding:15px 14px;border-radius:13px}
+    .lua-chon{padding:11px 12px;font-size:.88rem}
+  }
+  @media print{
+    body{background:#fff}
+    .page{display:block;width:100%;padding:0}
+    .lesson-nav,.hoc-tiep,.ket-qua{display:none}
+    header,.cau{box-shadow:none;break-inside:avoid}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<aside class="lesson-nav" aria-label="Điều hướng">
+  <a class="lesson-brand" href="/" aria-label="Về trang chủ Vở Toán"><span aria-hidden="true">VT</span><span>Vở Toán</span></a>
+  <p class="nav-label">Bài học</p>
+  <nav>
+    <a href="./">Quay lại bài học</a>
+  </nav>
+  <div class="diem-hop" aria-live="polite">
+    <p class="diem-so"><span id="diem">0</span><small>/<span id="tong-cau">0</span></small></p>
+    <p class="diem-chu">câu đúng</p>
+    <div class="thanh"><i id="thanh-diem"></i></div>
+  </div>
+  <div class="nav-them">
+    <p class="nav-label">Luyện tập</p>
+    <nav class="them">
+      <a href="trac-nghiem.html" aria-current="page">Trắc nghiệm</a>
+    </nav>
+  </div>
+</aside>
+
+<main class="lesson-content">
+
+<header id="top">
+  <p class="breadcrumb">Toán 8 · Chương I — Đa thức · Bài 1</p>
+  <div class="hero-row">
+    <div>
+      <h1>Trắc nghiệm</h1>
+      <p>20 câu bám sát bài học và bài tập SGK tr.9–10. Chọn đáp án để xem kết quả ngay.</p>
+    </div>
+    <span class="hero-number" aria-hidden="true">01</span>
+  </div>
+</header>
+
+<div id="bo-cau">
+
+  <div class="cau" data-dung="C">
+    <div class="cau-dau"><span class="cau-so">1</span><p class="cau-de">Biểu thức nào sau đây <b>là</b> đơn thức?</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(x+2y\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(\dfrac{3}{x}\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(-5x^2y\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(5x\sqrt{y}\)</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> Đơn thức chỉ gồm số, biến, hoặc tích của chúng. \(x+2y\) có phép cộng; \(\dfrac3x\) có biến ở mẫu; \(5x\sqrt y\) có căn của biến — cả ba đều không phải đơn thức.</p>
+  </div>
+
+  <div class="cau" data-dung="B">
+    <div class="cau-dau"><span class="cau-so">2</span><p class="cau-de">Biểu thức nào sau đây <b>không</b> là đơn thức?</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(3x^3y\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\((3-x)x^2y^2\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(-\dfrac{5}{9}xyz\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(\dfrac{x^2y}{2}\)</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> \((3-x)x^2y^2\) chứa hiệu \(3-x\) nên không phải đơn thức. Còn \(\dfrac{x^2y}{2}\) chỉ là \(\dfrac12x^2y\) — hệ số là phân số, biến không nằm ở mẫu, nên vẫn là đơn thức.</p>
+  </div>
+
+  <div class="cau" data-dung="A">
+    <div class="cau-dau"><span class="cau-so">3</span><p class="cau-de">Biểu thức \((1+\sqrt2)x^2y\) có phải là đơn thức không?</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>Có, hệ số là \(1+\sqrt2\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>Không, vì có dấu cộng</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>Không, vì có dấu căn</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>Không, vì có hai biến</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> \(1+\sqrt2\) là <b>một số</b>, không chứa biến. Biểu thức có dạng tích của một số với các biến, nên là đơn thức: hệ số \(1+\sqrt2\), phần biến \(x^2y\), bậc 3.</p>
+  </div>
+
+  <div class="cau" data-dung="C">
+    <div class="cau-dau"><span class="cau-so">4</span><p class="cau-de">Trong các biểu thức \(-x;\ (1+x)y^2;\ (3+\sqrt3)xy;\ 0;\ \dfrac1yx^2;\ 2\sqrt{xy}\) có bao nhiêu đơn thức?</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>1</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>2</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>3</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>4</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> (Bài 1.1) Ba đơn thức là \(-x;\ (3+\sqrt3)xy;\ 0\). Loại \((1+x)y^2\) vì có tổng \(1+x\); loại \(\dfrac1yx^2\) vì biến ở mẫu; loại \(2\sqrt{xy}\) vì có căn của biến. Số \(0\) vẫn là một đơn thức.</p>
+  </div>
+
+  <div class="cau" data-dung="D">
+    <div class="cau-dau"><span class="cau-so">5</span><p class="cau-de">Thu gọn đơn thức \(2xy\cdot(-3)\cdot x^2\) ta được</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(-6x^2y\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(6x^3y\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(-5x^3y\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(-6x^3y\)</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> Nhân các số với nhau, nhân các lũy thừa cùng biến với nhau: \(2\cdot(-3)=-6\) và \(x\cdot x^2=x^3\). Vậy kết quả là \(-6x^3y\).</p>
+  </div>
+
+  <div class="cau" data-dung="B">
+    <div class="cau-dau"><span class="cau-so">6</span><p class="cau-de">Hệ số của đơn thức \(-\dfrac{3}{4}x^2y^5\) là</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(\dfrac34\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(-\dfrac34\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(x^2y^5\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(-3\)</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> Hệ số là phần số đứng trước phần biến, <b>kể cả dấu</b>. Ở đây hệ số là \(-\dfrac34\), phần biến là \(x^2y^5\).</p>
+  </div>
+
+  <div class="cau" data-dung="C">
+    <div class="cau-dau"><span class="cau-so">7</span><p class="cau-de">Bậc của đơn thức \(-5x^3y^2z\) là</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>3</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>5</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>6</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>2</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> Bậc là <b>tổng số mũ</b> của tất cả các biến. Biến \(z\) có số mũ 1, nên bậc là \(3+2+1=6\).</p>
+  </div>
+
+  <div class="cau" data-dung="B">
+    <div class="cau-dau"><span class="cau-so">8</span><p class="cau-de">Thu gọn \(4{,}5x^2y\cdot(-2)\cdot xyz\) rồi cho biết bậc của đơn thức thu được.</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(-9x^3y^2z\), bậc 5</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(-9x^3y^2z\), bậc 6</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(-9x^2y^2z\), bậc 5</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(9x^3y^2z\), bậc 6</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> (Luyện tập 2) \([4{,}5\cdot(-2)](x^2\cdot x)(y\cdot y)z=-9x^3y^2z\). Bậc \(=3+2+1=6\). Nhớ: <b>phải thu gọn trước rồi mới tính bậc</b>.</p>
+  </div>
+
+  <div class="cau" data-dung="D">
+    <div class="cau-dau"><span class="cau-so">9</span><p class="cau-de">Bậc của đơn thức \(0{,}35xy^2z^4\) là</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>4</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>5</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>6</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>7</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> Biến \(x\) có số mũ 1 (không viết ra), nên bậc \(=1+2+4=7\). Hệ số \(0{,}35\) không tính vào bậc.</p>
+  </div>
+
+  <div class="cau" data-dung="C">
+    <div class="cau-dau"><span class="cau-so">10</span><p class="cau-de">Xác định hệ số của đơn thức \(0{,}5xy^2\cdot 4x^2\).</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(0{,}5\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(4\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(2\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(4{,}5\)</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> (Ví dụ 2) Thu gọn trước: \(0{,}5xy^2\cdot4x^2=(0{,}5\cdot4)(x\cdot x^2)y^2=2x^3y^2\). Hệ số là \(2\), phần biến \(x^3y^2\), bậc 5.</p>
+  </div>
+
+  <div class="cau" data-dung="D">
+    <div class="cau-dau"><span class="cau-so">11</span><p class="cau-de">Phát biểu nào đúng về bậc của số \(0\) và số \(-7\)?</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>Cả hai đều có bậc 0</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>Cả hai đều không có bậc</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(0\) có bậc 0, \(-7\) không có bậc</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(-7\) có bậc 0, \(0\) không có bậc</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> Số khác 0 là đơn thức <b>bậc 0</b>, nên \(-7\) có bậc 0. Riêng số \(0\) là đơn thức <b>không có bậc</b>. Đây là chỗ rất dễ nhầm.</p>
+  </div>
+
+  <div class="cau" data-dung="C">
+    <div class="cau-dau"><span class="cau-so">12</span><p class="cau-de">Đơn thức nào <b>đồng dạng</b> với \(3x^2y\)?</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(3xy^2\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(2x^2y^2\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(-x^2y\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(3x^3y\)</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> Hai đơn thức đồng dạng khi có <b>cùng phần biến</b> — hệ số khác nhau không sao. Chỉ \(-x^2y\) có phần biến \(x^2y\) giống \(3x^2y\). Chú ý \(3xy^2\) khác \(3x^2y\) vì số mũ đổi chỗ.</p>
+  </div>
+
+  <div class="cau" data-dung="B">
+    <div class="cau-dau"><span class="cau-so">13</span><p class="cau-de">Cho \(A=2x^2y^3\) và \(C=x^3y^2\). Khẳng định nào đúng?</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>Cùng bậc nên đồng dạng</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>Cùng bậc 5 nhưng không đồng dạng</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>Khác bậc nên không đồng dạng</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>Đồng dạng vì cùng hai biến \(x,y\)</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> (Tranh luận) Cả hai cùng bậc \(5\), nhưng phần biến khác nhau: \(x^2y^3\ne x^3y^2\). Với đơn thức nhiều biến, <b>cùng bậc không đủ để đồng dạng</b> — phải cùng phần biến.</p>
+  </div>
+
+  <div class="cau" data-dung="C">
+    <div class="cau-dau"><span class="cau-so">14</span><p class="cau-de">Đơn thức nào đồng dạng với \(-4y\)?</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(-0{,}2x^2y^3\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(3x^3y^2\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(y\sqrt2\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(-4y^2\)</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> (Bài 1.4) \(y\sqrt2=\sqrt2\,y\) có phần biến \(y\), giống \(-4y\). Hệ số \(\sqrt2\) chỉ là một số nên không ảnh hưởng.</p>
+  </div>
+
+  <div class="cau" data-dung="A">
+    <div class="cau-dau"><span class="cau-so">15</span><p class="cau-de">Tính \(5x^2y+2x^2y\).</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(7x^2y\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(7x^4y^2\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(10x^2y\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(7x^2y^2\)</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> Cộng hai đơn thức đồng dạng: <b>cộng hệ số, giữ nguyên phần biến</b>. \((5+2)x^2y=7x^2y\). Phần biến không đổi.</p>
+  </div>
+
+  <div class="cau" data-dung="D">
+    <div class="cau-dau"><span class="cau-so">16</span><p class="cau-de">Cho \(A=3xy^2\) và \(B=-5xy^2\). Tính \(A-B\).</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(-2xy^2\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(-8xy^2\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(2xy^2\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(8xy^2\)</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> (Ví dụ 3) \(A-B=[3-(-5)]xy^2=8xy^2\). Chú ý dấu: trừ đi số âm thành cộng.</p>
+  </div>
+
+  <div class="cau" data-dung="B">
+    <div class="cau-dau"><span class="cau-so">17</span><p class="cau-de">Rút gọn \(S=\dfrac12x^2y^5-\dfrac52x^2y^5\).</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(-2x^4y^{10}\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(-2x^2y^5\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(3x^2y^5\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(2x^2y^5\)</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> (Bài 1.5) \(\left(\dfrac12-\dfrac52\right)x^2y^5=-2x^2y^5\). Chỉ trừ hệ số, phần biến giữ nguyên.</p>
+  </div>
+
+  <div class="cau" data-dung="A">
+    <div class="cau-dau"><span class="cau-so">18</span><p class="cau-de">Tính tổng \(2x^2y^3-\dfrac35x^2y^3-14x^2y^3+\dfrac85x^2y^3\).</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(-11x^2y^3\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(-13x^2y^3\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(11x^2y^3\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(-12x^2y^3\)</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> (Bài 1.6) Cộng hệ số: \(2-\dfrac35-14+\dfrac85=(2-14)+\left(-\dfrac35+\dfrac85\right)=-12+1=-11\). Vậy tổng là \(-11x^2y^3\).</p>
+  </div>
+
+  <div class="cau" data-dung="C">
+    <div class="cau-dau"><span class="cau-so">19</span><p class="cau-de">Cho \(S=-x^3y+4x^3y-2x^3y\). Giá trị của \(S\) tại \(x=2;\ y=-3\) là</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(24\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(-6\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(-24\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(-18\)</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> (Luyện tập 4) Rút gọn trước: \(S=(-1+4-2)x^3y=x^3y\). Thay số: \(S=2^3\cdot(-3)=8\cdot(-3)=-24\).</p>
+  </div>
+
+  <div class="cau" data-dung="B">
+    <div class="cau-dau"><span class="cau-so">20</span><p class="cau-de">Mỗi phần quà gồm \(x\) kg gạo giá 12 nghìn đồng/kg và \(x\) gói mì giá 4,5 nghìn đồng/gói. Số tiền mua \(y\) phần quà (nghìn đồng) là</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(16{,}5x\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(16{,}5xy\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(16{,}5x^2y\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(12xy+4{,}5x\)</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> (Vận dụng) Tiền gạo \(12xy\), tiền mì \(4{,}5xy\). Hai đơn thức này đồng dạng nên cộng được: \((12+4{,}5)xy=16{,}5xy\) nghìn đồng.</p>
+  </div>
+
+</div>
+
+<div class="ket-qua" id="ket-qua">
+  <p class="kq-diem"><span id="kq-diem-so">0</span>/<span id="kq-tong">0</span></p>
+  <p class="kq-loi" id="kq-loi"></p>
+  <button class="nut-lam-lai" id="nut-lam-lai" type="button">Làm lại từ đầu</button>
+</div>
+
+<!-- ==================================================== -->
+<!-- HỌC TIẾP — tài nguyên kèm bài                        -->
+<!-- Thêm mục mới: chép một khối .tiep-the, sửa link và chữ -->
+<!-- ==================================================== -->
+<section class="hoc-tiep" aria-label="Học tiếp">
+  <p class="nav-label">Học tiếp</p>
+  <div class="tiep-luoi">
+    <a class="tiep-the" href="./">
+      <span class="tiep-ico" aria-hidden="true">←</span>
+      <span class="tiep-chu">
+        <b>Quay lại bài học</b>
+        <i>Xem lại lý thuyết và ví dụ Bài 1</i>
+      </span>
+    </a>
+    <a class="tiep-the" href="/bai-hoc/lop-8/">
+      <span class="tiep-ico" aria-hidden="true">☰</span>
+      <span class="tiep-chu">
+        <b>Mục lục Toán 8</b>
+        <i>Chọn bài khác để học tiếp</i>
+      </span>
+      <span class="tiep-mui" aria-hidden="true">→</span>
+    </a>
+  </div>
+</section>
+
+</main>
+</div>
+<script>
+(function () {
+  var tongSoCau = document.querySelectorAll('.cau').length;
+  var oDiem = document.getElementById('diem');
+  var thanhDiem = document.getElementById('thanh-diem');
+  var hopKetQua = document.getElementById('ket-qua');
+  var soDung = 0, soDaLam = 0;
+
+  // Tổng số câu tự đếm từ số khối .cau — thêm bớt câu không phải sửa gì ở đây.
+  document.getElementById('tong-cau').textContent = tongSoCau;
+  document.getElementById('kq-tong').textContent = tongSoCau;
+
+  function capNhatDiem() {
+    oDiem.textContent = soDung;
+    thanhDiem.style.width = (soDaLam / tongSoCau * 100) + '%';
+    if (soDaLam < tongSoCau) return;
+    document.getElementById('kq-diem-so').textContent = soDung;
+    document.getElementById('kq-loi').textContent =
+      soDung === tongSoCau ? 'Đúng hết. Rất tốt!'
+      : soDung >= tongSoCau * 0.8 ? 'Nắm bài khá chắc, xem lại vài câu sai là ổn.'
+      : soDung >= tongSoCau * 0.5 ? 'Tạm được. Nên đọc lại phần lý thuyết rồi làm lại.'
+      : 'Chưa vững. Quay lại bài học đọc kỹ rồi thử lần nữa nhé.';
+    hopKetQua.classList.add('hien');
+  }
+
+  document.querySelectorAll('.cau').forEach(function (cau) {
+    var dapAnDung = cau.dataset.dung;
+    cau.querySelectorAll('.lua-chon').forEach(function (nut) {
+      nut.addEventListener('click', function () {
+        if (cau.dataset.daLam) return;
+        cau.dataset.daLam = '1';
+        soDaLam++;
+        if (nut.dataset.chon === dapAnDung) soDung++;
+        cau.querySelectorAll('.lua-chon').forEach(function (n) {
+          n.disabled = true;
+          if (n.dataset.chon === dapAnDung) n.classList.add('dung');
+          else if (n === nut) n.classList.add('sai');
+        });
+        cau.querySelector('.giai-thich').classList.add('hien');
+        capNhatDiem();
+      });
+    });
+  });
+
+  document.getElementById('nut-lam-lai').addEventListener('click', function () {
+    soDung = 0; soDaLam = 0;
+    hopKetQua.classList.remove('hien');
+    document.querySelectorAll('.cau').forEach(function (cau) {
+      delete cau.dataset.daLam;
+      cau.querySelectorAll('.lua-chon').forEach(function (n) {
+        n.disabled = false;
+        n.classList.remove('dung', 'sai');
+      });
+      cau.querySelector('.giai-thich').classList.remove('hien');
+    });
+    capNhatDiem();
+    document.getElementById('top').scrollIntoView({ behavior: 'smooth' });
+  });
+})();
+</script>
+</body>
+</html>

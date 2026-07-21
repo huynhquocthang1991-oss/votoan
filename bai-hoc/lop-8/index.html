@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Mục lục bài học Toán 8 — Bài học Toán 6–12 bám sát SGK Kết nối tri thức với cuộc sống">
+<meta name="theme-color" content="#fbfcfe">
+<title>Toán 8 — Vở Toán</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..900&amp;family=Be+Vietnam+Pro:wght@400;500;600&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+:root{
+  --paper:#fbfcfe;
+  --grid:#e2eaf6;
+  --card:#ffffff;
+  --ink:#0f1a2e;
+  --muted:#5d6b82;
+  --line:#dde4ee;
+  --muc:#1b4dff;
+  --le:#e2483d;
+  --gutter:clamp(22px,5.5vw,88px);
+  --display:"Archivo","Be Vietnam Pro",system-ui,sans-serif;
+  --body:"Be Vietnam Pro",system-ui,-apple-system,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,monospace;
+}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;padding-left:var(--gutter);overflow-x:hidden;
+  color:var(--ink);font:400 16px/1.65 var(--body);
+  background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:28px 28px;
+  background-position:var(--gutter) 0;
+}
+body::before{content:"";position:fixed;top:0;bottom:0;left:calc(var(--gutter) - 1px);width:1.5px;background:var(--le);opacity:.65;z-index:20;pointer-events:none}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2.5px solid var(--muc);outline-offset:4px;border-radius:3px}
+.shell{width:min(1120px,calc(100% - 56px));margin-inline:auto}
+.label{font:700 .68rem/1 var(--mono);letter-spacing:.16em;text-transform:uppercase}
+
+.site-header{border-bottom:1px solid var(--line);background:rgba(251,252,254,.82);backdrop-filter:blur(6px)}
+.nav{height:78px;display:flex;align-items:center;justify-content:space-between;gap:28px}
+.brand{display:flex;align-items:center;gap:11px;font-family:var(--display);font-size:1.05rem;font-weight:800;font-stretch:112%;letter-spacing:-.02em}
+.brand-mark{display:grid;place-items:center;width:34px;height:34px;background:var(--ink);color:var(--paper);border-radius:9px;font:700 .68rem/1 var(--mono);letter-spacing:-.02em}
+.nav-meta{color:var(--muted);font-size:.82rem}
+.nav-link{position:relative;color:var(--ink);font-weight:500}
+.nav-link::after{content:"";position:absolute;right:0;bottom:-6px;left:0;height:1.5px;background:var(--muc);transform:scaleX(0);transform-origin:right;transition:transform .28s ease}
+.nav-link:hover::after{transform:scaleX(1);transform-origin:left}
+
+/* Đầu trang lớp */
+.top{padding:64px 0 52px;border-bottom:1px solid var(--line)}
+.top-inner{display:flex;align-items:flex-end;justify-content:space-between;gap:40px}
+.back{display:inline-flex;align-items:center;gap:8px;margin-bottom:22px;color:var(--muc);font:700 .68rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.back:hover{text-decoration:underline;text-underline-offset:4px}
+h1{margin:0;font-family:var(--display);font-size:clamp(2.6rem,6vw,4.6rem);font-weight:800;font-stretch:118%;line-height:1;letter-spacing:-.04em}
+.top-facts{display:flex;gap:30px;flex-shrink:0}
+.fact dt{margin:0 0 6px;color:var(--muted);font:700 .64rem/1 var(--mono);letter-spacing:.14em;text-transform:uppercase}
+.fact dd{margin:0;font-family:var(--display);font-size:1.5rem;font-weight:800;font-stretch:112%;letter-spacing:-.03em}
+
+/* Danh sách chương */
+.noi-dung{padding:60px 0 96px}
+.chuong + .chuong{margin-top:46px}
+.chuong-head{display:flex;align-items:baseline;justify-content:space-between;gap:20px;padding-bottom:14px;margin-bottom:16px;border-bottom:1px solid var(--ink)}
+.chuong-title{margin:0;font-family:var(--display);font-size:1.15rem;font-weight:700;font-stretch:110%;letter-spacing:-.015em}
+.chuong-note{flex-shrink:0;color:var(--muted);font:700 .66rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.bai-list{display:flex;flex-direction:column;gap:8px}
+.bai-hang{display:flex;align-items:center;gap:8px}
+.bai{flex:1;min-width:0;display:flex;align-items:center;gap:18px;padding:16px 20px;background:var(--card);border:1px solid var(--line);border-radius:12px;transition:border-color .2s ease,transform .2s ease}
+.bai:hover{border-color:rgba(27,77,255,.42);transform:translateX(3px)}
+.bai-so{flex-shrink:0;min-width:34px;color:var(--muc);font:700 .82rem/1 var(--mono)}
+.bai-ten{flex:1;font-weight:500}
+.bai-tag{flex-shrink:0;padding:9px 13px;background:var(--card);border:1px solid var(--line);border-radius:99px;color:var(--muted);font:700 .58rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;transition:border-color .2s ease,color .2s ease,background .2s ease}
+.bai-tag:hover{border-color:rgba(27,77,255,.42);color:var(--muc);background:rgba(27,77,255,.06)}
+.trong{padding:20px;color:var(--muted);font-size:.9rem;border:1px dashed var(--line);border-radius:12px}
+
+footer{background:var(--ink);color:#9fb0cb}
+.footer-inner{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:26px 0 34px;font-size:.78rem}
+.footer-name{color:#eef2f9;font-family:var(--display);font-weight:700;font-stretch:110%}
+
+@media (max-width:680px){
+  .shell{width:min(1120px,calc(100% - 32px))}
+  .nav{height:66px}
+  .nav-meta{display:none}
+  .top{padding:48px 0 40px}
+  .top-inner{flex-direction:column;align-items:flex-start;gap:28px}
+  .noi-dung{padding:48px 0 72px}
+  .bai{gap:12px;padding:14px 16px}
+  /* Nhãn giờ là link vào trắc nghiệm nên vẫn giữ trên điện thoại,
+     chỉ thu lại còn chữ "TN" cho đỡ chiếm chỗ. */
+  .bai-tag{padding:9px 10px;font-size:.56rem;letter-spacing:.06em}
+  .bai-tag span{display:none}
+  .bai-tag::after{content:"TN"}
+  .footer-inner{align-items:flex-start;flex-direction:column;gap:8px}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav shell" aria-label="Điều hướng chính">
+    <a class="brand" href="/" aria-label="Vở Toán — Trang chủ">
+      <span class="brand-mark" aria-hidden="true">VT</span>
+      <span>Vở Toán</span>
+    </a>
+    <div class="nav-meta">
+      <a class="nav-link" href="/#thu-vien">Tất cả khối lớp</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="top">
+    <div class="top-inner shell">
+      <div>
+        <a class="back" href="/#thu-vien">← Thư viện</a>
+        <h1>Toán 8</h1>
+      </div>
+      <dl class="top-facts">
+        <div class="fact"><dt>Chương</dt><dd>3</dd></div>
+        <div class="fact"><dt>Bài học</dt><dd>2</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="noi-dung shell">
+    <section class="chuong">
+      <div class="chuong-head">
+        <h2 class="chuong-title">Chương I. Đa thức</h2>
+        <span class="chuong-note">2 bài</span>
+      </div>
+        <div class="bai-list">
+          <div class="bai-hang">
+            <a class="bai" href="/bai-hoc/lop-8/chuong-01/bai-01/">
+              
+              <span class="bai-ten">Bài 1. Đơn thức</span>
+            </a>
+            <a class="bai-tag" href="/bai-hoc/lop-8/chuong-01/bai-01/trac-nghiem.html" aria-label="Trắc nghiệm bài này"><span>Trắc nghiệm</span></a>
+          </div>
+          <div class="bai-hang">
+            <a class="bai" href="/bai-hoc/lop-8/chuong-01/bai-02/">
+              
+              <span class="bai-ten">Bài 2. Đa thức</span>
+            </a>
+            <a class="bai-tag" href="/bai-hoc/lop-8/chuong-01/bai-02/trac-nghiem.html" aria-label="Trắc nghiệm bài này"><span>Trắc nghiệm</span></a>
+          </div>
+        </div>
+    </section>
+    <section class="chuong">
+      <div class="chuong-head">
+        <h2 class="chuong-title">Chương II. Hằng đẳng thức đáng nhớ và ứng dụng</h2>
+        <span class="chuong-note">Đang soạn</span>
+      </div>
+        <p class="trong">Chương này chưa có bài nào.</p>
+    </section>
+    <section class="chuong">
+      <div class="chuong-head">
+        <h2 class="chuong-title">Chương III. Tứ giác</h2>
+        <span class="chuong-note">Đang soạn</span>
+      </div>
+        <p class="trong">Chương này chưa có bài nào.</p>
+    </section>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner shell">
+    <span class="footer-name">Vở Toán</span>
+    <span>Miễn phí · Không quảng cáo · Xem tốt trên điện thoại</span>
+  </div>
+</footer>
+</body>
+</html>

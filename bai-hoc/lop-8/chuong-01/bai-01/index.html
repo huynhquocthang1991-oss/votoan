@@ -51,7 +51,7 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
   header::after{width:210px;height:210px;right:80px;top:-120px}
   .breadcrumb{position:relative;z-index:1;margin:0 0 34px;font-size:.73rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;opacity:.78}
   .hero-row{position:relative;z-index:1;display:flex;align-items:end;justify-content:space-between;gap:32px}
-  header h1{margin:0;font:800 clamp(2.25rem,5vw,4.8rem)/.95 var(--display);letter-spacing:-.055em}
+  header h1{margin:0;font:800 clamp(2.25rem,5vw,4.8rem)/.95 var(--display);letter-spacing:-.055em;white-space:nowrap}
   header p{max-width:580px;margin:15px 0 0;opacity:.85;font-size:.94rem}
   .hero-number{font:700 clamp(4.5rem,10vw,8rem)/.72 var(--display);letter-spacing:-.07em;color:rgba(255,255,255,.17)}
 
@@ -106,6 +106,24 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
   mjx-container{overflow-x:auto;overflow-y:hidden;max-width:100%;vertical-align:middle;-webkit-overflow-scrolling:touch}
   mjx-container:not([display="true"]){display:inline-block!important;max-width:100%!important}
 
+  /* Tài nguyên kèm bài — hiện ở cuối sidebar và cuối trang.
+     Thêm mục mới (tự luận, phiếu in…) = thêm một thẻ <a> ở cả hai chỗ. */
+  .nav-them{margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+  .lesson-nav nav.them a{color:var(--blue);background:var(--blue-l);font-weight:600}
+  .lesson-nav nav.them a::before{border-color:var(--blue)}
+  .lesson-nav nav.them a:hover{background:#dbeafd}
+  .hoc-tiep{margin:46px 0 0;padding-top:30px;border-top:1px solid var(--line)}
+  .hoc-tiep .nav-label{margin-bottom:14px}
+  .tiep-luoi{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:14px}
+  .tiep-the{display:flex;align-items:center;gap:15px;padding:18px 20px;background:var(--surface);border:1px solid var(--line);border-radius:15px;box-shadow:0 8px 28px rgba(35,51,64,.035);transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease}
+  .tiep-the:hover{border-color:var(--blue);box-shadow:0 14px 36px rgba(21,101,192,.13);transform:translateY(-2px)}
+  .tiep-ico{display:grid;place-items:center;flex:0 0 auto;width:44px;height:44px;border-radius:12px;background:var(--blue-l);color:var(--blue);font:700 1.15rem/1 var(--display)}
+  .tiep-chu{min-width:0;flex:1}
+  .tiep-chu b{display:block;font:700 1rem/1.3 var(--display);color:var(--ink)}
+  .tiep-chu i{display:block;margin-top:3px;font-style:normal;font-size:.82rem;color:var(--muted);line-height:1.45}
+  .tiep-mui{flex:0 0 auto;color:var(--blue);font-size:1.2rem;transition:transform .2s ease}
+  .tiep-the:hover .tiep-mui{transform:translateX(4px)}
+
   @media (min-width:1280px){
     .page{grid-template-columns:270px minmax(0,1fr);gap:30px}
     .lesson-content{font-size:16.5px}
@@ -119,6 +137,8 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
     .lesson-nav nav{display:flex;flex-wrap:wrap;gap:6px}
     .lesson-nav nav a{padding:8px 10px;background:#f4f7f9}
     .lesson-meta{display:none}
+    .nav-them{margin-top:10px;padding-top:10px}
+    .hoc-tiep{margin-top:34px;padding-top:24px}
     header{min-height:230px;margin-bottom:22px;border-radius:18px}
   }
   @media (max-width:560px){
@@ -132,9 +152,9 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
     header{min-height:215px;padding:25px 22px}
     .breadcrumb{margin-bottom:26px;font-size:.65rem}
     .hero-row{align-items:flex-end}
-    header h1{font-size:clamp(2.15rem,12vw,3.2rem)}
+    header h1{font-size:clamp(1.8rem,8.5vw,3.2rem)}
     header p{font-size:.82rem;line-height:1.55}
-    .hero-number{font-size:4.25rem}
+    .hero-number{display:none}
     h2.sec{margin-top:34px;padding:13px 12px;gap:10px;font-size:1.02rem}
     h2.sec .num{min-width:31px;height:29px}
     h3.sub{margin-top:23px;font-size:1rem}
@@ -148,7 +168,7 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
   @media print{
     body{background:#fff}
     .page{display:block;width:100%;padding:0}
-    .lesson-nav{display:none}
+    .lesson-nav,.hoc-tiep{display:none}
     header,.map,.card{box-shadow:none;break-inside:avoid}
     .solution summary{display:none}
     .solution:not([open])>*:not(summary){display:block}
@@ -171,6 +191,12 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
     <span><b>02</b>phần học</span>
     <span><b>07</b>bài tập</span>
   </div>
+  <div class="nav-them">
+    <p class="nav-label">Luyện tập</p>
+    <nav class="them">
+      <a href="trac-nghiem.html">Trắc nghiệm</a>
+    </nav>
+  </div>
 </aside>
 
 <main class="lesson-content">
@@ -179,7 +205,7 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
   <p class="breadcrumb">Toán 8 · Chương I — Đa thức</p>
   <div class="hero-row">
     <div>
-      <h1>Bài 1.<br>Đơn thức</h1>
+      <h1>Bài 1. Đơn thức</h1>
       <p>Nhận biết, thu gọn và thực hiện phép tính với các đơn thức đồng dạng.</p>
     </div>
     <span class="hero-number" aria-hidden="true">01</span>
@@ -554,6 +580,24 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
     </div>
   </div>
 </div>
+
+<!-- ==================================================== -->
+<!-- HỌC TIẾP — tài nguyên kèm bài                        -->
+<!-- Thêm mục mới: chép một khối .tiep-the, sửa link và chữ -->
+<!-- ==================================================== -->
+<section class="hoc-tiep" aria-label="Học tiếp">
+  <p class="nav-label">Học tiếp</p>
+  <div class="tiep-luoi">
+    <a class="tiep-the" href="trac-nghiem.html">
+      <span class="tiep-ico" aria-hidden="true">✓</span>
+      <span class="tiep-chu">
+        <b>Trắc nghiệm</b>
+        <i>20 câu tự kiểm tra, chấm điểm ngay</i>
+      </span>
+      <span class="tiep-mui" aria-hidden="true">→</span>
+    </a>
+  </div>
+</section>
 
 </main>
 </div>
