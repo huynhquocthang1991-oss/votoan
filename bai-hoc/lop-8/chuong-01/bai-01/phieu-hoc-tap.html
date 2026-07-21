@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phiếu học tập — Bài 1. Đơn thức (Toán 8 KNTT)</title>
+<script>
+MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.0 } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#1565c0; --blue-d:#0d47a1; --blue-l:#eaf4fd;
+    --orange:#e65100; --orange-l:#fff5e9;
+    --green:#2e7d32; --green-l:#edf8ee;
+    --red:#c62828; --red-l:#fff0f0;
+    --purple:#6a1b9a; --purple-l:#f7eefb;
+    --ink:#20303c; --muted:#687783; --line:#d9e1e7;
+    --paper:#f3f6f8; --surface:#fff;
+    --body:"Be Vietnam Pro",system-ui,-apple-system,sans-serif;
+    --display:"Bricolage Grotesque","Be Vietnam Pro",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:var(--body);color:var(--ink);margin:0;background:var(--paper);line-height:1.6;font-size:15.5px}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:3px solid rgba(21,101,192,.3);outline-offset:4px;border-radius:5px}
+
+  /* Thanh công cụ — chỉ hiện trên màn hình, không in */
+  .toolbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
+  .toolbar-in{width:min(860px,calc(100% - 32px));margin:0 auto;display:flex;align-items:center;gap:10px;padding:10px 0}
+  .tb-back{display:inline-flex;align-items:center;gap:7px;color:var(--blue);font-size:.82rem;font-weight:600;padding:8px 10px;border-radius:9px}
+  .tb-back:hover{background:var(--blue-l)}
+  .tb-title{flex:1;min-width:0;text-align:center;color:var(--muted);font:600 .78rem/1.3 var(--display);letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tb-btn{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 15px;cursor:pointer;border-radius:10px;font:700 .8rem/1 var(--display);border:1px solid var(--line);background:var(--surface);color:var(--ink);transition:background .2s ease,color .2s ease,border-color .2s ease}
+  .tb-btn:hover{border-color:var(--blue);color:var(--blue)}
+  .tb-btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+  .tb-btn.primary:hover{background:var(--blue-d)}
+  body.hien .tb-dapan{background:var(--green-l);border-color:var(--green);color:var(--green)}
+
+  /* Tờ phiếu */
+  .sheet{width:min(860px,calc(100% - 32px));margin:22px auto 60px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:clamp(22px,4vw,44px);box-shadow:0 18px 48px rgba(39,55,67,.08)}
+
+  .huong-dan{display:flex;gap:10px;align-items:flex-start;background:var(--blue-l);border:1px solid rgba(21,101,192,.2);border-radius:12px;padding:12px 14px;margin-bottom:24px;font-size:.85rem;color:#33475a}
+  .huong-dan b{color:var(--blue)}
+
+  .phieu-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;padding-bottom:16px;border-bottom:2px solid var(--ink)}
+  .ph-brand{display:flex;align-items:center;gap:9px;font:700 .9rem/1 var(--display)}
+  .ph-brand span:first-child{display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:var(--blue);color:#fff;font-size:.65rem}
+  .ph-mid{text-align:center;flex:1}
+  .ph-mid .kicker{margin:0;color:var(--muted);font:700 .66rem/1 var(--display);letter-spacing:.14em;text-transform:uppercase}
+  .ph-mid h1{margin:7px 0 3px;font:800 clamp(1.25rem,3.4vw,1.7rem)/1.15 var(--display);letter-spacing:-.03em}
+  .ph-mid p{margin:0;color:var(--muted);font-size:.8rem}
+  .ph-so{font:700 .78rem/1.5 var(--display);color:var(--muted);text-align:right;white-space:nowrap}
+
+  .hs-info{display:flex;flex-wrap:wrap;gap:8px 26px;margin:14px 0 6px;font-size:.86rem}
+  .hs-info span{flex:1 1 200px;display:flex;align-items:baseline;gap:8px;white-space:nowrap}
+  .hs-info i{font-style:normal;font-weight:600}
+  .hs-line{flex:1;border-bottom:1px dotted #8fa0ac;min-width:80px}
+
+  /* Tiêu đề phần */
+  h2.phan{display:flex;align-items:center;gap:11px;margin:30px 0 6px;font:700 1.02rem/1.3 var(--display);color:var(--blue);letter-spacing:-.01em}
+  h2.phan .chip{display:grid;place-items:center;width:30px;height:30px;flex:0 0 auto;border-radius:9px;background:var(--blue);color:#fff;font-size:.82rem}
+  h2.phan.xanh{color:var(--green)} h2.phan.xanh .chip{background:var(--green)}
+  h2.phan.do{color:var(--red)} h2.phan.do .chip{background:var(--red)}
+  p.phan-mota{margin:0 0 14px;color:var(--muted);font-size:.82rem}
+
+  /* Câu hỏi */
+  .cau{position:relative;border:1px solid var(--line);border-radius:13px;padding:14px 16px;margin:12px 0;break-inside:avoid}
+  .cau-head{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+  .cau-so{font:700 .82rem/1 var(--display);color:var(--blue)}
+  .cau.do .cau-so{color:var(--red)}
+  .mucdo{color:var(--orange);font-size:.68rem;letter-spacing:.16em}
+  .mucdo b{color:var(--muted);font-weight:600;letter-spacing:0;margin-left:5px;font-size:.66rem}
+  .de{margin:0;overflow-wrap:anywhere}
+
+  /* Chỗ trống điền khuyết */
+  .blank{display:inline-block;min-width:70px;margin:0 2px;padding:0 6px;text-align:center;border-bottom:1.6px dotted #7e919e}
+  .blank .ans{visibility:hidden;color:var(--green);font-weight:600}
+  body.hien .blank .ans{visibility:visible}
+
+  /* Chỗ làm bài trên giấy */
+  .cho-lam{margin-top:11px}
+  .cho-lam i{display:block;color:#a5b1bb;font-size:.72rem;font-style:normal;margin-bottom:2px}
+  .ke{height:0;border-bottom:1px dotted #c3cdd5;margin-top:26px}
+  .man-hinh-an{display:none}
+
+  /* Khối đáp án */
+  .dap-an{display:none;margin-top:12px;padding:11px 13px;background:var(--green-l);border-left:3px solid var(--green);border-radius:0 9px 9px 0;font-size:.92em}
+  .dap-an::before{content:"Đáp án.";display:block;margin-bottom:4px;font-weight:700;color:var(--green)}
+  body.hien .dap-an{display:block}
+  body.hien .ke,body.hien .cho-lam i{display:none}
+
+  table.grp{display:block;width:100%;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border-collapse:collapse;margin:10px 0}
+  table.grp td,table.grp th{border:1px solid var(--line);padding:7px 12px;text-align:center}
+  table.grp th{background:var(--blue-l);color:var(--blue);font-size:.85rem}
+  table.grp td .blank{min-width:52px}
+  mjx-container{overflow-x:auto;overflow-y:hidden;max-width:100%;vertical-align:middle;-webkit-overflow-scrolling:touch}
+  mjx-container:not([display="true"]){display:inline-block!important;max-width:100%!important}
+
+  .phieu-foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:14px;color:var(--muted);font-size:.72rem}
+
+  @media (max-width:560px){
+    body{font-size:14.5px}
+    .toolbar-in{flex-wrap:wrap;padding:8px 0}
+    .tb-title{display:none}
+    .tb-btn{min-height:38px;padding:0 12px;font-size:.74rem}
+    .sheet{margin-top:14px;border-radius:14px}
+    .phieu-head{flex-wrap:wrap}
+    .ph-so{display:none}
+    .cau{padding:12px 12px}
+  }
+
+  /* ===== BẢN IN A4 ===== */
+  @page{size:A4;margin:13mm 12mm}
+  @media print{
+    body{background:#fff;font-size:12.2px;line-height:1.5}
+    .toolbar,.huong-dan{display:none}
+    .sheet{width:100%;margin:0;border:0;border-radius:0;padding:0;box-shadow:none}
+    h2.phan{margin-top:16px}
+    .cau{margin:8px 0;padding:9px 12px;border-color:#bbb}
+    .ke{margin-top:22px;border-bottom-color:#999}
+    .blank{border-bottom-color:#555}
+    .phieu-head{border-bottom-color:#000}
+    .dap-an{break-inside:avoid}
+    .phieu-foot{margin-top:14px}
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="toolbar-in">
+    <a class="tb-back" href="index.html">← Bài học</a>
+    <span class="tb-title">Phiếu học tập · Bài 1. Đơn thức</span>
+    <button class="tb-btn tb-dapan" type="button" id="nut-dapan">Hiện đáp án</button>
+    <button class="tb-btn primary" type="button" onclick="window.print()">🖨 In phiếu</button>
+  </div>
+</div>
+
+<div class="sheet">
+
+  <div class="huong-dan">
+    <span aria-hidden="true">💡</span>
+    <div><b>Cách dùng:</b> Bấm <b>In phiếu</b> để in ra giấy (bản in không có đáp án). Vừa xem <a href="index.html" style="text-decoration:underline">bài học</a> vừa điền Phần A, B rồi tự làm Phần C. Làm xong bấm <b>Hiện đáp án</b> để đối chiếu, cuối cùng làm <a href="trac-nghiem.html" style="text-decoration:underline">trắc nghiệm</a> để tự chấm điểm.</div>
+  </div>
+
+  <div class="phieu-head">
+    <a class="ph-brand" href="../../../../index.html"><span aria-hidden="true">VT</span><span>Vở Toán</span></a>
+    <div class="ph-mid">
+      <p class="kicker">Phiếu học tập · Toán 8 · Chương I</p>
+      <h1>Bài 1. Đơn thức</h1>
+      <p>Sách Kết nối tri thức với cuộc sống</p>
+    </div>
+    <div class="ph-so">PHT<br>01</div>
+  </div>
+
+  <div class="hs-info">
+    <span><i>Họ và tên:</i><span class="hs-line"></span></span>
+    <span><i>Lớp:</i><span class="hs-line"></span></span>
+    <span><i>Ngày:</i><span class="hs-line"></span></span>
+  </div>
+
+  <!-- ============ PHẦN A ============ -->
+  <h2 class="phan"><span class="chip">A</span> GHI NHỚ KIẾN THỨC</h2>
+  <p class="phan-mota">Xem bài học rồi điền vào chỗ trống.</p>
+
+  <div class="cau">
+    <div class="cau-head"><span class="cau-so">A1</span></div>
+    <p class="de">Đơn thức là biểu thức đại số chỉ gồm <span class="blank"><span class="ans">một số</span></span>, hoặc <span class="blank"><span class="ans">một biến</span></span>, hoặc <span class="blank" style="min-width:150px"><span class="ans">tích của những số và biến</span></span>.</p>
+  </div>
+
+  <div class="cau">
+    <div class="cau-head"><span class="cau-so">A2</span></div>
+    <p class="de">Một biểu thức <b>không</b> là đơn thức nếu: chứa phép <span class="blank"><span class="ans">cộng, trừ</span></span> giữa các biến; chứa biến ở <span class="blank"><span class="ans">mẫu</span></span>; hoặc chứa <span class="blank"><span class="ans">căn</span></span> của biến.</p>
+  </div>
+
+  <div class="cau">
+    <div class="cau-head"><span class="cau-so">A3</span></div>
+    <p class="de">Trong đơn thức thu gọn, mỗi biến chỉ xuất hiện <span class="blank"><span class="ans">một</span></span> lần dưới dạng lũy thừa với số mũ nguyên dương. Khi viết, ta viết <span class="blank"><span class="ans">hệ số</span></span> trước, <span class="blank"><span class="ans">phần biến</span></span> sau.</p>
+  </div>
+
+  <div class="cau">
+    <div class="cau-head"><span class="cau-so">A4</span></div>
+    <p class="de">Bậc của đơn thức (thu gọn, hệ số khác 0) bằng <span class="blank" style="min-width:110px"><span class="ans">tổng số mũ</span></span> của các biến. Mỗi số khác 0 là đơn thức bậc <span class="blank" style="min-width:40px"><span class="ans">0</span></span>; số 0 là đơn thức <span class="blank" style="min-width:110px"><span class="ans">không có bậc</span></span>.</p>
+  </div>
+
+  <div class="cau">
+    <div class="cau-head"><span class="cau-so">A5</span></div>
+    <p class="de">Hai đơn thức đồng dạng là hai đơn thức có hệ số <span class="blank"><span class="ans">khác 0</span></span> và phần biến <span class="blank"><span class="ans">giống nhau</span></span>.</p>
+  </div>
+
+  <div class="cau">
+    <div class="cau-head"><span class="cau-so">A6</span></div>
+    <p class="de">Muốn cộng (hay trừ) các đơn thức đồng dạng, ta cộng (hay trừ) các <span class="blank"><span class="ans">hệ số</span></span> với nhau và giữ nguyên <span class="blank"><span class="ans">phần biến</span></span>.</p>
+  </div>
+
+  <!-- ============ PHẦN B ============ -->
+  <h2 class="phan xanh"><span class="chip">B</span> VÍ DỤ DẪN DẮT</h2>
+  <p class="phan-mota">Hoàn thành các bước còn thiếu.</p>
+
+  <div class="cau">
+    <div class="cau-head"><span class="cau-so">B1</span></div>
+    <p class="de">Thu gọn đơn thức \(3xy\cdot(-2)x^2y\):<br>
+    \(3xy\cdot(-2)x^2y = [3\cdot(-2)]\,(x\cdot x^2)(y\cdot y) =\) <span class="blank" style="min-width:85px"><span class="ans">\(-6x^3y^2\)</span></span><br>
+    Hệ số: <span class="blank" style="min-width:55px"><span class="ans">\(-6\)</span></span>; &nbsp;phần biến: <span class="blank" style="min-width:65px"><span class="ans">\(x^3y^2\)</span></span>; &nbsp;bậc: <span class="blank" style="min-width:45px"><span class="ans">\(3+2=5\)</span></span>.</p>
+  </div>
+
+  <div class="cau">
+    <div class="cau-head"><span class="cau-so">B2</span></div>
+    <p class="de">Cho hai đơn thức đồng dạng \(M=4x^2y\) và \(N=-7x^2y\).<br>
+    \(M+N=[4+(-7)]x^2y =\) <span class="blank" style="min-width:75px"><span class="ans">\(-3x^2y\)</span></span>;<br>
+    \(M-N=[4-(-7)]x^2y =\) <span class="blank" style="min-width:75px"><span class="ans">\(11x^2y\)</span></span>.</p>
+  </div>
+
+  <!-- ============ PHẦN C ============ -->
+  <h2 class="phan do"><span class="chip">C</span> TỰ LUYỆN</h2>
+  <p class="phan-mota">Làm ra giấy, xong mới đối chiếu đáp án. Mức độ: ●○○ nhận biết · ●●○ thông hiểu · ●●● vận dụng.</p>
+
+  <div class="cau do">
+    <div class="cau-head"><span class="cau-so">C1</span><span class="mucdo">●○○<b>Nhận biết</b></span></div>
+    <p class="de">Trong các biểu thức sau, biểu thức nào là đơn thức?
+    \( -7;\quad 2x^2y;\quad x-3y;\quad \dfrac{5}{x}+y;\quad (2+\sqrt3)xy^2;\quad 2\sqrt{x}\,y \).</p>
+    <div class="cho-lam"><i>Làm bài:</i><div class="ke"></div><div class="ke"></div></div>
+    <div class="dap-an">
+      Biểu thức \(x-3y\) chứa phép trừ giữa các biến; \(\dfrac5x+y\) có biến ở mẫu và phép cộng; \(2\sqrt x\,y\) chứa căn của biến — cả ba không là đơn thức.<br>
+      Vậy các đơn thức là: \(-7;\ 2x^2y;\ (2+\sqrt3)xy^2\) <i>(chú ý \(2+\sqrt3\) là một số)</i>.
+    </div>
+  </div>
+
+  <div class="cau do">
+    <div class="cau-head"><span class="cau-so">C2</span><span class="mucdo">●●○<b>Thông hiểu</b></span></div>
+    <p class="de">Thu gọn mỗi đơn thức sau rồi hoàn thành bảng:
+    \( P=2x^2y\cdot 3xy;\quad Q=-0{,}5x\cdot 4x^2z;\quad R=\dfrac13xy^2\cdot(-6)yz \).</p>
+    <table class="grp">
+      <tr><th>Đơn thức thu gọn</th><th>Hệ số</th><th>Phần biến</th><th>Bậc</th></tr>
+      <tr><td>\(P=\) <span class="blank"><span class="ans">\(6x^3y^2\)</span></span></td><td><span class="blank"><span class="ans">\(6\)</span></span></td><td><span class="blank"><span class="ans">\(x^3y^2\)</span></span></td><td><span class="blank"><span class="ans">\(5\)</span></span></td></tr>
+      <tr><td>\(Q=\) <span class="blank"><span class="ans">\(-2x^3z\)</span></span></td><td><span class="blank"><span class="ans">\(-2\)</span></span></td><td><span class="blank"><span class="ans">\(x^3z\)</span></span></td><td><span class="blank"><span class="ans">\(4\)</span></span></td></tr>
+      <tr><td>\(R=\) <span class="blank"><span class="ans">\(-2xy^3z\)</span></span></td><td><span class="blank"><span class="ans">\(-2\)</span></span></td><td><span class="blank"><span class="ans">\(xy^3z\)</span></span></td><td><span class="blank"><span class="ans">\(5\)</span></span></td></tr>
+    </table>
+  </div>
+
+  <div class="cau do">
+    <div class="cau-head"><span class="cau-so">C3</span><span class="mucdo">●●○<b>Thông hiểu</b></span></div>
+    <p class="de">Xếp các đơn thức sau thành từng nhóm đồng dạng:
+    \( 5xy^2;\quad -x^2y;\quad 0{,}25xy^2;\quad 3x^2y;\quad -xy^2;\quad 7x^2 \).</p>
+    <div class="cho-lam"><i>Làm bài:</i><div class="ke"></div><div class="ke"></div></div>
+    <div class="dap-an">
+      Nhóm phần biến \(xy^2\): \(5xy^2;\ 0{,}25xy^2;\ -xy^2\).&nbsp;
+      Nhóm phần biến \(x^2y\): \(-x^2y;\ 3x^2y\).&nbsp;
+      Đơn thức \(7x^2\) không đồng dạng với đơn thức nào ở trên.
+    </div>
+  </div>
+
+  <div class="cau do">
+    <div class="cau-head"><span class="cau-so">C4</span><span class="mucdo">●●●<b>Vận dụng</b></span></div>
+    <p class="de">Cho ba đơn thức \( 2x^2y^3;\quad -5x^2y^3;\quad 4x^2y^3 \).<br>
+    a) Tính tổng \(S\) của ba đơn thức trên.<br>
+    b) Tính giá trị của \(S\) tại \(x=-1;\ y=2\).</p>
+    <div class="cho-lam"><i>Làm bài:</i><div class="ke"></div><div class="ke"></div><div class="ke"></div></div>
+    <div class="dap-an">
+      a) \(S=(2-5+4)x^2y^3=x^2y^3\).<br>
+      b) Tại \(x=-1;\ y=2\): \(S=(-1)^2\cdot 2^3=8\).
+    </div>
+  </div>
+
+  <div class="cau do">
+    <div class="cau-head"><span class="cau-so">C5</span><span class="mucdo">●●●<b>Vận dụng</b></span></div>
+    <p class="de">Một mảnh vườn hình chữ nhật có chiều dài \(4x\) (m), chiều rộng \(3y\) (m). Người ta dành một phần vườn hình chữ nhật có chiều dài \(4x\) (m), chiều rộng \(y\) (m) để trồng rau.<br>
+    a) Viết đơn thức biểu thị diện tích cả mảnh vườn và diện tích phần trồng rau.<br>
+    b) Viết đơn thức biểu thị diện tích phần còn lại của mảnh vườn.</p>
+    <div class="cho-lam"><i>Làm bài:</i><div class="ke"></div><div class="ke"></div><div class="ke"></div></div>
+    <div class="dap-an">
+      a) Diện tích cả vườn: \(4x\cdot3y=12xy\) (m²). Diện tích trồng rau: \(4x\cdot y=4xy\) (m²).<br>
+      b) Hai đơn thức \(12xy\) và \(4xy\) đồng dạng nên phần còn lại: \(12xy-4xy=8xy\) (m²).
+    </div>
+  </div>
+
+  <div class="phieu-foot">
+    <span>Vở Toán — Học để hiểu, ôn để nhớ</span>
+    <span>Toán 8 · Bài 1. Đơn thức · PHT 01</span>
+  </div>
+
+</div>
+
+<script>
+var nut = document.getElementById('nut-dapan');
+nut.addEventListener('click', function () {
+  document.body.classList.toggle('hien');
+  nut.textContent = document.body.classList.contains('hien') ? 'Ẩn đáp án' : 'Hiện đáp án';
+});
+</script>
+</body>
+</html>
