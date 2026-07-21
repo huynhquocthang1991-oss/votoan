@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trình chiếu — Bài 1. Đơn thức (Toán 8 KNTT)</title>
+<script>
+MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.06 } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#1565c0; --blue-d:#0d47a1; --blue-l:#eaf4fd;
+    --orange:#e65100; --orange-l:#fff5e9;
+    --green:#2e7d32; --green-l:#edf8ee;
+    --red:#c62828; --red-l:#fff0f0;
+    --purple:#6a1b9a; --purple-l:#f7eefb;
+    --ink:#20303c; --muted:#687783; --line:#d9e1e7;
+    --paper:#eef2f5; --surface:#fff;
+    --body:"Be Vietnam Pro",system-ui,-apple-system,sans-serif;
+    --display:"Bricolage Grotesque","Be Vietnam Pro",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;font-family:var(--body);color:var(--ink);background:var(--paper);line-height:1.55;font-size:clamp(15px,1.6vw,19px);display:flex;flex-direction:column;overflow:hidden}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:3px solid rgba(21,101,192,.3);outline-offset:4px;border-radius:6px}
+
+  /* Thanh tiến độ */
+  .tien-do{flex:0 0 4px;background:#dde4ea}
+  .tien-do i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),#42a5f5);transition:width .3s ease}
+
+  /* Vùng slide */
+  .san-khau{position:relative;flex:1;min-height:0;display:grid;place-items:center;padding:clamp(10px,2.5vw,26px)}
+  .slide{position:absolute;inset:clamp(10px,2.5vw,26px);display:none;flex-direction:column;overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:clamp(20px,4vw,54px);box-shadow:0 22px 54px rgba(39,55,67,.1)}
+  .slide.hien{display:flex;animation:vao .35s ease}
+  @keyframes vao{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+  .kicker{margin:0 0 10px;color:var(--blue);font:700 clamp(.62rem,1.3vw,.74rem)/1.3 var(--display);letter-spacing:.14em;text-transform:uppercase}
+  .slide h2{margin:0 0 clamp(10px,2vh,20px);font:800 clamp(1.35rem,3.6vw,2.3rem)/1.12 var(--display);letter-spacing:-.035em}
+  .slide h2 em{font-style:normal;color:var(--blue)}
+  .noi-dung{flex:1;display:flex;flex-direction:column;justify-content:center;gap:clamp(10px,1.8vh,18px)}
+
+  /* Slide bìa & slide tối */
+  .slide.toi{justify-content:center;background:linear-gradient(130deg,var(--blue-d),#1976d2);border-color:transparent;color:#fff}
+  .slide.toi .kicker{color:rgba(255,255,255,.75)}
+  .slide.toi h1{margin:0;font:800 clamp(2.1rem,7vw,4.6rem)/1.02 var(--display);letter-spacing:-.05em}
+  .slide.toi p.duoi{margin:16px 0 0;max-width:560px;opacity:.85;font-size:clamp(.85rem,1.8vw,1.05rem)}
+  .slide.toi .meo{margin-top:clamp(20px,5vh,44px);display:inline-flex;align-items:center;gap:9px;padding:10px 15px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.25);border-radius:11px;font-size:clamp(.74rem,1.5vw,.86rem)}
+
+  /* Hộp nội dung dùng chung */
+  .hop{border-radius:15px;padding:clamp(13px,2vw,20px) clamp(15px,2.4vw,24px);border:1px solid}
+  .hop h3{margin:0 0 7px;font:700 clamp(.95rem,2vw,1.15rem)/1.3 var(--display)}
+  .hop ul{margin:0;padding-left:21px}
+  .hop li{margin:5px 0}
+  .h-xanh{background:var(--blue-l);border-color:rgba(21,101,192,.25)} .h-xanh h3{color:var(--blue)}
+  .h-cam{background:var(--orange-l);border-color:rgba(230,81,0,.22)} .h-cam h3{color:var(--orange)}
+  .h-la{background:var(--green-l);border-color:rgba(46,125,50,.22)} .h-la h3{color:var(--green)}
+  .h-tim{background:var(--purple-l);border-color:rgba(106,27,154,.2)} .h-tim h3{color:var(--purple)}
+  .dn{background:rgba(255,255,255,.9);border-left:4px solid #f9a825;padding:10px 13px;border-radius:0 9px 9px 0;font-weight:600}
+  .hang-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:clamp(10px,1.6vw,16px)}
+  .ghi-chu{color:var(--muted);font-size:clamp(.78rem,1.6vw,.9rem);background:#f0f3f5;border-radius:10px;padding:9px 13px}
+  .to{font-size:clamp(1.05rem,2.6vw,1.5rem);text-align:center;margin:6px 0}
+  .anno{display:flex;justify-content:center;gap:2px;font-size:clamp(1.3rem,3.4vw,2rem);font-weight:700}
+  .anno .hs{color:var(--green);border-bottom:3px solid var(--green);padding:0 5px}
+  .anno .pb{color:var(--blue);border-bottom:3px solid var(--blue);padding:0 5px}
+  .anno-nhan{display:flex;justify-content:center;gap:36px;font-size:clamp(.75rem,1.6vw,.88rem);margin-top:6px}
+  .anno-nhan .hs{color:var(--green);font-weight:700} .anno-nhan .pb{color:var(--blue);font-weight:700}
+
+  /* Slide dừng lại điền phiếu */
+  .slide.phieu{background:linear-gradient(135deg,#fff8ee,#fff);border-color:rgba(230,81,0,.35)}
+  .phieu-khung{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center}
+  .phieu-khung .bieu-tuong{font-size:clamp(2rem,6vw,3.4rem)}
+  .phieu-khung h2{margin:0;color:var(--orange)}
+  .phieu-khung p{margin:0;max-width:560px}
+  .phieu-viec{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;margin-top:4px}
+  .phieu-viec span{display:inline-flex;align-items:center;gap:7px;background:#fff;border:1.5px dashed var(--orange);color:var(--orange);border-radius:999px;padding:8px 15px;font:700 clamp(.74rem,1.6vw,.86rem)/1 var(--display)}
+  .phieu-mo{display:inline-flex;align-items:center;gap:8px;margin-top:8px;background:var(--orange);color:#fff;border-radius:11px;padding:11px 17px;font:700 clamp(.76rem,1.6vw,.88rem)/1 var(--display);transition:transform .2s ease,box-shadow .2s ease}
+  .phieu-mo:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(230,81,0,.3)}
+
+  /* Slide kết */
+  .ket-luoi{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px}
+  .ket-the{display:flex;align-items:center;gap:13px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;transition:border-color .2s ease,transform .2s ease}
+  .ket-the:hover{border-color:var(--blue);transform:translateY(-2px)}
+  .ket-the .ico{display:grid;place-items:center;flex:0 0 auto;width:40px;height:40px;border-radius:11px;background:var(--blue-l);color:var(--blue);font:700 1.05rem/1 var(--display)}
+  .ket-the b{display:block;font:700 clamp(.85rem,1.8vw,.98rem)/1.3 var(--display)}
+  .ket-the i{display:block;font-style:normal;color:var(--muted);font-size:clamp(.72rem,1.5vw,.8rem)}
+
+  /* Thanh điều khiển */
+  .dieu-khien{flex:0 0 auto;display:flex;align-items:center;gap:8px;padding:9px clamp(10px,2.5vw,24px);background:rgba(255,255,255,.95);border-top:1px solid var(--line)}
+  .dk-ve{display:inline-flex;align-items:center;gap:7px;color:var(--blue);font:600 .78rem/1 var(--body);padding:9px 10px;border-radius:9px;white-space:nowrap}
+  .dk-ve:hover{background:var(--blue-l)}
+  .dk-giua{flex:1;text-align:center;color:var(--muted);font:700 .8rem/1 var(--display);letter-spacing:.05em}
+  .dk-nut{display:grid;place-items:center;width:42px;height:42px;cursor:pointer;border:1px solid var(--line);border-radius:11px;background:var(--surface);color:var(--ink);font-size:1.05rem;transition:background .2s ease,color .2s ease,border-color .2s ease}
+  .dk-nut:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-l)}
+  .dk-nut:disabled{opacity:.35;cursor:default}
+  .dk-nut:disabled:hover{border-color:var(--line);color:var(--ink);background:var(--surface)}
+
+  @media (max-width:640px){
+    .slide{inset:8px;border-radius:16px}
+    .dk-ve span{display:none}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  mjx-container{overflow-x:auto;overflow-y:hidden;max-width:100%;vertical-align:middle}
+  mjx-container:not([display="true"]){display:inline-block!important;max-width:100%!important}
+</style>
+</head>
+<body>
+
+<div class="tien-do" aria-hidden="true"><i id="thanh-tien-do"></i></div>
+
+<div class="san-khau" id="san-khau">
+
+  <!-- 1. Bìa -->
+  <section class="slide toi">
+    <p class="kicker">Toán 8 · Chương I — Đa thức · Vở Toán</p>
+    <h1>Bài 1.<br>Đơn thức</h1>
+    <p class="duoi">Trình chiếu tự học — vừa xem vừa điền phiếu học tập.</p>
+    <span class="meo">💡 Chuyển trang: phím ← → , vuốt màn hình, hoặc hai nút bên dưới</span>
+  </section>
+
+  <!-- 2. Mục tiêu -->
+  <section class="slide">
+    <p class="kicker">Mục tiêu</p>
+    <h2>Học xong bài này, em sẽ…</h2>
+    <div class="noi-dung">
+      <div class="hop h-xanh"><h3>1 · Nhận biết</h3><ul><li>Chỉ ra được biểu thức nào <b>là đơn thức</b>, biểu thức nào không.</li></ul></div>
+      <div class="hop h-cam"><h3>2 · Thu gọn</h3><ul><li>Thu gọn đơn thức; xác định <b>hệ số, phần biến, bậc</b>.</li></ul></div>
+      <div class="hop h-tim"><h3>3 · Tính toán</h3><ul><li><b>Cộng, trừ</b> các đơn thức đồng dạng.</li></ul></div>
+      <p class="ghi-chu">✍ Chuẩn bị: <b>phiếu học tập đã in</b> + bút. Gặp slide màu cam thì dừng lại điền phiếu nhé!</p>
+    </div>
+  </section>
+
+  <!-- 3. Đơn thức là gì -->
+  <section class="slide">
+    <p class="kicker">Phần 1 · Đơn thức và đơn thức thu gọn</p>
+    <h2>Đơn thức là <em>gì</em>?</h2>
+    <div class="noi-dung">
+      <div class="hop h-xanh">
+        <div class="dn">Đơn thức là biểu thức đại số chỉ gồm <b>một số</b>, hoặc <b>một biến</b>, hoặc <b>tích của những số và biến</b>.</div>
+      </div>
+      <p class="to">Ví dụ: \( -5x^2y;\qquad 17z^4;\qquad xy\cdot 4x^2;\qquad 3 \)</p>
+      <p class="ghi-chu">Một lũy thừa cũng là một tích: \(x^3=x\cdot x\cdot x\) — nên \(x^3\) là đơn thức.</p>
+    </div>
+  </section>
+
+  <!-- 4. Không là đơn thức -->
+  <section class="slide">
+    <p class="kicker">Phần 1 · Đơn thức và đơn thức thu gọn</p>
+    <h2><em>Không</em> là đơn thức khi…</h2>
+    <div class="noi-dung">
+      <div class="hang-2">
+        <div class="hop h-cam"><h3>Cộng / trừ giữa các biến</h3><p class="to" style="margin:0">\(x+2y\)</p></div>
+        <div class="hop h-cam"><h3>Biến nằm ở mẫu</h3><p class="to" style="margin:0">\(\dfrac{3}{x}\)</p></div>
+        <div class="hop h-cam"><h3>Căn của biến</h3><p class="to" style="margin:0">\(5x\sqrt{y}\)</p></div>
+      </div>
+      <p class="ghi-chu">⚠ Cẩn thận: \((1+\sqrt2)x^2y\) <b>vẫn là đơn thức</b>, vì \(1+\sqrt2\) chỉ là <b>một số</b>.</p>
+    </div>
+  </section>
+
+  <!-- 5. Dừng điền phiếu 1 -->
+  <section class="slide phieu">
+    <div class="phieu-khung">
+      <span class="bieu-tuong" aria-hidden="true">✍</span>
+      <h2>Dừng lại — điền phiếu!</h2>
+      <p>Không xem lại slide vội — thử tự nhớ rồi mới kiểm tra.</p>
+      <div class="phieu-viec"><span>Phiếu · câu A1</span><span>Phiếu · câu A2</span><span>Thử sức · câu C1</span></div>
+      <a class="phieu-mo" href="phieu-hoc-tap.html" target="_blank" rel="noopener">Mở phiếu học tập ↗</a>
+    </div>
+  </section>
+
+  <!-- 6. Thu gọn -->
+  <section class="slide">
+    <p class="kicker">Phần 1 · Đơn thức và đơn thức thu gọn</p>
+    <h2>Đơn thức <em>thu gọn</em></h2>
+    <div class="noi-dung">
+      <div class="hop h-cam">
+        <div class="dn">Đơn thức thu gọn: mỗi biến chỉ xuất hiện <b>một lần</b>, dưới dạng lũy thừa với số mũ nguyên dương.</div>
+      </div>
+      <div class="hop h-xanh"><h3>Cách thu gọn</h3><ul><li>Nhân các <b>số</b> với nhau.</li><li>Nhân các <b>lũy thừa cùng biến</b> với nhau.</li></ul></div>
+      <p class="to">\( 2xy\cdot(-3)x^2 \;=\; \underbrace{2\cdot(-3)}_{\text{số}}\cdot\underbrace{(x\cdot x^2)}_{x^3}\cdot y \;=\; -6x^3y \)</p>
+    </div>
+  </section>
+
+  <!-- 7. Hệ số, phần biến -->
+  <section class="slide">
+    <p class="kicker">Phần 1 · Đơn thức và đơn thức thu gọn</p>
+    <h2>Hệ số — <em>phần biến</em></h2>
+    <div class="noi-dung">
+      <div>
+        <div class="anno"><span class="hs">−6</span><span class="pb">x³y</span></div>
+        <div class="anno-nhan"><span class="hs">Hệ số</span><span class="pb">Phần biến</span></div>
+      </div>
+      <div class="hop h-la"><h3>Quy ước khi viết</h3><ul>
+        <li>Viết <b>hệ số trước, phần biến sau</b>; các biến theo thứ tự bảng chữ cái.</li>
+        <li>Hệ số \(1\) hoặc \(-1\): không viết số 1 — \(xy^2\) có hệ số \(1\); \(-x^2y^2\) có hệ số \(-1\).</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- 8. Bậc -->
+  <section class="slide">
+    <p class="kicker">Phần 1 · Đơn thức và đơn thức thu gọn</p>
+    <h2><em>Bậc</em> của đơn thức</h2>
+    <div class="noi-dung">
+      <div class="hop h-xanh">
+        <div class="dn">Bậc = <b>tổng số mũ</b> của các biến (với đơn thức thu gọn, hệ số ≠ 0).</div>
+      </div>
+      <p class="to">\(5x^2y^3z\) có bậc \(2+3+1=6\)</p>
+      <div class="hop h-cam"><h3>Ghi nhớ nhanh</h3><ul>
+        <li>Muốn tìm bậc, phải <b>thu gọn đơn thức trước</b>.</li>
+        <li>Số khác 0 là đơn thức <b>bậc 0</b>; số 0 là đơn thức <b>không có bậc</b>.</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- 9. Dừng điền phiếu 2 -->
+  <section class="slide phieu">
+    <div class="phieu-khung">
+      <span class="bieu-tuong" aria-hidden="true">✍</span>
+      <h2>Dừng lại — điền phiếu!</h2>
+      <p>Phần thu gọn – hệ số – bậc là trọng tâm của bài. Điền chắc rồi hãy đi tiếp.</p>
+      <div class="phieu-viec"><span>Phiếu · câu A3</span><span>Phiếu · câu A4</span><span>Ví dụ · câu B1</span><span>Thử sức · câu C2</span></div>
+      <a class="phieu-mo" href="phieu-hoc-tap.html" target="_blank" rel="noopener">Mở phiếu học tập ↗</a>
+    </div>
+  </section>
+
+  <!-- 10. Đồng dạng -->
+  <section class="slide">
+    <p class="kicker">Phần 2 · Đơn thức đồng dạng</p>
+    <h2>Đơn thức <em>đồng dạng</em></h2>
+    <div class="noi-dung">
+      <div class="hop h-tim">
+        <div class="dn">Hai đơn thức đồng dạng: hệ số <b>khác 0</b> và có <b>phần biến giống nhau</b>.</div>
+      </div>
+      <p class="to">\(2x^2y^3\) và \(-\dfrac12x^2y^3\) đồng dạng; &nbsp; \(x^3y^2\) thì không (phần biến khác).</p>
+      <div class="hop h-xanh"><h3>Nhận xét</h3><ul>
+        <li>Đồng dạng thì <b>cùng bậc</b> — nhưng cùng bậc <b>chưa chắc</b> đồng dạng (với nhiều biến).</li>
+        <li>Hai số khác 0 cũng là hai đơn thức đồng dạng.</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- 11. Cộng trừ đồng dạng -->
+  <section class="slide">
+    <p class="kicker">Phần 2 · Đơn thức đồng dạng</p>
+    <h2>Cộng, trừ đơn thức <em>đồng dạng</em></h2>
+    <div class="noi-dung">
+      <div class="hop h-tim">
+        <div class="dn">Cộng (hay trừ) <b>các hệ số</b> với nhau — <b>giữ nguyên phần biến</b>.</div>
+      </div>
+      <p class="to">\( 2{,}5x^2y^3+8{,}5x^2y^3=(2{,}5+8{,}5)x^2y^3=11x^2y^3 \)</p>
+      <div class="hop h-la"><h3>Áp dụng: \(A=3xy^2;\ B=-5xy^2\)</h3><ul>
+        <li>\(A+B=[3+(-5)]xy^2=-2xy^2\)</li>
+        <li>\(A-B=[3-(-5)]xy^2=8xy^2\)</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- 12. Dừng điền phiếu 3 -->
+  <section class="slide phieu">
+    <div class="phieu-khung">
+      <span class="bieu-tuong" aria-hidden="true">✍</span>
+      <h2>Dừng lại — điền phiếu!</h2>
+      <p>Chặng cuối của phần lý thuyết rồi. Điền xong là em đã nắm cả bài.</p>
+      <div class="phieu-viec"><span>Phiếu · câu A5</span><span>Phiếu · câu A6</span><span>Ví dụ · câu B2</span><span>Thử sức · C3, C4</span></div>
+      <a class="phieu-mo" href="phieu-hoc-tap.html" target="_blank" rel="noopener">Mở phiếu học tập ↗</a>
+    </div>
+  </section>
+
+  <!-- 13. Tổng kết -->
+  <section class="slide">
+    <p class="kicker">Tổng kết</p>
+    <h2>Cả bài trong <em>một sơ đồ</em></h2>
+    <div class="noi-dung">
+      <div class="hang-2">
+        <div class="hop h-xanh"><h3>Đơn thức</h3><ul><li>Một số · một biến · tích số và biến</li><li>Không chứa: cộng/trừ biến, biến ở mẫu, căn của biến</li></ul></div>
+        <div class="hop h-cam"><h3>Thu gọn</h3><ul><li>Mỗi biến xuất hiện một lần</li><li>Hệ số trước — phần biến sau</li><li>Bậc = tổng số mũ các biến</li></ul></div>
+        <div class="hop h-tim"><h3>Đồng dạng</h3><ul><li>Phần biến giống nhau</li><li>Cộng/trừ hệ số, giữ phần biến</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. Việc tiếp theo -->
+  <section class="slide">
+    <p class="kicker">Việc tiếp theo</p>
+    <h2>Luyện để <em>nhớ lâu</em></h2>
+    <div class="noi-dung">
+      <div class="ket-luoi">
+        <a class="ket-the" href="phieu-hoc-tap.html"><span class="ico" aria-hidden="true">✎</span><span><b>Hoàn thành phiếu — Phần C</b><i>5 bài tự luyện, có đáp án đối chiếu</i></span></a>
+        <a class="ket-the" href="trac-nghiem.html"><span class="ico" aria-hidden="true">✓</span><span><b>Trắc nghiệm 20 câu</b><i>Tự chấm điểm ngay</i></span></a>
+        <a class="ket-the" href="index.html"><span class="ico" aria-hidden="true">📖</span><span><b>Đọc lại bài học</b><i>Đầy đủ ví dụ và bài tập SGK</i></span></a>
+      </div>
+      <p class="ghi-chu">🎉 Hết bài 1. Hẹn gặp em ở <b>Bài 2 — Đa thức</b>!</p>
+    </div>
+  </section>
+
+</div>
+
+<div class="dieu-khien">
+  <a class="dk-ve" href="index.html">← <span>Bài học</span></a>
+  <span class="dk-giua" id="bo-dem" aria-live="polite">1 / 14</span>
+  <button class="dk-nut" type="button" id="nut-truoc" aria-label="Trang trước">←</button>
+  <button class="dk-nut" type="button" id="nut-sau" aria-label="Trang sau">→</button>
+</div>
+
+<script>
+(function () {
+  var cacSlide = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var boDem = document.getElementById('bo-dem');
+  var thanh = document.getElementById('thanh-tien-do');
+  var nutTruoc = document.getElementById('nut-truoc');
+  var nutSau = document.getElementById('nut-sau');
+  var hienTai = 0;
+
+  function hien(i) {
+    hienTai = Math.max(0, Math.min(cacSlide.length - 1, i));
+    cacSlide.forEach(function (s, k) { s.classList.toggle('hien', k === hienTai); });
+    boDem.textContent = (hienTai + 1) + ' / ' + cacSlide.length;
+    thanh.style.width = ((hienTai + 1) / cacSlide.length * 100) + '%';
+    nutTruoc.disabled = hienTai === 0;
+    nutSau.disabled = hienTai === cacSlide.length - 1;
+    try { localStorage.setItem('vt-tc-l8-b1', String(hienTai)); } catch (e) {}
+  }
+
+  nutTruoc.addEventListener('click', function () { hien(hienTai - 1); });
+  nutSau.addEventListener('click', function () { hien(hienTai + 1); });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.code === 'ArrowRight' || e.code === 'Space' || e.code === 'PageDown') { e.preventDefault(); hien(hienTai + 1); }
+    if (e.code === 'ArrowLeft' || e.code === 'PageUp') { e.preventDefault(); hien(hienTai - 1); }
+    if (e.code === 'Home') { e.preventDefault(); hien(0); }
+    if (e.code === 'End') { e.preventDefault(); hien(cacSlide.length - 1); }
+  });
+
+  var chamX = null, chamY = null;
+  document.getElementById('san-khau').addEventListener('touchstart', function (e) {
+    chamX = e.changedTouches[0].clientX; chamY = e.changedTouches[0].clientY;
+  }, {passive:true});
+  document.getElementById('san-khau').addEventListener('touchend', function (e) {
+    if (chamX === null) return;
+    var dx = e.changedTouches[0].clientX - chamX, dy = e.changedTouches[0].clientY - chamY;
+    if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.5) hien(hienTai + (dx < 0 ? 1 : -1));
+    chamX = chamY = null;
+  }, {passive:true});
+
+  var daLuu = 0;
+  try { daLuu = parseInt(localStorage.getItem('vt-tc-l8-b1') || '0', 10) || 0; } catch (e) {}
+  hien(daLuu);
+})();
+</script>
+</body>
+</html>
