@@ -12,177 +12,205 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;display=swap" rel="stylesheet">
 <style>
+  /* Bảng màu "vở ô ly" — dùng chung với mục lục lớp (tools/mau/trang-lop.html).
+     Đổi màu ở đây thì đổi cả bên đó cho đồng bộ. */
   :root{
-    --blue:#1565c0; --blue-d:#0d47a1; --blue-l:#eaf4fd;
-    --orange:#e65100; --orange-l:#fff5e9;
+    --blue:#1b4dff; --blue-d:#0d36c7; --blue-l:#eef3ff;
+    --orange:#d84f00; --orange-l:#fff5e9;
     --green:#2e7d32; --green-l:#edf8ee;
     --red:#c62828; --red-l:#fff0f0;
     --purple:#6a1b9a; --purple-l:#f7eefb;
-    --ink:#20303c; --muted:#687783; --line:#d9e1e7;
-    --paper:#f3f6f8; --surface:#fff;
+    --ink:#13223c; --muted:#4f5f7a; --line:#d9e2f0;
+    --paper:#fafcff; --grid:#e5ecf8; --surface:#fff;
     --body:"Be Vietnam Pro",system-ui,-apple-system,sans-serif;
     --display:"Bricolage Grotesque","Be Vietnam Pro",system-ui,sans-serif;
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-  body{font-family:var(--body);color:var(--ink);margin:0;background:var(--paper);line-height:1.65;font-size:16px;overflow-x:hidden}
+  body{
+    margin:0;color:var(--ink);font:400 17px/1.7 var(--body);overflow-x:hidden;
+    background-color:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:30px 30px;
+  }
   a{color:inherit;text-decoration:none}
-  :focus-visible{outline:3px solid rgba(21,101,192,.3);outline-offset:4px;border-radius:5px}
-  .page{width:min(1580px,calc(100% - 40px));margin:0 auto;padding:24px 0 72px;display:grid;grid-template-columns:250px minmax(0,1fr);gap:24px;align-items:start}
+  :focus-visible{outline:3px solid rgba(27,77,255,.45);outline-offset:3px;border-radius:8px}
+  .page{width:min(1580px,calc(100% - 40px));margin:0 auto;padding:24px 0 72px;display:grid;grid-template-columns:260px minmax(0,1fr);gap:24px;align-items:start}
   .lesson-content{min-width:0}
 
   /* Mục lục trên máy tính, thanh điều hướng gọn trên điện thoại */
-  .lesson-nav{position:sticky;top:20px;min-width:0;padding:22px;background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:20px;box-shadow:0 16px 42px rgba(39,55,67,.07);backdrop-filter:blur(12px)}
-  .lesson-brand{display:flex;align-items:center;gap:10px;margin-bottom:28px;font:700 1rem/1 var(--display);letter-spacing:-.02em}
-  .lesson-brand span:first-child{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:var(--blue);color:#fff;font-size:.72rem}
-  .nav-label{margin:0 0 10px;color:var(--muted);font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+  .lesson-nav{position:sticky;top:20px;min-width:0;max-height:calc(100vh - 40px);overflow-y:auto;padding:22px;background:rgba(255,255,255,.94);border:1.5px solid var(--line);border-radius:20px;box-shadow:0 16px 42px rgba(19,34,60,.07);backdrop-filter:blur(12px)}
+  .lesson-brand{display:flex;align-items:center;gap:10px;margin-bottom:12px;font:700 1.05rem/1 var(--display);letter-spacing:-.02em}
+  .lesson-brand span:first-child{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:var(--blue);color:#fff;font-size:.76rem}
+  .ve-lop{display:inline-flex;align-items:center;gap:7px;min-height:42px;margin-bottom:18px;padding:0 13px;background:var(--blue-l);border-radius:11px;color:var(--blue);font-size:.9rem;font-weight:700;transition:background .2s ease}
+  .ve-lop:hover{background:#dfe8ff}
+  .nav-label{margin:0 0 10px;color:var(--muted);font-size:.76rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase}
   .lesson-nav nav{display:grid;gap:5px}
-  .lesson-nav nav a{display:flex;align-items:center;gap:10px;padding:10px 11px;border-radius:10px;color:#465763;font-size:.82rem;line-height:1.35;transition:background .2s ease,color .2s ease}
+  .lesson-nav nav a{display:flex;align-items:center;gap:10px;min-height:44px;padding:10px 12px;border-radius:11px;color:#45536e;font-size:.9rem;line-height:1.4;transition:background .2s ease,color .2s ease}
   .lesson-nav nav a::before{content:"";width:6px;height:6px;flex:0 0 auto;border:1.5px solid currentColor;border-radius:50%}
   .lesson-nav nav a:hover{color:var(--blue);background:var(--blue-l)}
+  .lesson-nav nav a.active{color:var(--blue);background:var(--blue-l);font-weight:600}
+  .lesson-nav nav a.active::before{background:var(--blue);border-color:var(--blue)}
   .lesson-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
-  .lesson-meta span{display:block;color:var(--muted);font-size:.67rem;line-height:1.4}
-  .lesson-meta b{display:block;margin-bottom:2px;color:var(--ink);font:700 1rem/1 var(--display)}
-  .nav-them{margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
-  .lesson-nav nav.them a{color:var(--blue);background:var(--blue-l);font-weight:600}
-  .lesson-nav nav.them a::before{border-color:var(--blue)}
-  .lesson-nav nav.them a:hover{background:#dbeafd}
-
-  /* Học tiếp — thẻ cuối trang */
-  .hoc-tiep{margin:46px 0 0;padding-top:30px;border-top:1px solid var(--line)}
-  .hoc-tiep .nav-label{margin-bottom:14px}
-  .tiep-luoi{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:14px}
-  .tiep-the{display:flex;align-items:center;gap:15px;padding:18px 20px;background:var(--surface);border:1px solid var(--line);border-radius:15px;box-shadow:0 8px 28px rgba(35,51,64,.035);transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease}
-  .tiep-the:hover{border-color:var(--blue);box-shadow:0 14px 36px rgba(21,101,192,.13);transform:translateY(-2px)}
-  .tiep-ico{display:grid;place-items:center;flex:0 0 auto;width:44px;height:44px;border-radius:12px;background:var(--blue-l);color:var(--blue);font:700 1.15rem/1 var(--display)}
-  .tiep-chu{min-width:0;flex:1}
-  .tiep-chu b{display:block;font:700 1rem/1.3 var(--display);color:var(--ink)}
-  .tiep-chu i{display:block;margin-top:3px;font-style:normal;font-size:.82rem;color:var(--muted);line-height:1.45}
-  .tiep-mui{flex:0 0 auto;color:var(--blue);font-size:1.2rem;transition:transform .2s ease}
-  .tiep-the:hover .tiep-mui{transform:translateX(4px)}
+  .lesson-meta span{display:block;color:var(--muted);font-size:.78rem;line-height:1.45}
+  .lesson-meta b{display:block;margin-bottom:2px;color:var(--ink);font:700 1.05rem/1 var(--display)}
 
   /* Đầu bài */
-  header{position:relative;min-height:250px;display:grid;align-content:end;overflow:hidden;background:linear-gradient(125deg,var(--blue-d),#1976d2);color:#fff;border-radius:24px;padding:clamp(28px,5vw,58px);margin-bottom:32px;box-shadow:0 24px 58px rgba(13,71,161,.18)}
+  header{scroll-margin-top:24px;position:relative;min-height:250px;display:grid;align-content:end;overflow:hidden;background:linear-gradient(125deg,var(--blue-d),#2e62ff);color:#fff;border-radius:24px;padding:clamp(28px,5vw,58px);margin-bottom:32px;box-shadow:0 24px 58px rgba(13,54,199,.18)}
   header::before,header::after{content:"";position:absolute;border:1px solid rgba(255,255,255,.16);border-radius:50%;pointer-events:none}
   header::before{width:340px;height:340px;right:-105px;top:-175px}
   header::after{width:210px;height:210px;right:80px;top:-120px}
-  .breadcrumb{position:relative;z-index:1;margin:0 0 34px;font-size:.73rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;opacity:.78}
+  .breadcrumb{position:relative;z-index:1;margin:0 0 32px;font-size:.82rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;opacity:.9}
+  .breadcrumb a{display:inline-flex;align-items:center;min-height:32px;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px;text-decoration-color:rgba(255,255,255,.55)}
+  .breadcrumb a:hover{text-decoration-color:#fff}
   .hero-row{position:relative;z-index:1;display:flex;align-items:end;justify-content:space-between;gap:32px}
   header h1{margin:0;font:800 clamp(2.25rem,5vw,4.8rem)/.95 var(--display);letter-spacing:-.055em;white-space:nowrap}
-  header p{max-width:580px;margin:15px 0 0;opacity:.85;font-size:.94rem}
+  header p{max-width:600px;margin:15px 0 0;opacity:.9;font-size:1rem}
   .hero-number{font:700 clamp(4.5rem,10vw,8rem)/.72 var(--display);letter-spacing:-.07em;color:rgba(255,255,255,.17)}
 
   /* Tiêu đề mục lớn */
-  h2.sec{scroll-margin-top:24px;display:flex;align-items:center;gap:14px;font:700 clamp(1.15rem,2vw,1.45rem)/1.3 var(--display);letter-spacing:-.02em;margin:46px 0 18px;padding:16px 18px;background:var(--surface);color:var(--blue);border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:0 14px 14px 0;box-shadow:0 9px 30px rgba(35,51,64,.045)}
-  h2.sec .num{display:grid;place-items:center;min-width:35px;height:31px;padding:0 8px;background:var(--blue-l);color:var(--blue);border-radius:8px;font-size:.88rem}
+  h2.sec{scroll-margin-top:24px;display:flex;align-items:center;gap:14px;font:700 clamp(1.25rem,2vw,1.55rem)/1.3 var(--display);letter-spacing:-.02em;margin:46px 0 18px;padding:16px 18px;background:var(--surface);color:var(--blue);border:1.5px solid var(--line);border-left:5px solid var(--blue);border-radius:0 14px 14px 0;box-shadow:0 9px 30px rgba(19,34,60,.045)}
+  h2.sec .num{display:grid;place-items:center;min-width:37px;height:33px;padding:0 8px;background:var(--blue-l);color:var(--blue);border-radius:9px;font-size:.92rem}
   h2.sec.red{color:var(--red);border-left-color:var(--red)} h2.sec.red .num{background:var(--red-l);color:var(--red)}
-  h3.sub{scroll-margin-top:24px;font:700 1.08rem/1.4 var(--display);color:var(--blue);margin:28px 0 11px;padding-left:12px;border-left:3px solid var(--blue)}
+  h3.sub{scroll-margin-top:24px;font:700 1.15rem/1.4 var(--display);color:var(--blue);margin:30px 0 12px;padding-left:13px;border-left:3px solid var(--blue)}
 
   /* Sơ đồ kiến thức */
-  .map{border:1px solid rgba(21,101,192,.28);border-radius:18px;padding:16px;background:var(--surface);margin:12px 0 16px;box-shadow:0 12px 36px rgba(35,51,64,.045)}
-  .map .root{background:var(--blue);color:#fff;font-weight:700;text-align:center;padding:11px 14px;border-radius:11px;font-size:.91rem;letter-spacing:.02em}
-  .map.orange{border-color:rgba(230,81,0,.28)} .map.orange .root{background:var(--orange)}
+  .map{border:1.5px solid rgba(27,77,255,.26);border-radius:18px;padding:17px;background:var(--surface);margin:12px 0 16px;box-shadow:0 12px 36px rgba(19,34,60,.045)}
+  .map .root{background:var(--blue);color:#fff;font-weight:700;text-align:center;padding:12px 14px;border-radius:11px;font-size:.95rem;letter-spacing:.02em}
+  .map.orange{border-color:rgba(216,79,0,.28)} .map.orange .root{background:var(--orange)}
   .map.purple{border-color:rgba(106,27,154,.27)} .map.purple .root{background:var(--purple)}
+  .map.green{border-color:rgba(46,125,50,.28)} .map.green .root{background:var(--green)}
   .branches{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:12px;margin-top:12px}
-  .node{min-width:0;border-radius:13px;padding:15px 16px;border:1px solid}
-  .node h4{margin:0 0 8px;font:700 1rem/1.35 var(--display)}
-  .node ul{margin:0;padding-left:19px}
-  .node li{margin:5px 0}
-  .n-blue{background:var(--blue-l);border-color:rgba(21,101,192,.24)} .n-blue h4{color:var(--blue)}
-  .n-orange{background:var(--orange-l);border-color:rgba(230,81,0,.22)} .n-orange h4{color:var(--orange)}
+  .node{min-width:0;border-radius:13px;padding:15px 17px;border:1px solid}
+  .node h4{margin:0 0 8px;font:700 1.02rem/1.35 var(--display)}
+  .node ul{margin:0;padding-left:20px}
+  .node li{margin:6px 0}
+  .n-blue{background:var(--blue-l);border-color:rgba(27,77,255,.22)} .n-blue h4{color:var(--blue)}
+  .n-orange{background:var(--orange-l);border-color:rgba(216,79,0,.22)} .n-orange h4{color:var(--orange)}
   .n-green{background:var(--green-l);border-color:rgba(46,125,50,.22)} .n-green h4{color:var(--green)}
   .n-purple{background:var(--purple-l);border-color:rgba(106,27,154,.2)} .n-purple h4{color:var(--purple)}
-  .def{background:rgba(255,255,255,.86);border-left:3px solid #f9a825;padding:9px 11px;border-radius:0 8px 8px 0;margin:7px 0;font-weight:600}
-  .note{font-size:.9rem;color:#4f606c;background:#eef2f4;border-radius:9px;padding:9px 11px;margin-top:9px}
-  .anno{display:flex;justify-content:center;margin:10px 0 3px;font-size:1.13rem}
+  .def{background:rgba(255,255,255,.88);border-left:3px solid #f9a825;padding:10px 12px;border-radius:0 9px 9px 0;margin:8px 0;font-weight:600}
+  .note{font-size:.95rem;color:#47586e;background:#eef2f8;border-radius:10px;padding:10px 12px;margin-top:9px}
+  .anno{display:flex;justify-content:center;margin:10px 0 3px;font-size:1.15rem}
   .anno .hs{color:var(--green);font-weight:700;border-bottom:2px solid var(--green);padding:0 4px}
   .anno .pb{color:var(--blue);font-weight:700;border-bottom:2px solid var(--blue);padding:0 4px}
-  .anno-lbl{display:flex;justify-content:center;gap:28px;font-size:.82rem;margin-bottom:7px}
+  .anno-lbl{display:flex;justify-content:center;gap:28px;font-size:.88rem;margin-bottom:7px}
   .anno-lbl .hs{color:var(--green)} .anno-lbl .pb{color:var(--blue)}
 
   /* Ví dụ, luyện tập và bài tập */
-  .card{min-width:0;overflow:hidden;background:var(--surface);border:1px solid var(--line);border-radius:15px;padding:17px 19px;margin:14px 0;box-shadow:0 8px 28px rgba(35,51,64,.035)}
-  .card .tag{display:inline-flex;align-items:center;min-height:27px;font-weight:700;color:#fff;border-radius:7px;padding:3px 11px;font-size:.78rem;margin-bottom:7px;letter-spacing:.01em}
-  .tag.vd{background:var(--blue)} .tag.lt{background:var(--green)} .tag.vdung{background:var(--purple)} .tag.bt{background:var(--red)}
+  .card{min-width:0;overflow:hidden;background:var(--surface);border:1.5px solid var(--line);border-radius:15px;padding:18px 20px;margin:14px 0;box-shadow:0 8px 28px rgba(19,34,60,.035)}
+  .card .tag{display:inline-flex;align-items:center;min-height:29px;font-weight:700;color:#fff;border-radius:8px;padding:3px 12px;font-size:.85rem;margin-bottom:8px;letter-spacing:.01em}
+  .tag.vd{background:var(--blue)} .tag.lt{background:var(--green)} .tag.vdung{background:var(--purple)} .tag.bt{background:var(--red)} .tag.tt{background:var(--orange)}
   .card .de{margin:5px 0 9px;overflow-wrap:anywhere}
   .giai{border-top:1px dashed var(--line);margin-top:10px;padding-top:11px}
   .solution{margin-top:12px;border-top:1px dashed var(--line)}
-  .solution summary{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:46px;cursor:pointer;color:var(--blue);font-size:.82rem;font-weight:700;list-style:none;user-select:none}
+  .solution summary{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:48px;cursor:pointer;color:var(--blue);font-size:.92rem;font-weight:700;list-style:none;user-select:none}
   .solution summary::-webkit-details-marker{display:none}
-  .solution summary::after{content:"+";display:grid;place-items:center;width:25px;height:25px;border-radius:50%;background:var(--blue-l);font-size:1.05rem;transition:transform .2s ease}
+  .solution summary::after{content:"+";display:grid;place-items:center;width:27px;height:27px;border-radius:50%;background:var(--blue-l);font-size:1.1rem;transition:transform .2s ease}
   .solution[open] summary::after{transform:rotate(45deg)}
   .solution .giai{margin-top:0;padding-bottom:3px}
   .solution .giai::before{content:"Lời giải.";display:block;margin-bottom:6px;font-weight:700;color:var(--blue)}
-  .kq{max-width:100%;background:var(--green-l);border-left:3px solid var(--green);padding:7px 11px;border-radius:0 8px 8px 0;display:inline-block;margin-top:8px}
+  .kq{max-width:100%;background:var(--green-l);border-left:3px solid var(--green);padding:8px 12px;border-radius:0 9px 9px 0;display:inline-block;margin-top:8px}
   table.grp{display:block;width:100%;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border-collapse:collapse;margin:10px 0;white-space:nowrap}
-  table.grp td,table.grp th{border:1px solid var(--line);padding:8px 13px;text-align:center}
+  table.grp td,table.grp th{border:1px solid var(--line);padding:9px 14px;text-align:center}
   table.grp th{background:var(--blue-l);color:var(--blue)}
   figure{margin:16px 0;text-align:center}
   figure svg{display:block;width:min(100%,520px);height:auto;margin-inline:auto}
-  figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}
-  mjx-container{overflow-x:auto;overflow-y:hidden;max-width:100%;vertical-align:middle;-webkit-overflow-scrolling:touch}
-  mjx-container:not([display="true"]){display:inline-block!important;max-width:100%!important}
+  figcaption{font-size:.85rem;color:var(--muted);margin-top:6px}
+  mjx-container{overflow-x:auto;overflow-y:hidden;max-width:100%;vertical-align:middle;-webkit-overflow-scrolling:touch;white-space:nowrap!important}
+  mjx-container:not([display="true"]){display:inline-block!important;max-width:100%!important;white-space:nowrap!important}
+
+  /* Tài nguyên kèm bài — hiện ở cuối sidebar và cuối trang.
+     Thêm mục mới (tự luận, phiếu in…) = thêm một thẻ <a> ở cả hai chỗ. */
+  .nav-them{margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+  .lesson-nav nav.them a{color:var(--blue);background:var(--blue-l);font-weight:600}
+  .lesson-nav nav.them a::before{border-color:var(--blue)}
+  .lesson-nav nav.them a:hover{background:#dfe8ff}
+  .hoc-tiep{margin:46px 0 0;padding-top:30px;border-top:1px solid var(--line)}
+  .hoc-tiep .nav-label{margin-bottom:14px}
+  .tiep-luoi{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:14px}
+  .tiep-the{display:flex;align-items:center;gap:15px;min-height:64px;padding:18px 20px;background:var(--surface);border:1.5px solid var(--line);border-radius:15px;box-shadow:0 8px 28px rgba(19,34,60,.035);transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease}
+  .tiep-the:hover{border-color:var(--blue);box-shadow:0 14px 36px rgba(27,77,255,.13);transform:translateY(-2px)}
+  .tiep-ico{display:grid;place-items:center;flex:0 0 auto;width:46px;height:46px;border-radius:13px;background:var(--blue-l);color:var(--blue);font:700 1.15rem/1 var(--display)}
+  .tiep-chu{min-width:0;flex:1}
+  .tiep-chu b{display:block;font:700 1.02rem/1.3 var(--display);color:var(--ink)}
+  .tiep-chu i{display:block;margin-top:3px;font-style:normal;font-size:.88rem;color:var(--muted);line-height:1.5}
+  .tiep-mui{flex:0 0 auto;color:var(--blue);font-size:1.2rem;transition:transform .2s ease}
+  .tiep-the:hover .tiep-mui{transform:translateX(4px)}
 
   @media (min-width:1280px){
-    .page{grid-template-columns:270px minmax(0,1fr);gap:30px}
-    .lesson-content{font-size:16.5px}
-    .map{padding:19px}
-    .card{padding:19px 22px}
+    .page{grid-template-columns:280px minmax(0,1fr);gap:30px}
+    .map{padding:20px}
+    .card{padding:20px 23px}
   }
   @media (max-width:900px){
     .page{width:min(100% - 28px,780px);grid-template-columns:minmax(0,1fr);padding-top:14px;gap:14px}
-    .lesson-nav{position:static;padding:15px;border-radius:15px}
-    .lesson-brand{margin-bottom:14px}
-    .lesson-nav nav{display:flex;flex-wrap:wrap;gap:6px}
-    .lesson-nav nav a{padding:8px 10px;background:#f4f7f9}
+    .lesson-nav{position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:9px;max-height:none;overflow-y:visible;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:9px 12px;border-radius:0 0 15px 15px;border-top:0}
+    .lesson-brand{margin-bottom:0;flex:0 0 auto}
+    .lesson-brand span:last-child{display:none}
+    .ve-lop{margin:0;flex:0 0 auto;min-height:40px;padding:0 11px;font-size:.82rem;white-space:nowrap}
+    .nav-label{display:none}
+    .lesson-nav nav{display:flex;flex-wrap:nowrap;gap:6px}
+    .lesson-nav nav a{min-height:40px;padding:8px 11px;background:#f2f6fc;white-space:nowrap;font-size:.84rem}
     .lesson-meta{display:none}
-    .nav-them{margin-top:10px;padding-top:10px}
+    .nav-them{display:flex;margin:0 0 0 3px;padding:0 0 0 12px;border-top:0;border-left:1px solid var(--line)}
+    h2.sec,h3.sub{scroll-margin-top:74px}
     .hoc-tiep{margin-top:34px;padding-top:24px}
     header{min-height:230px;margin-bottom:22px;border-radius:18px}
   }
   @media (max-width:560px){
-    body{font-size:15px;line-height:1.62}
+    body{font-size:16px;line-height:1.65}
     .page{width:min(100% - 20px,780px);padding-bottom:46px}
-    .lesson-nav{padding:12px}
-    .lesson-brand{font-size:.92rem}
-    .lesson-brand span:first-child{width:31px;height:31px}
-    .nav-label{display:none}
-    .lesson-nav nav a{font-size:.74rem;padding:7px 9px}
+    .lesson-nav{padding:10px 12px}
+    .lesson-brand span:first-child{width:32px;height:32px}
+    .lesson-nav nav a{font-size:.8rem;padding:7px 10px}
+    .ve-lop{font-size:.8rem}
     header{min-height:215px;padding:25px 22px}
-    .breadcrumb{margin-bottom:26px;font-size:.65rem}
+    .breadcrumb{margin-bottom:24px;font-size:.72rem}
     .hero-row{align-items:flex-end}
     header h1{font-size:clamp(1.8rem,8.5vw,3.2rem)}
-    header p{font-size:.82rem;line-height:1.55}
+    header p{font-size:.9rem;line-height:1.6}
     .hero-number{display:none}
-    h2.sec{margin-top:34px;padding:13px 12px;gap:10px;font-size:1.02rem}
-    h2.sec .num{min-width:31px;height:29px}
-    h3.sub{margin-top:23px;font-size:1rem}
-    .map{padding:11px;border-radius:14px}
-    .map .root{padding:9px 10px;font-size:.76rem}
+    h2.sec{margin-top:34px;padding:13px 13px;gap:10px;font-size:1.08rem}
+    h2.sec .num{min-width:32px;height:30px}
+    h3.sub{margin-top:24px;font-size:1.05rem}
+    .map{padding:12px;border-radius:14px}
+    .map .root{padding:10px 10px;font-size:.82rem}
     .node{padding:13px}
-    .card{padding:14px 13px;border-radius:13px}
-    .solution summary{min-height:44px}
-    table.grp td,table.grp th{padding:7px 10px}
+    .card{padding:15px 14px;border-radius:13px}
+    .solution summary{min-height:46px}
+    table.grp td,table.grp th{padding:8px 11px}
   }
   @media print{
     body{background:#fff}
     .page{display:block;width:100%;padding:0}
-    .lesson-nav{display:none}
+    .lesson-nav,.hoc-tiep{display:none}
     header,.map,.card{box-shadow:none;break-inside:avoid}
     .solution summary{display:none}
     .solution:not([open])>*:not(summary){display:block}
   }
   @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
 
-  /* Thành phần bổ sung có trong các bài còn lại */
-  .map.green{border-color:rgba(46,125,50,.28)} .map.green .root{background:var(--green)}
-  h2.sec.green{color:var(--green);border-left-color:var(--green)} h2.sec.green .num{background:var(--green-l);color:var(--green)}
-  .tag.tt{background:var(--orange)}
-  .hdt{margin:13px 0;padding:12px 14px;text-align:center;font-weight:700;color:var(--blue-d);background:var(--blue-l);border:1px solid rgba(21,101,192,.2);border-radius:10px;overflow-x:auto}
-  .figrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:14px;align-items:start;margin:16px 0}
-  .figrow figure{margin:0}
-  svg text.ang{font-size:12px;font-style:normal;fill:#455a64}
-
+  /* ── Phiếu học tập nhúng (PDF hiển thị ngay trong trang) ── */
+  .phieu{scroll-margin-top:80px;margin:34px 0 10px;padding:20px;background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 32px rgba(19,34,60,.06)}
+  .phieu-top{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:14px}
+  .phieu-top h2{margin:0;flex:1;min-width:180px;display:flex;align-items:center;gap:10px;font:700 21px/1.2 var(--display);color:var(--ink)}
+  .phieu-top .ico{display:grid;place-items:center;width:34px;height:34px;border-radius:9px;background:var(--blue-l);color:var(--blue);font-size:18px}
+  .phieu-acts{display:flex;gap:8px;flex-wrap:wrap}
+  .phieu-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 14px;border-radius:10px;font:600 14px/1 var(--body);border:1px solid var(--line);background:#fff;color:var(--ink)}
+  .phieu-btn.primary{background:var(--blue);color:#fff;border-color:var(--blue);box-shadow:0 6px 14px rgba(27,77,255,.2)}
+  .phieu-frame{width:100%;height:min(85vh,1100px);border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#eef1f6}
+  .phieu-frame iframe{width:100%;height:100%;border:0;display:block}
+  .phieu-note{margin:11px 2px 0;color:var(--muted);font-size:13.5px}
+  .phieu-mobile{display:none}
+  /* Điện thoại: iframe PDF không ổn định → ẩn khung, hiện thẻ mở/tải */
+  @media (max-width:760px){
+    .phieu-frame{display:none}
+    .phieu-mobile{display:flex;flex-direction:column;gap:12px;align-items:flex-start;padding:22px;border:1px dashed var(--blue);border-radius:12px;background:var(--blue-l)}
+    .phieu-mobile b{font:700 16px/1.3 var(--display);color:var(--ink)}
+    .phieu-mobile span{color:var(--muted);font-size:14px}
+  }
+  @media print{.phieu{display:none}}
 </style>
 </head>
 <body>
@@ -190,19 +218,23 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
 
 <aside class="lesson-nav" aria-label="Mục lục bài học">
   <a class="lesson-brand" href="/" aria-label="Về trang chủ Vở Toán"><span aria-hidden="true">VT</span><span>Vở Toán</span></a>
+  <a class="ve-lop" href="/bai-hoc/lop-8/">← Mục lục Toán 8</a>
   <p class="nav-label">Trong bài này</p>
   <nav>
+    <a href="#top">Mở đầu</a>
     <a href="#phan-1">Khái niệm đa thức</a>
     <a href="#phan-2">Đa thức thu gọn</a>
-    <a href="#bai-tap">Bài tập</a>
+    <a href="#bai-tap">Bài tập cuối bài</a>
   </nav>
   <div class="lesson-meta" aria-label="Thông tin bài học">
     <span><b>02</b>phần học</span>
     <span><b>06</b>bài tập</span>
   </div>
   <div class="nav-them">
-    <p class="nav-label">Luyện tập</p>
+    <p class="nav-label">Học liệu</p>
     <nav class="them">
+      <a href="trinh-chieu.html">Trình chiếu</a>
+      <a href="#phieu-hoc-tap">Phiếu học tập</a>
       <a href="trac-nghiem.html">Trắc nghiệm</a>
     </nav>
   </div>
@@ -211,7 +243,7 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
 <main class="lesson-content">
 
 <header id="top">
-  <p class="breadcrumb">Toán 8 · Chương I — Đa thức</p>
+  <p class="breadcrumb"><a href="/bai-hoc/lop-8/">Toán 8</a> · Chương I — Đa thức</p>
   <div class="hero-row">
     <div>
       <h1>Bài 2. Đa thức</h1>
@@ -250,7 +282,6 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
   <span class="tag vd">Ví dụ 1</span>
   <p class="de">Hãy kể ra các hạng tử của đa thức \(A=x^3-3x^2y+3xy^2-y^3+xy-1\).</p>
   <div class="giai">
-    <b>Giải.</b><br>
     Viết \(A\) dưới dạng tổng của 6 đơn thức: \(A=x^3+(-3x^2y)+3xy^2+(-y^3)+xy+(-1)\).<br>
     <div class="kq">Vậy \(A\) có 6 hạng tử là \(x^3;\ -3x^2y;\ 3xy^2;\ -y^3;\ xy\) và \(-1\).</div>
   </div>
@@ -277,8 +308,12 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
   b) Mỗi biểu thức tìm được ở câu a có phải là đa thức không?</p>
   <div class="show">
     <div class="giai">
-      a) Mua 8 quyển vở và 7 chiếc bút hết \(8x+7y\) (đồng).<br>
-      Mua 3 xấp vở và 2 hộp bút hết \(3\cdot10\cdot x+2\cdot12\cdot y=30x+24y\) (đồng).<br>
+      a) Mua 8 quyển vở hết \(8x\) (đồng).<br>
+      Mua 7 chiếc bút hết \(7y\) (đồng).<br>
+      Vậy mua 8 quyển vở và 7 chiếc bút hết \(8x+7y\) (đồng).<br>
+      Ba xấp vở có \(3\cdot10=30\) (quyển), nên số tiền mua vở là \(30x\) (đồng).<br>
+      Hai hộp bút có \(2\cdot12=24\) (chiếc), nên số tiền mua bút là \(24y\) (đồng).<br>
+      Vậy mua 3 xấp vở và 2 hộp bút hết \(30x+24y\) (đồng).<br>
       b) Cả hai biểu thức \(8x+7y\) và \(30x+24y\) đều là đa thức (tổng của hai đơn thức).
     </div>
   </div>
@@ -328,9 +363,9 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
   <span class="tag vd">Ví dụ 2</span>
   <p class="de">Thu gọn đa thức \(M=x^2y-5xy+7xy^2+3x^2y+xy^2-4xy^2+2\).</p>
   <div class="giai">
-    <b>Giải.</b><br>
-    \(M=(x^2y+3x^2y)+(7xy^2+xy^2-4xy^2)-5xy+2\)<br>
-    \(=4x^2y+4xy^2-5xy+2\).
+    \(M=x^2y-5xy+7xy^2+3x^2y+xy^2-4xy^2+2\)<br>
+    \(=(x^2y+3x^2y)-5xy+(7xy^2+xy^2-4xy^2)+2\)<br>
+    \(=4x^2y-5xy+4xy^2+2\).
   </div>
 </div>
 
@@ -341,7 +376,8 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
   b) Xác định hệ số và bậc của từng hạng tử trong dạng thu gọn của \(N\).</p>
   <div class="show">
     <div class="giai">
-      a) \(N=(5y^2z^2-2y^2z^2)+(-2xy^2z+xy^2z)+\left(\dfrac13x^4+\dfrac23x^4\right)\)<br>
+      a) \(N=5y^2z^2-2xy^2z+\dfrac13x^4-2y^2z^2+\dfrac23x^4+xy^2z\)<br>
+      \(=(5y^2z^2-2y^2z^2)+(-2xy^2z+xy^2z)+\left(\dfrac13x^4+\dfrac23x^4\right)\)<br>
       \(=3y^2z^2-xy^2z+x^4\).<br>
       b) Hạng tử \(3y^2z^2\) có hệ số 3, bậc \(2+2=4\).<br>
       Hạng tử \(-xy^2z\) có hệ số \(-1\), bậc \(1+2+1=4\).<br>
@@ -355,8 +391,10 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
   <p class="de">Cho đa thức \(P=3x^4+\dfrac13xyz-3x^4-\dfrac43xyz+2x^2y-6z\).<br>
   a) Tìm bậc của đa thức \(P\). &nbsp; b) Tính giá trị của \(P\) khi \(x=1;\ y=3;\ z=\dfrac13\).</p>
   <div class="giai">
-    <b>Giải.</b><br>
-    a) Thu gọn: \(P=(3x^4-3x^4)+\left(\dfrac13-\dfrac43\right)xyz+2x^2y-6z=-xyz+2x^2y-6z\).<br>
+    a) Thu gọn:<br>
+    \(P=3x^4+\dfrac13xyz-3x^4-\dfrac43xyz+2x^2y-6z\)<br>
+    \(=(3x^4-3x^4)+\left(\dfrac13xyz-\dfrac43xyz\right)+2x^2y-6z\)<br>
+    \(=-xyz+2x^2y-6z\).<br>
     Hai hạng tử \(-xyz\) và \(2x^2y\) cùng có bậc 3; hạng tử \(-6z\) có bậc 1.<br>
     <span class="kq">Vậy bậc của \(P\) là 3.</span><br>
     b) Thay \(x=1;\ y=3;\ z=\dfrac13\) vào đa thức thu gọn của \(P\):<br>
@@ -374,7 +412,9 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
       a) \(Q\) không có hai hạng tử nào đồng dạng nên \(Q\) là đa thức thu gọn.<br>
       Hạng tử có bậc cao nhất là \(5x^2;\ -7xy;\ 2{,}5y^2\) (bậc 2).<br>
       <span class="kq">Vậy \(Q\) có bậc 2.</span><br><br>
-      b) \(H=(4x^5-4x^5)-\dfrac12x^3y+\dfrac34x^2y^2+2y^2-7=-\dfrac12x^3y+\dfrac34x^2y^2+2y^2-7\).<br>
+      b) \(H=4x^5-\dfrac12x^3y+\dfrac34x^2y^2-4x^5+2y^2-7\)<br>
+      \(=(4x^5-4x^5)-\dfrac12x^3y+\dfrac34x^2y^2+2y^2-7\)<br>
+      \(=-\dfrac12x^3y+\dfrac34x^2y^2+2y^2-7\).<br>
       Hai hạng tử \(-\dfrac12x^3y\) và \(\dfrac34x^2y^2\) cùng có bậc cao nhất là 4.<br>
       <span class="kq">Vậy \(H\) có bậc 4.</span>
     </div>
@@ -394,17 +434,19 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
 </div>
 
 <!-- ==================================================== -->
-<h2 class="sec red" id="bai-tap"><span class="num">📝</span> BÀI TẬP (SGK tr.14)</h2>
+<h2 class="sec red" id="bai-tap"><span class="num">BT</span> BÀI TẬP (SGK tr.14)</h2>
 
 <div class="card">
   <span class="tag bt">1.8</span>
-  <p class="de">Trong các biểu thức sau, biểu thức nào là đa thức?
-  \( -x^2+3x+1;\quad \dfrac{x}{\sqrt5};\quad x-\dfrac{\sqrt5}{x};\quad 2024;\quad 3x^2y^2-5x^3y+2{,}4;\quad \dfrac{1}{x^2+x+1} \).</p>
+  <p class="de">Trong các biểu thức sau, biểu thức nào là đa thức?<br>
+  \( -x^2+3x+1;\quad \dfrac{x}{\sqrt5};\quad x-\dfrac{\sqrt5}{x};\)<br>
+  \( 2024;\quad 3x^2y^2-5x^3y+2{,}4;\quad \dfrac{1}{x^2+x+1} \).</p>
   <div class="show">
     <div class="giai">
       Biểu thức \(x-\dfrac{\sqrt5}{x}\) không là đa thức vì có biến ở mẫu.<br>
       Biểu thức \(\dfrac{1}{x^2+x+1}\) không là đa thức vì có biến ở mẫu.<br>
-      <div class="kq">Vậy các đa thức là \(-x^2+3x+1;\ \dfrac{x}{\sqrt5};\ 2024;\ 3x^2y^2-5x^3y+2{,}4\).</div>
+      <div class="kq">Vậy các đa thức là \(-x^2+3x+1;\ \dfrac{x}{\sqrt5};\ 2024;\)<br>
+      \(3x^2y^2-5x^3y+2{,}4\).</div>
     </div>
   </div>
 </div>
@@ -438,9 +480,11 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
   b) \(0{,}6x^3+x^2z-2{,}7xy^2+0{,}4x^3+1{,}7xy^2\).</p>
   <div class="show">
     <div class="giai">
-      a) \(5x^4+(-2x^3y+6x^3y)+(20xy^3+xy^3)-3x^2y^2-y^4\)<br>
+      a) \(5x^4-2x^3y+20xy^3+6x^3y-3x^2y^2+xy^3-y^4\)<br>
+      \(=5x^4+(-2x^3y+6x^3y)+(20xy^3+xy^3)-3x^2y^2-y^4\)<br>
       \(=5x^4+4x^3y-3x^2y^2+21xy^3-y^4\).<br><br>
-      b) \((0{,}6x^3+0{,}4x^3)+x^2z+(-2{,}7xy^2+1{,}7xy^2)\)<br>
+      b) \(0{,}6x^3+x^2z-2{,}7xy^2+0{,}4x^3+1{,}7xy^2\)<br>
+      \(=(0{,}6x^3+0{,}4x^3)+x^2z+(-2{,}7xy^2+1{,}7xy^2)\)<br>
       \(=x^3+x^2z-xy^2\).
     </div>
   </div>
@@ -452,10 +496,12 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
   a) \(x^4-3x^2y^2+3xy^2-x^4+1\); &nbsp; b) \(5x^2y+8xy-2x^2-5x^2y+x^2\).</p>
   <div class="show">
     <div class="giai">
-      a) \((x^4-x^4)-3x^2y^2+3xy^2+1=-3x^2y^2+3xy^2+1\).<br>
+      a) \(x^4-3x^2y^2+3xy^2-x^4+1\)<br>
+      \(=(x^4-x^4)-3x^2y^2+3xy^2+1=-3x^2y^2+3xy^2+1\).<br>
       Hạng tử có bậc cao nhất là \(-3x^2y^2\) (bậc 4).<br>
       <span class="kq">Vậy đa thức có bậc 4.</span><br><br>
-      b) \((5x^2y-5x^2y)+8xy+(-2x^2+x^2)=8xy-x^2\).<br>
+      b) \(5x^2y+8xy-2x^2-5x^2y+x^2\)<br>
+      \(=(5x^2y-5x^2y)+8xy+(-2x^2+x^2)=8xy-x^2\).<br>
       Hai hạng tử \(8xy\) và \(-x^2\) đều có bậc 2.<br>
       <span class="kq">Vậy đa thức có bậc 2.</span>
     </div>
@@ -464,13 +510,15 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
 
 <div class="card">
   <span class="tag bt">1.12</span>
-  <p class="de">Thu gọn rồi tính giá trị của đa thức
-  \(M=\dfrac13x^2y+xy^2-xy+\dfrac12xy^2-5xy-\dfrac13x^2y\) tại \(x=0{,}5\) và \(y=1\).</p>
+  <p class="de">Thu gọn rồi tính giá trị của đa thức \(M=\dfrac13x^2y+xy^2-xy+\dfrac12xy^2-5xy-\dfrac13x^2y\) tại \(x=0{,}5\) và \(y=1\).</p>
   <div class="show">
     <div class="giai">
-      \(M=\left(\dfrac13x^2y-\dfrac13x^2y\right)+\left(xy^2+\dfrac12xy^2\right)+(-xy-5xy)\)<br>
+      \(M=\dfrac13x^2y+xy^2-xy+\dfrac12xy^2-5xy-\dfrac13x^2y\)<br>
+      \(= \left(\dfrac13x^2y-\dfrac13x^2y\right)+\left(xy^2+\dfrac12xy^2\right)+(-xy-5xy)\)<br>
       \(=\dfrac32xy^2-6xy\).<br>
-      Thay \(x=0{,}5;\ y=1\): \(M=\dfrac32\cdot0{,}5\cdot1^2-6\cdot0{,}5\cdot1=0{,}75-3=-2{,}25\).
+      Thay \(x=0{,}5;\ y=1\):<br>
+      \(M=\dfrac32\cdot0{,}5\cdot1^2-6\cdot0{,}5\cdot1\)<br>
+      \(=0{,}75-3=-2{,}25\).
     </div>
   </div>
 </div>
@@ -482,15 +530,41 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
   b) Tính giá trị của đa thức \(P\) tại \(x=-4;\ y=2\) và \(z=1\).</p>
   <div class="show">
     <div class="giai">
-      a) \(P=(8-5-3)x^2y^2z-2xyz+5y^2z+x^2y^2=-2xyz+5y^2z+x^2y^2\).<br>
+      a) \(P=8x^2y^2z-2xyz+5y^2z-5x^2y^2z+x^2y^2-3x^2y^2z\)<br>
+      \(=(8-5-3)x^2y^2z-2xyz+5y^2z+x^2y^2\)<br>
+      \(=-2xyz+5y^2z+x^2y^2\).<br>
       Hạng tử có bậc cao nhất là \(x^2y^2\) (bậc 4).<br>
       <span class="kq">Vậy \(P\) có bậc 4.</span><br><br>
       b) Thay \(x=-4;\ y=2;\ z=1\) vào đa thức thu gọn:<br>
-      \(P=-2\cdot(-4)\cdot2\cdot1+5\cdot2^2\cdot1+(-4)^2\cdot2^2\)<br>
-      \(=16+20+64=100\).
+      \(P=-2\cdot(-4)\cdot2\cdot1+5\cdot2^2\cdot1+(-4)^2\cdot2^2=16+20+64=100\).
     </div>
   </div>
 </div>
+
+<!-- ==================================================== -->
+<!-- PHIẾU HỌC TẬP — nhúng PDF xem/in ngay trong trang    -->
+<!-- ==================================================== -->
+<section class="phieu" id="phieu-hoc-tap" aria-label="Phiếu học tập">
+  <div class="phieu-top">
+    <h2><span class="ico" aria-hidden="true">✍</span> Phiếu học tập</h2>
+    <div class="phieu-acts">
+      <a class="phieu-btn" href="phieu-hoc-tap.pdf" target="_blank" rel="noopener">⛶ Toàn màn hình</a>
+      <a class="phieu-btn primary" href="phieu-hoc-tap.pdf" download>⬇ Tải PDF</a>
+    </div>
+  </div>
+  <div class="phieu-frame">
+    <iframe src="phieu-hoc-tap.pdf#view=FitH" title="Phiếu học tập — Bài 2. Đa thức" loading="lazy"></iframe>
+  </div>
+  <div class="phieu-mobile">
+    <b>Xem phiếu trên điện thoại</b>
+    <span>Trình duyệt di động có thể không hiển thị PDF ngay trong trang. Nhấn để mở hoặc tải phiếu về máy.</span>
+    <div class="phieu-acts">
+      <a class="phieu-btn primary" href="phieu-hoc-tap.pdf" target="_blank" rel="noopener">Mở phiếu (PDF)</a>
+      <a class="phieu-btn" href="phieu-hoc-tap.pdf" download>⬇ Tải về</a>
+    </div>
+  </div>
+  <p class="phieu-note">Mẹo: bấm <b>Tải PDF</b> rồi in ra giấy A4 — bản in chuẩn, nét.</p>
+</section>
 
 <!-- ==================================================== -->
 <!-- HỌC TIẾP — tài nguyên kèm bài                        -->
@@ -499,11 +573,27 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
 <section class="hoc-tiep" aria-label="Học tiếp">
   <p class="nav-label">Học tiếp</p>
   <div class="tiep-luoi">
+    <a class="tiep-the" href="trinh-chieu.html">
+      <span class="tiep-ico" aria-hidden="true">▶</span>
+      <span class="tiep-chu">
+        <b>Trình chiếu</b>
+        <i>Slide tự học, hiện lời giải từng bước</i>
+      </span>
+      <span class="tiep-mui" aria-hidden="true">→</span>
+    </a>
+    <a class="tiep-the" href="#phieu-hoc-tap">
+      <span class="tiep-ico" aria-hidden="true">✍</span>
+      <span class="tiep-chu">
+        <b>Phiếu học tập</b>
+        <i>Xem &amp; in ngay trong trang, chừa chỗ học sinh ghi</i>
+      </span>
+      <span class="tiep-mui" aria-hidden="true">→</span>
+    </a>
     <a class="tiep-the" href="trac-nghiem.html">
       <span class="tiep-ico" aria-hidden="true">✓</span>
       <span class="tiep-chu">
         <b>Trắc nghiệm</b>
-        <i>20 câu tự kiểm tra, chấm điểm ngay</i>
+        <i>Câu hỏi tự kiểm tra, chấm điểm ngay</i>
       </span>
       <span class="tiep-mui" aria-hidden="true">→</span>
     </a>
@@ -513,6 +603,18 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
 </main>
 </div>
 <script>
+document.querySelectorAll('.card .tag.vd').forEach(function (tag) {
+  var card = tag.closest('.card');
+  if (!card) return;
+  Array.prototype.slice.call(card.querySelectorAll('.giai')).forEach(function (answer) {
+    if (answer.closest('.show, .solution') || answer.closest('.card') !== card) return;
+    var panel = document.createElement('div');
+    panel.className = 'show';
+    answer.parentNode.insertBefore(panel, answer);
+    panel.appendChild(answer);
+  });
+});
+
 document.querySelectorAll('.show').forEach(function (panel) {
   var details = document.createElement('details');
   var summary = document.createElement('summary');
@@ -525,6 +627,21 @@ document.querySelectorAll('.show').forEach(function (panel) {
     summary.textContent = details.open ? 'Ẩn lời giải' : 'Xem lời giải';
   });
 });
+
+// Đánh dấu mục đang xem trên thanh mục lục
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.lesson-nav nav a[href^="#"]'));
+  var sections = links.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); }).filter(Boolean);
+  if (!sections.length) return;
+  function capNhat() {
+    var moc = window.scrollY + 140, hienId = null;
+    sections.forEach(function (s) { if (s.offsetTop <= moc) hienId = s.id; });
+    links.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + hienId); });
+  }
+  window.addEventListener('scroll', capNhat, { passive: true });
+  window.addEventListener('resize', capNhat, { passive: true });
+  capNhat();
+})();
 </script>
 </body>
 </html>

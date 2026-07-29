@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bài 1. Đơn thức — Toán 8 (KNTT)</title>
+<title>Luyện tập chung (tr.25–26) — Toán 8 (KNTT)</title>
 <script>
 MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
 </script>
@@ -100,7 +100,10 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
   .card{min-width:0;overflow:hidden;background:var(--surface);border:1.5px solid var(--line);border-radius:15px;padding:18px 20px;margin:14px 0;box-shadow:0 8px 28px rgba(19,34,60,.035)}
   .card .tag{display:inline-flex;align-items:center;min-height:29px;font-weight:700;color:#fff;border-radius:8px;padding:3px 12px;font-size:.85rem;margin-bottom:8px;letter-spacing:.01em}
   .tag.vd{background:var(--blue)} .tag.lt{background:var(--green)} .tag.vdung{background:var(--purple)} .tag.bt{background:var(--red)}
-  .card .de{margin:5px 0 9px;overflow-wrap:anywhere}
+  .card .de{display:flex;gap:2mm;align-items:flex-start;margin:5px 0 9px;line-height:1.65;overflow-wrap:anywhere}
+  .card .de .tag{flex:0 0 auto;margin:0}
+  .card .de .q{flex:1;min-width:0;align-self:center}
+  .card .de mjx-container:not([display="true"]){vertical-align:middle}
   .giai{border-top:1px dashed var(--line);margin-top:10px;padding-top:11px}
   .solution{margin-top:12px;border-top:1px dashed var(--line)}
   .solution summary{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:48px;cursor:pointer;color:var(--blue);font-size:.92rem;font-weight:700;list-style:none;user-select:none}
@@ -221,13 +224,12 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
   <p class="nav-label">Trong bài này</p>
   <nav>
     <a href="#top">Mở đầu</a>
-    <a href="#phan-1">Đơn thức và thu gọn</a>
-    <a href="#phan-2">Đơn thức đồng dạng</a>
-    <a href="#bai-tap">Bài tập cuối bài</a>
+    <a href="#kien-thuc">Kiến thức cần nhớ</a>
+    <a href="#bai-tap">Bài tập (tr.25–26)</a>
   </nav>
   <div class="lesson-meta" aria-label="Thông tin bài học">
     <span><b>02</b>phần học</span>
-    <span><b>07</b>bài tập</span>
+    <span><b>08</b>thẻ bài</span>
   </div>
   <div class="nav-them">
     <p class="nav-label">Học liệu</p>
@@ -245,383 +247,146 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
   <p class="breadcrumb"><a href="/bai-hoc/lop-8/">Toán 8</a> · Chương I — Đa thức</p>
   <div class="hero-row">
     <div>
-      <h1>Bài 1. Đơn thức</h1>
-      <p>Nhận biết, thu gọn và thực hiện phép tính với các đơn thức đồng dạng.</p>
+      <h1>Luyện tập chung</h1>
+      <p>Phối hợp phép nhân đa thức, phép chia đa thức cho đơn thức và giải bài toán thực tế (SGK tr.25–26).</p>
     </div>
-    <span class="hero-number" aria-hidden="true">01</span>
+    <span class="hero-number" aria-hidden="true">07</span>
   </div>
 </header>
 
-<!-- ==================================================== -->
-<!-- MỤC 1 -->
-<!-- ==================================================== -->
-<h2 class="sec" id="phan-1"><span class="num">1</span> ĐƠN THỨC VÀ ĐƠN THỨC THU GỌN</h2>
+<h2 class="sec" id="kien-thuc"><span class="num">1</span> KIẾN THỨC CẦN NHỚ</h2>
 
-<h3 class="sub">Khái niệm đơn thức</h3>
+<h3 class="sub">Phối hợp phép nhân, phép chia và tìm thành phần chưa biết</h3>
 <div class="map">
-  <div class="root">ĐƠN THỨC</div>
+  <div class="root">PHỐI HỢP CÁC PHÉP TÍNH VỚI ĐA THỨC</div>
   <div class="branches">
     <div class="node n-blue">
-      <h4>Định nghĩa</h4>
-      <div class="def">Đơn thức là biểu thức đại số chỉ gồm <b>một số</b>, hoặc <b>một biến</b>, hoặc <b>tích của những số và biến</b>.</div>
+      <h4>Nhân đa thức</h4>
       <ul>
-        <li>Ví dụ: \( -5x^2y;\ 17z^4;\ xy\cdot 4x^2;\ 3 \)</li>
-        <li>Một lũy thừa cũng là một tích: \(x^3 = x\cdot x\cdot x\).</li>
-      </ul>
-    </div>
-    <div class="node n-orange">
-      <h4>Không là đơn thức khi…</h4>
-      <ul>
-        <li>Chứa phép <b>cộng / trừ</b> giữa các biến: \(x+2y\)</li>
-        <li>Chứa biến ở <b>mẫu</b>: \(\dfrac{3}{x}\)</li>
-        <li>Chứa <b>căn</b> của biến: \(5x\sqrt{y}\)</li>
-      </ul>
-      <div class="note">Hệ số dạng \((1+\sqrt{2})\) vẫn là một số, nên \((1+\sqrt 2)x^2y\) là đơn thức.</div>
-    </div>
-  </div>
-</div>
-
-<div class="card">
-  <span class="tag vd">Ví dụ 1</span>
-  <p class="de">Tìm đơn thức trong các biểu thức: \( -x\cdot 6y;\quad x+2y;\quad 0{,}3xy\cdot x^2;\quad 5x\sqrt{y} \).</p>
-  <div class="giai">
-    Biểu thức \(x+2y\) không là đơn thức vì có chứa phép cộng.<br>
-    Biểu thức \(5x\sqrt y\) không là đơn thức vì có chứa căn bậc hai của biến.<br>
-    <div class="kq">Vậy các đơn thức là \(-x\cdot 6y\) và \(0{,}3xy\cdot x^2\).</div>
-  </div>
-</div>
-
-<div class="card">
-  <span class="tag lt">Luyện tập 1</span>
-  <p class="de">Biểu thức nào là đơn thức?
-  \( 3x^3y;\quad -4;\quad (3-x)x^2y^2;\quad 12x^5;\quad -\dfrac{5}{9}xyz;\quad \dfrac{x^2y}{2};\quad \dfrac{3}{x}+y^2 \).</p>
-  <div class="show">
-    <div class="giai">
-      Biểu thức \((3-x)x^2y^2\) không là đơn thức vì có chứa hiệu \(3-x\).<br>
-      Biểu thức \(\dfrac3x+y^2\) không là đơn thức vì có chứa phép cộng và biến ở mẫu.<br>
-      <div class="kq">Vậy các đơn thức là \(3x^3y;\ -4;\ 12x^5;\ -\dfrac59xyz;\ \dfrac{x^2y}{2}\).</div>
-    </div>
-  </div>
-</div>
-
-<div class="card">
-  <span class="tag lt">Tranh luận</span>
-  <p class="de">Biểu thức \((1+\sqrt2)x^2y\) có phải là đơn thức không?</p>
-  <div class="show">
-    <div class="giai">
-      Ta có \(1+\sqrt2\) là <b>một số</b> (không chứa biến).<br>
-      Do đó biểu thức \((1+\sqrt2)x^2y\) có dạng tích của một số với các biến.<br>
-      <div class="kq">Vậy \((1+\sqrt2)x^2y\) là đơn thức.</div>
-    </div>
-  </div>
-</div>
-
-<h3 class="sub">Đơn thức thu gọn, bậc của một đơn thức</h3>
-<div class="map orange">
-  <div class="root">ĐƠN THỨC THU GỌN — HỆ SỐ — PHẦN BIẾN — BẬC</div>
-  <div class="branches">
-    <div class="node n-orange">
-      <h4>Đơn thức thu gọn</h4>
-      <div class="def">Chỉ gồm một số, hoặc tích của một số với các biến, <b>mỗi biến xuất hiện một lần</b> dưới dạng lũy thừa với số mũ nguyên dương.</div>
-      <ul>
-        <li>Cách thu gọn: nhân các số với nhau, nhân các lũy thừa cùng biến với nhau.</li>
-        <li>\( 2xy(-3)x^2 \) \( = 2\cdot(-3)\cdot(x\cdot x^2)\cdot y \) \( = -6x^3y \)</li>
+        <li>Dùng tính chất <b>phân phối</b> để nhân từng hạng tử.</li>
+        <li>Nhân các đơn thức: nhân hệ số, <b>cộng số mũ</b> của cùng một biến.</li>
+        <li>Cuối cùng <b>thu gọn các hạng tử đồng dạng</b>.</li>
       </ul>
     </div>
     <div class="node n-green">
-      <h4>Hệ số — Phần biến</h4>
-      <div class="anno"><span class="hs">−6</span><span class="pb">x³y</span></div>
-      <div class="anno-lbl"><span class="hs">Hệ số</span><span class="pb">Phần biến</span></div>
+      <h4>Chia cho đơn thức</h4>
       <ul>
-        <li>Viết <b>hệ số trước, phần biến sau</b>; các biến theo thứ tự bảng chữ cái.</li>
-        <li>Hệ số \(+1,\ -1\): không viết số 1 (\(xy^2\) có hệ số 1; \(-x^2y^2\) có hệ số −1).</li>
+        <li>Muốn chia hết, <b>mọi hạng tử</b> của đa thức phải chia hết cho đơn thức.</li>
+        <li>Chia hệ số, <b>trừ số mũ</b> của cùng một biến.</li>
+        <li><b>Chia từng hạng tử</b> rồi cộng các kết quả.</li>
       </ul>
     </div>
-    <div class="node n-blue">
-      <h4>Bậc</h4>
-      <div class="def"><b>Bậc</b> = tổng số mũ của các biến (đơn thức thu gọn, hệ số ≠ 0).</div>
-      <ul>
-        <li>\(5x^2y^3z\) có bậc \(2+3+1=6\).</li>
-        <li>Muốn tìm bậc, phải <b>thu gọn đơn thức trước</b>.</li>
-        <li>Số khác 0 là đơn thức bậc 0; số 0 là đơn thức <b>không có bậc</b>.</li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<div class="card">
-  <span class="tag lt">Câu hỏi ?</span>
-  <p class="de">Cho biết hệ số, phần biến và bậc của: \( 2{,}5x;\quad -\dfrac14y^2z^3;\quad 0{,}35xy^2z^4 \).</p>
-  <div class="show">
-    <div class="giai">
-      <table class="grp">
-        <tr><th>Đơn thức</th><th>Hệ số</th><th>Phần biến</th><th>Bậc</th></tr>
-        <tr><td>\(2{,}5x\)</td><td>\(2{,}5\)</td><td>\(x\)</td><td>1</td></tr>
-        <tr><td>\(-\dfrac14y^2z^3\)</td><td>\(-\dfrac14\)</td><td>\(y^2z^3\)</td><td>5</td></tr>
-        <tr><td>\(0{,}35xy^2z^4\)</td><td>\(0{,}35\)</td><td>\(xy^2z^4\)</td><td>7</td></tr>
-      </table>
-    </div>
-  </div>
-</div>
-
-<div class="card">
-  <span class="tag vd">Ví dụ 2</span>
-  <p class="de">Xác định hệ số, phần biến và bậc của đơn thức \(0{,}5xy^2\cdot 4x^2\).</p>
-  <div class="giai">
-    Thu gọn đơn thức: \(0{,}5xy^2\cdot 4x^2=(0{,}5\cdot 4)(x\cdot x^2)y^2=2x^3y^2\).<br>
-    <div class="kq">Vậy đơn thức có hệ số \(2\); phần biến \(x^3y^2\); bậc \(3+2=5\).</div>
-  </div>
-</div>
-
-<div class="card">
-  <span class="tag lt">Luyện tập 2</span>
-  <p class="de">Thu gọn và xác định bậc của đơn thức \(4{,}5x^2y(-2)xyz\).</p>
-  <div class="show">
-    <div class="giai">
-      Ta có \(4{,}5x^2y(-2)xyz=[4{,}5\cdot(-2)](x^2\cdot x)(y\cdot y)z=-9x^3y^2z\).<br>
-      <div class="kq">Vậy đơn thức có bậc \(3+2+1=6\).</div>
-    </div>
-  </div>
-</div>
-
-<!-- ==================================================== -->
-<!-- MỤC 2 -->
-<!-- ==================================================== -->
-<h2 class="sec" id="phan-2"><span class="num">2</span> ĐƠN THỨC ĐỒNG DẠNG</h2>
-<p class="note" style="margin:0 0 6px">Từ đây, nói đến một đơn thức ta hiểu rằng <i>đơn thức đó đã được thu gọn</i>.</p>
-
-<h3 class="sub">Khái niệm đơn thức đồng dạng</h3>
-<div class="map purple">
-  <div class="root">ĐƠN THỨC ĐỒNG DẠNG</div>
-  <div class="branches">
     <div class="node n-purple">
-      <h4>Định nghĩa</h4>
-      <div class="def">Hai đơn thức đồng dạng là hai đơn thức có hệ số <b>khác 0</b> và có <b>phần biến giống nhau</b>.</div>
+      <h4>Tìm thành phần chưa biết</h4>
       <ul>
-        <li>VD: \(2x^2y^3\) và \(-\dfrac12 x^2y^3\) đồng dạng.</li>
-        <li>\(x^3y^2\) không đồng dạng với hai đơn thức ở trên (phần biến khác).</li>
-      </ul>
-    </div>
-    <div class="node n-blue">
-      <h4>Nhận xét</h4>
-      <ul>
-        <li>Hai đơn thức đồng dạng thì <b>cùng bậc</b> (điều ngược lại không đúng với đơn thức nhiều biến).</li>
-        <li>Hai số khác 0 cũng là hai đơn thức đồng dạng.</li>
+        <li>Biết \(M\cdot B=A\) thì <b>\(M=A:B\)</b>.</li>
+        <li>Biết \(A:M=Q\) thì <b>\(M=A:Q\)</b>.</li>
+        <li>Bài toán thực tế: <b>số tiền = số lượng · đơn giá</b>; quãng đường = vận tốc · thời gian.</li>
       </ul>
     </div>
   </div>
 </div>
 
 <div class="card">
-  <span class="tag lt">Luyện tập 3</span>
-  <p class="de">Xếp các đơn thức thành từng nhóm đồng dạng:
-  \( \dfrac53x^2y;\quad -xy^2;\quad 0{,}5x^4;\quad -2xy^2;\quad 2{,}75x^4;\quad -\dfrac14x^2y;\quad 3xy^2 \).</p>
-  <div class="show">
-    <div class="giai">
-      <table class="grp">
-        <tr><th>Phần biến \(x^2y\)</th><th>Phần biến \(xy^2\)</th><th>Phần biến \(x^4\)</th></tr>
-        <tr><td>\(\dfrac53x^2y;\ -\dfrac14x^2y\)</td><td>\(-xy^2;\ -2xy^2;\ 3xy^2\)</td><td>\(0{,}5x^4;\ 2{,}75x^4\)</td></tr>
-      </table>
-    </div>
-  </div>
-</div>
-
-<div class="card">
-  <span class="tag lt">Tranh luận</span>
-  <p class="de">Hai đơn thức một biến có cùng biến, cùng bậc thì đồng dạng. Điều đó còn đúng với đơn thức hai biến (nhiều hơn một biến) không?</p>
-  <div class="show">
-    <div class="giai">
-      Điều đó không còn đúng với đơn thức nhiều hơn một biến.<br>
-      Chẳng hạn \(A=2x^2y^3\) và \(C=x^3y^2\) cùng có bậc 5.<br>
-      Nhưng phần biến của chúng khác nhau (\(x^2y^3 \ne x^3y^2\)) nên \(A\) và \(C\) <b>không đồng dạng</b>.
-    </div>
-  </div>
-</div>
-
-<h3 class="sub">Cộng và trừ đơn thức đồng dạng</h3>
-<div class="map purple">
-  <div class="root">QUY TẮC CỘNG — TRỪ ĐƠN THỨC ĐỒNG DẠNG</div>
-  <div class="branches">
-    <div class="node n-purple">
-      <h4>Quy tắc</h4>
-      <div class="def">Cộng (hay trừ) <b>các hệ số</b> với nhau và <b>giữ nguyên phần biến</b>.</div>
-      <ul>
-        <li>\(2{,}5x^2y^3+8{,}5x^2y^3=(2{,}5+8{,}5)x^2y^3=11x^2y^3\)</li>
-        <li>Cơ sở: tính chất phân phối \(ab+cb=(a+c)b\).</li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<div class="card">
-  <span class="tag vd">Ví dụ 3</span>
-  <p class="de">Cho \(A=3xy^2;\ B=-5xy^2;\ C=xy^2\). Tính \(A+B;\ A-B;\ A+B+C\).</p>
+  <p class="de"><span class="tag vd">Ví dụ 1</span><span class="q">Rút gọn biểu thức \(T=(5xy-4y^2)(3x^2+4xy)-15xy(x+y)(x-y)\). Tìm đa thức \(D\) sao cho \(T:D=xy^2\).</span></p>
   <div class="giai">
-    \(A+B=3xy^2+(-5xy^2)=[3+(-5)]xy^2=-2xy^2\);<br>
-    \(A-B=3xy^2-(-5xy^2)=[3-(-5)]xy^2=8xy^2\);<br>
-    \(A+B+C=3xy^2+(-5xy^2)+xy^2=(3-5+1)xy^2=-xy^2\).
+    Ta có: \(T=(5xy-4y^2)(3x^2+4xy)-15xy(x+y)(x-y)\)<br>
+    \(=15x^3y+20x^2y^2-12x^2y^2-16xy^3-15xy(x^2-y^2)\)<br>
+    \(=15x^3y+20x^2y^2-12x^2y^2-16xy^3-15x^3y+15xy^3\)<br>
+    \(=(15x^3y-15x^3y)+(20x^2y^2-12x^2y^2)+(-16xy^3+15xy^3)\)<br>
+    \(=8x^2y^2-xy^3\).<br>
+    Ta có: \(T:D=xy^2\) nên \(D=T:xy^2\).<br>
+    \(D=(8x^2y^2-xy^3):xy^2\)<br>
+    \(=8x-y\).<br>
+    <span class="kq">Vậy \(T=8x^2y^2-xy^3\) và \(D=8x-y\).</span>
   </div>
 </div>
 
 <div class="card">
-  <span class="tag lt">Luyện tập 4</span>
-  <p class="de">Cho các đơn thức \(-x^3y;\ 4x^3y;\ -2x^3y\).<br>
-  a) Tính tổng \(S\) của ba đơn thức.<br>
-  b) Tính giá trị của \(S\) tại \(x=2;\ y=-3\).</p>
-  <div class="show">
-    <div class="giai">
-      a) \(S=-x^3y+4x^3y+(-2x^3y)=(-1+4-2)x^3y=x^3y\).<br>
-      b) Tại \(x=2;\ y=-3\): \(S=2^3\cdot(-3)=-24\).
-    </div>
+  <p class="de"><span class="tag vd">Ví dụ 2</span><span class="q">Cho đa thức \(A=2x^2y^2-5xy^3\) và đơn thức \(B=3x^my^2\), với \(m\) là số tự nhiên.<br>a) Tìm số nguyên dương \(m\) sao cho \(A\) chia hết cho \(B\).<br>b) Với giá trị tìm được của \(m\), hãy thực hiện phép chia \(A:B\).</span></p>
+  <div class="giai">
+    a) Ta có: \(A=2x^2y^2-5xy^3\) và \(B=3x^my^2\).<br>
+    Để \(2x^2y^2\) chia hết cho \(B\) thì \(m\le 2\).<br>
+    Để \(-5xy^3\) chia hết cho \(B\) thì \(m\le 1\).<br>
+    Vì \(m\) là số nguyên dương nên \(m=1\).<br>
+    b) Khi \(m=1\), ta có \(B=3xy^2\).<br>
+    \(A:B=(2x^2y^2-5xy^3):3xy^2\)<br>
+    \(=\dfrac{2}{3}x-\dfrac{5}{3}y\).<br>
+    <span class="kq">Vậy \(m=1\) và \(A:B=\dfrac{2}{3}x-\dfrac{5}{3}y\).</span>
   </div>
 </div>
 
-<div class="card">
-  <span class="tag vdung">Vận dụng</span>
-  <p class="de">Mỗi phần quà gồm \(x\) kg gạo (12 nghìn đồng/kg) và \(x\) gói mì (4,5 nghìn đồng/gói); có \(y\) phần quà. Tròn viết \(12xy+4{,}5xy\), Vuông viết \(16{,}5xy\). Bạn nào đúng?</p>
-  <div class="show">
-    <div class="giai">
-      Tiền gạo trong \(y\) phần quà là \(12xy\) (nghìn đồng).<br>
-      Tiền mì trong \(y\) phần quà là \(4{,}5xy\) (nghìn đồng).<br>
-      Hai đơn thức \(12xy\) và \(4{,}5xy\) đồng dạng (cùng phần biến \(xy\)).<br>
-      Tổng số tiền là \(12xy+4{,}5xy=(12+4{,}5)xy=16{,}5xy\) (nghìn đồng).<br>
-      <div class="kq">Vậy cả hai bạn đều giải đúng.</div>
-    </div>
-  </div>
-</div>
-
-<!-- ==================================================== -->
-<!-- BÀI TẬP -->
-<!-- ==================================================== -->
-<h2 class="sec red" id="bai-tap"><span class="num">BT</span> BÀI TẬP (SGK tr.9–10)</h2>
+<h2 class="sec red" id="bai-tap"><span class="num">BT</span> BÀI TẬP (SGK tr.25–26)</h2>
 
 <div class="card">
-  <span class="tag bt">1.1</span>
-  <p class="de">Biểu thức nào là đơn thức?
-  \( -x;\quad (1+x)y^2;\quad (3+\sqrt3)xy;\quad 0;\quad \dfrac1y x^2;\quad 2\sqrt{xy} \).</p>
-  <div class="show">
-    <div class="giai">
-      Biểu thức \((1+x)y^2\) không là đơn thức vì có chứa tổng \(1+x\).<br>
-      Biểu thức \(\dfrac1yx^2\) không là đơn thức vì có biến ở mẫu.<br>
-      Biểu thức \(2\sqrt{xy}\) không là đơn thức vì có chứa căn của biến.<br>
-      <div class="kq">Vậy các đơn thức là \(-x;\ (3+\sqrt3)xy;\ 0\).</div>
-    </div>
-  </div>
+  <p class="de"><span class="tag bt">1.33</span><span class="q">Cho biểu thức \(P=5x(3x^2y-2xy^2+1)-3xy(5x^2-3xy)+x^2y^2\).<br>a) Bằng cách thu gọn, chứng tỏ rằng giá trị của biểu thức \(P\) chỉ phụ thuộc vào biến \(x\), không phụ thuộc vào biến \(y\).<br>b) Tìm giá trị của \(x\) sao cho \(P=10\).</span></p>
+  <div class="show"><div class="giai">
+    a) Ta có: \(P=5x(3x^2y-2xy^2+1)-3xy(5x^2-3xy)+x^2y^2\)<br>
+    \(=15x^3y-10x^2y^2+5x-15x^3y+9x^2y^2+x^2y^2\)<br>
+    \(=(15x^3y-15x^3y)+(-10x^2y^2+9x^2y^2+x^2y^2)+5x\)<br>
+    \(=5x\).<br>
+    Vậy giá trị của \(P\) chỉ phụ thuộc vào \(x\), không phụ thuộc vào \(y\).<br>
+    b) Ta có: \(P=10\) nên \(5x=10\).<br>
+    Do đó \(x=2\).<br>
+    <span class="kq">Vậy \(x=2\).</span>
+  </div></div>
 </div>
 
 <div class="card">
-  <span class="tag bt">1.2</span>
-  <p class="de">Cho \(A=4x(-2)x^2y;\qquad B=12{,}75xyz;\)<br>
-  \(C=(1+2\cdot4{,}5)x^2y\dfrac15y^3;\qquad D=(2-\sqrt5)x\).<br>
-  a) Liệt kê các đơn thức thu gọn, thu gọn các đơn thức còn lại.<br>
-  b) Với mỗi đơn thức nhận được, cho biết hệ số, phần biến và bậc.</p>
-  <div class="show">
-    <div class="giai">
-      a) Các đơn thức thu gọn là \(B\) và \(D\).<br>
-      Thu gọn \(A=4x(-2)x^2y=4\cdot(-2)(x\cdot x^2)y=-8x^3y\).<br>
-      Thu gọn \(C=(1+2\cdot4{,}5)x^2y\dfrac15y^3=10\cdot\dfrac15x^2(y\cdot y^3)=2x^2y^4\).<br>
-      b)
-      <table class="grp">
-        <tr><th>Đơn thức</th><th>Hệ số</th><th>Phần biến</th><th>Bậc</th></tr>
-        <tr><td>\(A=-8x^3y\)</td><td>\(-8\)</td><td>\(x^3y\)</td><td>4</td></tr>
-        <tr><td>\(B=12{,}75xyz\)</td><td>\(12{,}75\)</td><td>\(xyz\)</td><td>3</td></tr>
-        <tr><td>\(C=2x^2y^4\)</td><td>\(2\)</td><td>\(x^2y^4\)</td><td>6</td></tr>
-        <tr><td>\(D=(2-\sqrt5)x\)</td><td>\(2-\sqrt5\)</td><td>\(x\)</td><td>1</td></tr>
-      </table>
-    </div>
-  </div>
+  <p class="de"><span class="tag bt">1.34</span><span class="q">Rút gọn biểu thức \((3x^2-5xy-4y^2)(2x^2+y^2)+(2x^4y^2+x^3y^3+x^2y^4):\left(\dfrac{1}{5}xy\right)\).</span></p>
+  <div class="show"><div class="giai">
+    Ta có: \(E=(3x^2-5xy-4y^2)(2x^2+y^2)+(2x^4y^2+x^3y^3+x^2y^4):\left(\dfrac{1}{5}xy\right)\)<br>
+    \(=(6x^4+3x^2y^2-10x^3y-5xy^3-8x^2y^2-4y^4)+(10x^3y+5x^2y^2+5xy^3)\)<br>
+    \(=6x^4+3x^2y^2-10x^3y-5xy^3-8x^2y^2-4y^4+10x^3y+5x^2y^2+5xy^3\)<br>
+    \(=6x^4+(-10x^3y+10x^3y)+(3x^2y^2-8x^2y^2+5x^2y^2)+(-5xy^3+5xy^3)-4y^4\)<br>
+    \(=6x^4-4y^4\).<br>
+    <span class="kq">Vậy biểu thức đã cho rút gọn thành \(6x^4-4y^4\).</span>
+  </div></div>
 </div>
 
 <div class="card">
-  <span class="tag bt">1.3</span>
-  <p class="de">Thu gọn rồi tính giá trị:<br>
-  a) \(A=(-2)x^2y\dfrac12xy\) khi \(x=-2;\ y=\dfrac12\);<br>
-  b) \(B=xyz(-0{,}5)y^2z\) khi \(x=4;\ y=0{,}5;\ z=2\).</p>
-  <div class="show">
-    <div class="giai">
-      a) \(A=(-2)x^2y\dfrac12xy=(-2)\cdot\dfrac12(x^2\cdot x)(y\cdot y)=-x^3y^2\).<br>
-      Tại \(x=-2;\ y=\dfrac12\): \(A=-(-2)^3\left(\dfrac12\right)^2=8\cdot\dfrac14=2\).<br><br>
-      b) \(B=xyz(-0{,}5)y^2z=-0{,}5x(y\cdot y^2)(z\cdot z)=-0{,}5xy^3z^2\).<br>
-      Tại \(x=4;\ y=0{,}5;\ z=2\): \(B=-0{,}5\cdot4\cdot(0{,}5)^3\cdot2^2=-1\).
-    </div>
-  </div>
+  <p class="de"><span class="tag bt">1.35</span><span class="q">Bà Khanh dự định mua \(x\) hộp sữa, mỗi hộp giá \(y\) đồng. Khi đến cửa hàng, bà thấy giá sữa đã giảm 1 500 đồng mỗi hộp nên quyết định mua thêm 3 hộp. Tìm đa thức biểu thị số tiền bà Khanh phải trả.</span></p>
+  <div class="show"><div class="giai">
+    Ta có: số hộp sữa bà Khanh mua là \(x+3\) (hộp).<br>
+    Giá mỗi hộp sữa sau khi giảm là \(y-1500\) (đồng).<br>
+    Số tiền bà Khanh phải trả là \((x+3)(y-1500)=xy-1500x+3y-4500\) (đồng).<br>
+    <span class="kq">Vậy số tiền bà Khanh phải trả là \(xy-1500x+3y-4500\) đồng.</span>
+  </div></div>
 </div>
 
 <div class="card">
-  <span class="tag bt">1.4</span>
-  <p class="de">Xếp thành từng nhóm đồng dạng:
-  \( 3x^3y^2;\quad -0{,}2x^2y^3;\quad 7x^3y^2;\quad -4y;\quad \dfrac34x^2y^3;\quad y\sqrt2 \).</p>
-  <div class="show">
-    <div class="giai">
-      <table class="grp">
-        <tr><th>Phần biến \(x^3y^2\)</th><th>Phần biến \(x^2y^3\)</th><th>Phần biến \(y\)</th></tr>
-        <tr><td>\(3x^3y^2;\ 7x^3y^2\)</td><td>\(-0{,}2x^2y^3;\ \dfrac34x^2y^3\)</td><td>\(-4y;\ \sqrt2\,y\)</td></tr>
-      </table>
-    </div>
-  </div>
+  <p class="de"><span class="tag bt">1.36</span><span class="q">a) Tìm đơn thức \(B\) nếu \(4x^3y^2:B=-2xy\).<br>b) Với đơn thức \(B\) tìm được ở câu a, hãy tìm đơn thức \(H\) để \((4x^3y^2-3x^2y^3):B=-2xy+H\).</span></p>
+  <div class="show"><div class="giai">
+    a) Ta có: \(4x^3y^2:B=-2xy\).<br>
+    \(B=4x^3y^2:(-2xy)=-2x^2y\).<br>
+    b) Ta có: \((4x^3y^2-3x^2y^3):(-2x^2y)\)<br>
+    \(=4x^3y^2:(-2x^2y)-3x^2y^3:(-2x^2y)=-2xy+\dfrac{3}{2}y^2\).<br>
+    Vì \((4x^3y^2-3x^2y^3):B=-2xy+H\) nên \(H=\dfrac{3}{2}y^2\).<br>
+    <span class="kq">Vậy \(B=-2x^2y\) và \(H=\dfrac{3}{2}y^2\).</span>
+  </div></div>
 </div>
 
 <div class="card">
-  <span class="tag bt">1.5</span>
-  <p class="de">Rút gọn rồi tính giá trị của \(S=\dfrac12x^2y^5-\dfrac52x^2y^5\) khi \(x=-2;\ y=1\).</p>
-  <div class="show">
-    <div class="giai">
-      \(S=\dfrac12x^2y^5-\dfrac52x^2y^5=\left(\dfrac12-\dfrac52\right)x^2y^5=-2x^2y^5\).<br>
-      Tại \(x=-2;\ y=1\): \(S=-2\cdot(-2)^2\cdot1^5=-8\).
-    </div>
-  </div>
+  <p class="de"><span class="tag bt">1.37</span><span class="q">a) Tìm đơn thức \(C\) nếu \(5xy^2\cdot C=10x^3y^3\).<br>b) Với đơn thức \(C\) tìm được ở câu a, hãy tìm đơn thức \(K\) sao cho \((K+5xy^2)\cdot C=6x^4y+10x^3y^3\).</span></p>
+  <div class="show"><div class="giai">
+    a) Ta có: \(5xy^2\cdot C=10x^3y^3\).<br>
+    \(C=10x^3y^3:5xy^2=2x^2y\).<br>
+    b) Ta có: \((K+5xy^2)\cdot2x^2y=6x^4y+10x^3y^3\).<br>
+    \(K+5xy^2=(6x^4y+10x^3y^3):2x^2y=3x^2+5xy^2\).<br>
+    \(K=3x^2+5xy^2-5xy^2=3x^2\).<br>
+    <span class="kq">Vậy \(C=2x^2y\) và \(K=3x^2\).</span>
+  </div></div>
 </div>
 
 <div class="card">
-  <span class="tag bt">1.6</span>
-  <p class="de">Tính tổng của bốn đơn thức: \( 2x^2y^3;\quad -\dfrac35x^2y^3;\quad -14x^2y^3;\quad \dfrac85x^2y^3 \).</p>
-  <div class="show">
-    <div class="giai">
-      Tổng \(=2x^2y^3+\left(-\dfrac35x^2y^3\right)+(-14x^2y^3)+\dfrac85x^2y^3\)<br>
-      \(=\left(2-\dfrac35-14+\dfrac85\right)x^2y^3\)<br>
-      \(=(-12+1)x^2y^3\)<br>
-      \(=-11x^2y^3\).
-    </div>
-  </div>
-</div>
-
-<div class="card">
-  <span class="tag bt">1.7</span>
-  <p class="de">Tìm đơn thức (thu gọn) hai biến \(x,y\) biểu thị diện tích mảnh đất tô màu bằng hai cách:<br>
-  <i>Cách 1</i>: tổng diện tích hai hình chữ nhật \(ABCD\) và \(EFGC\);<br>
-  <i>Cách 2</i>: diện tích \(HFGD\) trừ diện tích \(HEBA\).</p>
-  <figure>
-    <svg viewBox="0 0 344 214" width="330" xmlns="http://www.w3.org/2000/svg">
-      <rect x="40" y="70" width="180" height="110" fill="#a9def9" stroke="#0067a8" stroke-width="3"/>
-      <rect x="220" y="20" width="90" height="160" fill="#7cccf4" stroke="#0067a8" stroke-width="3"/>
-      <rect x="40" y="20" width="180" height="50" fill="none" stroke="#5f7787" stroke-width="2.4" stroke-dasharray="7 4"/>
-      <g font-size="18" font-weight="700" fill="#01426e" font-family="'Be Vietnam Pro',sans-serif">
-        <text x="26" y="16">H</text><text x="209" y="16">E</text><text x="315" y="16">F</text>
-        <text x="22" y="74">A</text><text x="227" y="60">B</text>
-        <text x="22" y="199">D</text><text x="207" y="200">C</text><text x="315" y="200">G</text>
-      </g>
-      <g font-size="21" font-weight="700" font-style="italic" fill="#0d2b4e" font-family="'Be Vietnam Pro',sans-serif">
-        <text x="6" y="133">2x</text>
-        <text x="317" y="108">3x</text>
-        <text x="118" y="174">2y</text>
-        <text x="261" y="174">y</text>
-      </g>
-    </svg>
-    <figcaption>Hình bài 1.7</figcaption>
-  </figure>
-  <div class="show">
-    <div class="giai">
-      <b>Cách 1.</b><br>
-      Diện tích hình chữ nhật \(ABCD\): \(S_{ABCD}=2x\cdot2y=4xy\).<br>
-      Diện tích hình chữ nhật \(EFGC\): \(S_{EFGC}=3x\cdot y=3xy\).<br>
-      Diện tích mảnh đất: \(S=4xy+3xy=7xy\).<br><br>
-      <b>Cách 2.</b><br>
-      Diện tích hình chữ nhật \(HFGD\): \(S_{HFGD}=3x\cdot(2y+y)=9xy\).<br>
-      Diện tích hình chữ nhật \(HEBA\): \(S_{HEBA}=(3x-2x)\cdot2y=2xy\).<br>
-      Diện tích mảnh đất: \(S=9xy-2xy=7xy\).
-      <div class="kq">Diện tích mảnh đất: \(7xy\) (m²).</div>
-    </div>
-  </div>
+  <p class="de"><span class="tag bt">1.38</span><span class="q">Thỏ chạy nhanh gấp 60 lần Rùa nhưng chỉ chạy trong \(t\) phút rồi dừng lại. Rùa chạy liên tục trong \(90t\) phút và đến đích trước Thỏ.<br>a) Gọi \(v\) (m/phút) là vận tốc của Rùa. Viết các đơn thức biểu thị quãng đường Thỏ và Rùa đã chạy.<br>b) Quãng đường Rùa chạy dài gấp bao nhiêu lần quãng đường Thỏ chạy?</span></p>
+  <div class="show"><div class="giai">
+    a) Ta có: vận tốc của Thỏ là \(60v\) (m/phút).<br>
+    Quãng đường Thỏ chạy là \(60v\cdot t=60vt\) (m).<br>
+    Quãng đường Rùa chạy là \(v\cdot90t=90vt\) (m).<br>
+    b) Ta có: \(90vt:60vt=\dfrac{3}{2}=1{,}5\).<br>
+    <span class="kq">Vậy quãng đường Rùa chạy dài gấp \(1{,}5\) lần quãng đường Thỏ chạy.</span>
+  </div></div>
 </div>
 
 <!-- ==================================================== -->
@@ -636,7 +401,7 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
     </div>
   </div>
   <div class="phieu-frame">
-    <iframe src="phieu-hoc-tap.pdf#view=FitH" title="Phiếu học tập — Bài 1. Đơn thức" loading="lazy"></iframe>
+    <iframe src="phieu-hoc-tap.pdf#view=FitH" title="Phiếu học tập — Luyện tập chung (tr.25–26)" loading="lazy"></iframe>
   </div>
   <div class="phieu-mobile">
     <b>Xem phiếu trên điện thoại</b>
@@ -676,7 +441,7 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
       <span class="tiep-ico" aria-hidden="true">✓</span>
       <span class="tiep-chu">
         <b>Trắc nghiệm</b>
-        <i>20 câu tự kiểm tra, chấm điểm ngay</i>
+        <i>18 câu tự kiểm tra, chấm điểm ngay</i>
       </span>
       <span class="tiep-mui" aria-hidden="true">→</span>
     </a>

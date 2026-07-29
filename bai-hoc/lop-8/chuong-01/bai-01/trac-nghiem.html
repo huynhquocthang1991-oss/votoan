@@ -12,21 +12,29 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;display=swap" rel="stylesheet">
 <style>
+  /* Bảng màu "vở ô ly" — dùng chung với trang bài học (index.html) và mục lục lớp.
+     Đổi màu ở đây thì đổi cả bên đó cho đồng bộ. */
   :root{
-    --blue:#1565c0; --blue-d:#0d47a1; --blue-l:#eaf4fd;
-    --orange:#e65100; --orange-l:#fff5e9;
+    --blue:#1b4dff; --blue-d:#0d36c7; --blue-l:#eef3ff;
+    --orange:#d84f00; --orange-l:#fff5e9;
     --green:#2e7d32; --green-l:#edf8ee;
     --red:#c62828; --red-l:#fff0f0;
-    --ink:#20303c; --muted:#687783; --line:#d9e1e7;
-    --paper:#f3f6f8; --surface:#fff;
+    --purple:#6a1b9a; --purple-l:#f7eefb;
+    --ink:#13223c; --muted:#4f5f7a; --line:#d9e2f0;
+    --paper:#fafcff; --grid:#e5ecf8; --surface:#fff;
     --body:"Be Vietnam Pro",system-ui,-apple-system,sans-serif;
     --display:"Bricolage Grotesque","Be Vietnam Pro",system-ui,sans-serif;
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-  body{font-family:var(--body);color:var(--ink);margin:0;background:var(--paper);line-height:1.65;font-size:16px;overflow-x:hidden}
+  body{
+    font-family:var(--body);color:var(--ink);margin:0;line-height:1.65;font-size:16px;overflow-x:hidden;
+    background-color:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:30px 30px;
+  }
   a{color:inherit;text-decoration:none}
-  :focus-visible{outline:3px solid rgba(21,101,192,.3);outline-offset:4px;border-radius:5px}
+  :focus-visible{outline:3px solid rgba(27,77,255,.45);outline-offset:3px;border-radius:8px}
   .page{width:min(1580px,calc(100% - 40px));margin:0 auto;padding:24px 0 72px;display:grid;grid-template-columns:250px minmax(0,1fr);gap:24px;align-items:start}
   .lesson-content{min-width:0}
 
@@ -53,7 +61,7 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
   .thanh i{display:block;height:100%;width:0;border-radius:99px;background:var(--blue);transition:width .35s ease}
 
   /* Đầu trang */
-  header{position:relative;min-height:210px;display:grid;align-content:end;overflow:hidden;background:linear-gradient(125deg,var(--blue-d),#1976d2);color:#fff;border-radius:24px;padding:clamp(28px,5vw,52px);margin-bottom:30px;box-shadow:0 24px 58px rgba(13,71,161,.18)}
+  header{position:relative;min-height:210px;display:grid;align-content:end;overflow:hidden;background:linear-gradient(125deg,var(--blue-d),#2e62ff);color:#fff;border-radius:24px;padding:clamp(28px,5vw,52px);margin-bottom:30px;box-shadow:0 24px 58px rgba(13,54,199,.18)}
   header::before,header::after{content:"";position:absolute;border:1px solid rgba(255,255,255,.16);border-radius:50%;pointer-events:none}
   header::before{width:340px;height:340px;right:-105px;top:-175px}
   header::after{width:210px;height:210px;right:80px;top:-120px}
@@ -175,7 +183,7 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
   <div class="hero-row">
     <div>
       <h1>Trắc nghiệm</h1>
-      <p>20 câu bám sát bài học và bài tập SGK tr.9–10. Chọn đáp án để xem kết quả ngay.</p>
+      <p>20 câu, độ khó tăng dần từ nhận biết đến vận dụng. Chọn đáp án để xem kết quả và lời giải thích ngay.</p>
     </div>
     <span class="hero-number" aria-hidden="true">01</span>
   </div>
@@ -183,224 +191,224 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
 
 <div id="bo-cau">
 
-  <div class="cau" data-dung="C">
+  <div class="cau" data-dung="C" data-muc="1">
     <div class="cau-dau"><span class="cau-so">1</span><p class="cau-de">Biểu thức nào sau đây <b>là</b> đơn thức?</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(x+2y\)</span></button>
-      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(\dfrac{3}{x}\)</span></button>
-      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(-5x^2y\)</span></button>
-      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(5x\sqrt{y}\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(\dfrac{5}{x}\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(-7x^2y\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(3y\sqrt{x}\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Đơn thức chỉ gồm số, biến, hoặc tích của chúng. \(x+2y\) có phép cộng; \(\dfrac3x\) có biến ở mẫu; \(5x\sqrt y\) có căn của biến — cả ba đều không phải đơn thức.</p>
+    <p class="giai-thich"><b>Vì sao.</b> Đơn thức chỉ gồm một số, một biến, hoặc tích của số và biến. \(x+2y\) có phép cộng giữa hai biến; \(\dfrac5x\) có biến ở mẫu; \(3y\sqrt x\) có căn của biến — cả ba đều không phải đơn thức.</p>
   </div>
 
-  <div class="cau" data-dung="B">
+  <div class="cau" data-dung="A" data-muc="1">
     <div class="cau-dau"><span class="cau-so">2</span><p class="cau-de">Biểu thức nào sau đây <b>không</b> là đơn thức?</p></div>
     <div class="dap-an">
-      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(3x^3y\)</span></button>
-      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\((3-x)x^2y^2\)</span></button>
-      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(-\dfrac{5}{9}xyz\)</span></button>
-      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(\dfrac{x^2y}{2}\)</span></button>
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(4a-b\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(-3ab^2\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(0{,}5xyz\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(2^3x\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> \((3-x)x^2y^2\) chứa hiệu \(3-x\) nên không phải đơn thức. Còn \(\dfrac{x^2y}{2}\) chỉ là \(\dfrac12x^2y\) — hệ số là phân số, biến không nằm ở mẫu, nên vẫn là đơn thức.</p>
+    <p class="giai-thich"><b>Vì sao.</b> \(4a-b\) có phép trừ giữa hai biến nên không phải đơn thức. Riêng \(2^3x\) vẫn là đơn thức: \(2^3\) chỉ là một số (bằng 8), lũy thừa của <i>số</i> không làm hỏng đơn thức — chỉ lũy thừa của <i>biến</i> mới cần để ý.</p>
   </div>
 
-  <div class="cau" data-dung="A">
-    <div class="cau-dau"><span class="cau-so">3</span><p class="cau-de">Biểu thức \((1+\sqrt2)x^2y\) có phải là đơn thức không?</p></div>
+  <div class="cau" data-dung="D" data-muc="1">
+    <div class="cau-dau"><span class="cau-so">3</span><p class="cau-de">Hệ số của đơn thức \(-\dfrac{2}{3}x^3y\) là:</p></div>
     <div class="dap-an">
-      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>Có, hệ số là \(1+\sqrt2\)</span></button>
-      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>Không, vì có dấu cộng</span></button>
-      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>Không, vì có dấu căn</span></button>
-      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>Không, vì có hai biến</span></button>
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(\dfrac{2}{3}\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(-2\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(-\dfrac{3}{2}\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(-\dfrac{2}{3}\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> \(1+\sqrt2\) là <b>một số</b>, không chứa biến. Biểu thức có dạng tích của một số với các biến, nên là đơn thức: hệ số \(1+\sqrt2\), phần biến \(x^2y\), bậc 3.</p>
+    <p class="giai-thich"><b>Vì sao.</b> Hệ số là phần số đứng trước phần biến, lấy <b>cả dấu</b>. Chọn \(\dfrac23\) là quên dấu âm; chọn \(-2\) là chỉ lấy tử; chọn \(-\dfrac32\) là lật ngược phân số.</p>
   </div>
 
-  <div class="cau" data-dung="C">
-    <div class="cau-dau"><span class="cau-so">4</span><p class="cau-de">Trong các biểu thức \(-x;\ (1+x)y^2;\ (3+\sqrt3)xy;\ 0;\ \dfrac1yx^2;\ 2\sqrt{xy}\) có bao nhiêu đơn thức?</p></div>
+  <div class="cau" data-dung="B" data-muc="1">
+    <div class="cau-dau"><span class="cau-so">4</span><p class="cau-de">Bậc của đơn thức \(5x^3y^2\) là:</p></div>
     <div class="dap-an">
-      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>1</span></button>
-      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>2</span></button>
-      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>3</span></button>
-      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>4</span></button>
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(3\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(5\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(6\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(10\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> (Bài 1.1) Ba đơn thức là \(-x;\ (3+\sqrt3)xy;\ 0\). Loại \((1+x)y^2\) vì có tổng \(1+x\); loại \(\dfrac1yx^2\) vì biến ở mẫu; loại \(2\sqrt{xy}\) vì có căn của biến. Số \(0\) vẫn là một đơn thức.</p>
+    <p class="giai-thich"><b>Vì sao.</b> Bậc = <b>tổng</b> các số mũ của biến: \(3+2=5\). Chọn 3 là chỉ lấy số mũ lớn nhất; chọn 6 là nhân các số mũ; chọn 10 là cộng nhầm cả hệ số 5.</p>
   </div>
 
-  <div class="cau" data-dung="D">
-    <div class="cau-dau"><span class="cau-so">5</span><p class="cau-de">Thu gọn đơn thức \(2xy\cdot(-3)\cdot x^2\) ta được</p></div>
+  <div class="cau" data-dung="A" data-muc="1">
+    <div class="cau-dau"><span class="cau-so">5</span><p class="cau-de">Hai đơn thức đồng dạng là hai đơn thức:</p></div>
     <div class="dap-an">
-      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(-6x^2y\)</span></button>
-      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(6x^3y\)</span></button>
-      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(-5x^3y\)</span></button>
-      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(-6x^3y\)</span></button>
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>có hệ số khác 0 và cùng phần biến</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>có cùng bậc với nhau</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>có hệ số bằng nhau</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>có cùng số lượng biến</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Nhân các số với nhau, nhân các lũy thừa cùng biến với nhau: \(2\cdot(-3)=-6\) và \(x\cdot x^2=x^3\). Vậy kết quả là \(-6x^3y\).</p>
+    <p class="giai-thich"><b>Vì sao.</b> Định nghĩa đòi <b>hai</b> điều kiện: hệ số khác 0 và phần biến giống hệt nhau. Cùng bậc chưa đủ — \(x^2y\) và \(xy^2\) cùng bậc 3 nhưng phần biến khác nhau.</p>
   </div>
 
-  <div class="cau" data-dung="B">
-    <div class="cau-dau"><span class="cau-so">6</span><p class="cau-de">Hệ số của đơn thức \(-\dfrac{3}{4}x^2y^5\) là</p></div>
+  <div class="cau" data-dung="D" data-muc="2">
+    <div class="cau-dau"><span class="cau-so">6</span><p class="cau-de">Thu gọn đơn thức \(3x\cdot 2xy^2\cdot(-x)\) được:</p></div>
     <div class="dap-an">
-      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(\dfrac34\)</span></button>
-      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(-\dfrac34\)</span></button>
-      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(x^2y^5\)</span></button>
-      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(-3\)</span></button>
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(6x^3y^2\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(-6x^2y^2\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(4x^3y^2\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(-6x^3y^2\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Hệ số là phần số đứng trước phần biến, <b>kể cả dấu</b>. Ở đây hệ số là \(-\dfrac34\), phần biến là \(x^2y^5\).</p>
+    <p class="giai-thich"><b>Vì sao.</b> Nhân hệ số: \(3\cdot2\cdot(-1)=-6\); nhân phần biến: \(x\cdot x\cdot x=x^3\), giữ \(y^2\). Chọn \(6x^3y^2\) là mất dấu âm; \(-6x^2y^2\) là quên một thừa số \(x\); \(4x^3y^2\) là <b>cộng</b> hệ số thay vì nhân.</p>
   </div>
 
-  <div class="cau" data-dung="C">
-    <div class="cau-dau"><span class="cau-so">7</span><p class="cau-de">Bậc của đơn thức \(-5x^3y^2z\) là</p></div>
+  <div class="cau" data-dung="B" data-muc="2">
+    <div class="cau-dau"><span class="cau-so">7</span><p class="cau-de">Đơn thức nào đồng dạng với \(-3x^2y\)?</p></div>
     <div class="dap-an">
-      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>3</span></button>
-      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>5</span></button>
-      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>6</span></button>
-      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>2</span></button>
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(-3xy^2\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(\dfrac{1}{2}x^2y\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(-3x^2y^2\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(0\cdot x^2y\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Bậc là <b>tổng số mũ</b> của tất cả các biến. Biến \(z\) có số mũ 1, nên bậc là \(3+2+1=6\).</p>
+    <p class="giai-thich"><b>Vì sao.</b> Chỉ cần cùng phần biến \(x^2y\), hệ số bao nhiêu cũng được miễn khác 0. \(-3xy^2\) đảo số mũ; \(-3x^2y^2\) thừa số mũ của \(y\); \(0\cdot x^2y\) có hệ số bằng 0 nên bị loại theo định nghĩa.</p>
   </div>
 
-  <div class="cau" data-dung="B">
-    <div class="cau-dau"><span class="cau-so">8</span><p class="cau-de">Thu gọn \(4{,}5x^2y\cdot(-2)\cdot xyz\) rồi cho biết bậc của đơn thức thu được.</p></div>
-    <div class="dap-an">
-      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(-9x^3y^2z\), bậc 5</span></button>
-      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(-9x^3y^2z\), bậc 6</span></button>
-      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(-9x^2y^2z\), bậc 5</span></button>
-      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(9x^3y^2z\), bậc 6</span></button>
-    </div>
-    <p class="giai-thich"><b>Vì sao.</b> (Luyện tập 2) \([4{,}5\cdot(-2)](x^2\cdot x)(y\cdot y)z=-9x^3y^2z\). Bậc \(=3+2+1=6\). Nhớ: <b>phải thu gọn trước rồi mới tính bậc</b>.</p>
-  </div>
-
-  <div class="cau" data-dung="D">
-    <div class="cau-dau"><span class="cau-so">9</span><p class="cau-de">Bậc của đơn thức \(0{,}35xy^2z^4\) là</p></div>
-    <div class="dap-an">
-      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>4</span></button>
-      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>5</span></button>
-      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>6</span></button>
-      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>7</span></button>
-    </div>
-    <p class="giai-thich"><b>Vì sao.</b> Biến \(x\) có số mũ 1 (không viết ra), nên bậc \(=1+2+4=7\). Hệ số \(0{,}35\) không tính vào bậc.</p>
-  </div>
-
-  <div class="cau" data-dung="C">
-    <div class="cau-dau"><span class="cau-so">10</span><p class="cau-de">Xác định hệ số của đơn thức \(0{,}5xy^2\cdot 4x^2\).</p></div>
-    <div class="dap-an">
-      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(0{,}5\)</span></button>
-      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(4\)</span></button>
-      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(2\)</span></button>
-      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(4{,}5\)</span></button>
-    </div>
-    <p class="giai-thich"><b>Vì sao.</b> (Ví dụ 2) Thu gọn trước: \(0{,}5xy^2\cdot4x^2=(0{,}5\cdot4)(x\cdot x^2)y^2=2x^3y^2\). Hệ số là \(2\), phần biến \(x^3y^2\), bậc 5.</p>
-  </div>
-
-  <div class="cau" data-dung="D">
-    <div class="cau-dau"><span class="cau-so">11</span><p class="cau-de">Phát biểu nào đúng về bậc của số \(0\) và số \(-7\)?</p></div>
-    <div class="dap-an">
-      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>Cả hai đều có bậc 0</span></button>
-      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>Cả hai đều không có bậc</span></button>
-      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(0\) có bậc 0, \(-7\) không có bậc</span></button>
-      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(-7\) có bậc 0, \(0\) không có bậc</span></button>
-    </div>
-    <p class="giai-thich"><b>Vì sao.</b> Số khác 0 là đơn thức <b>bậc 0</b>, nên \(-7\) có bậc 0. Riêng số \(0\) là đơn thức <b>không có bậc</b>. Đây là chỗ rất dễ nhầm.</p>
-  </div>
-
-  <div class="cau" data-dung="C">
-    <div class="cau-dau"><span class="cau-so">12</span><p class="cau-de">Đơn thức nào <b>đồng dạng</b> với \(3x^2y\)?</p></div>
+  <div class="cau" data-dung="C" data-muc="2">
+    <div class="cau-dau"><span class="cau-so">8</span><p class="cau-de">Kết quả của \(5xy^2-8xy^2\) là:</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(3xy^2\)</span></button>
-      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(2x^2y^2\)</span></button>
-      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(-x^2y\)</span></button>
-      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(3x^3y\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(-13xy^2\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(-3xy^2\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(-3x^2y^4\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Hai đơn thức đồng dạng khi có <b>cùng phần biến</b> — hệ số khác nhau không sao. Chỉ \(-x^2y\) có phần biến \(x^2y\) giống \(3x^2y\). Chú ý \(3xy^2\) khác \(3x^2y\) vì số mũ đổi chỗ.</p>
+    <p class="giai-thich"><b>Vì sao.</b> Hai đơn thức đồng dạng: trừ hệ số \(5-8=-3\), <b>giữ nguyên</b> phần biến. Chọn \(3xy^2\) là đảo dấu; \(-13xy^2\) là cộng thay vì trừ; \(-3x^2y^4\) là trừ cả phần biến — phần biến không tham gia phép trừ.</p>
   </div>
 
-  <div class="cau" data-dung="B">
-    <div class="cau-dau"><span class="cau-so">13</span><p class="cau-de">Cho \(A=2x^2y^3\) và \(C=x^3y^2\). Khẳng định nào đúng?</p></div>
+  <div class="cau" data-dung="B" data-muc="2">
+    <div class="cau-dau"><span class="cau-so">9</span><p class="cau-de">Đơn thức nào sau đây đã ở dạng <b>thu gọn</b>?</p></div>
     <div class="dap-an">
-      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>Cùng bậc nên đồng dạng</span></button>
-      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>Cùng bậc 5 nhưng không đồng dạng</span></button>
-      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>Khác bậc nên không đồng dạng</span></button>
-      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>Đồng dạng vì cùng hai biến \(x,y\)</span></button>
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(x^2y\cdot x\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(-2x^3y\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(4\cdot 3xy^2\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(2xyx^2\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> (Tranh luận) Cả hai cùng bậc \(5\), nhưng phần biến khác nhau: \(x^2y^3\ne x^3y^2\). Với đơn thức nhiều biến, <b>cùng bậc không đủ để đồng dạng</b> — phải cùng phần biến.</p>
+    <p class="giai-thich"><b>Vì sao.</b> Thu gọn nghĩa là mỗi biến chỉ xuất hiện <b>một lần</b> dưới dạng lũy thừa, và phần số đã gộp thành một hệ số. \(x^2y\cdot x\) và \(2xyx^2\) còn \(x\) ở hai chỗ; \(4\cdot3xy^2\) còn hai số chưa nhân.</p>
   </div>
 
-  <div class="cau" data-dung="C">
-    <div class="cau-dau"><span class="cau-so">14</span><p class="cau-de">Đơn thức nào đồng dạng với \(-4y\)?</p></div>
+  <div class="cau" data-dung="D" data-muc="2">
+    <div class="cau-dau"><span class="cau-so">10</span><p class="cau-de">Bậc của đơn thức \(-x^4y^3z\) là:</p></div>
     <div class="dap-an">
-      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(-0{,}2x^2y^3\)</span></button>
-      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(3x^3y^2\)</span></button>
-      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(y\sqrt2\)</span></button>
-      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(-4y^2\)</span></button>
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(7\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(4\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(12\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(8\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> (Bài 1.4) \(y\sqrt2=\sqrt2\,y\) có phần biến \(y\), giống \(-4y\). Hệ số \(\sqrt2\) chỉ là một số nên không ảnh hưởng.</p>
+    <p class="giai-thich"><b>Vì sao.</b> \(z\) có số mũ là <b>1</b> chứ không phải 0: \(4+3+1=8\). Chọn 7 là quên mất \(z\); chọn 4 là lấy số mũ lớn nhất; chọn 12 là nhân các số mũ.</p>
   </div>
 
-  <div class="cau" data-dung="A">
-    <div class="cau-dau"><span class="cau-so">15</span><p class="cau-de">Tính \(5x^2y+2x^2y\).</p></div>
+  <div class="cau" data-dung="A" data-muc="2">
+    <div class="cau-dau"><span class="cau-so">11</span><p class="cau-de">Phần biến của đơn thức \(\dfrac{3}{5}a^2b^3\) là:</p></div>
     <div class="dap-an">
-      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(7x^2y\)</span></button>
-      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(7x^4y^2\)</span></button>
-      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(10x^2y\)</span></button>
-      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(7x^2y^2\)</span></button>
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(a^2b^3\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(\dfrac{3}{5}a^2b^3\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(ab\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(a^2\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Cộng hai đơn thức đồng dạng: <b>cộng hệ số, giữ nguyên phần biến</b>. \((5+2)x^2y=7x^2y\). Phần biến không đổi.</p>
+    <p class="giai-thich"><b>Vì sao.</b> Phần biến là phần còn lại sau khi bỏ hệ số. Chọn \(\dfrac35a^2b^3\) là giữ luôn hệ số; \(ab\) là bỏ mất số mũ; \(a^2\) là bỏ sót biến \(b\).</p>
   </div>
 
-  <div class="cau" data-dung="D">
-    <div class="cau-dau"><span class="cau-so">16</span><p class="cau-de">Cho \(A=3xy^2\) và \(B=-5xy^2\). Tính \(A-B\).</p></div>
+  <div class="cau" data-dung="C" data-muc="2">
+    <div class="cau-dau"><span class="cau-so">12</span><p class="cau-de">Về hai đơn thức \(2x^2y\) và \(2xy^2\), khẳng định đúng là:</p></div>
     <div class="dap-an">
-      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(-2xy^2\)</span></button>
-      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(-8xy^2\)</span></button>
-      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(2xy^2\)</span></button>
-      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(8xy^2\)</span></button>
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>đồng dạng, vì có cùng hệ số</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>đồng dạng, vì có cùng bậc</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>không đồng dạng, nhưng cùng bậc 3</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>không đồng dạng và cũng khác bậc</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> (Ví dụ 3) \(A-B=[3-(-5)]xy^2=8xy^2\). Chú ý dấu: trừ đi số âm thành cộng.</p>
+    <p class="giai-thich"><b>Vì sao.</b> Cả hai đều có bậc \(2+1=3\), nhưng phần biến \(x^2y\ne xy^2\) nên không đồng dạng. Đây chính là chỗ chiều ngược lại của nhận xét không đúng: cùng bậc <b>không</b> suy ra đồng dạng.</p>
   </div>
 
-  <div class="cau" data-dung="B">
-    <div class="cau-dau"><span class="cau-so">17</span><p class="cau-de">Rút gọn \(S=\dfrac12x^2y^5-\dfrac52x^2y^5\).</p></div>
+  <div class="cau" data-dung="D" data-muc="3">
+    <div class="cau-dau"><span class="cau-so">13</span><p class="cau-de">Biết \(A+4x^2y=9x^2y\). Đơn thức \(A\) là:</p></div>
     <div class="dap-an">
-      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(-2x^4y^{10}\)</span></button>
-      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(-2x^2y^5\)</span></button>
-      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(3x^2y^5\)</span></button>
-      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(2x^2y^5\)</span></button>
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(13x^2y\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(-5x^2y\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(5x^4y^2\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(5x^2y\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> (Bài 1.5) \(\left(\dfrac12-\dfrac52\right)x^2y^5=-2x^2y^5\). Chỉ trừ hệ số, phần biến giữ nguyên.</p>
+    <p class="giai-thich"><b>Vì sao.</b> Đi ngược: \(A=9x^2y-4x^2y=5x^2y\). Chọn \(13x^2y\) là cộng thay vì trừ; \(-5x^2y\) là trừ ngược chiều; \(5x^4y^2\) là trừ cả phần biến.</p>
   </div>
 
-  <div class="cau" data-dung="A">
-    <div class="cau-dau"><span class="cau-so">18</span><p class="cau-de">Tính tổng \(2x^2y^3-\dfrac35x^2y^3-14x^2y^3+\dfrac85x^2y^3\).</p></div>
+  <div class="cau" data-dung="B" data-muc="3">
+    <div class="cau-dau"><span class="cau-so">14</span><p class="cau-de">Rút gọn \(7ab-3ab+ab\) được:</p></div>
     <div class="dap-an">
-      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(-11x^2y^3\)</span></button>
-      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(-13x^2y^3\)</span></button>
-      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(11x^2y^3\)</span></button>
-      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(-12x^2y^3\)</span></button>
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(3ab\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(5ab\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(4ab\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(11ab\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> (Bài 1.6) Cộng hệ số: \(2-\dfrac35-14+\dfrac85=(2-14)+\left(-\dfrac35+\dfrac85\right)=-12+1=-11\). Vậy tổng là \(-11x^2y^3\).</p>
+    <p class="giai-thich"><b>Vì sao.</b> \(7-3+1=5\). Chọn \(3ab\) là trừ luôn hạng tử cuối (\(7-3-1\)); \(4ab\) là bỏ quên hạng tử \(ab\); \(11ab\) là cộng cả ba hệ số, không để ý dấu trừ.</p>
   </div>
 
-  <div class="cau" data-dung="C">
-    <div class="cau-dau"><span class="cau-so">19</span><p class="cau-de">Cho \(S=-x^3y+4x^3y-2x^3y\). Giá trị của \(S\) tại \(x=2;\ y=-3\) là</p></div>
+  <div class="cau" data-dung="C" data-muc="3">
+    <div class="cau-dau"><span class="cau-so">15</span><p class="cau-de">Với giá trị nào của \(m\) thì \(mx^2y\) và \(-4x^2y\) là hai đơn thức đồng dạng?</p></div>
     <div class="dap-an">
-      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(24\)</span></button>
-      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(-6\)</span></button>
-      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(-24\)</span></button>
-      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(-18\)</span></button>
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>chỉ \(m=-4\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>chỉ \(m=4\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>mọi \(m\ne 0\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>mọi giá trị của \(m\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> (Luyện tập 4) Rút gọn trước: \(S=(-1+4-2)x^3y=x^3y\). Thay số: \(S=2^3\cdot(-3)=8\cdot(-3)=-24\).</p>
+    <p class="giai-thich"><b>Vì sao.</b> Hai đơn thức đã sẵn cùng phần biến, nên chỉ còn ràng buộc hệ số khác 0. Không cần hệ số bằng nhau (đó là nhầm đồng dạng với bằng nhau), nhưng cũng không được lấy \(m=0\) vì khi đó \(mx^2y=0\), không còn là đơn thức có hệ số khác 0.</p>
   </div>
 
-  <div class="cau" data-dung="B">
-    <div class="cau-dau"><span class="cau-so">20</span><p class="cau-de">Mỗi phần quà gồm \(x\) kg gạo giá 12 nghìn đồng/kg và \(x\) gói mì giá 4,5 nghìn đồng/gói. Số tiền mua \(y\) phần quà (nghìn đồng) là</p></div>
+  <div class="cau" data-dung="A" data-muc="3">
+    <div class="cau-dau"><span class="cau-so">16</span><p class="cau-de">Thu gọn \(-2x^2y\cdot 3xy^3\) rồi cho biết bậc của kết quả:</p></div>
     <div class="dap-an">
-      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(16{,}5x\)</span></button>
-      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(16{,}5xy\)</span></button>
-      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(16{,}5x^2y\)</span></button>
-      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(12xy+4{,}5x\)</span></button>
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(-6x^3y^4\), bậc 7</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(-6x^3y^4\), bậc 12</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(6x^3y^4\), bậc 7</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(-6x^2y^3\), bậc 5</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> (Vận dụng) Tiền gạo \(12xy\), tiền mì \(4{,}5xy\). Hai đơn thức này đồng dạng nên cộng được: \((12+4{,}5)xy=16{,}5xy\) nghìn đồng.</p>
+    <p class="giai-thich"><b>Vì sao.</b> Hai bước: nhân được \(-6x^3y^4\), rồi cộng số mũ \(3+4=7\). Chọn "bậc 12" là nhân số mũ \(3\cdot4\); \(6x^3y^4\) là mất dấu âm; \(-6x^2y^3\) là quên cộng số mũ khi nhân.</p>
+  </div>
+
+  <div class="cau" data-dung="B" data-muc="3">
+    <div class="cau-dau"><span class="cau-so">17</span><p class="cau-de">Đơn thức \(-\dfrac{3}{4}x^ay^2\) có bậc bằng 6. Giá trị của \(a\) là:</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(6\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(4\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(8\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(3\)</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> Đi ngược từ bậc: \(a+2=6\) nên \(a=4\). Chọn 6 là quên rằng \(y^2\) cũng góp 2 vào bậc; chọn 8 là cộng \(6+2\); chọn 3 là lấy \(6:2\).</p>
+  </div>
+
+  <div class="cau" data-dung="D" data-muc="3">
+    <div class="cau-dau"><span class="cau-so">18</span><p class="cau-de">Một mảnh vườn hình chữ nhật có chiều dài \(3x\) m, chiều rộng \(2y\) m. Người ta tăng chiều dài lên gấp đôi, giữ nguyên chiều rộng. Diện tích <b>tăng thêm</b> là:</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(12xy\) m\(^2\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(24xy\) m\(^2\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(18xy\) m\(^2\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(6xy\) m\(^2\)</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> Diện tích cũ \(6xy\), diện tích mới \(6x\cdot 2y=12xy\), phần tăng thêm \(12xy-6xy=6xy\). Chọn \(12xy\) là dừng ở diện tích mới, chưa trả lời câu hỏi; \(24xy\) là tăng gấp đôi cả hai chiều; \(18xy\) là cộng hai diện tích.</p>
+  </div>
+
+  <div class="cau" data-dung="A" data-muc="4">
+    <div class="cau-dau"><span class="cau-so">19</span><p class="cau-de">Biết hai đơn thức \(2x^my^2\) và \(-5x^3y^n\) đồng dạng. Tổng của chúng bằng:</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(-3x^3y^2\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(7x^3y^2\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(-3x^5y^4\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(-10x^6y^4\)</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> Đồng dạng buộc phần biến trùng nhau: \(m=3,\ n=2\). Khi đó tổng là \((2-5)x^3y^2=-3x^3y^2\). Chọn \(7x^3y^2\) là trừ hệ số nhầm chiều; \(-3x^5y^4\) là cộng cả số mũ; \(-10x^6y^4\) là nhân hai đơn thức thay vì cộng.</p>
+  </div>
+
+  <div class="cau" data-dung="C" data-muc="4">
+    <div class="cau-dau"><span class="cau-so">20</span><p class="cau-de">Một cửa hàng bán \(x\) kg gạo với giá \(y\) nghìn đồng/kg, sau đó bán thêm \(3x\) kg gạo cùng loại nhưng đã giảm giá còn \(0{,}8y\) nghìn đồng/kg. Tổng số tiền thu được là:</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(2{,}4xy\) nghìn đồng</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(4xy\) nghìn đồng</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(3{,}4xy\) nghìn đồng</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(3{,}2xy\) nghìn đồng</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> Lô đầu \(xy\); lô sau \(3x\cdot 0{,}8y=2{,}4xy\); cộng lại \(xy+2{,}4xy=3{,}4xy\). Chọn \(2{,}4xy\) là tính đúng lô sau rồi dừng, quên cộng lô đầu; \(4xy\) là bỏ qua việc giảm giá; \(3{,}2xy\) là nhân \(0{,}8\) vào cả tổng \(4xy\).</p>
   </div>
 
 </div>

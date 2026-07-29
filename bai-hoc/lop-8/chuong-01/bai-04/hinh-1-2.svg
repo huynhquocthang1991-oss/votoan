@@ -1,0 +1,28 @@
+<svg viewBox="0 0 492 283.091" width="492" role="img" aria-labelledby="hinh-1-2-title hinh-1-2-desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="hinh-1-2-title">Hình 1.2 - Hai hình vuông ghép lại và hai hình tròn nội tiếp</title>
+  <desc id="hinh-1-2-desc">Hình vuông nhỏ cạnh 2x ghép bên trái hình vuông lớn cạnh 2,5y; đường tròn nhỏ nội tiếp hình vuông nhỏ, đường tròn lớn bán kính y tiếp xúc cạnh trên và cạnh trái.</desc>
+  <g shape-rendering="geometricPrecision">
+    <path d="M72 253V126H199V63H389V253Z"
+          fill="#4eacea"/>
+    <circle cx="135.5" cy="189.5" r="62" fill="#fff"/>
+    <circle cx="276" cy="140" r="76" fill="#fff"/>
+    <path d="M72 253V126H199V63H389V253Z"
+          fill="none" stroke="#203f56" stroke-width="3" stroke-linejoin="miter"/>
+    <line x1="199" y1="126" x2="199" y2="253"
+          stroke="#203f56" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="1 4"/>
+  </g>
+  <g fill="#222" font-family="Arial, sans-serif" font-size="28">
+    <text x="135.5" y="116" text-anchor="middle">
+      <tspan>2</tspan><tspan font-style="italic">x</tspan>
+    </text>
+    <text x="61" y="199" text-anchor="end">
+      <tspan>2</tspan><tspan font-style="italic">x</tspan>
+    </text>
+    <text x="294" y="52" text-anchor="middle">
+      <tspan>2,5</tspan><tspan font-style="italic">y</tspan>
+    </text>
+    <text x="400" y="166">
+      <tspan>2,5</tspan><tspan font-style="italic">y</tspan>
+    </text>
+  </g>
+</svg>

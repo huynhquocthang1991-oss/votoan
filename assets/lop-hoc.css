@@ -1,0 +1,51 @@
+/* Giao diện phần lớp học — dùng ĐÚNG token vở ô ly của CHUAN_BAI.md mục 2.
+ * Không đặt màu mới, không thêm font. Hàng bấm ≥44px, không hover-only,
+ * màu luôn đi kèm nhãn chữ (CHUAN_LOP_HOC.md mục 14). */
+
+.lh-thanh{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:10px 18px;background:var(--blue-l);border-bottom:1px solid var(--line);
+  font-size:.86rem;color:var(--ink)}
+.lh-thanh a{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;
+  border-radius:10px;font-weight:600;color:var(--blue)}
+.lh-thanh .lh-vao{background:var(--blue);color:#fff}
+
+.lh-nop{margin-top:18px;padding:18px 20px;background:var(--surface);
+  border:1px solid var(--line);border-radius:15px}
+.lh-nop-dau{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  font-family:var(--display)}
+.lh-luot{font-size:.78rem;color:var(--muted);font-weight:600}
+.lh-dan{margin:8px 0 14px;font-size:.86rem;color:var(--muted);line-height:1.6}
+
+.lh-nut-chup{display:inline-flex;align-items:center;justify-content:center;
+  min-height:48px;padding:0 22px;background:var(--blue);color:#fff;border-radius:12px;
+  font-weight:600;cursor:pointer}
+.lh-nut-chup.lh-khoa{background:#e6ecf0;color:var(--muted);cursor:default}
+
+.lh-bao{margin:12px 0 0;font-size:.86rem;color:var(--muted);min-height:1.2em}
+.lh-bao.loi{color:var(--red)}
+
+/* Nhãn trạng thái phải khác nhau VỀ HÌNH, không chỉ về chữ — mục 9.2.
+ * Nhiều em sẽ không đọc chữ "chờ duyệt"; sự đổi hình mới là thứ nhìn lướt là hiểu. */
+.lh-nx{margin-top:14px;padding:14px 16px;border-radius:12px}
+.lh-nx p{margin:6px 0 0;font-size:.92rem}
+.lh-huy{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase}
+
+.lh-may{background:var(--blue-l);border:2px dashed var(--blue)}      /* chờ duyệt */
+.lh-may .lh-huy{color:var(--blue)}
+.lh-duyet{background:var(--green-l);border:2px solid var(--green)}   /* đã xác nhận */
+.lh-duyet .lh-huy{color:var(--green)}
+.lh-sua{background:var(--orange-l);border:2px solid var(--orange)}   /* đã đính chính */
+.lh-sua .lh-huy{color:var(--orange)}
+
+.lh-cu{margin-top:14px;font-size:.84rem;color:var(--muted)}
+.lh-cu summary{cursor:pointer;text-decoration:line-through}
+.lh-goiy{padding:10px 12px;margin-top:10px;background:rgba(255,255,255,.6);
+  border-left:3px solid var(--blue);border-radius:0 8px 8px 0;font-size:.88rem}
+.lh-het-luot{margin-top:12px;padding:12px 14px;background:var(--purple-l);
+  border-radius:10px;font-size:.88rem;color:var(--purple)}
+
+/* Sao: rỗng = tạm tính, đặc = chính thức. Cùng ngôn ngữ viền đứt/viền liền. */
+.lh-sao{font-size:1.1rem;letter-spacing:2px}
+.lh-sao .tam{color:var(--muted);opacity:.55}
+.lh-sao .that{color:var(--orange)}

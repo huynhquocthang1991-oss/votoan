@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Duyệt giáo viên — Vở Toán</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#1b4dff; --blue-d:#0d36c7; --blue-l:#eef3ff;
+    --orange:#d84f00; --orange-l:#fff5e9;
+    --green:#2e7d32; --green-l:#edf8ee;
+    --red:#c62828; --red-l:#fff0f0;
+    --ink:#13223c; --muted:#4f5f7a; --line:#d9e2f0;
+    --paper:#fafcff; --grid:#e5ecf8; --surface:#fff;
+    --body:"Be Vietnam Pro",system-ui,-apple-system,sans-serif;
+    --display:"Bricolage Grotesque","Be Vietnam Pro",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{font-family:var(--body);color:var(--ink);margin:0;line-height:1.6;font-size:16px;
+    background-color:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:30px 30px}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:3px solid rgba(27,77,255,.45);outline-offset:3px;border-radius:8px}
+  .trang{width:min(820px,calc(100% - 32px));margin:0 auto;padding:22px 0 80px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    padding:22px 26px;background:linear-gradient(125deg,var(--blue-d),#2e62ff);color:#fff;
+    border-radius:20px;margin-bottom:22px}
+  header h1{margin:0;font:800 1.5rem/1.1 var(--display);letter-spacing:-.03em}
+  header a{min-height:44px;display:inline-flex;align-items:center;padding:0 16px;
+    background:rgba(255,255,255,.16);border-radius:10px;font-size:.86rem;font-weight:600}
+  .the{background:var(--surface);border:1px solid var(--line);border-radius:18px;
+    padding:22px 24px;margin-bottom:16px}
+  .the h2{margin:0 0 4px;font:700 1.15rem/1.2 var(--display)}
+  .the .mo-ta{margin:0 0 18px;font-size:.88rem;color:var(--muted)}
+  .hang{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    padding:14px 16px;background:#f7f9fb;border-radius:12px;margin-bottom:10px}
+  .hang b{font-size:.95rem}
+  .hang .em{display:block;font-size:.82rem;color:var(--muted)}
+  .nut{min-height:46px;padding:0 18px;font:inherit;font-weight:600;font-size:.9rem;
+    border:none;border-radius:11px;cursor:pointer;background:var(--green);color:#fff}
+  .nut.tu-choi{background:#fff;color:var(--red);border:1.5px solid var(--line)}
+  .nut:disabled{opacity:.5;cursor:default}
+  .trong{padding:30px;text-align:center;color:var(--muted);font-size:.92rem}
+  .huy{display:inline-block;padding:3px 9px;border-radius:99px;font-size:.7rem;font-weight:700;
+    text-transform:uppercase;background:var(--green-l);color:var(--green)}
+</style>
+</head>
+<body>
+<div class="trang" id="app" hidden>
+  <header>
+    <h1>Duyệt tài khoản giáo viên</h1>
+    <a href="/lop-hoc/giao-vien.html">Bảng của tôi</a>
+  </header>
+
+  <div class="the">
+    <h2>Đang chờ duyệt</h2>
+    <p class="mo-ta">Ai đăng nhập bằng Gmail cũng tạo được tài khoản, nhưng chưa duyệt
+      thì chưa xem được gì. Chỉ duyệt người thầy biết — đây là cửa duy nhất chặn người lạ
+      vào xem dữ liệu học sinh.</p>
+    <div id="ds-cho"><p class="trong">Đang tải…</p></div>
+  </div>
+
+  <div class="the">
+    <h2>Đang hoạt động</h2>
+    <div id="ds-hd"><p class="trong">Đang tải…</p></div>
+  </div>
+</div>
+
+<div id="chua-cai" class="trang" hidden>
+  <div class="the"><h2>Chưa cài đặt</h2>
+  <p class="mo-ta">Xem <b>lop-hoc/CAI_DAT.md</b> bước 1.</p></div>
+</div>
+
+<script src="/assets/lop-hoc-cauhinh.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+(function () {
+  'use strict';
+  var CH = window.LOP_HOC_CAUHINH || {};
+  if (!CH.URL || !CH.ANON_KEY) { document.getElementById('chua-cai').hidden = false; return; }
+  var sb = window.supabase.createClient(CH.URL, CH.ANON_KEY);
+  function $(id) { return document.getElementById(id); }
+  function tc(s) { var d = document.createElement('div'); d.textContent = s == null ? '' : s; return d.innerHTML; }
+
+  sb.auth.getSession().then(function (r) {
+    if (!r.data.session) { location.href = '/lop-hoc/dang-nhap.html'; return; }
+    return sb.from('giao_vien').select('la_admin,trang_thai').eq('id', r.data.session.user.id).single()
+      .then(function (g) {
+        if (!g.data || !g.data.la_admin) { location.href = '/lop-hoc/dang-nhap.html'; return; }
+        $('app').hidden = false;
+        nap();
+      });
+  });
+
+  function nap() {
+    sb.from('giao_vien').select('id,email,ten,trang_thai,luc_tao').order('luc_tao')
+      .then(function (r) {
+        var ds = r.data || [];
+        ve($('ds-cho'), ds.filter(function (g) { return g.trang_thai === 'cho_duyet'; }), true);
+        ve($('ds-hd'), ds.filter(function (g) { return g.trang_thai === 'hoat_dong'; }), false);
+      });
+  }
+
+  function ve(o, ds, choDuyet) {
+    if (!ds.length) {
+      o.innerHTML = '<p class="trong">' + (choDuyet ? 'Không có ai đang chờ.' : 'Chưa có ai.') + '</p>';
+      return;
+    }
+    o.innerHTML = '';
+    ds.forEach(function (g) {
+      var d = document.createElement('div');
+      d.className = 'hang';
+      d.innerHTML = '<div><b>' + tc(g.ten || g.email) + '</b>'
+        + '<span class="em">' + tc(g.email) + '</span></div>';
+      var p = document.createElement('div');
+      if (choDuyet) {
+        p.innerHTML = '<button class="nut" data-tt="hoat_dong">Duyệt</button> '
+                    + '<button class="nut tu-choi" data-tt="khoa">Từ chối</button>';
+      } else {
+        p.innerHTML = '<span class="huy">đang dùng</span> '
+                    + '<button class="nut tu-choi" data-tt="khoa">Khoá</button>';
+      }
+      d.appendChild(p);
+      p.querySelectorAll('button').forEach(function (b) {
+        b.addEventListener('click', function () {
+          p.querySelectorAll('button').forEach(function (x) { x.disabled = true; });
+          sb.from('giao_vien').update({ trang_thai: b.dataset.tt }).eq('id', g.id)
+            .then(function (res) {
+              if (res.error) { alert(res.error.message); p.querySelectorAll('button').forEach(function (x) { x.disabled = false; }); return; }
+              nap();
+            });
+        });
+      });
+      o.appendChild(d);
+    });
+  }
+})();
+</script>
+</body>
+</html>

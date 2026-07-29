@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bài 1. Khái niệm phương trình và hệ hai phương trình bậc nhất hai ẩn — Toán 9 (KNTT)</title>
+<script>
+MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;display=swap" rel="stylesheet">
+<style>
+  /* Bảng màu "vở ô ly" — dùng chung với mục lục lớp (tools/mau/trang-lop.html).
+     Đổi màu ở đây thì đổi cả bên đó cho đồng bộ. */
+  :root{
+    --blue:#1b4dff; --blue-d:#0d36c7; --blue-l:#eef3ff;
+    --orange:#d84f00; --orange-l:#fff5e9;
+    --green:#2e7d32; --green-l:#edf8ee;
+    --red:#c62828; --red-l:#fff0f0;
+    --purple:#6a1b9a; --purple-l:#f7eefb;
+    --ink:#13223c; --muted:#4f5f7a; --line:#d9e2f0;
+    --paper:#fafcff; --grid:#e5ecf8; --surface:#fff;
+    --body:"Be Vietnam Pro",system-ui,-apple-system,sans-serif;
+    --display:"Bricolage Grotesque","Be Vietnam Pro",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    margin:0;color:var(--ink);font:400 17px/1.7 var(--body);overflow-x:hidden;
+    background-color:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:30px 30px;
+  }
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:3px solid rgba(27,77,255,.45);outline-offset:3px;border-radius:8px}
+  .page{width:min(1580px,calc(100% - 40px));margin:0 auto;padding:24px 0 72px;display:grid;grid-template-columns:260px minmax(0,1fr);gap:24px;align-items:start}
+  .lesson-content{min-width:0}
+
+  /* Mục lục trên máy tính, thanh điều hướng gọn trên điện thoại */
+  .lesson-nav{position:sticky;top:20px;min-width:0;max-height:calc(100vh - 40px);overflow-y:auto;padding:22px;background:rgba(255,255,255,.94);border:1.5px solid var(--line);border-radius:20px;box-shadow:0 16px 42px rgba(19,34,60,.07);backdrop-filter:blur(12px)}
+  .lesson-brand{display:flex;align-items:center;gap:10px;margin-bottom:12px;font:700 1.05rem/1 var(--display);letter-spacing:-.02em}
+  .lesson-brand span:first-child{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:var(--blue);color:#fff;font-size:.76rem}
+  .ve-lop{display:inline-flex;align-items:center;gap:7px;min-height:42px;margin-bottom:18px;padding:0 13px;background:var(--blue-l);border-radius:11px;color:var(--blue);font-size:.9rem;font-weight:700;transition:background .2s ease}
+  .ve-lop:hover{background:#dfe8ff}
+  .nav-label{margin:0 0 10px;color:var(--muted);font-size:.76rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase}
+  .lesson-nav nav{display:grid;gap:5px}
+  .lesson-nav nav a{display:flex;align-items:center;gap:10px;min-height:44px;padding:10px 12px;border-radius:11px;color:#45536e;font-size:.9rem;line-height:1.4;transition:background .2s ease,color .2s ease}
+  .lesson-nav nav a::before{content:"";width:6px;height:6px;flex:0 0 auto;border:1.5px solid currentColor;border-radius:50%}
+  .lesson-nav nav a:hover{color:var(--blue);background:var(--blue-l)}
+  .lesson-nav nav a.active{color:var(--blue);background:var(--blue-l);font-weight:600}
+  .lesson-nav nav a.active::before{background:var(--blue);border-color:var(--blue)}
+  .lesson-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+  .lesson-meta span{display:block;color:var(--muted);font-size:.78rem;line-height:1.45}
+  .lesson-meta b{display:block;margin-bottom:2px;color:var(--ink);font:700 1.05rem/1 var(--display)}
+
+  /* Đầu bài */
+  header{scroll-margin-top:24px;position:relative;min-height:250px;display:grid;align-content:end;overflow:hidden;background:linear-gradient(125deg,var(--blue-d),#2e62ff);color:#fff;border-radius:24px;padding:clamp(28px,5vw,58px);margin-bottom:32px;box-shadow:0 24px 58px rgba(13,54,199,.18)}
+  header::before,header::after{content:"";position:absolute;border:1px solid rgba(255,255,255,.16);border-radius:50%;pointer-events:none}
+  header::before{width:340px;height:340px;right:-105px;top:-175px}
+  header::after{width:210px;height:210px;right:80px;top:-120px}
+  .breadcrumb{position:relative;z-index:1;margin:0 0 32px;font-size:.82rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;opacity:.9}
+  .breadcrumb a{display:inline-flex;align-items:center;min-height:32px;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px;text-decoration-color:rgba(255,255,255,.55)}
+  .breadcrumb a:hover{text-decoration-color:#fff}
+  .hero-row{position:relative;z-index:1;display:flex;align-items:end;justify-content:space-between;gap:32px}
+  /* Tên bài dài (4 dòng chữ SGK) → cho xuống dòng, không nowrap như bài tên ngắn. */
+  header h1{max-width:15ch;margin:0;font:800 clamp(1.7rem,3.1vw,3.05rem)/1.06 var(--display);letter-spacing:-.035em}
+  header p{max-width:600px;margin:15px 0 0;opacity:.9;font-size:1rem}
+  .hero-number{font:700 clamp(4.5rem,10vw,8rem)/.72 var(--display);letter-spacing:-.07em;color:rgba(255,255,255,.17)}
+
+  /* Tiêu đề mục lớn */
+  h2.sec{scroll-margin-top:24px;display:flex;align-items:center;gap:14px;font:700 clamp(1.25rem,2vw,1.55rem)/1.3 var(--display);letter-spacing:-.02em;margin:46px 0 18px;padding:16px 18px;background:var(--surface);color:var(--blue);border:1.5px solid var(--line);border-left:5px solid var(--blue);border-radius:0 14px 14px 0;box-shadow:0 9px 30px rgba(19,34,60,.045)}
+  h2.sec .num{display:grid;place-items:center;min-width:37px;height:33px;padding:0 8px;background:var(--blue-l);color:var(--blue);border-radius:9px;font-size:.92rem}
+  h2.sec.red{color:var(--red);border-left-color:var(--red)} h2.sec.red .num{background:var(--red-l);color:var(--red)}
+  h3.sub{scroll-margin-top:24px;font:700 1.15rem/1.4 var(--display);color:var(--blue);margin:30px 0 12px;padding-left:13px;border-left:3px solid var(--blue)}
+
+  /* Sơ đồ kiến thức */
+  .map{border:1.5px solid rgba(27,77,255,.26);border-radius:18px;padding:17px;background:var(--surface);margin:12px 0 16px;box-shadow:0 12px 36px rgba(19,34,60,.045)}
+  .map .root{background:var(--blue);color:#fff;font-weight:700;text-align:center;padding:12px 14px;border-radius:11px;font-size:.95rem;letter-spacing:.02em}
+  .map.orange{border-color:rgba(216,79,0,.28)} .map.orange .root{background:var(--orange)}
+  .map.purple{border-color:rgba(106,27,154,.27)} .map.purple .root{background:var(--purple)}
+  .branches{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:12px;margin-top:12px}
+  .node{min-width:0;border-radius:13px;padding:15px 17px;border:1px solid}
+  .node h4{margin:0 0 8px;font:700 1.02rem/1.35 var(--display)}
+  .node ul{margin:0;padding-left:20px}
+  .node li{margin:6px 0}
+  .n-blue{background:var(--blue-l);border-color:rgba(27,77,255,.22)} .n-blue h4{color:var(--blue)}
+  .n-orange{background:var(--orange-l);border-color:rgba(216,79,0,.22)} .n-orange h4{color:var(--orange)}
+  .n-green{background:var(--green-l);border-color:rgba(46,125,50,.22)} .n-green h4{color:var(--green)}
+  .n-purple{background:var(--purple-l);border-color:rgba(106,27,154,.2)} .n-purple h4{color:var(--purple)}
+  .def{background:rgba(255,255,255,.88);border-left:3px solid #f9a825;padding:10px 12px;border-radius:0 9px 9px 0;margin:8px 0;font-weight:600}
+  .note{font-size:.95rem;color:#47586e;background:#eef2f8;border-radius:10px;padding:10px 12px;margin-top:9px}
+
+  /* Hệ hai phương trình: dấu ngoặc nhọn + hai dòng phương trình.
+     KHÔNG dùng \begin{cases} vì trình chiếu tách công thức theo từng ký hiệu
+     (stageifyMath) sẽ cắt vụn lệnh môi trường → MathJax báo lỗi. Mỗi phương
+     trình là một \( … \) riêng nên vẫn hiện dần từng ký hiệu như mọi công thức. */
+  .he{display:inline-grid;grid-template-columns:auto auto;gap:0 7px;align-items:center;vertical-align:middle;margin:0 4px}
+  .he::before{content:"{";grid-column:1;grid-row:1/span 2;justify-self:center;font:400 2.7em/.75 "Times New Roman",Georgia,serif;color:var(--ink)}
+  .he i{grid-column:2;display:block;font-style:normal;white-space:nowrap;margin:1px 0}
+
+  /* Ví dụ, luyện tập và bài tập */
+  .card{min-width:0;overflow:hidden;background:var(--surface);border:1.5px solid var(--line);border-radius:15px;padding:18px 20px;margin:14px 0;box-shadow:0 8px 28px rgba(19,34,60,.035)}
+  .card .tag{display:inline-flex;align-items:center;min-height:29px;font-weight:700;color:#fff;border-radius:8px;padding:3px 12px;font-size:.85rem;margin-bottom:8px;letter-spacing:.01em}
+  .tag.vd{background:var(--blue)} .tag.lt{background:var(--green)} .tag.vdung{background:var(--purple)} .tag.bt{background:var(--red)}
+  .card .de{margin:5px 0 9px;overflow-wrap:anywhere}
+  .tho{margin:8px 0 10px;padding-left:14px;border-left:3px solid var(--orange);color:#3a4a66;font-style:italic;line-height:1.9}
+  .giai{border-top:1px dashed var(--line);margin-top:10px;padding-top:11px}
+  .solution{margin-top:12px;border-top:1px dashed var(--line)}
+  .solution summary{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:48px;cursor:pointer;color:var(--blue);font-size:.92rem;font-weight:700;list-style:none;user-select:none}
+  .solution summary::-webkit-details-marker{display:none}
+  .solution summary::after{content:"+";display:grid;place-items:center;width:27px;height:27px;border-radius:50%;background:var(--blue-l);font-size:1.1rem;transition:transform .2s ease}
+  .solution[open] summary::after{transform:rotate(45deg)}
+  .solution .giai{margin-top:0;padding-bottom:3px}
+  .solution .giai::before{content:"Lời giải.";display:block;margin-bottom:6px;font-weight:700;color:var(--blue)}
+  .kq{max-width:100%;background:var(--green-l);border-left:3px solid var(--green);padding:8px 12px;border-radius:0 9px 9px 0;display:inline-block;margin-top:8px}
+  table.grp{display:block;width:100%;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border-collapse:collapse;margin:10px 0;white-space:nowrap}
+  table.grp td,table.grp th{border:1px solid var(--line);padding:9px 14px;text-align:center}
+  table.grp th{background:var(--blue-l);color:var(--blue)}
+  figure{margin:16px 0;text-align:center}
+  figure svg{display:block;width:min(100%,430px);height:auto;margin-inline:auto}
+  figcaption{font-size:.85rem;color:var(--muted);margin-top:6px}
+  mjx-container{overflow-x:auto;overflow-y:hidden;max-width:100%;vertical-align:middle;-webkit-overflow-scrolling:touch}
+  mjx-container:not([display="true"]){display:inline-block!important;max-width:100%!important}
+
+  /* Tài nguyên kèm bài — hiện ở cuối sidebar và cuối trang.
+     Thêm mục mới (tự luận, phiếu in…) = thêm một thẻ <a> ở cả hai chỗ. */
+  .nav-them{margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+  .lesson-nav nav.them a{color:var(--blue);background:var(--blue-l);font-weight:600}
+  .lesson-nav nav.them a::before{border-color:var(--blue)}
+  .lesson-nav nav.them a:hover{background:#dfe8ff}
+  .hoc-tiep{margin:46px 0 0;padding-top:30px;border-top:1px solid var(--line)}
+  .hoc-tiep .nav-label{margin-bottom:14px}
+  .tiep-luoi{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:14px}
+  .tiep-the{display:flex;align-items:center;gap:15px;min-height:64px;padding:18px 20px;background:var(--surface);border:1.5px solid var(--line);border-radius:15px;box-shadow:0 8px 28px rgba(19,34,60,.035);transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease}
+  .tiep-the:hover{border-color:var(--blue);box-shadow:0 14px 36px rgba(27,77,255,.13);transform:translateY(-2px)}
+  .tiep-ico{display:grid;place-items:center;flex:0 0 auto;width:46px;height:46px;border-radius:13px;background:var(--blue-l);color:var(--blue);font:700 1.15rem/1 var(--display)}
+  .tiep-chu{min-width:0;flex:1}
+  .tiep-chu b{display:block;font:700 1.02rem/1.3 var(--display);color:var(--ink)}
+  .tiep-chu i{display:block;margin-top:3px;font-style:normal;font-size:.88rem;color:var(--muted);line-height:1.5}
+  .tiep-mui{flex:0 0 auto;color:var(--blue);font-size:1.2rem;transition:transform .2s ease}
+  .tiep-the:hover .tiep-mui{transform:translateX(4px)}
+
+  @media (min-width:1280px){
+    .page{grid-template-columns:280px minmax(0,1fr);gap:30px}
+    .map{padding:20px}
+    .card{padding:20px 23px}
+  }
+  @media (max-width:900px){
+    .page{width:min(100% - 28px,780px);grid-template-columns:minmax(0,1fr);padding-top:14px;gap:14px}
+    .lesson-nav{position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:9px;max-height:none;overflow-y:visible;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:9px 12px;border-radius:0 0 15px 15px;border-top:0}
+    .lesson-brand{margin-bottom:0;flex:0 0 auto}
+    .lesson-brand span:last-child{display:none}
+    .ve-lop{margin:0;flex:0 0 auto;min-height:40px;padding:0 11px;font-size:.82rem;white-space:nowrap}
+    .nav-label{display:none}
+    .lesson-nav nav{display:flex;flex-wrap:nowrap;gap:6px}
+    .lesson-nav nav a{min-height:40px;padding:8px 11px;background:#f2f6fc;white-space:nowrap;font-size:.84rem}
+    .lesson-meta{display:none}
+    .nav-them{display:flex;margin:0 0 0 3px;padding:0 0 0 12px;border-top:0;border-left:1px solid var(--line)}
+    h2.sec,h3.sub{scroll-margin-top:74px}
+    .hoc-tiep{margin-top:34px;padding-top:24px}
+    header{scroll-margin-top:74px;min-height:230px;margin-bottom:22px;border-radius:18px}
+  }
+  @media (max-width:560px){
+    body{font-size:16px;line-height:1.65}
+    .page{width:min(100% - 20px,780px);padding-bottom:46px}
+    .lesson-nav{padding:10px 12px}
+    .lesson-brand span:first-child{width:32px;height:32px}
+    .lesson-nav nav a{font-size:.8rem;padding:7px 10px}
+    .ve-lop{font-size:.8rem}
+    header{min-height:215px;padding:25px 22px}
+    .breadcrumb{margin-bottom:24px;font-size:.72rem}
+    .hero-row{align-items:flex-end}
+    header h1{max-width:none;font-size:clamp(1.45rem,6.4vw,2.2rem)}
+    header p{font-size:.9rem;line-height:1.6}
+    .hero-number{display:none}
+    h2.sec{margin-top:34px;padding:13px 13px;gap:10px;font-size:1.08rem}
+    h2.sec .num{min-width:32px;height:30px}
+    h3.sub{margin-top:24px;font-size:1.05rem}
+    .map{padding:12px;border-radius:14px}
+    .map .root{padding:10px 10px;font-size:.82rem}
+    .node{padding:13px}
+    .card{padding:15px 14px;border-radius:13px}
+    .solution summary{min-height:46px}
+    table.grp td,table.grp th{padding:8px 11px}
+  }
+  @media print{
+    body{background:#fff}
+    .page{display:block;width:100%;padding:0}
+    .lesson-nav,.hoc-tiep{display:none}
+    header,.map,.card{box-shadow:none;break-inside:avoid}
+    .solution summary{display:none}
+    .solution:not([open])>*:not(summary){display:block}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
+
+  /* ── Phiếu học tập nhúng (PDF hiển thị ngay trong trang) ── */
+  .phieu{scroll-margin-top:80px;margin:34px 0 10px;padding:20px;background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 32px rgba(19,34,60,.06)}
+  .phieu-top{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:14px}
+  .phieu-top h2{margin:0;flex:1;min-width:180px;display:flex;align-items:center;gap:10px;font:700 21px/1.2 var(--display);color:var(--ink)}
+  .phieu-top .ico{display:grid;place-items:center;width:34px;height:34px;border-radius:9px;background:var(--blue-l);color:var(--blue);font-size:18px}
+  .phieu-acts{display:flex;gap:8px;flex-wrap:wrap}
+  .phieu-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 14px;border-radius:10px;font:600 14px/1 var(--body);border:1px solid var(--line);background:#fff;color:var(--ink)}
+  .phieu-btn.primary{background:var(--blue);color:#fff;border-color:var(--blue);box-shadow:0 6px 14px rgba(27,77,255,.2)}
+  .phieu-frame{width:100%;height:min(85vh,1100px);border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#eef1f6}
+  .phieu-frame iframe{width:100%;height:100%;border:0;display:block}
+  .phieu-note{margin:11px 2px 0;color:var(--muted);font-size:13.5px}
+  .phieu-mobile{display:none}
+  /* Điện thoại: iframe PDF không ổn định → ẩn khung, hiện thẻ mở/tải */
+  @media (max-width:760px){
+    .phieu-frame{display:none}
+    .phieu-mobile{display:flex;flex-direction:column;gap:12px;align-items:flex-start;padding:22px;border:1px dashed var(--blue);border-radius:12px;background:var(--blue-l)}
+    .phieu-mobile b{font:700 16px/1.3 var(--display);color:var(--ink)}
+    .phieu-mobile span{color:var(--muted);font-size:14px}
+  }
+  @media print{.phieu{display:none}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<aside class="lesson-nav" aria-label="Mục lục bài học">
+  <a class="lesson-brand" href="/" aria-label="Về trang chủ Vở Toán"><span aria-hidden="true">VT</span><span>Vở Toán</span></a>
+  <a class="ve-lop" href="/bai-hoc/lop-9/">← Mục lục Toán 9</a>
+  <p class="nav-label">Trong bài này</p>
+  <nav>
+    <a href="#top">Mở đầu</a>
+    <a href="#phan-1">Phương trình bậc nhất hai ẩn</a>
+    <a href="#phan-2">Hệ hai phương trình bậc nhất hai ẩn</a>
+    <a href="#bai-tap">Bài tập cuối bài</a>
+  </nav>
+  <div class="lesson-meta" aria-label="Thông tin bài học">
+    <span><b>02</b>phần học</span>
+    <span><b>05</b>bài tập</span>
+  </div>
+  <div class="nav-them">
+    <p class="nav-label">Học liệu</p>
+    <nav class="them">
+      <a href="trinh-chieu.html">Trình chiếu</a>
+      <a href="#phieu-hoc-tap">Phiếu học tập</a>
+      <a href="trac-nghiem.html">Trắc nghiệm</a>
+    </nav>
+  </div>
+</aside>
+
+<main class="lesson-content">
+
+<header id="top">
+  <p class="breadcrumb"><a href="/bai-hoc/lop-9/">Toán 9</a> · Chương I — Phương trình và hệ hai phương trình bậc nhất hai ẩn</p>
+  <div class="hero-row">
+    <div>
+      <h1>Bài 1. Khái niệm phương trình và hệ hai phương trình bậc nhất hai ẩn</h1>
+      <p>Nhận biết phương trình bậc nhất hai ẩn, hệ hai phương trình bậc nhất hai ẩn và nghiệm của chúng.</p>
+    </div>
+    <span class="hero-number" aria-hidden="true">01</span>
+  </div>
+</header>
+
+<div class="card">
+  <span class="tag vdung">Tình huống mở đầu</span>
+  <p class="de">Xét bài toán cổ sau:</p>
+  <p class="tho">Quýt, cam mười bảy quả tươi<br>
+  Đem chia cho một trăm người cùng vui.<br>
+  Chia ba mỗi quả quýt rồi,<br>
+  Còn cam, mỗi quả chia mười vừa xinh.<br>
+  Trăm người, trăm miếng ngọt lành.<br>
+  Quýt, cam mỗi loại tính rành là bao?</p>
+  <p class="de">Trong bài toán này có hai đại lượng chưa biết (số cam và số quýt). Vậy ta có thể giải bài toán đó tương tự “giải bài toán bằng cách lập phương trình” đã học ở lớp 8 được hay không? Để trả lời câu hỏi này, trước hết ta cần tìm hiểu về phương trình và hệ hai phương trình bậc nhất hai ẩn.</p>
+</div>
+
+<!-- ==================================================== -->
+<!-- MỤC 1 -->
+<!-- ==================================================== -->
+<h2 class="sec" id="phan-1"><span class="num">1</span> PHƯƠNG TRÌNH BẬC NHẤT HAI ẨN</h2>
+
+<div class="card">
+  <span class="tag lt">HĐ1 · HĐ2</span>
+  <p class="de">Gọi \(x\) là số cam, \(y\) là số quýt (với \(x\), \(y\) nguyên dương và nhỏ hơn 17).<br>
+  <b>HĐ1.</b> Câu “Quýt, cam mười bảy quả tươi” có nghĩa là tổng số cam và số quýt là 17. Hãy viết hệ thức với hai biến \(x\) và \(y\) biểu thị giả thiết này.<br>
+  <b>HĐ2.</b> Tương tự, hãy viết hệ thức với hai biến \(x\) và \(y\) biểu thị giả thiết cho bởi các câu thơ thứ ba, thứ tư và thứ năm.</p>
+  <div class="show">
+    <div class="giai">
+      HĐ1. Tổng số cam và số quýt là 17 nên \(x+y=17\).<br>
+      HĐ2. Mỗi quả cam chia mười miếng nên \(x\) quả cam được \(10x\) miếng.<br>
+      Mỗi quả quýt chia ba miếng nên \(y\) quả quýt được \(3y\) miếng.<br>
+      Trăm người mỗi người một miếng nên \(10x+3y=100\).<br>
+      <div class="kq">Vậy hai hệ thức là \(x+y=17\) và \(10x+3y=100\) — đó là những ví dụ về phương trình bậc nhất hai ẩn.</div>
+    </div>
+  </div>
+</div>
+
+<h3 class="sub">Khái niệm phương trình bậc nhất hai ẩn</h3>
+<div class="map">
+  <div class="root">PHƯƠNG TRÌNH BẬC NHẤT HAI ẨN \(ax+by=c\)</div>
+  <div class="branches">
+    <div class="node n-blue">
+      <h4>Dạng tổng quát</h4>
+      <div class="def">Phương trình bậc nhất hai ẩn \(x\) và \(y\) là hệ thức dạng \(ax+by=c\), trong đó \(a\), \(b\), \(c\) là các <b>số đã biết</b> và <b>\(a\ne 0\) hoặc \(b\ne 0\)</b>.</div>
+      <ul>
+        <li>\(4x+3y=5\) có \(a=4\); \(b=3\); \(c=5\).</li>
+        <li>\(0x+y=-1\) vẫn là phương trình bậc nhất hai ẩn vì \(b=1\ne 0\).</li>
+      </ul>
+      <div class="note">Hệ thức \(0x+0y=3\) có \(a=b=0\) nên không là phương trình bậc nhất hai ẩn.</div>
+    </div>
+    <div class="node n-green">
+      <h4>Nghiệm của phương trình</h4>
+      <div class="def">Nếu tại \(x=x_0\) và \(y=y_0\) mà \(ax_0+by_0=c\) là một <b>khẳng định đúng</b> thì cặp số \((x_0;y_0)\) được gọi là một <b>nghiệm</b> của phương trình.</div>
+      <ul>
+        <li>Nghiệm là một <b>cặp số có thứ tự</b>, viết \((x_0;y_0)\).</li>
+        <li>Muốn kiểm tra, thay số vào rồi tính giá trị vế trái.</li>
+      </ul>
+    </div>
+    <div class="node n-orange">
+      <h4>Số nghiệm</h4>
+      <div class="def">Mỗi phương trình bậc nhất hai ẩn đều có <b>vô số nghiệm</b>.</div>
+      <ul>
+        <li>Từ \(x+2y=5\) ta có \(y=\dfrac{5-x}{2}\).</li>
+        <li>Mỗi giá trị của \(x\) cho một giá trị \(y\) tương ứng.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag vd">Ví dụ 1</span>
+  <p class="de">a) Trong các hệ thức \(4x+3y=5\); \(0x+y=-1\); \(0x+0y=3\), hệ thức nào là phương trình bậc nhất hai ẩn? Hệ thức nào không là phương trình bậc nhất hai ẩn?<br>
+  b) Trong các cặp số \((2;-1)\) và \((1;0)\), cặp số nào là nghiệm của phương trình \(4x+3y=5\)?</p>
+  <div class="giai">
+    a) Cả ba hệ thức đều có dạng \(ax+by=c\).<br>
+    Hai hệ thức \(4x+3y=5\) và \(0x+y=-1\) thoả mãn \(a\ne 0\) hoặc \(b\ne 0\) nên là phương trình bậc nhất hai ẩn.<br>
+    Hệ thức \(0x+0y=3\) có \(a=b=0\) nên không là phương trình bậc nhất hai ẩn.<br>
+    b) \(4\cdot 2+3\cdot(-1)=8-3=5\) nên \((2;-1)\) là nghiệm.<br>
+    \(4\cdot 1+3\cdot 0=4\ne 5\) nên \((1;0)\) không là nghiệm.<br>
+    <div class="kq">Vậy \((2;-1)\) là nghiệm của phương trình \(4x+3y=5\).</div>
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag lt">Luyện tập 1</span>
+  <p class="de">Hãy viết một phương trình bậc nhất hai ẩn và chỉ ra một nghiệm của nó.</p>
+  <div class="show">
+    <div class="giai">
+      Chẳng hạn phương trình \(3x-2y=1\) (có \(a=3\ne 0\)).<br>
+      Ta có: \(3\cdot 1-2\cdot 1=1\).<br>
+      <div class="kq">Vậy \((1;1)\) là một nghiệm của phương trình \(3x-2y=1\).</div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag vd">Ví dụ 2</span>
+  <p class="de">Giả sử \((x;y)\) là nghiệm của phương trình bậc nhất hai ẩn \(x+2y=5\).<br>
+  a) Hoàn thành bảng sau, từ đó suy ra 5 nghiệm của phương trình đã cho.<br>
+  b) Biểu diễn \(y\) theo \(x\). Từ đó cho biết phương trình đã cho có bao nhiêu nghiệm?</p>
+  <table class="grp">
+    <tr><th>\(x\)</th><td>\(-2\)</td><td>\(-1\)</td><td>\(0\)</td><td>?</td><td>?</td></tr>
+    <tr><th>\(y\)</th><td>?</td><td>?</td><td>?</td><td>\(1\)</td><td>\(2\)</td></tr>
+  </table>
+  <div class="giai">
+    a) Với \(x=-2\) thì \(-2+2y=5\), nên \(y=\dfrac72\).<br>
+    Với \(y=1\) thì \(x+2=5\), nên \(x=3\).<br>
+    Các cột còn lại tính tương tự.<br>
+    <table class="grp">
+      <tr><th>\(x\)</th><td>\(-2\)</td><td>\(-1\)</td><td>\(0\)</td><td>\(3\)</td><td>\(1\)</td></tr>
+      <tr><th>\(y\)</th><td>\(\dfrac72\)</td><td>\(3\)</td><td>\(\dfrac52\)</td><td>\(1\)</td><td>\(2\)</td></tr>
+    </table>
+    Vậy 5 nghiệm của phương trình là \(\left(-2;\dfrac72\right)\); \((-1;3)\); \(\left(0;\dfrac52\right)\); \((3;1)\); \((1;2)\).<br>
+    b) \(y=\dfrac{5-x}{2}\); mỗi giá trị của \(x\) cho một giá trị \(y\) tương ứng.<br>
+    <div class="kq">Vậy phương trình đã cho có vô số nghiệm.</div>
+  </div>
+</div>
+
+<h3 class="sub">Biểu diễn hình học tất cả các nghiệm</h3>
+<div class="map orange">
+  <div class="root">MỖI NGHIỆM LÀ MỘT ĐIỂM CỦA ĐƯỜNG THẲNG \(ax+by=c\)</div>
+  <div class="branches">
+    <div class="node n-orange">
+      <h4>Nghiệm tổng quát</h4>
+      <div class="def">Rút \(y\) theo \(x\) để viết gọn tất cả các nghiệm; cách viết đó gọi là <b>nghiệm tổng quát</b>.</div>
+      <ul>
+        <li>\(x+2y=3\) viết thành \(y=-0{,}5x+1{,}5\).</li>
+        <li>Nghiệm tổng quát là \((x;-0{,}5x+1{,}5)\) với \(x\) <b>tuỳ ý</b>.</li>
+      </ul>
+    </div>
+    <div class="node n-blue">
+      <h4>Nhận xét</h4>
+      <div class="def">Trong mặt phẳng toạ độ, tập hợp các điểm có toạ độ \((x;y)\) thoả mãn \(ax+by=c\) là <b>một đường thẳng</b>, gọi là <b>đường thẳng \(ax+by=c\)</b>.</div>
+      <ul>
+        <li>Muốn vẽ đường thẳng đó, chỉ cần <b>xác định hai điểm</b> của nó rồi nối lại.</li>
+      </ul>
+    </div>
+    <div class="node n-green">
+      <h4>Hai trường hợp đặc biệt</h4>
+      <div class="def">\(0x+by=c\) viết gọn thành \(y=m\): đường thẳng <b>song song với trục hoành</b>.</div>
+      <div class="def">\(ax+0y=c\) viết gọn thành \(x=m\): đường thẳng <b>song song với trục tung</b>.</div>
+      <ul>
+        <li>\(y=-2\) cắt trục tung tại điểm \((0;-2)\).</li>
+        <li>\(x=3\) cắt trục hoành tại điểm \((3;0)\).</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag vd">Ví dụ 3</span>
+  <p class="de">Viết nghiệm và biểu diễn hình học tất cả các nghiệm của mỗi phương trình bậc nhất hai ẩn sau:<br>
+  a) \(x+2y=3\); b) \(0x+y=-2\); c) \(x+0y=3\).</p>
+  <div class="giai">
+    a) \(x+2y=3\) viết thành \(y=-0{,}5x+1{,}5\).<br>
+    Nghiệm tổng quát của phương trình là \((x;-0{,}5x+1{,}5)\) với \(x\) tuỳ ý.<br>
+    Mỗi nghiệm là toạ độ của một điểm thuộc đường thẳng \(d\): \(x+2y=3\).<br>
+    Chọn hai điểm \(A(0;1{,}5)\) và \(B(3;0)\) rồi vẽ đường thẳng đi qua hai điểm đó.<br>
+    <figure>
+      <svg viewBox="0 0 290 222" width="290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Đường thẳng d: x + 2y = 3 đi qua N(−1; 2), A(0; 1,5) và B(3; 0)">
+        <style>text{font-family:"Be Vietnam Pro",system-ui,sans-serif}.num{font-size:15px;fill:#0d2b4e}.pt{font-size:16px;font-weight:700;fill:#0d2b4e}.ax{font-size:17px;font-style:italic;font-weight:700;fill:#1b4dff}.dt{font-size:16px;font-style:italic;font-weight:700}</style>
+        <line x1="14" y1="128" x2="268" y2="128" stroke="#1b4dff" stroke-width="1.8"/>
+        <path d="M267,123 L277,128 L267,133 Z" fill="#1b4dff"/>
+        <line x1="94" y1="208" x2="94" y2="22" stroke="#1b4dff" stroke-width="1.8"/>
+        <path d="M89,23 L94,13 L99,23 Z" fill="#1b4dff"/>
+        <text x="279" y="148" class="ax">x</text>
+        <text x="74" y="16" class="ax">y</text>
+        <text x="77" y="147" class="pt">O</text>
+        <line x1="60.0" y1="123" x2="60.0" y2="133" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="51.0" y="149" class="num">−1</text>
+        <line x1="128.0" y1="123" x2="128.0" y2="133" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="124.0" y="149" class="num">1</text>
+        <line x1="162.0" y1="123" x2="162.0" y2="133" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="158.0" y="149" class="num">2</text>
+        <line x1="196.0" y1="123" x2="196.0" y2="133" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="192.0" y="149" class="num">3</text>
+        <line x1="264.0" y1="123" x2="264.0" y2="133" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="260.0" y="149" class="num">5</text>
+        <line x1="89" y1="162.0" x2="99" y2="162.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="82" y="167.0" class="num" text-anchor="end">−1</text>
+        <line x1="89" y1="94.0" x2="99" y2="94.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="82" y="99.0" class="num" text-anchor="end">1</text>
+        <line x1="89" y1="60.0" x2="99" y2="60.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="82" y="65.0" class="num" text-anchor="end">2</text>
+        <line x1="26.0" y1="43.0" x2="264.0" y2="162.0" stroke="#c62828" stroke-width="2.4"/>
+        <text x="170.5" y="102.5" text-anchor="start" class="dt" fill="#c62828">d</text>
+        <text x="102.0" y="73.0" class="num" fill="#0d2b4e">1,5</text>
+        <line x1="60.0" y1="60.0" x2="60.0" y2="128" stroke="#7c8ba4" stroke-width="1.2" stroke-dasharray="4 3"/>
+        <circle cx="60.0" cy="60.0" r="4.2" fill="#0d2b4e"/>
+        <text x="36.0" y="47.0" class="pt">N</text>
+        <circle cx="94.0" cy="77.0" r="4.2" fill="#0d2b4e"/>
+        <text x="70.0" y="83.0" class="pt">A</text>
+        <circle cx="196.0" cy="128.0" r="4.2" fill="#0d2b4e"/>
+        <text x="198.0" y="117.0" class="pt">B</text>
+      </svg>
+      <figcaption>Hình 1.1a</figcaption>
+    </figure>
+    b) \(0x+y=-2\) viết gọn thành \(y=-2\); nghiệm là \((x;-2)\) với \(x\) tuỳ ý.<br>
+    Đường thẳng \(y=-2\) song song với trục hoành và cắt trục tung tại điểm \((0;-2)\).<br>
+    <figure>
+      <svg viewBox="0 0 256 188" width="256" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Đường thẳng y = −2 song song với trục hoành, cắt trục tung tại điểm (0; −2)">
+        <style>text{font-family:"Be Vietnam Pro",system-ui,sans-serif}.num{font-size:15px;fill:#0d2b4e}.pt{font-size:16px;font-weight:700;fill:#0d2b4e}.ax{font-size:17px;font-style:italic;font-weight:700;fill:#1b4dff}.dt{font-size:16px;font-style:italic;font-weight:700}</style>
+        <line x1="14" y1="60" x2="234" y2="60" stroke="#1b4dff" stroke-width="1.8"/>
+        <path d="M233,55 L243,60 L233,65 Z" fill="#1b4dff"/>
+        <line x1="128" y1="174" x2="128" y2="22" stroke="#1b4dff" stroke-width="1.8"/>
+        <path d="M123,23 L128,13 L133,23 Z" fill="#1b4dff"/>
+        <text x="245" y="80" class="ax">x</text>
+        <text x="108" y="16" class="ax">y</text>
+        <text x="111" y="79" class="pt">O</text>
+        <line x1="26.0" y1="55" x2="26.0" y2="65" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="17.0" y="81" class="num">−3</text>
+        <line x1="60.0" y1="55" x2="60.0" y2="65" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="51.0" y="81" class="num">−2</text>
+        <line x1="94.0" y1="55" x2="94.0" y2="65" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="85.0" y="81" class="num">−1</text>
+        <line x1="162.0" y1="55" x2="162.0" y2="65" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="158.0" y="81" class="num">1</text>
+        <line x1="196.0" y1="55" x2="196.0" y2="65" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="192.0" y="81" class="num">2</text>
+        <line x1="230.0" y1="55" x2="230.0" y2="65" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="226.0" y="81" class="num">3</text>
+        <line x1="123" y1="94.0" x2="133" y2="94.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="116" y="99.0" class="num" text-anchor="end">−1</text>
+        <line x1="123" y1="128.0" x2="133" y2="128.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="116" y="133.0" class="num" text-anchor="end">−2</text>
+        <line x1="123" y1="162.0" x2="133" y2="162.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="116" y="167.0" class="num" text-anchor="end">−3</text>
+        <line x1="26.0" y1="128.0" x2="230.0" y2="128.0" stroke="#c62828" stroke-width="2.4"/>
+        <text x="22.0" y="119.0" class="num" fill="#c62828">y = −2</text>
+        <circle cx="128.0" cy="128.0" r="4.2" fill="#0d2b4e"/>
+        <text x="136.0" y="134.0" class="pt">A</text>
+      </svg>
+      <figcaption>Hình 1.1b</figcaption>
+    </figure>
+    c) \(x+0y=3\) viết gọn thành \(x=3\); nghiệm là \((3;y)\) với \(y\) tuỳ ý.<br>
+    Đường thẳng \(x=3\) song song với trục tung và cắt trục hoành tại điểm \((3;0)\).<br>
+    <figure>
+      <svg viewBox="0 0 290 188" width="290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Đường thẳng x = 3 song song với trục tung, cắt trục hoành tại điểm (3; 0)">
+        <style>text{font-family:"Be Vietnam Pro",system-ui,sans-serif}.num{font-size:15px;fill:#0d2b4e}.pt{font-size:16px;font-weight:700;fill:#0d2b4e}.ax{font-size:17px;font-style:italic;font-weight:700;fill:#1b4dff}.dt{font-size:16px;font-style:italic;font-weight:700}</style>
+        <line x1="14" y1="94" x2="268" y2="94" stroke="#1b4dff" stroke-width="1.8"/>
+        <path d="M267,89 L277,94 L267,99 Z" fill="#1b4dff"/>
+        <line x1="94" y1="174" x2="94" y2="22" stroke="#1b4dff" stroke-width="1.8"/>
+        <path d="M89,23 L94,13 L99,23 Z" fill="#1b4dff"/>
+        <text x="279" y="114" class="ax">x</text>
+        <text x="74" y="16" class="ax">y</text>
+        <text x="77" y="113" class="pt">O</text>
+        <line x1="26.0" y1="89" x2="26.0" y2="99" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="17.0" y="115" class="num">−2</text>
+        <line x1="60.0" y1="89" x2="60.0" y2="99" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="51.0" y="115" class="num">−1</text>
+        <line x1="128.0" y1="89" x2="128.0" y2="99" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="124.0" y="115" class="num">1</text>
+        <line x1="162.0" y1="89" x2="162.0" y2="99" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="158.0" y="115" class="num">2</text>
+        <line x1="196.0" y1="89" x2="196.0" y2="99" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="192.0" y="115" class="num">3</text>
+        <line x1="230.0" y1="89" x2="230.0" y2="99" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="226.0" y="115" class="num">4</text>
+        <line x1="264.0" y1="89" x2="264.0" y2="99" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="260.0" y="115" class="num">5</text>
+        <line x1="89" y1="162.0" x2="99" y2="162.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="82" y="167.0" class="num" text-anchor="end">−2</text>
+        <line x1="89" y1="128.0" x2="99" y2="128.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="82" y="133.0" class="num" text-anchor="end">−1</text>
+        <line x1="89" y1="60.0" x2="99" y2="60.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="82" y="65.0" class="num" text-anchor="end">1</text>
+        <line x1="89" y1="26.0" x2="99" y2="26.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="82" y="31.0" class="num" text-anchor="end">2</text>
+        <line x1="196.0" y1="162.0" x2="196.0" y2="26.0" stroke="#c62828" stroke-width="2.4"/>
+        <text x="128.0" y="43.0" class="num" fill="#c62828">x = 3</text>
+        <circle cx="196.0" cy="94.0" r="4.2" fill="#0d2b4e"/>
+        <text x="200.0" y="83.0" class="pt">B</text>
+      </svg>
+      <figcaption>Hình 1.1c</figcaption>
+    </figure>
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag lt">Luyện tập 2</span>
+  <p class="de">Viết nghiệm và biểu diễn hình học tất cả các nghiệm của mỗi phương trình bậc nhất hai ẩn sau:<br>
+  a) \(2x-3y=5\); b) \(0x+y=3\); c) \(x+0y=-2\).</p>
+  <div class="show">
+    <div class="giai">
+      a) \(2x-3y=5\) viết thành \(y=\dfrac{2x-5}{3}\); nghiệm tổng quát là \(\left(x;\dfrac{2x-5}{3}\right)\) với \(x\) tuỳ ý.<br>
+      Đường thẳng đi qua hai điểm \((1;-1)\) và \((2{,}5;0)\).<br>
+      <figure>
+        <svg viewBox="0 0 290 222" width="290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Đường thẳng 2x − 3y = 5 đi qua hai điểm (1; −1) và (2,5; 0)">
+        <style>text{font-family:"Be Vietnam Pro",system-ui,sans-serif}.num{font-size:15px;fill:#0d2b4e}.pt{font-size:16px;font-weight:700;fill:#0d2b4e}.ax{font-size:17px;font-style:italic;font-weight:700;fill:#1b4dff}.dt{font-size:16px;font-style:italic;font-weight:700}</style>
+        <line x1="14" y1="94" x2="268" y2="94" stroke="#1b4dff" stroke-width="1.8"/>
+        <path d="M267,89 L277,94 L267,99 Z" fill="#1b4dff"/>
+        <line x1="94" y1="208" x2="94" y2="22" stroke="#1b4dff" stroke-width="1.8"/>
+        <path d="M89,23 L94,13 L99,23 Z" fill="#1b4dff"/>
+        <text x="279" y="114" class="ax">x</text>
+        <text x="74" y="16" class="ax">y</text>
+        <text x="77" y="113" class="pt">O</text>
+        <line x1="26.0" y1="89" x2="26.0" y2="99" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="17.0" y="115" class="num">−2</text>
+        <line x1="60.0" y1="89" x2="60.0" y2="99" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="51.0" y="115" class="num">−1</text>
+        <line x1="128.0" y1="89" x2="128.0" y2="99" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="124.0" y="115" class="num">1</text>
+        <line x1="162.0" y1="89" x2="162.0" y2="99" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="158.0" y="115" class="num">2</text>
+        <line x1="196.0" y1="89" x2="196.0" y2="99" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="192.0" y="115" class="num">3</text>
+        <line x1="230.0" y1="89" x2="230.0" y2="99" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="226.0" y="115" class="num">4</text>
+        <line x1="264.0" y1="89" x2="264.0" y2="99" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="260.0" y="115" class="num">5</text>
+        <line x1="89" y1="196.0" x2="99" y2="196.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="82" y="201.0" class="num" text-anchor="end">−3</text>
+        <line x1="89" y1="162.0" x2="99" y2="162.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="82" y="167.0" class="num" text-anchor="end">−2</text>
+        <line x1="89" y1="128.0" x2="99" y2="128.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="82" y="133.0" class="num" text-anchor="end">−1</text>
+        <line x1="89" y1="60.0" x2="99" y2="60.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="82" y="65.0" class="num" text-anchor="end">1</text>
+        <line x1="89" y1="26.0" x2="99" y2="26.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="82" y="31.0" class="num" text-anchor="end">2</text>
+        <line x1="26.0" y1="196.0" x2="264.0" y2="37.3" stroke="#c62828" stroke-width="2.4"/>
+        <text x="100.8" y="39.6" text-anchor="start" class="dt" fill="#c62828">2x − 3y = 5</text>
+        <circle cx="128.0" cy="128.0" r="4.2" fill="#0d2b4e"/>
+        <text x="24.0" y="153.0" class="num" fill="#0d2b4e">(1; −1)</text>
+        <circle cx="179.0" cy="94.0" r="4.2" fill="#0d2b4e"/>
+        <text x="185.0" y="133.0" class="num" fill="#0d2b4e">(2,5; 0)</text>
+      </svg>
+        <figcaption>Đường thẳng \(2x-3y=5\)</figcaption>
+      </figure>
+      b) \(y=3\); nghiệm là \((x;3)\) với \(x\) tuỳ ý — đường thẳng song song với trục hoành, cắt trục tung tại \((0;3)\).<br>
+      <figure>
+        <svg viewBox="0 0 256 222" width="256" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Đường thẳng y = 3 song song với trục hoành, cắt trục tung tại điểm (0; 3)">
+        <style>text{font-family:"Be Vietnam Pro",system-ui,sans-serif}.num{font-size:15px;fill:#0d2b4e}.pt{font-size:16px;font-weight:700;fill:#0d2b4e}.ax{font-size:17px;font-style:italic;font-weight:700;fill:#1b4dff}.dt{font-size:16px;font-style:italic;font-weight:700}</style>
+        <line x1="14" y1="162" x2="234" y2="162" stroke="#1b4dff" stroke-width="1.8"/>
+        <path d="M233,157 L243,162 L233,167 Z" fill="#1b4dff"/>
+        <line x1="128" y1="208" x2="128" y2="22" stroke="#1b4dff" stroke-width="1.8"/>
+        <path d="M123,23 L128,13 L133,23 Z" fill="#1b4dff"/>
+        <text x="245" y="182" class="ax">x</text>
+        <text x="108" y="16" class="ax">y</text>
+        <text x="111" y="181" class="pt">O</text>
+        <line x1="26.0" y1="157" x2="26.0" y2="167" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="17.0" y="183" class="num">−3</text>
+        <line x1="60.0" y1="157" x2="60.0" y2="167" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="51.0" y="183" class="num">−2</text>
+        <line x1="94.0" y1="157" x2="94.0" y2="167" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="85.0" y="183" class="num">−1</text>
+        <line x1="162.0" y1="157" x2="162.0" y2="167" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="158.0" y="183" class="num">1</text>
+        <line x1="196.0" y1="157" x2="196.0" y2="167" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="192.0" y="183" class="num">2</text>
+        <line x1="230.0" y1="157" x2="230.0" y2="167" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="226.0" y="183" class="num">3</text>
+        <line x1="123" y1="196.0" x2="133" y2="196.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="116" y="201.0" class="num" text-anchor="end">−1</text>
+        <line x1="123" y1="128.0" x2="133" y2="128.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="116" y="133.0" class="num" text-anchor="end">1</text>
+        <line x1="123" y1="94.0" x2="133" y2="94.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="116" y="99.0" class="num" text-anchor="end">2</text>
+        <line x1="123" y1="60.0" x2="133" y2="60.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="116" y="65.0" class="num" text-anchor="end">3</text>
+        <line x1="123" y1="26.0" x2="133" y2="26.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="116" y="31.0" class="num" text-anchor="end">4</text>
+        <line x1="26.0" y1="60.0" x2="230.0" y2="60.0" stroke="#c62828" stroke-width="2.4"/>
+        <text x="22.0" y="51.0" class="num" fill="#c62828">y = 3</text>
+        <circle cx="128.0" cy="60.0" r="4.2" fill="#0d2b4e"/>
+      </svg>
+        <figcaption>Đường thẳng \(y=3\)</figcaption>
+      </figure>
+      c) \(x=-2\); nghiệm là \((-2;y)\) với \(y\) tuỳ ý — đường thẳng song song với trục tung, cắt trục hoành tại \((-2;0)\).<br>
+      <figure>
+        <svg viewBox="0 0 290 188" width="290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Đường thẳng x = −2 song song với trục tung, cắt trục hoành tại điểm (−2; 0)">
+        <style>text{font-family:"Be Vietnam Pro",system-ui,sans-serif}.num{font-size:15px;fill:#0d2b4e}.pt{font-size:16px;font-weight:700;fill:#0d2b4e}.ax{font-size:17px;font-style:italic;font-weight:700;fill:#1b4dff}.dt{font-size:16px;font-style:italic;font-weight:700}</style>
+        <line x1="14" y1="94" x2="268" y2="94" stroke="#1b4dff" stroke-width="1.8"/>
+        <path d="M267,89 L277,94 L267,99 Z" fill="#1b4dff"/>
+        <line x1="162" y1="174" x2="162" y2="22" stroke="#1b4dff" stroke-width="1.8"/>
+        <path d="M157,23 L162,13 L167,23 Z" fill="#1b4dff"/>
+        <text x="279" y="114" class="ax">x</text>
+        <text x="142" y="16" class="ax">y</text>
+        <text x="145" y="113" class="pt">O</text>
+        <line x1="26.0" y1="89" x2="26.0" y2="99" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="17.0" y="115" class="num">−4</text>
+        <line x1="60.0" y1="89" x2="60.0" y2="99" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="51.0" y="115" class="num">−3</text>
+        <line x1="94.0" y1="89" x2="94.0" y2="99" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="85.0" y="115" class="num">−2</text>
+        <line x1="128.0" y1="89" x2="128.0" y2="99" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="119.0" y="115" class="num">−1</text>
+        <line x1="196.0" y1="89" x2="196.0" y2="99" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="192.0" y="115" class="num">1</text>
+        <line x1="230.0" y1="89" x2="230.0" y2="99" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="226.0" y="115" class="num">2</text>
+        <line x1="264.0" y1="89" x2="264.0" y2="99" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="260.0" y="115" class="num">3</text>
+        <line x1="157" y1="162.0" x2="167" y2="162.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="150" y="167.0" class="num" text-anchor="end">−2</text>
+        <line x1="157" y1="128.0" x2="167" y2="128.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="150" y="133.0" class="num" text-anchor="end">−1</text>
+        <line x1="157" y1="60.0" x2="167" y2="60.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="150" y="65.0" class="num" text-anchor="end">1</text>
+        <line x1="157" y1="26.0" x2="167" y2="26.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="150" y="31.0" class="num" text-anchor="end">2</text>
+        <line x1="94.0" y1="162.0" x2="94.0" y2="26.0" stroke="#c62828" stroke-width="2.4"/>
+        <text x="182.4" y="39.6" class="num" fill="#c62828">x = −2</text>
+        <circle cx="94.0" cy="94.0" r="4.2" fill="#0d2b4e"/>
+        <text x="70.0" y="133.0" class="num" fill="#0d2b4e">(−2; 0)</text>
+      </svg>
+        <figcaption>Đường thẳng \(x=-2\)</figcaption>
+      </figure>
+    </div>
+  </div>
+</div>
+
+<!-- ==================================================== -->
+<!-- MỤC 2 -->
+<!-- ==================================================== -->
+<h2 class="sec" id="phan-2"><span class="num">2</span> HỆ HAI PHƯƠNG TRÌNH BẬC NHẤT HAI ẨN</h2>
+<p class="note" style="margin:0 0 6px">Bài toán mở đầu dẫn tới hai phương trình bậc nhất hai ẩn là \(x+y=17\) và \(10x+3y=100\). Để giải bài toán, ta cần tìm các giá trị của \(x\) và \(y\) đồng thời thoả mãn cả hai phương trình này.</p>
+
+<h3 class="sub">Khái niệm hệ hai phương trình bậc nhất hai ẩn</h3>
+<div class="map purple">
+  <div class="root">HỆ HAI PHƯƠNG TRÌNH BẬC NHẤT HAI ẨN</div>
+  <div class="branches">
+    <div class="node n-purple">
+      <h4>Dạng của hệ</h4>
+      <div class="def">Một cặp gồm hai phương trình bậc nhất hai ẩn \(ax+by=c\) và \(a'x+b'y=c'\) được gọi là một <b>hệ hai phương trình bậc nhất hai ẩn</b>, viết là <span class="he"><i>\(ax+by=c\)</i><i>\(a'x+b'y=c'\)</i></span>.</div>
+      <ul>
+        <li>Hệ chỉ là hệ bậc nhất hai ẩn khi <b>cả hai</b> phương trình đều là phương trình bậc nhất hai ẩn.</li>
+      </ul>
+    </div>
+    <div class="node n-blue">
+      <h4>Nghiệm của hệ</h4>
+      <div class="def">Cặp số \((x_0;y_0)\) là <b>nghiệm của hệ</b> nếu nó <b>đồng thời là nghiệm của cả hai</b> phương trình của hệ.</div>
+      <ul>
+        <li>Mỗi nghiệm của hệ chính là một <b>nghiệm chung</b> của hai phương trình.</li>
+        <li>Muốn kiểm tra một cặp số, thay nó vào từng phương trình của hệ.</li>
+      </ul>
+    </div>
+    <div class="node n-green">
+      <h4>Ý nghĩa hình học</h4>
+      <div class="def">Nghiệm của hệ là toạ độ <b>giao điểm</b> của hai đường thẳng \(ax+by=c\) và \(a'x+b'y=c'\).</div>
+      <ul>
+        <li>Vẽ hai đường thẳng của hệ là <b>minh hoạ</b> được nghiệm của hệ.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag vd">Ví dụ 4</span>
+  <p class="de">Trong các hệ phương trình sau, hệ nào không phải là hệ hai phương trình bậc nhất hai ẩn? Vì sao?<br>
+  a) <span class="he"><i>\(2x=-6\)</i><i>\(5x+4y=1\)</i></span>;
+  b) <span class="he"><i>\(x+2y=-3\)</i><i>\(0x+0y=1\)</i></span>;
+  c) <span class="he"><i>\(3x-y=1\)</i><i>\(x+y=3\)</i></span>.</p>
+  <div class="giai">
+    Ở hệ a), \(2x=-6\) viết được thành \(2x+0y=-6\) có \(a=2\ne 0\).<br>
+    Ở hệ b), \(0x+0y=1\) có \(a=b=0\) nên không là phương trình bậc nhất hai ẩn.<br>
+    Ở hệ c), cả hai phương trình đều là phương trình bậc nhất hai ẩn.<br>
+    <div class="kq">Vậy hệ b) không phải là hệ hai phương trình bậc nhất hai ẩn.</div>
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag vd">Ví dụ 5</span>
+  <p class="de">Giải thích tại sao cặp số \((1;2)\) là một nghiệm của hệ phương trình <span class="he"><i>\(2x-y=0\)</i><i>\(x+y=3\)</i></span>.</p>
+  <div class="giai">
+    Ta có: \(2x-y=2\cdot 1-2=0\) nên \((1;2)\) là nghiệm của phương trình thứ nhất.<br>
+    Ta có: \(x+y=1+2=3\) nên \((1;2)\) là nghiệm của phương trình thứ hai.<br>
+    Điểm \(M(1;2)\) vừa thuộc đường thẳng \(d_1\): \(2x-y=0\), vừa thuộc đường thẳng \(d_2\): \(x+y=3\).<br>
+    <figure>
+      <svg viewBox="0 0 222 188" width="222" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hai đường thẳng 2x − y = 0 và x + y = 3 cắt nhau tại điểm M(1; 2)">
+        <style>text{font-family:"Be Vietnam Pro",system-ui,sans-serif}.num{font-size:15px;fill:#0d2b4e}.pt{font-size:16px;font-weight:700;fill:#0d2b4e}.ax{font-size:17px;font-style:italic;font-weight:700;fill:#1b4dff}.dt{font-size:16px;font-style:italic;font-weight:700}</style>
+        <line x1="14" y1="128" x2="200" y2="128" stroke="#1b4dff" stroke-width="1.8"/>
+        <path d="M199,123 L209,128 L199,133 Z" fill="#1b4dff"/>
+        <line x1="60" y1="174" x2="60" y2="22" stroke="#1b4dff" stroke-width="1.8"/>
+        <path d="M55,23 L60,13 L65,23 Z" fill="#1b4dff"/>
+        <text x="211" y="148" class="ax">x</text>
+        <text x="40" y="16" class="ax">y</text>
+        <text x="43" y="147" class="pt">O</text>
+        <line x1="26.0" y1="123" x2="26.0" y2="133" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="17.0" y="149" class="num">−1</text>
+        <line x1="94.0" y1="123" x2="94.0" y2="133" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="90.0" y="149" class="num">1</text>
+        <line x1="128.0" y1="123" x2="128.0" y2="133" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="124.0" y="149" class="num">2</text>
+        <line x1="162.0" y1="123" x2="162.0" y2="133" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="158.0" y="149" class="num">3</text>
+        <line x1="55" y1="162.0" x2="65" y2="162.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="48" y="167.0" class="num" text-anchor="end">−1</text>
+        <line x1="55" y1="94.0" x2="65" y2="94.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="48" y="99.0" class="num" text-anchor="end">1</text>
+        <line x1="55" y1="60.0" x2="65" y2="60.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="48" y="65.0" class="num" text-anchor="end">2</text>
+        <line x1="55" y1="26.0" x2="65" y2="26.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="48" y="31.0" class="num" text-anchor="end">3</text>
+        <line x1="43.0" y1="162.0" x2="111.0" y2="26.0" stroke="#c62828" stroke-width="2.4"/>
+        <text x="121.2" y="29.4" text-anchor="start" class="dt" fill="#c62828">2x − y = 0</text>
+        <line x1="196.0" y1="162.0" x2="60.0" y2="26.0" stroke="#c62828" stroke-width="2.4"/>
+        <text x="138.2" y="90.6" text-anchor="start" class="dt" fill="#c62828">x + y = 3</text>
+        <line x1="94.0" y1="60.0" x2="94.0" y2="128" stroke="#7c8ba4" stroke-width="1.2" stroke-dasharray="4 3"/>
+        <line x1="94.0" y1="60.0" x2="60" y2="60.0" stroke="#7c8ba4" stroke-width="1.2" stroke-dasharray="4 3"/>
+        <circle cx="94.0" cy="60.0" r="4.2" fill="#0d2b4e"/>
+        <text x="103.0" y="53.0" class="pt">M</text>
+      </svg>
+      <figcaption>Hình 1.2</figcaption>
+    </figure>
+    <div class="kq">Vậy \((1;2)\) là nghiệm chung của hai phương trình, tức là một nghiệm của hệ; \(M\) là giao điểm của \(d_1\) và \(d_2\).</div>
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag lt">Luyện tập 3</span>
+  <p class="de">Trong hai cặp số \((0;-2)\) và \((2;-1)\), cặp số nào là nghiệm của hệ phương trình <span class="he"><i>\(x-2y=4\)</i><i>\(4x+3y=5\)</i></span>?</p>
+  <div class="show">
+    <div class="giai">
+      Với \((0;-2)\): \(x-2y=0+4=4\) và \(4x+3y=0-6=-6\ne 5\).<br>
+      Với \((2;-1)\): \(x-2y=2+2=4\) và \(4x+3y=8-3=5\).<br>
+      <div class="kq">Vậy \((2;-1)\) là nghiệm của hệ phương trình đã cho.</div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag vdung">Vận dụng</span>
+  <p class="de">Xét bài toán cổ trong tình huống mở đầu. Gọi \(x\) là số cam, \(y\) là số quýt cần tính (\(x\), \(y\) là số nguyên dương), ta có hệ phương trình <span class="he"><i>\(x+y=17\)</i><i>\(10x+3y=100\)</i></span>.<br>
+  Trong hai cặp số \((10;7)\) và \((7;10)\), cặp số nào là nghiệm của hệ phương trình trên? Từ đó cho biết một phương án về số cam và số quýt thoả mãn yêu cầu của bài toán cổ.</p>
+  <div class="show">
+    <div class="giai">
+      Với \((10;7)\): \(x+y=17\) và \(10x+3y=100+21=121\ne 100\).<br>
+      Với \((7;10)\): \(x+y=17\) và \(10x+3y=70+30=100\).<br>
+      <div class="kq">Vậy \((7;10)\) là nghiệm của hệ: có 7 quả cam và 10 quả quýt.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================================================== -->
+<!-- BÀI TẬP -->
+<!-- ==================================================== -->
+<h2 class="sec red" id="bai-tap"><span class="num">BT</span> BÀI TẬP (SGK tr.10)</h2>
+
+<div class="card">
+  <span class="tag bt">1.1</span>
+  <p class="de">Phương trình nào sau đây là phương trình bậc nhất hai ẩn? Vì sao?<br>
+  a) \(5x-8y=0\); b) \(4x+0y=-2\); c) \(0x+0y=1\); d) \(0x-3y=9\).</p>
+  <div class="show">
+    <div class="giai">
+      Điều kiện để \(ax+by=c\) là phương trình bậc nhất hai ẩn: \(a\ne 0\) hoặc \(b\ne 0\).<br>
+      a) \(5x-8y=0\) có \(a=5\ne 0\).<br>
+      b) \(4x+0y=-2\) có \(a=4\ne 0\).<br>
+      c) \(0x+0y=1\) có \(a=b=0\).<br>
+      d) \(0x-3y=9\) có \(b=-3\ne 0\).<br>
+      <div class="kq">Vậy a), b), d) là phương trình bậc nhất hai ẩn; c) không phải.</div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag bt">1.2</span>
+  <p class="de">a) Tìm giá trị thích hợp thay cho dấu “?” trong bảng sau rồi cho biết 6 nghiệm của phương trình \(2x-y=1\).<br>
+  b) Viết nghiệm tổng quát của phương trình đã cho.</p>
+  <table class="grp">
+    <tr><th>\(x\)</th><td>\(-1\)</td><td>\(-0{,}5\)</td><td>\(0\)</td><td>\(0{,}5\)</td><td>\(1\)</td><td>\(2\)</td></tr>
+    <tr><th>\(y=2x-1\)</th><td>?</td><td>?</td><td>?</td><td>?</td><td>?</td><td>?</td></tr>
+  </table>
+  <div class="show">
+    <div class="giai">
+      a) Với \(x=-1\) thì \(y=2\cdot(-1)-1=-3\); các cột còn lại tính tương tự.<br>
+      <table class="grp">
+        <tr><th>\(x\)</th><td>\(-1\)</td><td>\(-0{,}5\)</td><td>\(0\)</td><td>\(0{,}5\)</td><td>\(1\)</td><td>\(2\)</td></tr>
+        <tr><th>\(y=2x-1\)</th><td>\(-3\)</td><td>\(-2\)</td><td>\(-1\)</td><td>\(0\)</td><td>\(1\)</td><td>\(3\)</td></tr>
+      </table>
+      Vậy 6 nghiệm của phương trình là \((-1;-3)\); \((-0{,}5;-2)\); \((0;-1)\); \((0{,}5;0)\); \((1;1)\); \((2;3)\).<br>
+      b) Từ \(2x-y=1\) ta có \(y=2x-1\).<br>
+      <div class="kq">Vậy nghiệm tổng quát của phương trình là \((x;2x-1)\) với \(x\) tuỳ ý.</div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag bt">1.3</span>
+  <p class="de">Viết nghiệm và biểu diễn hình học tất cả các nghiệm của mỗi phương trình bậc nhất hai ẩn sau:<br>
+  a) \(2x-y=3\); b) \(0x+2y=-4\); c) \(3x+0y=5\).</p>
+  <div class="show">
+    <div class="giai">
+      a) \(2x-y=3\) viết thành \(y=2x-3\); nghiệm tổng quát là \((x;2x-3)\) với \(x\) tuỳ ý.<br>
+      Đường thẳng đi qua hai điểm \((0;-3)\) và \((1{,}5;0)\).<br>
+      <figure>
+        <svg viewBox="0 0 222 256" width="222" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Đường thẳng 2x − y = 3 đi qua hai điểm (0; −3) và (1,5; 0)">
+        <style>text{font-family:"Be Vietnam Pro",system-ui,sans-serif}.num{font-size:15px;fill:#0d2b4e}.pt{font-size:16px;font-weight:700;fill:#0d2b4e}.ax{font-size:17px;font-style:italic;font-weight:700;fill:#1b4dff}.dt{font-size:16px;font-style:italic;font-weight:700}</style>
+        <line x1="14" y1="94" x2="200" y2="94" stroke="#1b4dff" stroke-width="1.8"/>
+        <path d="M199,89 L209,94 L199,99 Z" fill="#1b4dff"/>
+        <line x1="60" y1="242" x2="60" y2="22" stroke="#1b4dff" stroke-width="1.8"/>
+        <path d="M55,23 L60,13 L65,23 Z" fill="#1b4dff"/>
+        <text x="211" y="114" class="ax">x</text>
+        <text x="40" y="16" class="ax">y</text>
+        <text x="43" y="113" class="pt">O</text>
+        <line x1="26.0" y1="89" x2="26.0" y2="99" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="17.0" y="115" class="num">−1</text>
+        <line x1="94.0" y1="89" x2="94.0" y2="99" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="90.0" y="115" class="num">1</text>
+        <line x1="128.0" y1="89" x2="128.0" y2="99" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="124.0" y="115" class="num">2</text>
+        <line x1="162.0" y1="89" x2="162.0" y2="99" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="158.0" y="115" class="num">3</text>
+        <line x1="196.0" y1="89" x2="196.0" y2="99" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="192.0" y="115" class="num">4</text>
+        <line x1="55" y1="196.0" x2="65" y2="196.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="48" y="201.0" class="num" text-anchor="end">−3</text>
+        <line x1="55" y1="162.0" x2="65" y2="162.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="48" y="167.0" class="num" text-anchor="end">−2</text>
+        <line x1="55" y1="128.0" x2="65" y2="128.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="48" y="133.0" class="num" text-anchor="end">−1</text>
+        <line x1="55" y1="60.0" x2="65" y2="60.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="48" y="65.0" class="num" text-anchor="end">1</text>
+        <line x1="55" y1="26.0" x2="65" y2="26.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="48" y="31.0" class="num" text-anchor="end">2</text>
+        <line x1="43.0" y1="230.0" x2="145.0" y2="26.0" stroke="#c62828" stroke-width="2.4"/>
+        <text x="138.2" y="36.2" text-anchor="start" class="dt" fill="#c62828">2x − y = 3</text>
+        <circle cx="60.0" cy="196.0" r="4.2" fill="#0d2b4e"/>
+        <text x="68.0" y="212.0" class="num" fill="#0d2b4e">(0; −3)</text>
+        <circle cx="111.0" cy="94.0" r="4.2" fill="#0d2b4e"/>
+        <text x="121.0" y="133.0" class="num" fill="#0d2b4e">(1,5; 0)</text>
+      </svg>
+        <figcaption>Đường thẳng \(2x-y=3\)</figcaption>
+      </figure>
+      b) \(0x+2y=-4\) viết gọn thành \(y=-2\); nghiệm là \((x;-2)\) với \(x\) tuỳ ý — đường thẳng song song với trục hoành, cắt trục tung tại \((0;-2)\).<br>
+      <figure>
+        <svg viewBox="0 0 256 188" width="256" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Đường thẳng y = −2 song song với trục hoành, cắt trục tung tại điểm (0; −2)">
+        <style>text{font-family:"Be Vietnam Pro",system-ui,sans-serif}.num{font-size:15px;fill:#0d2b4e}.pt{font-size:16px;font-weight:700;fill:#0d2b4e}.ax{font-size:17px;font-style:italic;font-weight:700;fill:#1b4dff}.dt{font-size:16px;font-style:italic;font-weight:700}</style>
+        <line x1="14" y1="60" x2="234" y2="60" stroke="#1b4dff" stroke-width="1.8"/>
+        <path d="M233,55 L243,60 L233,65 Z" fill="#1b4dff"/>
+        <line x1="128" y1="174" x2="128" y2="22" stroke="#1b4dff" stroke-width="1.8"/>
+        <path d="M123,23 L128,13 L133,23 Z" fill="#1b4dff"/>
+        <text x="245" y="80" class="ax">x</text>
+        <text x="108" y="16" class="ax">y</text>
+        <text x="111" y="79" class="pt">O</text>
+        <line x1="26.0" y1="55" x2="26.0" y2="65" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="17.0" y="81" class="num">−3</text>
+        <line x1="60.0" y1="55" x2="60.0" y2="65" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="51.0" y="81" class="num">−2</text>
+        <line x1="94.0" y1="55" x2="94.0" y2="65" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="85.0" y="81" class="num">−1</text>
+        <line x1="162.0" y1="55" x2="162.0" y2="65" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="158.0" y="81" class="num">1</text>
+        <line x1="196.0" y1="55" x2="196.0" y2="65" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="192.0" y="81" class="num">2</text>
+        <line x1="230.0" y1="55" x2="230.0" y2="65" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="226.0" y="81" class="num">3</text>
+        <line x1="123" y1="94.0" x2="133" y2="94.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="116" y="99.0" class="num" text-anchor="end">−1</text>
+        <line x1="123" y1="128.0" x2="133" y2="128.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="116" y="133.0" class="num" text-anchor="end">−2</text>
+        <line x1="123" y1="162.0" x2="133" y2="162.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="116" y="167.0" class="num" text-anchor="end">−3</text>
+        <line x1="26.0" y1="128.0" x2="230.0" y2="128.0" stroke="#c62828" stroke-width="2.4"/>
+        <text x="22.0" y="119.0" class="num" fill="#c62828">y = −2</text>
+        <circle cx="128.0" cy="128.0" r="4.2" fill="#0d2b4e"/>
+      </svg>
+        <figcaption>Đường thẳng \(y=-2\)</figcaption>
+      </figure>
+      c) \(3x+0y=5\) viết gọn thành \(x=\dfrac53\); nghiệm là \(\left(\dfrac53;y\right)\) với \(y\) tuỳ ý — đường thẳng song song với trục tung, cắt trục hoành tại \(\left(\dfrac53;0\right)\).<br>
+      <figure>
+        <svg viewBox="0 0 256 188" width="256" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Đường thẳng x = 5/3 song song với trục tung, cắt trục hoành tại điểm (5/3; 0)">
+        <style>text{font-family:"Be Vietnam Pro",system-ui,sans-serif}.num{font-size:15px;fill:#0d2b4e}.pt{font-size:16px;font-weight:700;fill:#0d2b4e}.ax{font-size:17px;font-style:italic;font-weight:700;fill:#1b4dff}.dt{font-size:16px;font-style:italic;font-weight:700}</style>
+        <line x1="14" y1="94" x2="234" y2="94" stroke="#1b4dff" stroke-width="1.8"/>
+        <path d="M233,89 L243,94 L233,99 Z" fill="#1b4dff"/>
+        <line x1="94" y1="174" x2="94" y2="22" stroke="#1b4dff" stroke-width="1.8"/>
+        <path d="M89,23 L94,13 L99,23 Z" fill="#1b4dff"/>
+        <text x="245" y="114" class="ax">x</text>
+        <text x="74" y="16" class="ax">y</text>
+        <text x="77" y="113" class="pt">O</text>
+        <line x1="26.0" y1="89" x2="26.0" y2="99" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="17.0" y="115" class="num">−2</text>
+        <line x1="60.0" y1="89" x2="60.0" y2="99" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="51.0" y="115" class="num">−1</text>
+        <line x1="128.0" y1="89" x2="128.0" y2="99" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="124.0" y="115" class="num">1</text>
+        <line x1="162.0" y1="89" x2="162.0" y2="99" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="158.0" y="115" class="num">2</text>
+        <line x1="196.0" y1="89" x2="196.0" y2="99" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="192.0" y="115" class="num">3</text>
+        <line x1="230.0" y1="89" x2="230.0" y2="99" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="226.0" y="115" class="num">4</text>
+        <line x1="89" y1="162.0" x2="99" y2="162.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="82" y="167.0" class="num" text-anchor="end">−2</text>
+        <line x1="89" y1="128.0" x2="99" y2="128.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="82" y="133.0" class="num" text-anchor="end">−1</text>
+        <line x1="89" y1="60.0" x2="99" y2="60.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="82" y="65.0" class="num" text-anchor="end">1</text>
+        <line x1="89" y1="26.0" x2="99" y2="26.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="82" y="31.0" class="num" text-anchor="end">2</text>
+        <line x1="150.7" y1="162.0" x2="150.7" y2="26.0" stroke="#c62828" stroke-width="2.4"/>
+        <text x="168.8" y="39.6" class="num" fill="#c62828">x = 5/3</text>
+        <text x="158.7" y="133.0" class="num" fill="#0d2b4e">(5/3; 0)</text>
+        <circle cx="150.7" cy="94.0" r="4.2" fill="#0d2b4e"/>
+      </svg>
+        <figcaption>Đường thẳng \(x=\dfrac53\)</figcaption>
+      </figure>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag bt">1.4</span>
+  <p class="de">Cho hệ phương trình <span class="he"><i>\(2x=-6\)</i><i>\(5x+4y=1\)</i></span>.<br>
+  a) Hệ phương trình trên có là một hệ hai phương trình bậc nhất hai ẩn không? Vì sao?<br>
+  b) Cặp số \((-3;4)\) có là một nghiệm của hệ phương trình đã cho hay không? Vì sao?</p>
+  <div class="show">
+    <div class="giai">
+      a) \(2x=-6\) viết được thành \(2x+0y=-6\) có \(a=2\ne 0\); \(5x+4y=1\) có \(a=5\ne 0\).<br>
+      Vậy hệ đã cho là một hệ hai phương trình bậc nhất hai ẩn.<br>
+      b) Với \((-3;4)\): \(2x=-6\) và \(5x+4y=-15+16=1\).<br>
+      <div class="kq">Vậy \((-3;4)\) là một nghiệm của hệ phương trình đã cho.</div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag bt">1.5</span>
+  <p class="de">Cho các cặp số \((-2;1)\); \((0;2)\); \((1;0)\); \((1{,}5;3)\); \((4;-3)\) và hai phương trình \(5x+4y=8\) \((1)\); \(3x+5y=-3\) \((2)\). Trong các cặp số đã cho:<br>
+  a) Những cặp số nào là nghiệm của phương trình \((1)\)?<br>
+  b) Cặp số nào là nghiệm của hệ hai phương trình gồm phương trình \((1)\) và phương trình \((2)\)?<br>
+  c) Vẽ hai đường thẳng \(5x+4y=8\) và \(3x+5y=-3\) trên cùng một mặt phẳng toạ độ để minh hoạ kết luận ở câu b.</p>
+  <div class="show">
+    <div class="giai">
+      a)
+      <table class="grp">
+        <tr><th>Cặp số</th><th>\(5x+4y\)</th><th>So với \(8\)</th><th>Nghiệm của \((1)\)</th></tr>
+        <tr><td>\((-2;1)\)</td><td>\(-10+4=-6\)</td><td>\(\ne 8\)</td><td>không</td></tr>
+        <tr><td>\((0;2)\)</td><td>\(0+8=8\)</td><td>\(=8\)</td><td>có</td></tr>
+        <tr><td>\((1;0)\)</td><td>\(5+0=5\)</td><td>\(\ne 8\)</td><td>không</td></tr>
+        <tr><td>\((1{,}5;3)\)</td><td>\(7{,}5+12=19{,}5\)</td><td>\(\ne 8\)</td><td>không</td></tr>
+        <tr><td>\((4;-3)\)</td><td>\(20-12=8\)</td><td>\(=8\)</td><td>có</td></tr>
+      </table>
+      Vậy \((0;2)\) và \((4;-3)\) là nghiệm của phương trình \((1)\).<br>
+      b) Với \((0;2)\): \(3x+5y=0+10=10\ne -3\).<br>
+      Với \((4;-3)\): \(3x+5y=12-15=-3\).<br>
+      Vậy \((4;-3)\) là nghiệm của hệ hai phương trình đã cho.<br>
+      c) Đường thẳng \(5x+4y=8\) đi qua \((0;2)\) và \((4;-3)\); đường thẳng \(3x+5y=-3\) đi qua \((-1;0)\) và \((4;-3)\).<br>
+      <figure>
+        <svg viewBox="0 0 392 290" width="392" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hai đường thẳng 5x + 4y = 8 và 3x + 5y = −3 cắt nhau tại điểm (4; −3)">
+        <style>text{font-family:"Be Vietnam Pro",system-ui,sans-serif}.num{font-size:15px;fill:#0d2b4e}.pt{font-size:16px;font-weight:700;fill:#0d2b4e}.ax{font-size:17px;font-style:italic;font-weight:700;fill:#1b4dff}.dt{font-size:16px;font-style:italic;font-weight:700}</style>
+        <line x1="14" y1="128" x2="370" y2="128" stroke="#1b4dff" stroke-width="1.8"/>
+        <path d="M369,123 L379,128 L369,133 Z" fill="#1b4dff"/>
+        <line x1="162" y1="276" x2="162" y2="22" stroke="#1b4dff" stroke-width="1.8"/>
+        <path d="M157,23 L162,13 L167,23 Z" fill="#1b4dff"/>
+        <text x="381" y="148" class="ax">x</text>
+        <text x="142" y="16" class="ax">y</text>
+        <text x="145" y="147" class="pt">O</text>
+        <line x1="60.0" y1="123" x2="60.0" y2="133" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="51.0" y="149" class="num">−3</text>
+        <line x1="94.0" y1="123" x2="94.0" y2="133" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="85.0" y="149" class="num">−2</text>
+        <line x1="128.0" y1="123" x2="128.0" y2="133" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="119.0" y="149" class="num">−1</text>
+        <line x1="196.0" y1="123" x2="196.0" y2="133" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="192.0" y="149" class="num">1</text>
+        <line x1="230.0" y1="123" x2="230.0" y2="133" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="226.0" y="149" class="num">2</text>
+        <line x1="264.0" y1="123" x2="264.0" y2="133" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="260.0" y="149" class="num">3</text>
+        <line x1="298.0" y1="123" x2="298.0" y2="133" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="294.0" y="149" class="num">4</text>
+        <line x1="332.0" y1="123" x2="332.0" y2="133" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="328.0" y="149" class="num">5</text>
+        <line x1="366.0" y1="123" x2="366.0" y2="133" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="362.0" y="149" class="num">6</text>
+        <line x1="157" y1="230.0" x2="167" y2="230.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="150" y="235.0" class="num" text-anchor="end">−3</text>
+        <line x1="157" y1="196.0" x2="167" y2="196.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="150" y="201.0" class="num" text-anchor="end">−2</text>
+        <line x1="157" y1="162.0" x2="167" y2="162.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="150" y="167.0" class="num" text-anchor="end">−1</text>
+        <line x1="157" y1="94.0" x2="167" y2="94.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="150" y="99.0" class="num" text-anchor="end">1</text>
+        <line x1="157" y1="60.0" x2="167" y2="60.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="150" y="65.0" class="num" text-anchor="end">2</text>
+        <line x1="157" y1="26.0" x2="167" y2="26.0" stroke="#1b4dff" stroke-width="1.6"/>
+        <text x="150" y="31.0" class="num" text-anchor="end">3</text>
+        <line x1="325.2" y1="264.0" x2="134.8" y2="26.0" stroke="#c62828" stroke-width="2.4"/>
+        <text x="240.2" y="80.4" text-anchor="start" class="dt" fill="#c62828">5x + 4y = 8</text>
+        <line x1="26.0" y1="66.8" x2="354.7" y2="264.0" stroke="#6a1b9a" stroke-width="2.4"/>
+        <text x="150.1" y="216.4" text-anchor="end" class="dt" fill="#6a1b9a">3x + 5y = −3</text>
+        <circle cx="162.0" cy="60.0" r="4.2" fill="#0d2b4e"/>
+        <text x="98.0" y="50.0" class="num" fill="#0d2b4e">(0; 2)</text>
+        <circle cx="298.0" cy="230.0" r="4.2" fill="#0d2b4e"/>
+        <text x="309.0" y="254.0" class="num" fill="#0d2b4e">(4; −3)</text>
+      </svg>
+        <figcaption>Hai đường thẳng \(5x+4y=8\) và \(3x+5y=-3\)</figcaption>
+      </figure>
+      <div class="kq">Hai đường thẳng cắt nhau tại điểm \((4;-3)\), đúng bằng nghiệm của hệ tìm được ở câu b.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================================================== -->
+<!-- PHIẾU HỌC TẬP — nhúng PDF xem/in ngay trong trang    -->
+<!-- ==================================================== -->
+<section class="phieu" id="phieu-hoc-tap" aria-label="Phiếu học tập">
+  <div class="phieu-top">
+    <h2><span class="ico" aria-hidden="true">✍</span> Phiếu học tập</h2>
+    <div class="phieu-acts">
+      <a class="phieu-btn" href="phieu-hoc-tap.pdf" target="_blank" rel="noopener">⛶ Toàn màn hình</a>
+      <a class="phieu-btn primary" href="phieu-hoc-tap.pdf" download>⬇ Tải PDF</a>
+    </div>
+  </div>
+  <div class="phieu-frame">
+    <iframe src="phieu-hoc-tap.pdf#view=FitH" title="Phiếu học tập — Bài 1. Khái niệm phương trình và hệ hai phương trình bậc nhất hai ẩn" loading="lazy"></iframe>
+  </div>
+  <div class="phieu-mobile">
+    <b>Xem phiếu trên điện thoại</b>
+    <span>Trình duyệt di động có thể không hiển thị PDF ngay trong trang. Nhấn để mở hoặc tải phiếu về máy.</span>
+    <div class="phieu-acts">
+      <a class="phieu-btn primary" href="phieu-hoc-tap.pdf" target="_blank" rel="noopener">Mở phiếu (PDF)</a>
+      <a class="phieu-btn" href="phieu-hoc-tap.pdf" download>⬇ Tải về</a>
+    </div>
+  </div>
+  <p class="phieu-note">Mẹo: bấm <b>Tải PDF</b> rồi in ra giấy A4 — bản in chuẩn, nét.</p>
+</section>
+
+<!-- ==================================================== -->
+<!-- HỌC TIẾP — tài nguyên kèm bài                        -->
+<!-- Thêm mục mới: chép một khối .tiep-the, sửa link và chữ -->
+<!-- ==================================================== -->
+<section class="hoc-tiep" aria-label="Học tiếp">
+  <p class="nav-label">Học tiếp</p>
+  <div class="tiep-luoi">
+    <a class="tiep-the" href="trinh-chieu.html">
+      <span class="tiep-ico" aria-hidden="true">▶</span>
+      <span class="tiep-chu">
+        <b>Trình chiếu</b>
+        <i>23 slide tự học, hiện lời giải từng bước</i>
+      </span>
+      <span class="tiep-mui" aria-hidden="true">→</span>
+    </a>
+    <a class="tiep-the" href="#phieu-hoc-tap">
+      <span class="tiep-ico" aria-hidden="true">✍</span>
+      <span class="tiep-chu">
+        <b>Phiếu học tập</b>
+        <i>Xem &amp; in ngay trong trang, chừa chỗ học sinh ghi</i>
+      </span>
+      <span class="tiep-mui" aria-hidden="true">→</span>
+    </a>
+    <a class="tiep-the" href="trac-nghiem.html">
+      <span class="tiep-ico" aria-hidden="true">✓</span>
+      <span class="tiep-chu">
+        <b>Trắc nghiệm</b>
+        <i>18 câu tự kiểm tra, chấm điểm ngay</i>
+      </span>
+      <span class="tiep-mui" aria-hidden="true">→</span>
+    </a>
+  </div>
+</section>
+
+</main>
+</div>
+<script>
+document.querySelectorAll('.card .tag.vd').forEach(function (tag) {
+  var card = tag.closest('.card');
+  if (!card) return;
+  Array.prototype.slice.call(card.querySelectorAll('.giai')).forEach(function (answer) {
+    if (answer.closest('.show, .solution') || answer.closest('.card') !== card) return;
+    var panel = document.createElement('div');
+    panel.className = 'show';
+    answer.parentNode.insertBefore(panel, answer);
+    panel.appendChild(answer);
+  });
+});
+
+document.querySelectorAll('.show').forEach(function (panel) {
+  var details = document.createElement('details');
+  var summary = document.createElement('summary');
+  details.className = 'solution';
+  summary.textContent = 'Xem lời giải';
+  details.appendChild(summary);
+  while (panel.firstChild) details.appendChild(panel.firstChild);
+  panel.replaceWith(details);
+  details.addEventListener('toggle', function () {
+    summary.textContent = details.open ? 'Ẩn lời giải' : 'Xem lời giải';
+  });
+});
+
+// Đánh dấu mục đang xem trên thanh mục lục
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.lesson-nav nav a[href^="#"]'));
+  var sections = links.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); }).filter(Boolean);
+  if (!sections.length) return;
+  function capNhat() {
+    var moc = window.scrollY + 140, hienId = null;
+    sections.forEach(function (s) { if (s.offsetTop <= moc) hienId = s.id; });
+    links.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + hienId); });
+  }
+  window.addEventListener('scroll', capNhat, { passive: true });
+  window.addEventListener('resize', capNhat, { passive: true });
+  capNhat();
+})();
+</script>
+</body>
+</html>

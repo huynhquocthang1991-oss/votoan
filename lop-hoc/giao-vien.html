@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bảng của thầy cô — Vở Toán</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#1b4dff; --blue-d:#0d36c7; --blue-l:#eef3ff;
+    --orange:#d84f00; --orange-l:#fff5e9;
+    --green:#2e7d32; --green-l:#edf8ee;
+    --red:#c62828; --red-l:#fff0f0;
+    --purple:#6a1b9a; --purple-l:#f7eefb;
+    --ink:#13223c; --muted:#4f5f7a; --line:#d9e2f0;
+    --paper:#fafcff; --grid:#e5ecf8; --surface:#fff;
+    --body:"Be Vietnam Pro",system-ui,-apple-system,sans-serif;
+    --display:"Bricolage Grotesque","Be Vietnam Pro",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{font-family:var(--body);color:var(--ink);margin:0;line-height:1.6;font-size:16px;
+    background-color:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:30px 30px}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:3px solid rgba(27,77,255,.45);outline-offset:3px;border-radius:8px}
+  .trang{width:min(1180px,calc(100% - 32px));margin:0 auto;padding:22px 0 80px}
+
+  header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    padding:22px 26px;background:linear-gradient(125deg,var(--blue-d),#2e62ff);color:#fff;
+    border-radius:20px;margin-bottom:22px}
+  header h1{margin:0;font:800 1.5rem/1.1 var(--display);letter-spacing:-.03em}
+  header .ai{font-size:.84rem;opacity:.85}
+  header a{min-height:44px;display:inline-flex;align-items:center;padding:0 16px;
+    background:rgba(255,255,255,.16);border-radius:10px;font-size:.86rem;font-weight:600}
+
+  .the-tab{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+  .the-tab button{min-height:46px;padding:0 18px;font:inherit;font-weight:600;font-size:.92rem;
+    color:var(--muted);background:var(--surface);border:1.5px solid var(--line);
+    border-radius:12px;cursor:pointer}
+  .the-tab button[aria-selected=true]{background:var(--blue);border-color:var(--blue);color:#fff}
+  .khung{display:none}
+  .khung.hien{display:block}
+
+  .the{background:var(--surface);border:1px solid var(--line);border-radius:18px;
+    padding:22px 24px;margin-bottom:16px}
+  .the h2{margin:0 0 4px;font:700 1.15rem/1.2 var(--display)}
+  .the .mo-ta{margin:0 0 18px;font-size:.88rem;color:var(--muted)}
+
+  label{display:block;margin-bottom:12px;font-size:.82rem;font-weight:600;color:var(--muted)}
+  input,select{display:block;width:100%;min-height:46px;margin-top:5px;padding:0 13px;
+    font:inherit;background:#f7f9fb;border:1.5px solid var(--line);border-radius:10px;color:var(--ink)}
+  .hang{display:flex;gap:12px;flex-wrap:wrap}
+  .hang label{flex:1;min-width:130px}
+
+  button.nut{min-height:48px;padding:0 22px;font:inherit;font-weight:600;border:none;
+    border-radius:12px;cursor:pointer;background:var(--blue);color:#fff}
+  button.nut.nhe{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
+  button.nut.xanh{background:var(--green)}
+  button.nut.cam{background:var(--orange)}
+  button.nut:disabled{opacity:.5;cursor:default}
+
+  .bao{margin:14px 0 0;padding:12px 14px;border-radius:10px;font-size:.88rem;display:none}
+  .bao.hien{display:block}
+  .bao.loi{background:var(--red-l);color:var(--red)}
+  .bao.ok{background:var(--green-l);color:var(--green)}
+  .trong{padding:34px;text-align:center;color:var(--muted);font-size:.92rem}
+
+  .ds-lop{display:grid;gap:10px}
+  .lop-hang{display:flex;align-items:center;justify-content:space-between;gap:12px;
+    flex-wrap:wrap;padding:14px 16px;background:#f7f9fb;border-radius:12px}
+  .lop-hang b{font-family:var(--display);font-size:1.05rem}
+  .lop-hang .so{font-size:.84rem;color:var(--muted)}
+
+  /* Hàng đợi duyệt — theo CÂU chứ không theo học sinh (mục 8.3). Cùng một lỗi
+     lặp lại thì bấm liên tục 10 cái trong một phút. */
+  .nhom-cau{margin-bottom:20px}
+  .nhom-cau > h3{margin:0 0 10px;font:700 1rem/1.3 var(--display)}
+  .bai{display:grid;grid-template-columns:96px minmax(0,1fr) auto;gap:14px;align-items:start;
+    padding:14px;border:1.5px solid var(--line);border-radius:14px;margin-bottom:10px;
+    background:var(--surface)}
+  .bai img{width:96px;height:96px;object-fit:cover;border-radius:10px;background:#eef1f5;cursor:zoom-in}
+  .bai .ten{font-weight:600;font-size:.92rem}
+  .bai .chep{margin:6px 0 0;font-size:.84rem;color:var(--muted);white-space:pre-wrap;
+    max-height:5.2em;overflow:auto}
+  .bai .nut-cot{display:grid;gap:8px;min-width:132px}
+  .bai .nut-cot button{min-height:44px;font-size:.86rem}
+
+  .huy{display:inline-block;padding:3px 9px;border-radius:99px;font-size:.7rem;font-weight:700;
+    letter-spacing:.03em;text-transform:uppercase;white-space:normal}
+
+  /* Điện thoại: ảnh và chữ nằm trên, ba nút xuống hàng dưới trải ngang.
+     Ba cột nhét vào 375px thì nút đè lên chữ, bấm nhầm ngay. */
+  @media (max-width:720px){
+    .bai{grid-template-columns:72px minmax(0,1fr)}
+    .bai img{width:72px;height:72px}
+    .bai .nut-cot{grid-column:1/-1;grid-auto-flow:column;min-width:0}
+    .bai .nut-cot button{padding:0 6px}
+    .bai .ten{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+  }
+  .u1{background:var(--red-l);color:var(--red)}
+  .u2{background:var(--orange-l);color:var(--orange)}
+  .u3{background:var(--blue-l);color:var(--blue)}
+
+  /* Ma trận lớp × câu (mục 8.4). Có KÝ HIỆU chứ không chỉ ô màu, để in đen
+     trắng hoặc người mù màu vẫn đọc được (mục 14). */
+  .cuon{overflow-x:auto}
+  table{border-collapse:collapse;font-size:.86rem;min-width:100%}
+  th,td{padding:7px 9px;border:1px solid var(--line);text-align:center;white-space:nowrap}
+  th:first-child,td:first-child{text-align:left;position:sticky;left:0;background:var(--surface)}
+  thead th{background:#f7f9fb;font-size:.78rem;color:var(--muted)}
+  td.d{background:var(--green-l);color:var(--green);font-weight:700}
+  td.s{background:var(--red-l);color:var(--red);font-weight:700}
+  td.c{background:var(--orange-l);color:var(--orange);font-weight:700}
+  td.k{color:#c3ccd8}
+  .chu-thich{margin-top:12px;font-size:.82rem;color:var(--muted)}
+
+  .top5{display:grid;gap:8px;max-width:520px}
+  .top5 div{display:flex;align-items:center;gap:12px;padding:11px 14px;background:#f7f9fb;
+    border-radius:11px;font-size:.92rem}
+  .top5 .hang-so{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;
+    background:var(--blue);color:#fff;font-weight:700;font-size:.82rem;flex:0 0 auto}
+
+  /* Trang in A4 phát mã — mục 4.3 */
+  #in-ma{display:none}
+  @media print{
+    body{background:#fff}
+    body > *:not(#in-ma){display:none !important}
+    #in-ma{display:block !important}
+    .o{break-inside:avoid}
+  }
+  #in-ma .luoi{display:grid;grid-template-columns:repeat(2,1fr);gap:0}
+  #in-ma .o{border:1px dashed #999;padding:12px 14px;min-height:96px}
+  #in-ma .o .lop{font-size:11px;color:#555}
+  #in-ma .o .ma{font:700 20px/1.2 var(--display);letter-spacing:.04em;margin:2px 0}
+  #in-ma .o .mk{font:700 22px/1.2 var(--display);letter-spacing:.16em}
+  #in-ma .o .web{font-size:11px;color:#555;margin-top:4px}
+</style>
+</head>
+<body>
+
+<div class="trang" id="app" hidden>
+  <header>
+    <div>
+      <h1>Bảng của thầy cô</h1>
+      <div class="ai" id="ai"></div>
+    </div>
+    <a href="#" id="thoat">Đăng xuất</a>
+  </header>
+
+  <div class="the-tab" role="tablist">
+    <button role="tab" aria-selected="true" data-k="lop">Lớp của tôi</button>
+    <button role="tab" aria-selected="false" data-k="duyet">Duyệt bài <span id="dem-duyet"></span></button>
+    <button role="tab" aria-selected="false" data-k="theodoi">Theo dõi lớp</button>
+    <button role="tab" aria-selected="false" data-k="caidat">Cài đặt</button>
+  </div>
+
+  <!-- ---------------------------------------------------------- LỚP -->
+  <section class="khung hien" data-k="lop">
+    <div class="the">
+      <h2>Mở lớp mới</h2>
+      <p class="mo-ta">Máy sinh sẵn mã và mật khẩu cho từng em. In ra một trang A4,
+        cắt thành từng mẩu phát cho học sinh. <b>Mật khẩu chỉ hiện đúng một lần</b> —
+        in luôn rồi hãy đóng.</p>
+      <form id="f-lop">
+        <div class="hang">
+          <label>Tên lớp<input id="l-ten" placeholder="8A" required></label>
+          <label>Khối<select id="l-khoi">
+            <option>6</option><option>7</option><option selected>8</option>
+            <option>9</option><option>10</option><option>11</option><option>12</option>
+          </select></label>
+          <label>Sĩ số<input id="l-so" type="number" min="1" max="60" value="32" required></label>
+          <label>Năm học<input id="l-nam" value="2026-2027" required></label>
+        </div>
+        <button class="nut" type="submit">Tạo lớp và sinh mã</button>
+      </form>
+      <p class="bao" id="bao-lop" role="status"></p>
+    </div>
+
+    <div class="the">
+      <h2>Các lớp đang dạy</h2>
+      <div class="ds-lop" id="ds-lop"><p class="trong">Đang tải…</p></div>
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------------- DUYỆT -->
+  <section class="khung" data-k="duyet">
+    <div class="the">
+      <h2>Bài chờ duyệt</h2>
+      <p class="mo-ta">Xếp theo mức cần xem trước. <b>Bài máy chấm “đúng” mà chưa
+        chắc chắn nằm trên đầu</b> — học sinh đã đọc rồi, nếu máy nhầm thì em yên tâm
+        mang lỗi đi tiếp mà không ai biết. Bài máy chấm sai thì em sẽ tự kêu lên.</p>
+      <div id="ds-duyet"><p class="trong">Đang tải…</p></div>
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------------- THEO DÕI -->
+  <section class="khung" data-k="theodoi">
+    <div class="the">
+      <h2>Ai đang học thế nào</h2>
+      <p class="mo-ta">Cột nào đỏ cả dọc thì dạy lại câu đó. Hàng nào đỏ cả ngang thì gọi em đó lên.</p>
+      <label style="max-width:260px">Chọn lớp<select id="chon-lop"></select></label>
+      <div class="cuon" id="ma-tran"><p class="trong">Chọn một lớp để xem.</p></div>
+      <p class="chu-thich">
+        <span style="color:var(--green);font-weight:700">✓</span> đúng, thầy cô đã xác nhận ·
+        <span style="color:var(--orange);font-weight:700">✓</span> đúng, máy chấm — chờ xác nhận ·
+        <span style="color:var(--red);font-weight:700">✗</span> sai ·
+        <span style="color:#c3ccd8">–</span> chưa nộp
+      </p>
+    </div>
+    <div class="the">
+      <h2>Top 5 chăm chỉ</h2>
+      <p class="mo-ta">Xếp theo <b>nỗ lực</b>: số lần sửa sai thành đúng, chuỗi ngày làm bài,
+        số câu đã làm. Không xếp theo số câu đúng — làm vậy thì em giỏi sẵn luôn đứng đầu
+        và em cuối bảng bỏ cuộc. Chỉ hiện 5 em, không hiện thứ hạng của những em còn lại.</p>
+      <div class="top5" id="top5"><p class="trong">Chọn một lớp ở trên.</p></div>
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------------- CÀI ĐẶT -->
+  <section class="khung" data-k="caidat">
+    <div class="the">
+      <h2>Khoá API để chấm bài</h2>
+      <p class="mo-ta">Mỗi thầy cô dùng khoá của mình, nên tiền chấm bài tính vào tài khoản
+        của thầy cô. Khoá được mã hoá và giữ ở máy chủ, <b>không bao giờ tải về máy học sinh</b>.
+        Dán vào rồi thì không xem lại được, chỉ thay bằng khoá khác.</p>
+      <form id="f-khoa">
+        <label>Khoá API<input id="k-khoa" type="password" placeholder="dán khoá vào đây" required></label>
+        <button class="nut" type="submit">Lưu khoá</button>
+      </form>
+      <p class="bao" id="bao-khoa" role="status"></p>
+    </div>
+  </section>
+</div>
+
+<div id="chua-cai" class="trang" hidden>
+  <div class="the"><h2>Chưa cài đặt</h2>
+  <p class="mo-ta">Phần lớp học chưa được nối với máy chủ. Xem <b>lop-hoc/CAI_DAT.md</b> bước 1.</p></div>
+</div>
+
+<!-- Trang in A4: chỉ hiện khi bấm In -->
+<div id="in-ma"><div class="luoi" id="in-luoi"></div></div>
+
+<script src="/assets/lop-hoc-cauhinh.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+(function () {
+  'use strict';
+  var CH = window.LOP_HOC_CAUHINH || {};
+  if (!CH.URL || !CH.ANON_KEY) { document.getElementById('chua-cai').hidden = false; return; }
+
+  var sb = window.supabase.createClient(CH.URL, CH.ANON_KEY);
+  var toi = null, phien = null, dsLop = [];
+
+  function $(id) { return document.getElementById(id); }
+  function thoatChu(s) { var d = document.createElement('div'); d.textContent = s == null ? '' : s; return d.innerHTML; }
+  function noi(o, chu, loai) { o.className = 'bao hien ' + (loai || ''); o.textContent = chu; }
+
+  function goi(ten, than) {
+    return fetch(CH.URL + '/functions/v1/' + ten, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': CH.ANON_KEY,
+                 'Authorization': 'Bearer ' + phien.access_token },
+      body: JSON.stringify(than)
+    }).then(function (r) { return r.json().then(function (j) {
+      if (!r.ok) throw new Error(j.loi || 'Có trục trặc, thầy cô thử lại nhé.');
+      return j; }); });
+  }
+
+  /* ------------------------------------------------------------ khởi động */
+  sb.auth.getSession().then(function (r) {
+    phien = r.data.session;
+    if (!phien) { location.href = '/lop-hoc/dang-nhap.html'; return; }
+    return sb.from('giao_vien').select('ten,email,trang_thai').eq('id', phien.user.id).single()
+      .then(function (g) {
+        if (!g.data || g.data.trang_thai !== 'hoat_dong') {
+          location.href = '/lop-hoc/dang-nhap.html'; return;
+        }
+        toi = g.data;
+        $('ai').textContent = g.data.ten || g.data.email;
+        $('app').hidden = false;
+        napLop();
+        napHangDoi();
+      });
+  });
+
+  $('thoat').addEventListener('click', function (e) {
+    e.preventDefault();
+    sb.auth.signOut().then(function () { location.href = '/'; });
+  });
+
+  document.querySelectorAll('.the-tab button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.querySelectorAll('.the-tab button').forEach(function (x) {
+        x.setAttribute('aria-selected', x === b);
+      });
+      document.querySelectorAll('.khung').forEach(function (k) {
+        k.classList.toggle('hien', k.dataset.k === b.dataset.k);
+      });
+    });
+  });
+
+  /* ------------------------------------------------------------ lớp */
+  function napLop() {
+    sb.from('lop_hoc').select('id,ten,khoi,nam_hoc').order('ten').then(function (r) {
+      dsLop = r.data || [];
+      var o = $('ds-lop');
+      if (!dsLop.length) { o.innerHTML = '<p class="trong">Chưa có lớp nào. Mở lớp đầu tiên ở trên nhé.</p>'; }
+      else {
+        o.innerHTML = '';
+        dsLop.forEach(function (l) {
+          var d = document.createElement('div');
+          d.className = 'lop-hang';
+          d.innerHTML = '<div><b>' + thoatChu(l.ten) + '</b>'
+            + '<div class="so">Khối ' + l.khoi + ' · ' + thoatChu(l.nam_hoc)
+            + ' · <span data-si="' + l.id + '">…</span> học sinh</div></div>';
+          o.appendChild(d);
+          sb.from('hoc_sinh').select('id', { count: 'exact', head: true }).eq('lop_id', l.id)
+            .then(function (c) {
+              var s = d.querySelector('[data-si]');
+              if (s) s.textContent = c.count == null ? '?' : c.count;
+            });
+        });
+      }
+      var sel = $('chon-lop');
+      sel.innerHTML = '<option value="">— chọn lớp —</option>' + dsLop.map(function (l) {
+        return '<option value="' + l.id + '">' + thoatChu(l.ten) + '</option>';
+      }).join('');
+    });
+  }
+
+  $('f-lop').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var nut = e.target.querySelector('button');
+    nut.disabled = true;
+    noi($('bao-lop'), 'Đang tạo lớp và sinh mã, chờ một chút…');
+    goi('tao-lop', {
+      ten: $('l-ten').value.trim().toUpperCase(),
+      khoi: +$('l-khoi').value,
+      nam_hoc: $('l-nam').value.trim(),
+      so_luong: +$('l-so').value
+    }).then(function (r) {
+      noi($('bao-lop'), 'Đã tạo ' + r.so_tao + ' tài khoản. Trang in đang mở — '
+        + 'in xong rồi hãy đóng, vì mật khẩu không xem lại được.', 'ok');
+      inMa(r.ten, r.danh_sach);
+      napLop();
+    }).catch(function (err) {
+      noi($('bao-lop'), err.message, 'loi');
+    }).then(function () { nut.disabled = false; });
+  });
+
+  /* Trang A4 cắt phát — mục 4.3. Chữ đủ to để học sinh gõ lại không nhầm. */
+  function inMa(tenLop, ds) {
+    $('in-luoi').innerHTML = ds.map(function (h) {
+      return '<div class="o"><div class="lop">Lớp ' + thoatChu(tenLop) + ' · Vở Toán</div>'
+        + '<div class="ma">' + thoatChu(h.ma) + '</div>'
+        + '<div class="mk">' + thoatChu(h.mat_khau) + '</div>'
+        + '<div class="web">' + location.host + '/lop-hoc/dang-nhap.html</div></div>';
+    }).join('');
+    setTimeout(function () { window.print(); }, 300);
+  }
+
+  /* ------------------------------------------------------------ hàng đợi duyệt */
+  function napHangDoi() {
+    sb.from('v_hang_doi_duyet').select('*').order('uu_tien').order('bai_tap_ma')
+      .then(function (r) {
+        var ds = r.data || [];
+        $('dem-duyet').textContent = ds.length ? '(' + ds.length + ')' : '';
+        var o = $('ds-duyet');
+        if (!ds.length) { o.innerHTML = '<p class="trong">Không còn bài nào chờ duyệt. 🎉</p>'; return; }
+
+        // Gộp theo CÂU (mục 8.3)
+        var nhom = {};
+        ds.forEach(function (b) { (nhom[b.bai_tap_ma] = nhom[b.bai_tap_ma] || []).push(b); });
+
+        o.innerHTML = '';
+        Object.keys(nhom).forEach(function (ma) {
+          var kh = document.createElement('div');
+          kh.className = 'nhom-cau';
+          kh.innerHTML = '<h3>' + thoatChu(ma) + ' — ' + nhom[ma].length + ' bài</h3>';
+          nhom[ma].forEach(function (b) { kh.appendChild(veBai(b)); });
+          o.appendChild(kh);
+        });
+      });
+  }
+
+  function veBai(b) {
+    var kq = b.may_ket_qua || {};
+    var d = document.createElement('div');
+    d.className = 'bai';
+    var nhan = b.uu_tien === 1 ? '<span class="huy u1">máy chấm đúng nhưng chưa chắc</span>'
+             : b.uu_tien === 2 ? '<span class="huy u2">cần xem gấp</span>'
+             : '<span class="huy u3">máy chấm sai</span>';
+    d.innerHTML =
+      '<img alt="Bài làm của ' + thoatChu(b.ten_hien_thi || b.ma_hoc_sinh) + '" data-anh="' + thoatChu(b.anh_url) + '">' +
+      '<div><div class="ten">' + thoatChu(b.ten_hien_thi || b.ma_hoc_sinh) +
+      ' · lượt ' + b.lan_thu + '/3 ' + nhan + (b.qua_han ? ' <span class="huy u2">quá hạn</span>' : '') + '</div>' +
+      '<p class="chep">' + thoatChu(kq.ban_chep || '(máy không chép được bài làm)') + '</p></div>' +
+      '<div class="nut-cot">' +
+        '<button class="nut xanh" data-kl="dung">Đúng</button>' +
+        '<button class="nut cam" data-kl="sai">Sai</button>' +
+        '<button class="nut nhe" data-kl="thieu_buoc">Thiếu bước</button>' +
+      '</div>';
+
+    sb.storage.from('bai-lam').createSignedUrl(b.anh_url, 3600).then(function (u) {
+      if (u.data) d.querySelector('img').src = u.data.signedUrl;
+    });
+    d.querySelector('img').addEventListener('click', function () {
+      if (this.src) window.open(this.src, '_blank');
+    });
+
+    d.querySelectorAll('[data-kl]').forEach(function (nut) {
+      nut.addEventListener('click', function () {
+        d.querySelectorAll('button').forEach(function (x) { x.disabled = true; });
+        sb.rpc('duyet_bai', { p_bai_nop_id: b.bai_nop_id, p_ket_luan: nut.dataset.kl })
+          .then(function (r) {
+            if (r.error) { alert(r.error.message); d.querySelectorAll('button').forEach(function (x) { x.disabled = false; }); return; }
+            d.style.opacity = .35;
+            d.querySelector('.nut-cot').innerHTML = '<span class="huy u3">đã duyệt</span>';
+            var n = +($('dem-duyet').textContent.replace(/\D/g, '') || 1) - 1;
+            $('dem-duyet').textContent = n > 0 ? '(' + n + ')' : '';
+          });
+      });
+    });
+    return d;
+  }
+
+  /* ------------------------------------------------------------ ma trận + top5 */
+  $('chon-lop').addEventListener('change', function () {
+    var id = this.value;
+    if (!id) return;
+    sb.from('v_ma_tran').select('*').eq('lop_id', id).order('ma_hoc_sinh').order('thu_tu')
+      .then(function (r) { veMaTran(r.data || []); });
+    sb.from('v_top5').select('*').eq('lop_id', id).order('hang').then(function (r) {
+      var o = $('top5');
+      var ds = r.data || [];
+      if (!ds.length) { o.innerHTML = '<p class="trong">Chưa có ai nộp bài.</p>'; return; }
+      o.innerHTML = ds.map(function (h) {
+        return '<div><span class="hang-so">' + h.hang + '</span>'
+          + '<b>' + thoatChu(h.ten_hien_thi || h.ma) + '</b>'
+          + '<span style="margin-left:auto;color:var(--muted);font-size:.84rem">'
+          + h.sua_dung + ' lần sửa đúng · ' + h.chuoi_ngay + ' ngày liền</span></div>';
+      }).join('');
+    });
+  });
+
+  function veMaTran(ds) {
+    var o = $('ma-tran');
+    if (!ds.length) { o.innerHTML = '<p class="trong">Lớp này chưa có bài tập nào.</p>'; return; }
+    var hs = [], cau = [];
+    ds.forEach(function (r) {
+      if (!hs.some(function (x) { return x.hoc_sinh_id === r.hoc_sinh_id; }))
+        hs.push({ hoc_sinh_id: r.hoc_sinh_id, ten: r.ten_hien_thi || r.ma_hoc_sinh });
+      if (cau.indexOf(r.bai_tap_ma) < 0) cau.push(r.bai_tap_ma);
+    });
+    var tra = {};
+    ds.forEach(function (r) { tra[r.hoc_sinh_id + '|' + r.bai_tap_ma] = r; });
+
+    var h = '<table><thead><tr><th>Học sinh</th>';
+    cau.forEach(function (c, i) { h += '<th title="' + thoatChu(c) + '">C' + (i + 1) + '</th>'; });
+    h += '</tr></thead><tbody>';
+    hs.forEach(function (e) {
+      h += '<tr><td>' + thoatChu(e.ten) + '</td>';
+      cau.forEach(function (c) {
+        var r = tra[e.hoc_sinh_id + '|' + c];
+        if (!r || !r.trang_thai) h += '<td class="k">–</td>';
+        else if (r.ket_luan === 'dung') h += '<td class="' + (r.da_co_nguoi_duyet ? 'd' : 'c') + '">✓</td>';
+        else h += '<td class="s">✗</td>';
+      });
+      h += '</tr>';
+    });
+    o.innerHTML = h + '</tbody></table>';
+  }
+
+  /* ------------------------------------------------------------ khoá API */
+  $('f-khoa').addEventListener('submit', function (e) {
+    e.preventDefault();
+    goi('dat-khoa-api', { khoa: $('k-khoa').value })
+      .then(function () { $('k-khoa').value = ''; noi($('bao-khoa'), 'Đã lưu khoá.', 'ok'); })
+      .catch(function (err) { noi($('bao-khoa'), err.message, 'loi'); });
+  });
+})();
+</script>
+</body>
+</html>
