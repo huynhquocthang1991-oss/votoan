@@ -20,6 +20,11 @@
     --display:"Bricolage Grotesque","Be Vietnam Pro",system-ui,sans-serif;
   }
   *{box-sizing:border-box}
+  /* Thuộc tính hidden của HTML chỉ là `display:none` ở bảng mặc định của trình
+     duyệt, nên BẤT KỲ luật display nào của mình cũng đè được nó. Cả trang này
+     ẩn/hiện bằng `.hidden = true`, mà .lop-cuoi, .hs-hang, .phieu-nen và cả thẻ
+     a trong header đều có display riêng — thiếu dòng này là chúng hiện hết. */
+  [hidden]{display:none !important}
   body{font-family:var(--body);color:var(--ink);margin:0;line-height:1.6;font-size:16px;
     background-color:var(--paper);
     background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
@@ -56,12 +61,15 @@
   .hang{display:flex;gap:12px;flex-wrap:wrap}
   .hang label{flex:1;min-width:130px}
 
-  button.nut{min-height:48px;padding:0 22px;font:inherit;font-weight:600;border:none;
-    border-radius:12px;cursor:pointer;background:var(--blue);color:#fff}
-  button.nut.nhe{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
-  button.nut.xanh{background:var(--green)}
-  button.nut.cam{background:var(--orange)}
-  button.nut:disabled{opacity:.5;cursor:default}
+  button.nut,a.nut{min-height:48px;padding:0 22px;font:inherit;font-weight:600;border:none;
+    border-radius:12px;cursor:pointer;background:var(--blue);color:#fff;
+    display:inline-flex;align-items:center;justify-content:center;gap:7px;text-align:center}
+  .nut.nhe{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
+  .nut.xanh{background:var(--green)}
+  .nut.cam{background:var(--orange)}
+  .nut.do{background:#fff;color:var(--red);border:1.5px solid var(--red)}
+  .nut:disabled{opacity:.5;cursor:default}
+  .goi-y{margin:-6px 0 14px;font-size:.8rem;color:var(--muted)}
 
   .bao{margin:14px 0 0;padding:12px 14px;border-radius:10px;font-size:.88rem;display:none}
   .bao.hien{display:block}
@@ -76,8 +84,33 @@
   .lop-hang b{font-family:var(--display);font-size:1.05rem}
   .lop-hang .so{font-size:.84rem;color:var(--muted)}
   .viec-lop{display:flex;gap:8px;flex-wrap:wrap}
-  .viec-lop button{min-height:44px;font-size:.86rem;padding:0 16px}
+  .viec-lop .nut{min-height:44px;font-size:.86rem;padding:0 16px}
   .lop-khoi > .bao{margin:0 16px 14px}
+  .lop-khoi.luu-tru b::after{content:'đã kết thúc';margin-left:9px;padding:3px 9px;
+    border-radius:99px;background:var(--line);color:var(--muted);
+    font:700 .66rem/1.5 var(--body);letter-spacing:.03em;text-transform:uppercase;
+    vertical-align:middle}
+  h3.nhom-lop{margin:22px 0 10px;font:700 .96rem/1.3 var(--display);color:var(--muted)}
+  h3.nhom-lop:first-child{margin-top:0}
+
+  /* Thêm em giữa năm — mở ra ngay tại chỗ chứ không hỏi bằng confirm(). Đặc tả
+     mục 4.3: "em thứ 33" là việc làm giữa giờ, trên điện thoại. */
+  .khay{display:none;gap:10px;align-items:flex-end;flex-wrap:wrap;padding:0 16px 14px}
+  .khay.hien{display:flex}
+  .khay label{margin:0;flex:0 0 auto}
+  .khay input{width:96px}
+  .khay .nut{min-height:46px;font-size:.88rem;padding:0 18px}
+  .khay p{margin:0;flex:1 1 200px;font-size:.8rem;color:var(--muted)}
+
+  /* Việc nguy hiểm nằm CUỐI danh sách học sinh, không nằm ở hàng lớp: bấm tới
+     được đây thì thầy cô đã mở lớp ra xem rồi, không phải bấm nhầm khi cuộn. */
+  .lop-cuoi{display:flex;gap:8px;flex-wrap:wrap;align-items:center;
+    margin:4px 16px 16px;padding-top:14px;border-top:1px dashed var(--line)}
+  .lop-cuoi .nut{min-height:44px;font-size:.84rem;padding:0 14px}
+  .lop-cuoi .ghi{flex:1 1 220px;margin:0;font-size:.8rem;color:var(--muted)}
+
+  .hs-loc{margin:0 0 4px}
+  .hs-loc input{max-width:320px}
 
   /* Danh sách học sinh — mục 4.2, 4.3. Bung ra ngay dưới hàng lớp chứ không mở
      trang mới: thầy cô hay làm việc này giữa giờ, trên điện thoại. */
@@ -148,6 +181,26 @@
   .top5 .hang-so{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;
     background:var(--blue);color:#fff;font-weight:700;font-size:.82rem;flex:0 0 auto}
 
+  /* Bảng mật khẩu vừa cấp. Trước đây máy tự mở hộp In sau 300ms, và mật khẩu
+     chỉ tồn tại trong lần in đó — thầy cô bấm Hủy trong hộp In, hoặc máy không
+     có máy in, là mất sạch, phải đi đặt lại mật khẩu cho từng em. Giờ mật khẩu
+     hiện ra ở đây và NGỒI CHỜ, đóng hay không là thầy cô quyết. */
+  .phieu-nen{position:fixed;inset:0;z-index:200;display:grid;place-items:center;
+    padding:18px;background:rgba(19,34,60,.45)}
+  .phieu{width:min(560px,100%);max-height:88vh;overflow:auto;padding:22px 24px;
+    background:var(--surface);border-radius:18px;box-shadow:0 26px 60px rgba(19,34,60,.3)}
+  .phieu h2{margin:0 0 4px;font:700 1.15rem/1.2 var(--display)}
+  .phieu .mo-ta{margin:0 0 16px;font-size:.86rem;color:var(--muted)}
+  .phieu-ds{display:grid;gap:6px;margin-bottom:16px}
+  .phieu-ds div{display:flex;align-items:center;justify-content:space-between;gap:14px;
+    padding:9px 13px;background:#f7f9fb;border-radius:10px}
+  .phieu-ds .ma{font:700 .98rem/1.2 var(--display);letter-spacing:.03em}
+  .phieu-ds .mk{font:700 1.12rem/1.2 var(--display);letter-spacing:.16em}
+  .phieu-viec{display:flex;gap:8px;flex-wrap:wrap}
+  .phieu-viec .nut{min-height:46px;font-size:.9rem;padding:0 18px}
+  .phieu-canh{margin:14px 0 0;padding:11px 13px;border-radius:10px;font-size:.84rem;
+    background:var(--orange-l);color:var(--orange)}
+
   /* Trang in A4 phát mã — mục 4.3 */
   #in-ma{display:none}
   @media print{
@@ -190,12 +243,13 @@
   <section class="khung hien" data-k="lop">
     <div class="the">
       <h2>Mở lớp mới</h2>
-      <p class="mo-ta">Máy sinh sẵn mã và mật khẩu cho từng em. In ra một trang A4,
-        cắt thành từng mẩu phát cho học sinh. <b>Mật khẩu chỉ hiện đúng một lần</b> —
-        in luôn rồi hãy đóng.</p>
+      <p class="mo-ta">Máy sinh sẵn mã và mật khẩu cho từng em, hiện ra ngay trên màn
+        hình để thầy cô in một trang A4 rồi cắt thành từng mẩu phát cho học sinh.
+        <b>Mật khẩu chỉ hiện một lần</b>, nhưng bảng đó nằm chờ đến khi thầy cô tự
+        đóng — in xong hay ghi lại xong rồi hãy đóng.</p>
       <form id="f-lop">
         <div class="hang">
-          <label>Tên lớp<input id="l-ten" placeholder="8A" required></label>
+          <label>Tên lớp<input id="l-ten" placeholder="8A" maxlength="10" required></label>
           <label>Khối<select id="l-khoi">
             <option>6</option><option>7</option><option selected>8</option>
             <option>9</option><option>10</option><option>11</option><option>12</option>
@@ -203,13 +257,18 @@
           <label>Sĩ số<input id="l-so" type="number" min="1" max="60" value="32" required></label>
           <label>Năm học<input id="l-nam" value="2026-2027" required></label>
         </div>
+        <p class="goi-y">Tên lớp thành mã của học sinh (<b>8A</b> → <b>8A-07</b>) nên
+          chỉ dùng chữ không dấu và số, không dấu cách. Thiếu em thì thêm sau, thừa mã
+          thì xoá được — cứ điền sĩ số hiện có.</p>
         <button class="nut" type="submit">Tạo lớp và sinh mã</button>
       </form>
       <p class="bao" id="bao-lop" role="status"></p>
     </div>
 
     <div class="the">
-      <h2>Các lớp đang dạy</h2>
+      <h2>Lớp của tôi</h2>
+      <p class="mo-ta">Mỗi lớp có nút <b>Dạy học</b> mở thẳng học liệu của khối đó —
+        chiếu lên bảng là dạy được luôn.</p>
       <div class="ds-lop" id="ds-lop"><p class="trong">Đang tải…</p></div>
     </div>
   </section>
@@ -267,6 +326,21 @@
 <div id="chua-cai" class="trang" hidden>
   <div class="the"><h2>Chưa cài đặt</h2>
   <p class="mo-ta">Phần lớp học chưa được nối với máy chủ. Xem <b>lop-hoc/CAI_DAT.md</b> bước 1.</p></div>
+</div>
+
+<!-- Mật khẩu vừa cấp. Nằm chờ, không tự đóng, không tự mở hộp In. -->
+<div class="phieu-nen" id="phieu" hidden role="dialog" aria-modal="true" aria-labelledby="phieu-tieu-de">
+  <div class="phieu">
+    <h2 id="phieu-tieu-de">Mã và mật khẩu vừa cấp</h2>
+    <p class="mo-ta" id="phieu-mo-ta"></p>
+    <div class="phieu-ds" id="phieu-ds"></div>
+    <div class="phieu-viec">
+      <button class="nut" type="button" id="phieu-in">In trang A4 để cắt phát</button>
+      <button class="nut nhe" type="button" id="phieu-dong">Đã xong, đóng lại</button>
+    </div>
+    <p class="phieu-canh">Đóng bảng này là mật khẩu mất hẳn — máy chủ chỉ giữ bản
+      băm, không ai đọc lại được. Em nào quên thì dùng nút <b>Đặt lại mật khẩu</b>.</p>
+  </div>
 </div>
 
 <!-- Trang in A4: chỉ hiện khi bấm In -->
@@ -332,21 +406,90 @@
     });
   });
 
+  /* ------------------------------------------------------------ việc chung */
+
+  /* Xác nhận hai bước ngay trên chính cái nút, thay cho confirm(). Hộp confirm
+   * của hệ thống trên điện thoại hiện chữ nhỏ và không nói được "lớp nào, mất
+   * bao nhiêu"; ở đây nút tự đổi thành câu hỏi cụ thể. Tự huỷ sau 6 giây để
+   * không có nút nào nằm đó ở trạng thái "đã lên đạn". */
+  function haiBuoc(nut, nhanHoi, lam) {
+    var nhanGoc = nut.textContent;
+    var daDo = nut.classList.contains('do');
+    var choHoi = false, dongHo = null;
+
+    function ve() {
+      clearTimeout(dongHo);
+      choHoi = false;
+      nut.textContent = nhanGoc;
+      if (!daDo) nut.classList.remove('do');
+    }
+    nut.addEventListener('click', function () {
+      if (!choHoi) {
+        choHoi = true;
+        nut.textContent = nhanHoi;
+        nut.classList.add('do');
+        dongHo = setTimeout(ve, 6000);
+        return;
+      }
+      ve();
+      lam();
+    });
+  }
+
+  /* Nút Dạy học: mở học liệu của đúng khối lớp đó. Khối nào chưa có bài trên web
+   * thì không hiện nút chết — hỏi thẳng máy chủ một lần cho mỗi khối rồi nhớ lại,
+   * khỏi phải bảo trì một danh sách khối viết cứng trong file này. */
+  var hocLieu = {};
+  function ganNutDayHoc(l, cho) {
+    var duong = '/bai-hoc/lop-' + l.khoi + '/';
+    if (!hocLieu[l.khoi]) {
+      hocLieu[l.khoi] = fetch(duong, { method: 'HEAD' })
+        .then(function (r) { return r.ok; }, function () { return true; });
+    }
+    hocLieu[l.khoi].then(function (co) {
+      cho.innerHTML = co
+        ? '<a class="nut" href="' + duong + '" target="_blank" rel="noopener">Dạy học</a>'
+        : '<span class="so">Khối ' + l.khoi + ' chưa có bài trên web</span>';
+    });
+  }
+
   /* ------------------------------------------------------------ lớp */
   function napLop() {
-    sb.from('lop_hoc').select('id,ten,khoi,nam_hoc').order('ten').then(function (r) {
+    /* select('*') chứ không kể tên cột: cột trang_thai chỉ có sau migration 004,
+     * mà kể tên một cột chưa tồn tại là cả truy vấn trả về lỗi và danh sách lớp
+     * trắng trơn. Chưa chạy 004 thì lớp nào cũng coi như đang dạy. */
+    sb.from('lop_hoc').select('*').order('ten').then(function (r) {
       dsLop = r.data || [];
+      var dangDay = dsLop.filter(function (l) { return l.trang_thai !== 'luu_tru'; });
+      var daXong = dsLop.filter(function (l) { return l.trang_thai === 'luu_tru'; });
+
       var o = $('ds-lop');
-      if (!dsLop.length) { o.innerHTML = '<p class="trong">Chưa có lớp nào. Mở lớp đầu tiên ở trên nhé.</p>'; }
-      else {
-        o.innerHTML = '';
-        dsLop.forEach(function (l) { o.appendChild(veLop(l)); });
+      o.innerHTML = '';
+      if (!dsLop.length) {
+        o.innerHTML = '<p class="trong">Chưa có lớp nào. Mở lớp đầu tiên ở trên nhé.</p>';
       }
+      if (dangDay.length) {
+        if (daXong.length) o.appendChild(tieuDeNhom('Đang dạy'));
+        dangDay.forEach(function (l) { o.appendChild(veLop(l)); });
+      }
+      if (daXong.length) {
+        o.appendChild(tieuDeNhom('Lớp đã kết thúc'));
+        daXong.forEach(function (l) { o.appendChild(veLop(l)); });
+      }
+
       var sel = $('chon-lop');
       sel.innerHTML = '<option value="">— chọn lớp —</option>' + dsLop.map(function (l) {
-        return '<option value="' + l.id + '">' + thoatChu(l.ten) + '</option>';
+        return '<option value="' + l.id + '">' + thoatChu(l.ten)
+          + (l.trang_thai === 'luu_tru' ? ' (đã kết thúc)' : '') + '</option>';
       }).join('');
     });
+  }
+
+  function tieuDeNhom(chu) {
+    var h = document.createElement('h3');
+    h.className = 'nhom-lop';
+    h.textContent = chu;
+    return h;
   }
 
   $('f-lop').addEventListener('submit', function (e) {
@@ -360,77 +503,172 @@
       nam_hoc: $('l-nam').value.trim(),
       so_luong: +$('l-so').value
     }).then(function (r) {
-      noi($('bao-lop'), 'Đã tạo ' + r.so_tao + ' tài khoản. Trang in đang mở — '
-        + 'in xong rồi hãy đóng, vì mật khẩu không xem lại được.', 'ok');
-      inMa(r.ten, r.danh_sach);
+      noi($('bao-lop'), 'Đã mở lớp ' + r.ten + ' với ' + r.so_tao + ' tài khoản.', 'ok');
+      moPhieu(r.ten, r.danh_sach,
+        'Lớp ' + r.ten + ' · ' + r.so_tao + ' em. In trang A4 rồi cắt thành từng mẩu phát cho các em.');
       napLop();
     }).catch(function (err) {
       noi($('bao-lop'), err.message, 'loi');
     }).then(function () { nut.disabled = false; });
   });
 
-  /* Trang A4 cắt phát — mục 4.3. Chữ đủ to để học sinh gõ lại không nhầm. */
-  function inMa(tenLop, ds) {
+  /* ------------------------------------------------------------ bảng mật khẩu */
+
+  /* Mật khẩu chỉ đi qua đây MỘT LẦN. Trước đây hàm này tự gọi window.print() sau
+   * 300ms: bấm Hủy trong hộp In, hoặc máy không nối máy in, là mất sạch mật khẩu
+   * của cả lớp và phải đi đặt lại từng em. Giờ mật khẩu hiện lên và nằm chờ. */
+  function moPhieu(tenLop, ds, moTa) {
+    $('phieu-mo-ta').textContent = moTa;
+    $('phieu-ds').innerHTML = ds.map(function (h) {
+      return '<div><span class="ma">' + thoatChu(h.ma) + '</span>'
+        + '<span class="mk">' + thoatChu(h.mat_khau) + '</span></div>';
+    }).join('');
+
+    /* Trang A4 cắt phát — mục 4.3. Chữ đủ to để học sinh gõ lại không nhầm. */
     $('in-luoi').innerHTML = ds.map(function (h) {
       return '<div class="o"><div class="lop">Lớp ' + thoatChu(tenLop) + ' · Vở Toán</div>'
         + '<div class="ma">' + thoatChu(h.ma) + '</div>'
         + '<div class="mk">' + thoatChu(h.mat_khau) + '</div>'
         + '<div class="web">' + location.host + '/lop-hoc/dang-nhap.html</div></div>';
     }).join('');
-    setTimeout(function () { window.print(); }, 300);
+
+    $('phieu').hidden = false;
+    $('phieu-in').focus();
   }
+
+  $('phieu-in').addEventListener('click', function () { window.print(); });
+
+  /* CỐ Ý không đóng bằng Escape hay bằng cách bấm ra ngoài. Mọi cách đóng khác
+   * đều là một cách mất mật khẩu của cả lớp vì lỡ tay. */
+  $('phieu-dong').addEventListener('click', function () {
+    $('phieu').hidden = true;
+    $('phieu-ds').innerHTML = '';
+    $('in-luoi').innerHTML = '';   // Ctrl+P sau đó không in ra mật khẩu cũ nữa
+  });
 
   /* ------------------------------------------------------------ một lớp */
   function veLop(l) {
+    var luuTru = l.trang_thai === 'luu_tru';
     var d = document.createElement('div');
-    d.className = 'lop-khoi';
+    d.className = 'lop-khoi' + (luuTru ? ' luu-tru' : '');
     d.innerHTML =
       '<div class="lop-hang">'
       +   '<div><b>' + thoatChu(l.ten) + '</b>'
       +     '<div class="so">Khối ' + l.khoi + ' · ' + thoatChu(l.nam_hoc)
       +       ' · <span class="si">…</span> học sinh</div></div>'
       +   '<div class="viec-lop">'
+      +     '<span class="cho-day-hoc"></span>'
       +     '<button class="nut nhe" data-viec="xem">Danh sách học sinh</button>'
       +     '<button class="nut nhe" data-viec="them">Thêm học sinh</button>'
       +   '</div>'
       + '</div>'
+      /* Khay thêm em mở ra tại chỗ. Trước đây là confirm() rồi cứng nhắc thêm
+       * đúng một em — mà "ba em mới chuyển vào" cũng là chuyện có thật. */
+      + '<div class="khay">'
+      +   '<label>Thêm mấy em?<input type="number" min="1" max="30" value="1"></label>'
+      +   '<button class="nut" data-viec="cap-ma">Cấp mã</button>'
+      +   '<button class="nut nhe" data-viec="thoi-them">Thôi</button>'
+      +   '<p>Mã cấp tiếp NGAY SAU số lớn nhất đang có, không lấp vào chỗ mã đã bỏ —'
+      +   ' mã cũ có thể đã gắn với bài em khác từng nộp.</p>'
+      + '</div>'
       + '<div class="ds-hs" hidden></div>'
+      + '<div class="lop-cuoi" hidden>'
+      +   '<p class="ghi">' + (luuTru
+            ? 'Lớp này đã kết thúc. Dữ liệu vẫn còn nguyên, mở lại lúc nào cũng được.'
+            : 'Hết năm học thì <b>kết thúc lớp</b> — lớp thu vào mục riêng, bài và sao '
+              + 'của các em vẫn còn. <b>Xoá</b> chỉ được khi cả lớp chưa làm bài nào.')
+      +   '</p>'
+      +   '<button class="nut nhe" data-viec="doi-luu-tru">'
+      +     (luuTru ? 'Mở lại lớp' : 'Kết thúc lớp') + '</button>'
+      +   (luuTru ? '' : '<button class="nut do" data-viec="xoa-lop">Xoá lớp</button>')
+      + '</div>'
       + '<p class="bao" role="status"></p>';
 
     var khu = d.querySelector('.ds-hs');
+    var khay = d.querySelector('.khay');
+    var cuoi = d.querySelector('.lop-cuoi');
     var bao = d.querySelector('.bao');
     var nutXem = d.querySelector('[data-viec="xem"]');
+    var oSo = khay.querySelector('input');
 
     demHocSinh(l, d);
+    ganNutDayHoc(l, d.querySelector('.cho-day-hoc'));
 
-    nutXem.addEventListener('click', function () {
-      if (!khu.hidden) { khu.hidden = true; nutXem.textContent = 'Danh sách học sinh'; return; }
+    function moDanhSach() {
       khu.hidden = false;
+      cuoi.hidden = false;
       nutXem.textContent = 'Ẩn danh sách';
       napHocSinh(l, d);
+    }
+
+    nutXem.addEventListener('click', function () {
+      if (!khu.hidden) {
+        khu.hidden = true;
+        cuoi.hidden = true;
+        nutXem.textContent = 'Danh sách học sinh';
+        return;
+      }
+      moDanhSach();
     });
 
-    /* Thêm từng em một — mục 4.3 nói đúng tình huống "em thứ 33". Thêm cả mẻ thì
-     * hiếm khi cần, mà bấm nhầm là sinh thừa một loạt tài khoản không xoá được. */
     d.querySelector('[data-viec="them"]').addEventListener('click', function () {
-      if (!confirm('Thêm một học sinh vào lớp ' + l.ten + '?\n\n'
-        + 'Máy cấp mã tiếp theo, sinh mật khẩu mới, rồi mở trang in một mẩu giấy '
-        + 'để phát cho em đó.')) return;
+      khay.classList.add('hien');
+      oSo.focus();
+      oSo.select();
+    });
+    d.querySelector('[data-viec="thoi-them"]').addEventListener('click', function () {
+      khay.classList.remove('hien');
+    });
+
+    d.querySelector('[data-viec="cap-ma"]').addEventListener('click', function () {
+      var n = Math.max(1, Math.min(30, +oSo.value || 1));
       var nut = this;
       nut.disabled = true;
       noi(bao, 'Đang cấp mã…');
-      goi('them-hoc-sinh', { lop_id: l.id, so_them: 1 }).then(function (r) {
-        if (!r.so_tao) { noi(bao, 'Không cấp được mã nào. Thầy cô thử lại nhé.', 'loi'); return; }
+      goi('them-hoc-sinh', { lop_id: l.id, so_them: n }).then(function (r) {
+        khay.classList.remove('hien');
         noi(bao, 'Đã thêm ' + r.danh_sach.map(function (h) { return h.ma; }).join(', ')
-          + '. Trang in đang mở — in xong rồi hãy đóng, mật khẩu không xem lại được.', 'ok');
-        inMa(r.ten, r.danh_sach);
-        khu.hidden = false;
-        nutXem.textContent = 'Ẩn danh sách';
-        napHocSinh(l, d);
+          + (r.bo_qua && r.bo_qua.length ? '. Bỏ qua ' + r.bo_qua.join(', ')
+            + ' vì mã đã có người dùng' : '') + '.', 'ok');
+        moPhieu(r.ten, r.danh_sach, 'Lớp ' + r.ten + ' · vừa thêm ' + r.so_tao + ' em.');
+        moDanhSach();
         demHocSinh(l, d);
       }).catch(function (e) {
         noi(bao, e.message, 'loi');
       }).then(function () { nut.disabled = false; });
+    });
+
+    /* Kết thúc lớp: một bước, vì mở lại được. */
+    haiBuoc(d.querySelector('[data-viec="doi-luu-tru"]'),
+      luuTru ? 'Mở lại ' + l.ten + '?' : 'Kết thúc lớp ' + l.ten + '?',
+      function () {
+        noi(bao, 'Đang cập nhật…');
+        if (luuTru) {
+          sb.from('lop_hoc').update({ trang_thai: 'dang_day' }).eq('id', l.id)
+            .then(function (r) {
+              if (r.error) { noi(bao, r.error.message, 'loi'); return; }
+              napLop();
+            });
+          return;
+        }
+        goi('xoa-lop', { lop_id: l.id, viec: 'luu_tru' }).then(function () {
+          napLop();
+        }).catch(function (e) { noi(bao, e.message, 'loi'); });
+      });
+
+    /* Xoá lớp: máy chủ tự chặn nếu lớp đã có bài (xoa-lop), nên bấm nhầm ở đây
+     * chỉ xoá được lớp còn trắng — vẫn hỏi lại một lần cho chắc. */
+    var nutXoa = d.querySelector('[data-viec="xoa-lop"]');
+    if (nutXoa) haiBuoc(nutXoa, 'Xoá thật lớp ' + l.ten + '?', function () {
+      nutXoa.disabled = true;
+      noi(bao, 'Đang xoá…');
+      goi('xoa-lop', { lop_id: l.id, viec: 'xoa' }).then(function (r) {
+        noi(bao, 'Đã xoá lớp ' + r.ten + ' và ' + r.so_xoa + ' tài khoản.', 'ok');
+        napLop();
+      }).catch(function (e) {
+        noi(bao, e.message, 'loi');
+        nutXoa.disabled = false;
+      });
     });
 
     return d;
@@ -451,13 +689,60 @@
       .then(function (r) {
         var ds = r.data || [];
         if (!ds.length) { khu.innerHTML = '<p class="trong">Lớp này chưa có học sinh nào.</p>'; return; }
-        khu.innerHTML = '<p class="ghi-chu">Ô tên chỉ để thầy cô nhận ra em nào — ghi rút gọn '
-          + 'kiểu “Minh A.”, <b>đừng ghi họ tên đầy đủ</b>. Bảng mã ↔ tên thật thầy cô giữ ở lớp mình.</p>';
-        ds.forEach(function (h) { khu.appendChild(veHocSinh(l, h, d)); });
+
+        /* Em nào đã có dữ liệu thì KHÔNG hiện nút Xoá — hiện ra rồi để máy chủ từ
+         * chối thì thầy cô vẫn phải bấm mới biết. Ba truy vấn cho cả lớp, không
+         * phải một truy vấn cho mỗi em. thi_luot không đọc được từ đây (mục 16.3)
+         * nên xoa-lop / xoa-hoc-sinh vẫn là chỗ chốt cuối. */
+        var ids = ds.map(function (h) { return h.id; });
+        return Promise.all([
+          sb.from('bai_nop').select('hoc_sinh_id').in('hoc_sinh_id', ids),
+          sb.from('tn_lam').select('hoc_sinh_id').in('hoc_sinh_id', ids),
+          sb.from('sao').select('hoc_sinh_id').in('hoc_sinh_id', ids)
+        ]).then(function (kq) {
+          var daLam = {};
+          kq.forEach(function (x) {
+            (x.data || []).forEach(function (b) { daLam[b.hoc_sinh_id] = true; });
+          });
+          veDanhSachHS(l, d, ds, daLam);
+        });
       });
   }
 
-  function veHocSinh(l, h, d) {
+  function veDanhSachHS(l, d, ds, daLam) {
+    var khu = d.querySelector('.ds-hs');
+    khu.innerHTML = '<p class="ghi-chu">Ô tên chỉ để thầy cô nhận ra em nào — ghi rút gọn '
+      + 'kiểu “Minh A.”, <b>đừng ghi họ tên đầy đủ</b>. Bảng mã ↔ tên thật thầy cô giữ ở lớp mình.</p>';
+
+    /* Lớp 32 em trên điện thoại là cuộn rất lâu. Ô tìm chỉ hiện khi danh sách đủ
+     * dài để cần đến nó. */
+    var hang = [];
+    if (ds.length > 12) {
+      var loc = document.createElement('label');
+      loc.className = 'hs-loc';
+      loc.innerHTML = 'Tìm nhanh<input placeholder="8A-07 hoặc Minh" '
+        + 'aria-label="Tìm học sinh trong lớp ' + thoatChu(l.ten) + '">';
+      var oLoc = loc.querySelector('input');
+      oLoc.addEventListener('input', function () {
+        var tim = oLoc.value.trim().toLowerCase();
+        hang.forEach(function (x) {
+          // Đọc tên tại lúc tìm, không nhớ sẵn: thầy cô vừa sửa tên xong là tìm
+          // được ngay bằng tên mới.
+          var chu = ((x.hs.ma || '') + ' ' + (x.hs.ten_hien_thi || '')).toLowerCase();
+          x.o.hidden = !!tim && chu.indexOf(tim) < 0;
+        });
+      });
+      khu.appendChild(loc);
+    }
+
+    ds.forEach(function (h) {
+      var o = veHocSinh(l, h, d, !daLam[h.id]);
+      hang.push({ o: o, hs: h });
+      khu.appendChild(o);
+    });
+  }
+
+  function veHocSinh(l, h, d, chuaLamGi) {
     var bao = d.querySelector('.bao');
     var tat = h.trang_thai === 'khong_dung';
 
@@ -468,6 +753,10 @@
       + '<div class="viec">'
       +   '<button class="nut nhe" data-v="mk">Đặt lại mật khẩu</button>'
       +   '<button class="nut nhe" data-v="tt">' + (tat ? 'Dùng lại' : 'Không dùng') + '</button>'
+      /* Nút Xoá CHỈ hiện với em chưa có dữ liệu gì — mã sinh thừa. Em đã nộp bài
+       * thì không có nút này, vì việc đúng với em đó là "Không dùng": mã ngừng
+       * đăng nhập được mà bài cũ vẫn còn (mục 4.3). */
+      +   (chuaLamGi ? '<button class="nut do" data-v="xoa">Xoá mã</button>' : '')
       + '</div>';
 
     // Gán bằng thuộc tính chứ không nhét vào chuỗi HTML: tên có dấu nháy là hỏng thẻ.
@@ -484,26 +773,24 @@
       });
     });
 
-    e.querySelector('[data-v="mk"]').addEventListener('click', function () {
-      if (!confirm('Đặt lại mật khẩu cho ' + h.ma + '?\n\n'
-        + 'Mật khẩu cũ ngừng dùng được ngay. Máy mở trang in một mẩu giấy mới để '
-        + 'phát cho em — mật khẩu chỉ hiện đúng một lần.')) return;
-      var nut = this;
-      nut.disabled = true;
+    var nutMk = e.querySelector('[data-v="mk"]');
+    haiBuoc(nutMk, 'Cấp mật khẩu mới cho ' + h.ma + '?', function () {
+      nutMk.disabled = true;
       noi(bao, 'Đang đặt lại…');
       goi('dat-lai-mat-khau', { hoc_sinh_id: h.id }).then(function (r) {
-        noi(bao, 'Đã đặt mật khẩu mới cho ' + r.ma + '. Trang in đang mở — in xong rồi hãy đóng.', 'ok');
-        inMa(r.ten_lop || l.ten, [{ ma: r.ma, mat_khau: r.mat_khau }]);
+        noi(bao, 'Đã cấp mật khẩu mới cho ' + r.ma + '.', 'ok');
+        moPhieu(r.ten_lop || l.ten, [{ ma: r.ma, mat_khau: r.mat_khau }],
+          'Mật khẩu mới của ' + r.ma + '. Mật khẩu cũ đã ngừng dùng được.');
       }).catch(function (er) {
         noi(bao, er.message, 'loi');
-      }).then(function () { nut.disabled = false; });
+      }).then(function () { nutMk.disabled = false; });
     });
 
-    /* Đánh dấu, KHÔNG xoá — mục 4.3. Xoá là mất liên kết với bài em đó từng nộp. */
+    /* Đánh dấu thay vì xoá — mục 4.3. Với em đã nộp bài thì đây là việc duy nhất
+     * đúng: xoá là mất liên kết với bài em đó từng nộp. Đổi qua đổi lại được nên
+     * không cần hỏi hai lần. */
     e.querySelector('[data-v="tt"]').addEventListener('click', function () {
       var moi = h.trang_thai === 'khong_dung' ? 'hoat_dong' : 'khong_dung';
-      if (moi === 'khong_dung' && !confirm('Đánh dấu ' + h.ma + ' là mã không dùng?\n\n'
-        + 'Bài em đã nộp vẫn giữ nguyên, mã không bị xoá. Bấm lại là dùng lại được.')) return;
       var nut = this;
       nut.disabled = true;
       sb.from('hoc_sinh').update({ trang_thai: moi }).eq('id', h.id).then(function (r) {
@@ -512,7 +799,25 @@
         h.trang_thai = moi;
         e.classList.toggle('tat', moi === 'khong_dung');
         nut.textContent = moi === 'khong_dung' ? 'Dùng lại' : 'Không dùng';
-        noi(bao, h.ma + (moi === 'khong_dung' ? ' đã đánh dấu không dùng.' : ' đã dùng lại.'), 'ok');
+        noi(bao, h.ma + (moi === 'khong_dung'
+          ? ' đã đánh dấu không dùng — em không đăng nhập được nữa, bài cũ vẫn còn.'
+          : ' đã dùng lại được.'), 'ok');
+      });
+    });
+
+    var nutXoa = e.querySelector('[data-v="xoa"]');
+    if (nutXoa) haiBuoc(nutXoa, 'Xoá thật mã ' + h.ma + '?', function () {
+      nutXoa.disabled = true;
+      noi(bao, 'Đang xoá…');
+      goi('xoa-hoc-sinh', { hoc_sinh_id: h.id }).then(function (r) {
+        noi(bao, 'Đã xoá mã ' + r.ma + '.', 'ok');
+        e.remove();
+        demHocSinh(l, d);
+      }).catch(function (er) {
+        /* Máy chủ đếm lại lần cuối bằng service_role, nên nó thấy cả những bảng
+         * mà giáo viên không đọc được (thi_luot). Từ chối ở đây là đúng. */
+        noi(bao, er.message, 'loi');
+        nutXoa.disabled = false;
       });
     });
 
@@ -547,14 +852,20 @@
     var kq = b.may_ket_qua || {};
     var d = document.createElement('div');
     d.className = 'bai';
-    var nhan = b.uu_tien === 1 ? '<span class="huy u1">máy chấm đúng nhưng chưa chắc</span>'
+    /* Máy không chấm được thì bài vẫn phải vào đây (migration 004) — nói thẳng là
+     * máy hỏng, đừng để thầy cô tưởng đây là một kết luận của máy. */
+    var mayHong = b.trang_thai !== 'may_cham';
+    var nhan = mayHong ? '<span class="huy u1">máy chưa chấm được — cần chấm tay</span>'
+             : b.uu_tien === 1 ? '<span class="huy u1">máy chấm đúng nhưng chưa chắc</span>'
              : b.uu_tien === 2 ? '<span class="huy u2">cần xem gấp</span>'
              : '<span class="huy u3">máy chấm sai</span>';
     d.innerHTML =
       '<img alt="Bài làm của ' + thoatChu(b.ten_hien_thi || b.ma_hoc_sinh) + '" data-anh="' + thoatChu(b.anh_url) + '">' +
       '<div><div class="ten">' + thoatChu(b.ten_hien_thi || b.ma_hoc_sinh) +
       ' · lượt ' + b.lan_thu + '/3 ' + nhan + (b.qua_han ? ' <span class="huy u2">quá hạn</span>' : '') + '</div>' +
-      '<p class="chep">' + thoatChu(kq.ban_chep || '(máy không chép được bài làm)') + '</p></div>' +
+      '<p class="chep">' + thoatChu(mayHong
+        ? 'Em đã nộp nhưng máy chấm không chạy được, nên em chưa nhận được nhận xét nào.'
+        : (kq.ban_chep || '(máy không chép được bài làm)')) + '</p></div>' +
       '<div class="nut-cot">' +
         '<button class="nut xanh" data-kl="dung">Đúng</button>' +
         '<button class="nut cam" data-kl="sai">Sai</button>' +

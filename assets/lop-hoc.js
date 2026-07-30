@@ -206,6 +206,13 @@
       } else if (nguoi) {
         html += '<div class="lh-nx lh-duyet"><span class="lh-huy">Thầy/cô đã xác nhận</span><p>' +
                 thoat(nguoi.nhan_xet || (may ? may.ket_qua_json.nhan_xet_cho_hoc_sinh : '')) + '</p></div>';
+      } else if (bn.trang_thai === 'loi_cham') {
+        /* Máy chấm không chạy được (migration 004). Không nói "máy hỏng" — với em
+         * thì thông tin dùng được duy nhất là bài đã tới tay thầy cô và không cần
+         * nộp lại. Bài đang nằm trong hàng đợi duyệt nên chắc chắn có người xem. */
+        html += '<div class="lh-nx lh-may"><span class="lh-huy">Đã gửi tới thầy/cô</span>' +
+                '<p>Bài của em thầy/cô sẽ xem và nhận xét trực tiếp nhé. ' +
+                'Em không phải nộp lại đâu.</p></div>';
       } else if (may) {
         var k = may.ket_qua_json;
         html += '<div class="lh-nx lh-may"><span class="lh-huy">Máy chấm · chờ thầy cô xem lại</span>' +
