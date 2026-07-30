@@ -12,6 +12,6 @@
  * Để trống thì web chạy y như cũ, chỉ không có phần lớp học.
  */
 window.LOP_HOC_CAUHINH = {
-  URL: '',
-  ANON_KEY: ''
+  URL: 'https://nbyiytegndhnfkhxhlmy.supabase.co',
+  ANON_KEY: 'sb_publishable_dadQiQuN0Gugk3Ltve4FAw_ZXIqeOu4'
 };
