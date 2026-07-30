@@ -69,10 +69,34 @@
   .trong{padding:34px;text-align:center;color:var(--muted);font-size:.92rem}
 
   .ds-lop{display:grid;gap:10px}
+  .lop-khoi{background:#f7f9fb;border-radius:12px}
   .lop-hang{display:flex;align-items:center;justify-content:space-between;gap:12px;
     flex-wrap:wrap;padding:14px 16px;background:#f7f9fb;border-radius:12px}
   .lop-hang b{font-family:var(--display);font-size:1.05rem}
   .lop-hang .so{font-size:.84rem;color:var(--muted)}
+  .viec-lop{display:flex;gap:8px;flex-wrap:wrap}
+  .viec-lop button{min-height:44px;font-size:.86rem;padding:0 16px}
+  .lop-khoi > .bao{margin:0 16px 14px}
+
+  /* Danh sách học sinh — mục 4.2, 4.3. Bung ra ngay dưới hàng lớp chứ không mở
+     trang mới: thầy cô hay làm việc này giữa giờ, trên điện thoại. */
+  .ds-hs{display:grid;gap:8px;padding:0 16px 16px}
+  .ds-hs .ghi-chu{margin:0 0 4px;font-size:.82rem;color:var(--muted)}
+  .hs-hang{display:grid;grid-template-columns:104px minmax(0,1fr) auto;gap:10px;
+    align-items:center;padding:10px 12px;background:var(--surface);
+    border:1.5px solid var(--line);border-radius:12px}
+  .hs-hang .ma{font:700 .98rem/1.2 var(--display);letter-spacing:.03em}
+  .hs-hang input{min-height:44px;margin:0;font-size:.88rem}
+  .hs-hang .viec{display:flex;gap:6px;flex-wrap:wrap}
+  /* ≥44px là luật cứng của mục 14 — thầy cô bấm bằng ngón cái giữa giờ ra chơi. */
+  .hs-hang .viec button{min-height:44px;padding:0 12px;font-size:.82rem}
+  .hs-hang.tat{opacity:.55}
+  /* Điện thoại: mã và ô tên xuống hàng riêng, hai nút chia đôi bề ngang. Để hai
+     nút tự xuống hàng thì mỗi em cao gần 170px, lớp 32 em cuộn mỏi tay. */
+  @media (max-width:720px){
+    .hs-hang{grid-template-columns:minmax(0,1fr)}
+    .hs-hang .viec{display:grid;grid-template-columns:1fr 1fr}
+  }
 
   /* Hàng đợi duyệt — theo CÂU chứ không theo học sinh (mục 8.3). Cùng một lỗi
      lặp lại thì bấm liên tục 10 cái trong một phút. */
@@ -310,19 +334,7 @@
       if (!dsLop.length) { o.innerHTML = '<p class="trong">Chưa có lớp nào. Mở lớp đầu tiên ở trên nhé.</p>'; }
       else {
         o.innerHTML = '';
-        dsLop.forEach(function (l) {
-          var d = document.createElement('div');
-          d.className = 'lop-hang';
-          d.innerHTML = '<div><b>' + thoatChu(l.ten) + '</b>'
-            + '<div class="so">Khối ' + l.khoi + ' · ' + thoatChu(l.nam_hoc)
-            + ' · <span data-si="' + l.id + '">…</span> học sinh</div></div>';
-          o.appendChild(d);
-          sb.from('hoc_sinh').select('id', { count: 'exact', head: true }).eq('lop_id', l.id)
-            .then(function (c) {
-              var s = d.querySelector('[data-si]');
-              if (s) s.textContent = c.count == null ? '?' : c.count;
-            });
-        });
+        dsLop.forEach(function (l) { o.appendChild(veLop(l)); });
       }
       var sel = $('chon-lop');
       sel.innerHTML = '<option value="">— chọn lớp —</option>' + dsLop.map(function (l) {
@@ -360,6 +372,145 @@
         + '<div class="web">' + location.host + '/lop-hoc/dang-nhap.html</div></div>';
     }).join('');
     setTimeout(function () { window.print(); }, 300);
+  }
+
+  /* ------------------------------------------------------------ một lớp */
+  function veLop(l) {
+    var d = document.createElement('div');
+    d.className = 'lop-khoi';
+    d.innerHTML =
+      '<div class="lop-hang">'
+      +   '<div><b>' + thoatChu(l.ten) + '</b>'
+      +     '<div class="so">Khối ' + l.khoi + ' · ' + thoatChu(l.nam_hoc)
+      +       ' · <span class="si">…</span> học sinh</div></div>'
+      +   '<div class="viec-lop">'
+      +     '<button class="nut nhe" data-viec="xem">Danh sách học sinh</button>'
+      +     '<button class="nut nhe" data-viec="them">Thêm học sinh</button>'
+      +   '</div>'
+      + '</div>'
+      + '<div class="ds-hs" hidden></div>'
+      + '<p class="bao" role="status"></p>';
+
+    var khu = d.querySelector('.ds-hs');
+    var bao = d.querySelector('.bao');
+    var nutXem = d.querySelector('[data-viec="xem"]');
+
+    demHocSinh(l, d);
+
+    nutXem.addEventListener('click', function () {
+      if (!khu.hidden) { khu.hidden = true; nutXem.textContent = 'Danh sách học sinh'; return; }
+      khu.hidden = false;
+      nutXem.textContent = 'Ẩn danh sách';
+      napHocSinh(l, d);
+    });
+
+    /* Thêm từng em một — mục 4.3 nói đúng tình huống "em thứ 33". Thêm cả mẻ thì
+     * hiếm khi cần, mà bấm nhầm là sinh thừa một loạt tài khoản không xoá được. */
+    d.querySelector('[data-viec="them"]').addEventListener('click', function () {
+      if (!confirm('Thêm một học sinh vào lớp ' + l.ten + '?\n\n'
+        + 'Máy cấp mã tiếp theo, sinh mật khẩu mới, rồi mở trang in một mẩu giấy '
+        + 'để phát cho em đó.')) return;
+      var nut = this;
+      nut.disabled = true;
+      noi(bao, 'Đang cấp mã…');
+      goi('them-hoc-sinh', { lop_id: l.id, so_them: 1 }).then(function (r) {
+        if (!r.so_tao) { noi(bao, 'Không cấp được mã nào. Thầy cô thử lại nhé.', 'loi'); return; }
+        noi(bao, 'Đã thêm ' + r.danh_sach.map(function (h) { return h.ma; }).join(', ')
+          + '. Trang in đang mở — in xong rồi hãy đóng, mật khẩu không xem lại được.', 'ok');
+        inMa(r.ten, r.danh_sach);
+        khu.hidden = false;
+        nutXem.textContent = 'Ẩn danh sách';
+        napHocSinh(l, d);
+        demHocSinh(l, d);
+      }).catch(function (e) {
+        noi(bao, e.message, 'loi');
+      }).then(function () { nut.disabled = false; });
+    });
+
+    return d;
+  }
+
+  function demHocSinh(l, d) {
+    sb.from('hoc_sinh').select('id', { count: 'exact', head: true }).eq('lop_id', l.id)
+      .then(function (c) {
+        var s = d.querySelector('.si');
+        if (s) s.textContent = c.count == null ? '?' : c.count;
+      });
+  }
+
+  function napHocSinh(l, d) {
+    var khu = d.querySelector('.ds-hs');
+    khu.innerHTML = '<p class="trong">Đang tải…</p>';
+    sb.from('hoc_sinh').select('id,ma,ten_hien_thi,trang_thai').eq('lop_id', l.id).order('ma')
+      .then(function (r) {
+        var ds = r.data || [];
+        if (!ds.length) { khu.innerHTML = '<p class="trong">Lớp này chưa có học sinh nào.</p>'; return; }
+        khu.innerHTML = '<p class="ghi-chu">Ô tên chỉ để thầy cô nhận ra em nào — ghi rút gọn '
+          + 'kiểu “Minh A.”, <b>đừng ghi họ tên đầy đủ</b>. Bảng mã ↔ tên thật thầy cô giữ ở lớp mình.</p>';
+        ds.forEach(function (h) { khu.appendChild(veHocSinh(l, h, d)); });
+      });
+  }
+
+  function veHocSinh(l, h, d) {
+    var bao = d.querySelector('.bao');
+    var tat = h.trang_thai === 'khong_dung';
+
+    var e = document.createElement('div');
+    e.className = 'hs-hang' + (tat ? ' tat' : '');
+    e.innerHTML = '<div class="ma">' + thoatChu(h.ma) + '</div>'
+      + '<input placeholder="Minh A." maxlength="30">'
+      + '<div class="viec">'
+      +   '<button class="nut nhe" data-v="mk">Đặt lại mật khẩu</button>'
+      +   '<button class="nut nhe" data-v="tt">' + (tat ? 'Dùng lại' : 'Không dùng') + '</button>'
+      + '</div>';
+
+    // Gán bằng thuộc tính chứ không nhét vào chuỗi HTML: tên có dấu nháy là hỏng thẻ.
+    var oTen = e.querySelector('input');
+    oTen.value = h.ten_hien_thi || '';
+    oTen.setAttribute('aria-label', 'Tên hiển thị của ' + h.ma);
+
+    oTen.addEventListener('change', function () {
+      var v = oTen.value.trim();
+      sb.from('hoc_sinh').update({ ten_hien_thi: v || null }).eq('id', h.id).then(function (r) {
+        if (r.error) { noi(bao, 'Chưa lưu được tên của ' + h.ma + '. Thử lại nhé.', 'loi'); return; }
+        h.ten_hien_thi = v;
+        noi(bao, 'Đã lưu tên cho ' + h.ma + '.', 'ok');
+      });
+    });
+
+    e.querySelector('[data-v="mk"]').addEventListener('click', function () {
+      if (!confirm('Đặt lại mật khẩu cho ' + h.ma + '?\n\n'
+        + 'Mật khẩu cũ ngừng dùng được ngay. Máy mở trang in một mẩu giấy mới để '
+        + 'phát cho em — mật khẩu chỉ hiện đúng một lần.')) return;
+      var nut = this;
+      nut.disabled = true;
+      noi(bao, 'Đang đặt lại…');
+      goi('dat-lai-mat-khau', { hoc_sinh_id: h.id }).then(function (r) {
+        noi(bao, 'Đã đặt mật khẩu mới cho ' + r.ma + '. Trang in đang mở — in xong rồi hãy đóng.', 'ok');
+        inMa(r.ten_lop || l.ten, [{ ma: r.ma, mat_khau: r.mat_khau }]);
+      }).catch(function (er) {
+        noi(bao, er.message, 'loi');
+      }).then(function () { nut.disabled = false; });
+    });
+
+    /* Đánh dấu, KHÔNG xoá — mục 4.3. Xoá là mất liên kết với bài em đó từng nộp. */
+    e.querySelector('[data-v="tt"]').addEventListener('click', function () {
+      var moi = h.trang_thai === 'khong_dung' ? 'hoat_dong' : 'khong_dung';
+      if (moi === 'khong_dung' && !confirm('Đánh dấu ' + h.ma + ' là mã không dùng?\n\n'
+        + 'Bài em đã nộp vẫn giữ nguyên, mã không bị xoá. Bấm lại là dùng lại được.')) return;
+      var nut = this;
+      nut.disabled = true;
+      sb.from('hoc_sinh').update({ trang_thai: moi }).eq('id', h.id).then(function (r) {
+        nut.disabled = false;
+        if (r.error) { noi(bao, 'Chưa đổi được trạng thái của ' + h.ma + '.', 'loi'); return; }
+        h.trang_thai = moi;
+        e.classList.toggle('tat', moi === 'khong_dung');
+        nut.textContent = moi === 'khong_dung' ? 'Dùng lại' : 'Không dùng';
+        noi(bao, h.ma + (moi === 'khong_dung' ? ' đã đánh dấu không dùng.' : ' đã dùng lại.'), 'ok');
+      });
+    });
+
+    return e;
   }
 
   /* ------------------------------------------------------------ hàng đợi duyệt */
