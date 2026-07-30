@@ -125,12 +125,20 @@
     bao.textContent = chu;
   }
 
-  /* Đăng nhập xong thì đi đâu: học sinh về trang chủ, giáo viên vào bảng điều
-   * khiển. Giáo viên chưa được duyệt thì nói rõ chứ không đá ra trang trắng. */
+  function noiHocSinhCanDen() {
+    var ve = new URLSearchParams(location.search).get('returnTo') || '/';
+    if (ve.charAt(0) !== '/' || ve.indexOf('//') === 0 || ve.indexOf('\\') !== -1
+        || /[\u0000-\u001f\u007f]/.test(ve)
+        || ve.indexOf('/lop-hoc/dang-nhap') === 0) return '/';
+    return ve;
+  }
+
+  /* Đăng nhập xong thì đi đâu: học sinh quay lại trang đang học, giáo viên vào
+   * bảng điều khiển. Giáo viên chưa được duyệt thì nói rõ chứ không đá ra trang trắng. */
   function diTiep(nguoiDung) {
     return sb.from('hoc_sinh').select('id').eq('id', nguoiDung.id).maybeSingle()
       .then(function (h) {
-        if (h.data) { location.href = '/'; return; }
+        if (h.data) { location.replace(noiHocSinhCanDen()); return; }
         return sb.from('giao_vien').select('trang_thai,la_admin')
           .eq('id', nguoiDung.id).maybeSingle()
           .then(function (g) {
@@ -143,7 +151,7 @@
             if (g.data.trang_thai === 'khoa') {
               noi('Tài khoản này đang bị khoá.', 'loi'); return;
             }
-            location.href = g.data.la_admin ? '/lop-hoc/admin.html' : '/lop-hoc/giao-vien.html';
+            location.replace(g.data.la_admin ? '/lop-hoc/admin.html' : '/lop-hoc/giao-vien.html');
           });
       });
   }
@@ -172,9 +180,19 @@
   });
 
   document.getElementById('nut-gv').addEventListener('click', function () {
+    var nut = this;
+    nut.disabled = true;
+    noi('Đang mở đăng nhập Google…');
     sb.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: location.origin + '/lop-hoc/dang-nhap.html' }
+      options: { redirectTo: location.origin + '/lop-hoc/dang-nhap.html' + location.search }
+    }).then(function (r) {
+      if (!r.error) return;
+      noi('Chưa mở được Google. Thầy/cô thử lại nhé.', 'loi');
+      nut.disabled = false;
+    }).catch(function () {
+      noi('Máy chưa nối mạng. Thầy/cô thử lại khi có mạng nhé.', 'loi');
+      nut.disabled = false;
     });
   });
 

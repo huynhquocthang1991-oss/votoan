@@ -16,6 +16,7 @@ try {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/lop-hoc.css">
 <style>
 *{box-sizing:border-box}
 :root{
@@ -94,7 +95,7 @@ a{color:inherit;text-decoration:none}button{color:inherit;font:inherit}svg{displ
 .lesson-link{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px;color:var(--ink);background:var(--surface-2);border:1px solid var(--line);border-radius:12px;font-size:.78rem;font-weight:600;transition:color .2s ease,border-color .2s ease,transform .2s ease}
 .lesson-link .icon{width:16px;height:16px;color:var(--accent)}.lesson-link:hover{color:var(--accent);border-color:var(--accent);transform:translateX(2px)}
 .empty-lessons{margin:0;padding:12px;color:var(--muted);background:var(--surface-2);border:1px dashed var(--line);border-radius:12px;font-size:.75rem}
-.nav-tools{display:flex;align-items:center;margin-left:auto}
+.nav-tools{display:flex;align-items:center;gap:8px;margin-left:auto}
 .theme-switcher{display:flex;align-items:center;gap:5px;padding:5px;background:var(--surface);border:1px solid var(--line);border-radius:999px;box-shadow:0 7px 20px color-mix(in srgb,var(--ink) 7%,transparent)}
 .theme-label{padding:0 5px 0 7px;color:var(--muted);font:600 .68rem/1 var(--display)}
 .theme-button{--choice-color:var(--muted);display:grid;place-items:center;width:31px;height:31px;padding:0;cursor:pointer;color:var(--choice-color);background:transparent;border:0;border-radius:50%;transition:color .2s ease,background .2s ease,box-shadow .2s ease,transform .2s ease}
@@ -219,7 +220,7 @@ footer{flex:0 0 38px;border-top:1px solid color-mix(in srgb,var(--line) 72%,tran
   footer{flex-basis:auto}.footer-inner{height:auto;min-height:54px;padding:11px 0;align-items:flex-start;flex-direction:column;justify-content:center;gap:5px}
 }
 @media (max-width:380px){.grade-trigger{min-width:36px;padding:0 4px}.actions{display:grid;grid-template-columns:1fr}.button{width:100%}.game-tab span{display:none}.game-tab .icon{width:16px;height:16px}.pet-panel{grid-template-columns:.72fr 1.28fr}.pet-avatar{transform:scale(.86)}}
-@media (max-width:330px){.brand-word{display:none}}
+@media (max-width:430px){.brand-word{display:none}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.play-card{transform:none!important}}
 </style>
 </head>
@@ -271,6 +272,12 @@ footer{flex:0 0 38px;border-top:1px solid color-mix(in srgb,var(--line) 72%,tran
     </ul>
 <!-- AUTO:GRADE_MENU:END -->
     <div class="nav-tools">
+      <div class="lh-nav-slot" data-lop-hoc-nav>
+        <a class="lh-account-button lh-account-primary" href="/lop-hoc/dang-nhap.html?returnTo=%2F">
+          <span class="lh-account-short" aria-hidden="true">Vào</span>
+          <span class="lh-account-label">Đăng nhập</span>
+        </a>
+      </div>
       <div class="theme-switcher" role="group" aria-label="Chọn giao diện">
         <span class="theme-label">Giao diện</span>
         <button class="theme-button" type="button" data-theme-choice="light" aria-label="Dùng giao diện Sáng xanh" title="Sáng xanh"><svg class="icon" aria-hidden="true"><use href="#i-sun"/></svg></button>
@@ -293,6 +300,7 @@ footer{flex:0 0 38px;border-top:1px solid color-mix(in srgb,var(--line) 72%,tran
         <p>Bài học được sắp xếp theo đúng mạch sách giáo khoa, giải thích vừa đủ và trình bày thoáng để học sinh dễ đọc, dễ nhớ, dễ quay lại ôn tập.</p>
         <div class="actions">
           <a class="button button-primary" href="bai-hoc/lop-8/index.html">Vào học Toán 8<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          <a class="button button-secondary" href="/lop-hoc/dang-nhap.html?returnTo=%2F">Vào lớp học<svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></a>
           <a class="button button-secondary" href="#toan-arcade" data-play-cta>Chơi game Toán<svg class="icon" aria-hidden="true"><use href="#i-play-line"/></svg></a>
         </div>
         <ul class="trust" aria-label="Đặc điểm của Vở Toán">
@@ -646,5 +654,7 @@ footer{flex:0 0 38px;border-top:1px solid color-mix(in srgb,var(--line) 72%,tran
   }
 })();
 </script>
+<script src="/assets/lop-hoc-cauhinh.js"></script>
+<script src="/assets/lop-hoc.js"></script>
 </body>
 </html>

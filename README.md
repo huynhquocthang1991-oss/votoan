@@ -32,3 +32,13 @@ Chưa điền thì trang bài học chạy y hệt như cũ, chỉ không có ph
 Không bao giờ để `service_role` key hay khoá API của model vào repo này —
 chúng nằm ở Supabase Secrets. Các bước cài đặt đầy đủ xem `lop-hoc/CAI_DAT.md`
 trong dự án gốc.
+
+### Luồng vào lớp học
+
+- Học sinh chọn bài từ trang chủ. Khi đăng nhập bằng mã và mật khẩu tại
+  `/lop-hoc/dang-nhap.html`, em được đưa trở lại đúng trang đang học.
+- Giáo viên dùng nút đăng nhập chung, xác thực bằng Google và được đưa tới
+  `/lop-hoc/giao-vien.html` sau khi tài khoản đã được duyệt.
+- Quản trị viên không có lối vào công khai riêng. Tài khoản có `la_admin = true`
+  dùng cùng luồng Google; hệ thống tự chuyển tới `/lop-hoc/admin.html`. Liên kết
+  Quản trị chỉ hiện sau khi vai trò đã được xác nhận.

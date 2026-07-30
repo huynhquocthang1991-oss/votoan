@@ -33,6 +33,7 @@
     border-radius:20px;margin-bottom:22px}
   header h1{margin:0;font:800 1.5rem/1.1 var(--display);letter-spacing:-.03em}
   header .ai{font-size:.84rem;opacity:.85}
+  .header-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
   header a{min-height:44px;display:inline-flex;align-items:center;padding:0 16px;
     background:rgba(255,255,255,.16);border-radius:10px;font-size:.86rem;font-weight:600}
 
@@ -171,7 +172,11 @@
       <h1>Bảng của thầy cô</h1>
       <div class="ai" id="ai"></div>
     </div>
-    <a href="#" id="thoat">Đăng xuất</a>
+    <div class="header-actions">
+      <a href="/">Trang chủ</a>
+      <a href="/lop-hoc/admin.html" id="quantri" hidden>Quản trị</a>
+      <a href="#" id="thoat">Đăng xuất</a>
+    </div>
   </header>
 
   <div class="the-tab" role="tablist">
@@ -297,13 +302,14 @@
   sb.auth.getSession().then(function (r) {
     phien = r.data.session;
     if (!phien) { location.href = '/lop-hoc/dang-nhap.html'; return; }
-    return sb.from('giao_vien').select('ten,email,trang_thai').eq('id', phien.user.id).single()
+    return sb.from('giao_vien').select('ten,email,trang_thai,la_admin').eq('id', phien.user.id).single()
       .then(function (g) {
         if (!g.data || g.data.trang_thai !== 'hoat_dong') {
           location.href = '/lop-hoc/dang-nhap.html'; return;
         }
         toi = g.data;
         $('ai').textContent = g.data.ten || g.data.email;
+        $('quantri').hidden = !g.data.la_admin;
         $('app').hidden = false;
         napLop();
         napHangDoi();

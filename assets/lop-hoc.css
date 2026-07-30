@@ -2,12 +2,45 @@
  * Không đặt màu mới, không thêm font. Hàng bấm ≥44px, không hover-only,
  * màu luôn đi kèm nhãn chữ (CHUAN_LOP_HOC.md mục 14). */
 
-.lh-thanh{display:flex;align-items:center;justify-content:space-between;gap:12px;
-  padding:10px 18px;background:var(--blue-l);border-bottom:1px solid var(--line);
-  font-size:.86rem;color:var(--ink)}
-.lh-thanh a{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;
-  border-radius:10px;font-weight:600;color:var(--blue)}
-.lh-thanh .lh-vao{background:var(--blue);color:#fff}
+.lh-thanh{position:relative;z-index:70;display:flex;align-items:center;justify-content:space-between;
+  gap:12px;padding:8px 18px;background:var(--blue-l,var(--muc-nhat,var(--accent-soft,#eef3ff)));
+  border-bottom:1px solid var(--line,#d9e2f0);font-size:.86rem;color:var(--ink,#13223c)}
+.lh-thanh > span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.lh-nav-slot{position:relative;display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.lh-account-button{display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  min-width:44px;min-height:44px;padding:0 14px;color:var(--ink,#13223c);
+  background:var(--surface,var(--card,#fff));border:1px solid var(--line,#d9e2f0);
+  border-radius:12px;font:700 .78rem/1 var(--display,var(--body,system-ui));cursor:pointer;
+  text-decoration:none;white-space:nowrap;box-shadow:0 5px 16px rgba(19,34,60,.07)}
+.lh-account-button:hover{color:var(--blue,var(--muc,var(--accent,#1b4dff)));
+  border-color:var(--blue,var(--muc,var(--accent,#1b4dff)))}
+.lh-account-primary{color:#fff;background:var(--blue,var(--muc,var(--accent,#1b4dff)));
+  border-color:transparent;box-shadow:0 7px 18px rgba(27,77,255,.2)}
+.lh-account-primary:hover{color:#fff;border-color:transparent}
+.lh-account-short{display:none;font-size:.72rem;letter-spacing:.02em}
+.lh-account-menu{position:relative}
+.lh-account-popover{position:absolute;top:calc(100% + 10px);right:0;z-index:120;
+  width:min(250px,calc(100vw - 28px));padding:10px;background:var(--surface,var(--card,#fff));
+  border:1px solid var(--line,#d9e2f0);border-radius:14px;
+  box-shadow:0 22px 54px rgba(19,34,60,.19)}
+.lh-account-popover[hidden]{display:none!important}
+.lh-account-popover strong,.lh-account-popover small{display:block;padding:4px 7px}
+.lh-account-popover strong{overflow:hidden;text-overflow:ellipsis;font-size:.88rem;white-space:nowrap}
+.lh-account-popover small{margin-bottom:5px;color:var(--muted,#4f5f7a);font-size:.72rem}
+.lh-account-popover a,.lh-account-popover button{display:flex;align-items:center;width:100%;
+  min-height:44px;padding:0 11px;color:var(--ink,#13223c);background:transparent;border:0;
+  border-radius:9px;font:600 .82rem/1.25 var(--body,system-ui);cursor:pointer;text-decoration:none}
+.lh-account-popover a:hover,.lh-account-popover button:hover{
+  color:var(--blue,var(--muc,var(--accent,#1b4dff)));
+  background:var(--blue-l,var(--muc-nhat,var(--accent-soft,#eef3ff)))}
+.lh-account-popover .lh-danger{color:var(--red,#c62828)}
+
+@media (max-width:700px){
+  .lh-account-button{padding:0 11px}.lh-account-button .lh-account-label{display:none}
+  .lh-account-button .lh-account-short{display:inline}
+  .lh-thanh{padding:7px 12px}.lh-thanh > span{font-size:.78rem}
+}
 
 .lh-nop{margin-top:18px;padding:18px 20px;background:var(--surface);
   border:1px solid var(--line);border-radius:15px}

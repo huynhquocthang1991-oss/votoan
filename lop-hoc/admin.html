@@ -30,6 +30,7 @@
     padding:22px 26px;background:linear-gradient(125deg,var(--blue-d),#2e62ff);color:#fff;
     border-radius:20px;margin-bottom:22px}
   header h1{margin:0;font:800 1.5rem/1.1 var(--display);letter-spacing:-.03em}
+  .header-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
   header a{min-height:44px;display:inline-flex;align-items:center;padding:0 16px;
     background:rgba(255,255,255,.16);border-radius:10px;font-size:.86rem;font-weight:600}
   .the{background:var(--surface);border:1px solid var(--line);border-radius:18px;
@@ -53,7 +54,11 @@
 <div class="trang" id="app" hidden>
   <header>
     <h1>Duyệt tài khoản giáo viên</h1>
-    <a href="/lop-hoc/giao-vien.html">Bảng của tôi</a>
+    <div class="header-actions">
+      <a href="/">Trang chủ</a>
+      <a href="/lop-hoc/giao-vien.html">Bảng giáo viên</a>
+      <a href="#" id="thoat">Đăng xuất</a>
+    </div>
   </header>
 
   <div class="the">
@@ -90,10 +95,17 @@
     if (!r.data.session) { location.href = '/lop-hoc/dang-nhap.html'; return; }
     return sb.from('giao_vien').select('la_admin,trang_thai').eq('id', r.data.session.user.id).single()
       .then(function (g) {
-        if (!g.data || !g.data.la_admin) { location.href = '/lop-hoc/dang-nhap.html'; return; }
+        if (!g.data || !g.data.la_admin || g.data.trang_thai !== 'hoat_dong') {
+          location.href = '/lop-hoc/dang-nhap.html'; return;
+        }
         $('app').hidden = false;
         nap();
       });
+  });
+
+  $('thoat').addEventListener('click', function (e) {
+    e.preventDefault();
+    sb.auth.signOut().then(function () { location.href = '/'; });
   });
 
   function nap() {

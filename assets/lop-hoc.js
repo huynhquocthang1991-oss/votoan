@@ -18,7 +18,7 @@
   var NGUONG_TOI = 42;          // độ sáng trung bình 0–255
   var CANH_TOI_THIEU = 800;
 
-  var phien = null, toi = null, sb = null;
+  var phien = null, toi = null, giaoVien = null, sb = null, vaiTro = 'khach';
 
   /* ------------------------------------------------------------ nền tảng */
 
@@ -257,20 +257,102 @@
     return ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2);
   }
 
+  function duongDangNhap() {
+    var ve = location.pathname + location.search + location.hash;
+    return '/lop-hoc/dang-nhap.html?returnTo=' + encodeURIComponent(ve);
+  }
+
+  function tenTaiKhoan() {
+    if (vaiTro === 'hoc_sinh') return toi.ten_hien_thi || toi.ma || 'Học sinh';
+    if (giaoVien) return giaoVien.ten || giaoVien.email || 'Thầy/cô';
+    return '';
+  }
+
+  function nhanVaiTro() {
+    if (vaiTro === 'admin') return 'Quản trị viên';
+    if (vaiTro === 'giao_vien') return 'Giáo viên';
+    if (vaiTro === 'hoc_sinh') return 'Học sinh';
+    if (vaiTro === 'cho_duyet') return 'Giáo viên · đang chờ duyệt';
+    if (vaiTro === 'khoa') return 'Tài khoản đang bị khoá';
+    if (vaiTro === 'chua_gan') return 'Tài khoản chưa được cấp quyền';
+    return '';
+  }
+
+  function menuTaiKhoan() {
+    if (vaiTro === 'khach') {
+      return '<a class="lh-account-button lh-account-primary" href="' + duongDangNhap() + '">' +
+        '<span class="lh-account-short" aria-hidden="true">Vào</span>' +
+        '<span class="lh-account-label">Đăng nhập</span></a>';
+    }
+
+    var ten = thoat(tenTaiKhoan());
+    var nhan = thoat(nhanVaiTro());
+    var vietTat = vaiTro === 'admin' ? 'QT' : vaiTro === 'hoc_sinh' ? 'HS' : 'GV';
+    var muc = '';
+    if (vaiTro === 'admin') {
+      muc += '<a href="/lop-hoc/admin.html">Quản trị giáo viên</a>';
+      muc += '<a href="/lop-hoc/giao-vien.html">Bảng giáo viên</a>';
+    } else if (vaiTro === 'giao_vien') {
+      muc += '<a href="/lop-hoc/giao-vien.html">Bảng giáo viên</a>';
+    } else if (vaiTro === 'hoc_sinh') {
+      muc += '<a href="/">Chọn bài để học</a>';
+    } else {
+      muc += '<a href="' + duongDangNhap() + '">Xem trạng thái tài khoản</a>';
+    }
+    muc += '<button class="lh-danger" type="button" data-lh-logout>Đăng xuất</button>';
+
+    return '<div class="lh-account-menu">' +
+      '<button class="lh-account-button" type="button" data-lh-menu aria-haspopup="true" aria-expanded="false" ' +
+        'aria-label="Mở menu tài khoản ' + ten + '">' +
+        '<span class="lh-account-short" aria-hidden="true">' + vietTat + '</span>' +
+        '<span class="lh-account-label">' + ten + '</span>' +
+      '</button>' +
+      '<div class="lh-account-popover" hidden>' +
+        '<strong>' + ten + '</strong><small>' + nhan + '</small>' + muc +
+      '</div></div>';
+  }
+
+  function ganSuKienTaiKhoan(goc) {
+    var mo = goc.querySelector('[data-lh-menu]');
+    var bang = goc.querySelector('.lh-account-popover');
+    if (mo && bang) {
+      mo.addEventListener('click', function () {
+        var dangMo = !bang.hidden;
+        document.querySelectorAll('.lh-account-popover').forEach(function (p) { p.hidden = true; });
+        document.querySelectorAll('[data-lh-menu]').forEach(function (b) {
+          b.setAttribute('aria-expanded', 'false');
+        });
+        bang.hidden = dangMo;
+        mo.setAttribute('aria-expanded', String(!dangMo));
+      });
+    }
+    var thoatNut = goc.querySelector('[data-lh-logout]');
+    if (thoatNut) thoatNut.addEventListener('click', function () {
+      thoatNut.disabled = true;
+      sb.auth.signOut().then(function () { location.href = '/'; });
+    });
+  }
+
   function veThanhTren() {
+    var cacCho = Array.prototype.slice.call(document.querySelectorAll('[data-lop-hoc-nav]'));
+    if (cacCho.length) {
+      cacCho.forEach(function (o) {
+        o.classList.add('lh-nav-slot');
+        o.innerHTML = menuTaiKhoan();
+        ganSuKienTaiKhoan(o);
+      });
+      return;
+    }
+
     var t = document.createElement('div');
     t.className = 'lh-thanh';
-    t.innerHTML = toi
-      ? '<span>Xin chào, <b>' + thoat(toi.ten_hien_thi || toi.ma) + '</b></span>' +
-        '<a class="lh-thoat" href="#">Đăng xuất</a>'
-      : '<span>Đăng nhập để nộp bài và nhận sao</span>' +
-        '<a class="lh-vao" href="/lop-hoc/dang-nhap.html">Đăng nhập</a>';
+    var loiChao = vaiTro === 'khach'
+      ? 'Đăng nhập để nộp bài và nhận sao'
+      : nhanVaiTro() + ' · ' + tenTaiKhoan();
+    t.innerHTML = '<span>' + thoat(loiChao) + '</span>' +
+      '<div class="lh-nav-slot">' + menuTaiKhoan() + '</div>';
     document.body.insertBefore(t, document.body.firstChild);
-    var n = t.querySelector('.lh-thoat');
-    if (n) n.addEventListener('click', function (e) {
-      e.preventDefault();
-      sb.auth.signOut().then(function () { location.reload(); });
-    });
+    ganSuKienTaiKhoan(t);
   }
 
   /* ------------------------------------------------------------ khởi động */
@@ -294,26 +376,56 @@
 
   if (!BAT) return;   // chưa cấu hình → trang hiện y như cũ
 
+  document.addEventListener('pointerdown', function (e) {
+    if (e.target.closest('.lh-account-menu')) return;
+    document.querySelectorAll('.lh-account-popover').forEach(function (p) { p.hidden = true; });
+    document.querySelectorAll('[data-lh-menu]').forEach(function (b) {
+      b.setAttribute('aria-expanded', 'false');
+    });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    document.querySelectorAll('.lh-account-popover').forEach(function (p) { p.hidden = true; });
+    document.querySelectorAll('[data-lh-menu]').forEach(function (b) {
+      b.setAttribute('aria-expanded', 'false');
+    });
+  });
+
   napSupabase().then(function (lib) {
     sb = lib.createClient(CH.URL, CH.ANON_KEY);
     API.sb = function () { return sb; };
     return sb.auth.getSession();
   }).then(function (r) {
     phien = r.data.session;
-    if (!phien) { veThanhTren(); return; }
+    if (!phien) { vaiTro = 'khach'; veThanhTren(); return; }
     return sb.from('hoc_sinh').select('id,ma,ten_hien_thi,lop_id')
       .eq('id', phien.user.id).maybeSingle()
       .then(function (h) {
         toi = h.data;
-        veThanhTren();
-        if (!toi) {
-          // Đang đăng nhập bằng tài khoản giáo viên: mở các khối dành cho GV.
-          document.querySelectorAll('[data-vaitro="gv"]').forEach(function (e) {
-            e.hidden = false;
-          });
+        if (toi) {
+          vaiTro = 'hoc_sinh';
+          veThanhTren();
+          document.querySelectorAll('[data-nop="1"][data-ma]').forEach(veKhoiNop);
           return;
         }
-        document.querySelectorAll('[data-nop="1"][data-ma]').forEach(veKhoiNop);
+        return sb.from('giao_vien').select('id,ten,email,trang_thai,la_admin')
+          .eq('id', phien.user.id).maybeSingle().then(function (g) {
+            giaoVien = g.data;
+            if (!giaoVien) {
+              giaoVien = { email: phien.user.email || 'Tài khoản' };
+              vaiTro = 'chua_gan';
+            } else if (giaoVien.trang_thai === 'cho_duyet') {
+              vaiTro = 'cho_duyet';
+            } else if (giaoVien.trang_thai === 'khoa') {
+              vaiTro = 'khoa';
+            } else {
+              vaiTro = giaoVien.la_admin ? 'admin' : 'giao_vien';
+              document.querySelectorAll('[data-vaitro="gv"]').forEach(function (e) {
+                e.hidden = false;
+              });
+            }
+            veThanhTren();
+          });
       });
   }).catch(function () {
     /* Mạng hỏng hay CDN chặn — trang bài học vẫn phải đọc được bình thường.
