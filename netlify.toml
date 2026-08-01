@@ -1,6 +1,13 @@
 [build]
   publish = "."
 
+# Chặn trang bài học khi chưa đăng nhập.
+# Hàm chạy trước khi file tĩnh được phát ra, nên curl và tắt JS đều không lách được.
+# Muốn mở lại cho mọi người xem thì xoá đúng ba dòng dưới đây.
+[[edge_functions]]
+  path = "/bai-hoc/*"
+  function = "chan-bai-hoc"
+
 [[headers]]
   for = "/*"
   [headers.values]
