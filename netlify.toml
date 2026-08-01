@@ -1,6 +1,15 @@
 [build]
   publish = "."
 
+# publish = "." nên MỌI file trong kho đều được phát ra, kể cả mã chạy phía
+# máy chủ. Không có bí mật nào trong đó (khoá dùng ở netlify/ là khoá công
+# khai, giống assets/lop-hoc-cauhinh.js), nhưng không việc gì phải phát.
+[[redirects]]
+  from = "/netlify/*"
+  to = "/"
+  status = 404
+  force = true
+
 # Chặn trang bài học khi chưa đăng nhập.
 # Hàm chạy trước khi file tĩnh được phát ra, nên curl và tắt JS đều không lách được.
 # Muốn mở lại cho mọi người xem thì xoá đúng ba dòng dưới đây.
