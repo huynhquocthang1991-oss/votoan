@@ -398,11 +398,35 @@
     });
   });
 
+  /* Gửi token sang máy chủ dưới dạng cookie.
+   *
+   * Supabase để phiên trong localStorage, mà localStorage thì máy chủ không
+   * đọc được. Edge Function chặn /bai-hoc/* cần đọc được token, nên ta soi
+   * thêm access_token ra cookie. Chỉ access_token thôi — refresh_token vẫn
+   * nằm yên trong localStorage, không đưa lên đường truyền.
+   *
+   * Xem netlify/edge-functions/chan-bai-hoc.ts.
+   */
+  function ghiCookiePhien(s) {
+    var an = location.protocol === 'https:' ? '; Secure' : '';
+    if (s && s.access_token) {
+      var con = s.expires_at ? (s.expires_at * 1000 - Date.now()) / 1000 : 3600;
+      if (con < 0) con = 0;
+      document.cookie = 'vt-token=' + encodeURIComponent(s.access_token) +
+        '; Path=/; Max-Age=' + Math.floor(con) + '; SameSite=Lax' + an;
+    } else {
+      document.cookie = 'vt-token=; Path=/; Max-Age=0; SameSite=Lax' + an;
+    }
+  }
+
   napSupabase().then(function (lib) {
     sb = lib.createClient(CH.URL, CH.ANON_KEY);
     API.sb = function () { return sb; };
+    // Bắt cả lúc đăng nhập, lúc thoát, và lúc token tự gia hạn
+    sb.auth.onAuthStateChange(function (_su, s) { ghiCookiePhien(s); });
     return sb.auth.getSession();
   }).then(function (r) {
+    ghiCookiePhien(r && r.data ? r.data.session : null);
     phien = r.data.session;
     if (!phien) { vaiTro = 'khach'; veThanhTren(); return; }
     return sb.from('hoc_sinh').select('id,ma,ten_hien_thi,lop_id')

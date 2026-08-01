@@ -1,0 +1,109 @@
+/* Vở Toán — bảng màu dùng chung cho TOÀN BỘ web.
+ *
+ * Đây là nguồn duy nhất. Trang chủ, trang mục lục lớp và mọi trang bài học
+ * đều nạp file này; không trang nào được tự khai màu nữa.
+ *
+ * Mọi cặp màu dưới đây đã đo bằng tools/dotheme.py và đạt WCAG AA (4.5:1 cho
+ * chữ thường, 3:1 cho mảng lớn). Sửa một mã màu thì chạy lại tool để đo.
+ *
+ * QUAN TRỌNG — --on-accent:
+ *   Chữ nằm TRÊN nền màu nhấn phải dùng var(--on-accent), tuyệt đối không
+ *   viết cứng #fff. Ba giao diện có màu nhấn sáng (Tím đêm, Hồng phấn,
+ *   Rừng đêm) cần chữ tối; viết cứng #fff là chữ biến mất.
+ */
+
+:root,
+html[data-theme="light"] {
+  color-scheme: light;
+  --bg:#f3f6fb; --surface:#fff; --surface-2:#edf2fa;
+  --ink:#121b2d; --muted:#5d6a80; --line:#dce3ee;
+  --accent:#315efb; --accent-2:#e2502c; --accent-soft:#e8edff;
+  --on-accent:#fff;
+  --on-success:#fff; --on-accent-2:#fff;
+  --success:#0f7d5c; --warn:#a85800; --danger:#c62828; --note:#6a1b9a;
+  --success-soft:#e6f5ef; --warn-soft:#fdf1e2; --danger-soft:#fdecec; --note-soft:#f5edfa;
+  --header:rgba(243,246,251,.88);
+  --shadow:0 26px 68px rgba(32,49,82,.14);
+}
+
+html[data-theme="night"] {
+  color-scheme: dark;
+  --bg:#0b1020; --surface:#151c31; --surface-2:#1c2540;
+  --ink:#f6f7ff; --muted:#a9b4ca; --line:#2b3550;
+  --accent:#9b8cff; --accent-2:#59dfbd; --accent-soft:#272443;
+  --on-accent:#0b1020;
+  --on-success:#0b1020; --on-accent-2:#0b1020;
+  --success:#59dfbd; --warn:#f2b25c; --danger:#ff8a8a; --note:#c4b5fd;
+  --success-soft:#12312b; --warn-soft:#332715; --danger-soft:#3a1f22; --note-soft:#272443;
+  --header:rgba(11,16,32,.9);
+  --shadow:0 28px 76px rgba(0,0,0,.35);
+}
+
+html[data-theme="sand"] {
+  color-scheme: light;
+  --bg:#f5efe4; --surface:#fffaf1; --surface-2:#eee2d0;
+  --ink:#2d261f; --muted:#6f6357; --line:#ddcfbc;
+  --accent:#b54c2e; --accent-2:#1e8178; --accent-soft:#f4ddcf;
+  --on-accent:#fff;
+  --on-success:#fff; --on-accent-2:#fff;
+  --success:#1e6f66; --warn:#96601a; --danger:#b3352c; --note:#7a4a93;
+  --success-soft:#dff0ec; --warn-soft:#f8ecd8; --danger-soft:#fae3e0; --note-soft:#f0e6f5;
+  --header:rgba(245,239,228,.9);
+  --shadow:0 28px 72px rgba(77,55,38,.15);
+}
+
+html[data-theme="ocean"] {
+  color-scheme: light;
+  /* --muted cũ (#587581) chỉ đạt 4.49:1, dưới chuẩn — đã tối lại */
+  --bg:#eaf7fa; --surface:#fafdff; --surface-2:#dff1f5;
+  --ink:#102a36; --muted:#4f6a76; --line:#c7e2e9;
+  --accent:#0a6f8f; --accent-2:#d1553b; --accent-soft:#d8f0f6;
+  --on-accent:#fff;
+  --on-success:#fff; --on-accent-2:#fff;
+  --success:#0e7a63; --warn:#96600f; --danger:#bb352c; --note:#5c4bad;
+  --success-soft:#dcf1eb; --warn-soft:#f8eeda; --danger-soft:#fae3e1; --note-soft:#e8e6f8;
+  --header:rgba(234,247,250,.9);
+  --shadow:0 28px 72px rgba(18,88,110,.15);
+}
+
+html[data-theme="rose"] {
+  color-scheme: light;
+  /* accent cũ (#d34478) cho chữ trắng chỉ 4.31:1 — đã đậm lại */
+  --bg:#fff2f6; --surface:#fffafd; --surface-2:#f9e4ed;
+  --ink:#321d2a; --muted:#775e6c; --line:#edd2df;
+  --accent:#c02f66; --accent-2:#6a4bcc; --accent-soft:#f9dce8;
+  --on-accent:#fff;
+  --on-success:#fff; --on-accent-2:#fff;
+  --success:#0f7a63; --warn:#95600f; --danger:#c02c2c; --note:#6a4bcc;
+  --success-soft:#ddf1ec; --warn-soft:#f9eedb; --danger-soft:#fbe4e4; --note-soft:#eae5f9;
+  --header:rgba(255,242,246,.9);
+  --shadow:0 28px 72px rgba(112,48,78,.15);
+}
+
+html[data-theme="forest"] {
+  color-scheme: dark;
+  --bg:#071a17; --surface:#102824; --surface-2:#17342e;
+  --ink:#f2fbf8; --muted:#a5c2b9; --line:#295048;
+  --accent:#6ee7b7; --accent-2:#f3b94f; --accent-soft:#193f36;
+  --on-accent:#06201a;
+  --on-success:#06201a; --on-accent-2:#06201a;
+  --success:#6ee7b7; --warn:#f3b94f; --danger:#ff9a92; --note:#a5d8ff;
+  --success-soft:#123a30; --warn-soft:#33290f; --danger-soft:#3a1f1d; --note-soft:#12303f;
+  --header:rgba(7,26,23,.9);
+  --shadow:0 30px 78px rgba(0,0,0,.36);
+}
+
+/* Ô ly — suy ra từ --line nên tự đúng theo mọi giao diện.
+   Hai giao diện tối cần lưới đậm hơn, không thì lưới biến mất. */
+html { --grid:color-mix(in srgb,var(--line) 46%,transparent); --paper:var(--bg); }
+html[data-theme="night"], html[data-theme="forest"] { --grid:color-mix(in srgb,var(--line) 62%,transparent); }
+
+/* Tên cũ dùng trong 18 trang bài học — giữ để không phải sửa từng trang.
+   Trang mới KHÔNG dùng những tên này nữa. */
+html {
+  --blue:var(--accent); --blue-l:var(--accent-soft); --blue-d:var(--accent);
+  --orange:var(--warn); --orange-l:var(--warn-soft);
+  --green:var(--success); --green-l:var(--success-soft);
+  --red:var(--danger); --red-l:var(--danger-soft);
+  --purple:var(--note); --purple-l:var(--note-soft);
+}
