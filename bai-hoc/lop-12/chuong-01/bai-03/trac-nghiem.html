@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trắc nghiệm — Bài 3. Đường tiệm cận của đồ thị hàm số (Toán 12 KNTT)</title>
+<script>
+MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;display=swap" rel="stylesheet">
+<style>
+  /* Bảng màu "vở ô ly" — dùng chung với trang bài học (index.html) và mục lục lớp.
+     Đổi màu ở đây thì đổi cả bên đó cho đồng bộ. */
+  :root{
+    --blue:#1b4dff; --blue-d:#0d36c7; --blue-l:#eef3ff;
+    --orange:#d84f00; --orange-l:#fff5e9;
+    --green:#2e7d32; --green-l:#edf8ee;
+    --red:#c62828; --red-l:#fff0f0;
+    --purple:#6a1b9a; --purple-l:#f7eefb;
+    --ink:#13223c; --muted:#4f5f7a; --line:#d9e2f0;
+    --paper:#fafcff; --grid:#e5ecf8; --surface:#fff;
+    --body:"Be Vietnam Pro",system-ui,-apple-system,sans-serif;
+    --display:"Bricolage Grotesque","Be Vietnam Pro",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    font-family:var(--body);color:var(--ink);margin:0;line-height:1.65;font-size:16px;overflow-x:hidden;
+    background-color:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:30px 30px;
+  }
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:3px solid rgba(27,77,255,.45);outline-offset:3px;border-radius:8px}
+  .page{width:min(1580px,calc(100% - 40px));margin:0 auto;padding:24px 0 72px;display:grid;grid-template-columns:250px minmax(0,1fr);gap:24px;align-items:start}
+  .lesson-content{min-width:0}
+
+  /* Sidebar — giống trang bài học */
+  .lesson-nav{position:sticky;top:20px;min-width:0;padding:22px;background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:20px;box-shadow:0 16px 42px rgba(39,55,67,.07);backdrop-filter:blur(12px)}
+  .lesson-brand{display:flex;align-items:center;gap:10px;margin-bottom:28px;font:700 1rem/1 var(--display);letter-spacing:-.02em}
+  .lesson-brand span:first-child{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:var(--blue);color:#fff;font-size:.72rem}
+  .nav-label{margin:0 0 10px;color:var(--muted);font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+  .lesson-nav nav{display:grid;gap:5px}
+  .lesson-nav nav a{display:flex;align-items:center;gap:10px;padding:10px 11px;border-radius:10px;color:#465763;font-size:.82rem;line-height:1.35;transition:background .2s ease,color .2s ease}
+  .lesson-nav nav a::before{content:"";width:6px;height:6px;flex:0 0 auto;border:1.5px solid currentColor;border-radius:50%}
+  .lesson-nav nav a:hover{color:var(--blue);background:var(--blue-l)}
+  .nav-them{margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+  .lesson-nav nav.them a{color:var(--blue);background:var(--blue-l);font-weight:600}
+  .lesson-nav nav.them a::before{border-color:var(--blue)}
+  .lesson-nav nav.them a:hover{background:#dbeafd}
+
+  /* Bảng điểm dính ở sidebar */
+  .diem-hop{margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+  .diem-so{font:800 2.1rem/1 var(--display);color:var(--blue);letter-spacing:-.03em}
+  .diem-so small{font-size:1rem;color:var(--muted);font-weight:600}
+  .diem-chu{margin:6px 0 0;font-size:.74rem;color:var(--muted)}
+  .thanh{height:7px;margin-top:11px;border-radius:99px;background:#e6ecf0;overflow:hidden}
+  .thanh i{display:block;height:100%;width:0;border-radius:99px;background:var(--blue);transition:width .35s ease}
+
+  /* Đầu trang */
+  header{position:relative;min-height:210px;display:grid;align-content:end;overflow:hidden;background:linear-gradient(125deg,var(--blue-d),#2e62ff);color:#fff;border-radius:24px;padding:clamp(28px,5vw,52px);margin-bottom:30px;box-shadow:0 24px 58px rgba(13,54,199,.18)}
+  header::before,header::after{content:"";position:absolute;border:1px solid rgba(255,255,255,.16);border-radius:50%;pointer-events:none}
+  header::before{width:340px;height:340px;right:-105px;top:-175px}
+  header::after{width:210px;height:210px;right:80px;top:-120px}
+  .breadcrumb{position:relative;z-index:1;margin:0 0 30px;font-size:.73rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;opacity:.78}
+  .hero-row{position:relative;z-index:1;display:flex;align-items:end;justify-content:space-between;gap:32px}
+  header h1{margin:0;font:800 clamp(2rem,4.4vw,3.6rem)/1 var(--display);letter-spacing:-.05em}
+  header p{max-width:580px;margin:14px 0 0;opacity:.85;font-size:.94rem}
+  .hero-number{font:700 clamp(3.5rem,8vw,6rem)/.72 var(--display);letter-spacing:-.07em;color:rgba(255,255,255,.17)}
+
+  /* Câu hỏi */
+  .cau{background:var(--surface);border:1px solid var(--line);border-radius:15px;padding:19px 21px;margin:14px 0;box-shadow:0 8px 28px rgba(35,51,64,.035)}
+  .cau-dau{display:flex;align-items:center;gap:11px;margin-bottom:9px}
+  .cau-so{display:grid;place-items:center;min-width:31px;height:31px;padding:0 8px;background:var(--blue-l);color:var(--blue);border-radius:8px;font:700 .86rem/1 var(--display)}
+  .cau-de{margin:0;font-weight:600;overflow-wrap:anywhere}
+  .dap-an{display:grid;gap:8px;margin-top:13px}
+  .lua-chon{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 14px;font:inherit;font-size:.94rem;color:var(--ink);background:#f7f9fb;border:1.5px solid var(--line);border-radius:11px;cursor:pointer;transition:border-color .18s ease,background .18s ease}
+  .lua-chon:hover:not(:disabled){border-color:var(--blue);background:var(--blue-l)}
+  .lua-chon:disabled{cursor:default}
+  .chu{display:grid;place-items:center;flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:#fff;border:1.5px solid var(--line);font-weight:700;font-size:.8rem}
+  .lua-chon.dung{border-color:var(--green);background:var(--green-l)}
+  .lua-chon.dung .chu{border-color:var(--green);background:var(--green);color:#fff}
+  .lua-chon.sai{border-color:var(--red);background:var(--red-l)}
+  .lua-chon.sai .chu{border-color:var(--red);background:var(--red);color:#fff}
+  .giai-thich{display:none;margin-top:12px;padding:12px 14px;background:var(--blue-l);border-left:3px solid var(--blue);border-radius:0 9px 9px 0;font-size:.9rem}
+  .giai-thich.hien{display:block}
+  .giai-thich b{color:var(--blue)}
+
+  /* Kết quả cuối bài */
+  .ket-qua{display:none;margin-top:30px;padding:26px 24px;background:var(--surface);border:1px solid var(--line);border-radius:18px;text-align:center;box-shadow:0 12px 36px rgba(35,51,64,.05)}
+  .ket-qua.hien{display:block}
+  .kq-diem{font:800 3rem/1 var(--display);color:var(--blue);letter-spacing:-.04em}
+  .kq-loi{margin:10px 0 0;color:var(--muted)}
+  .nut-lam-lai{margin-top:18px;padding:12px 26px;font:600 .92rem var(--body);color:#fff;background:var(--blue);border:0;border-radius:11px;cursor:pointer;transition:background .2s ease}
+  .nut-lam-lai:hover{background:var(--blue-d)}
+
+  /* Học tiếp */
+  .hoc-tiep{margin:40px 0 0;padding-top:28px;border-top:1px solid var(--line)}
+  .hoc-tiep .nav-label{margin-bottom:14px}
+  .tiep-luoi{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:14px}
+  .tiep-the{display:flex;align-items:center;gap:15px;padding:18px 20px;background:var(--surface);border:1px solid var(--line);border-radius:15px;box-shadow:0 8px 28px rgba(35,51,64,.035);transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease}
+  .tiep-the:hover{border-color:var(--blue);box-shadow:0 14px 36px rgba(21,101,192,.13);transform:translateY(-2px)}
+  .tiep-ico{display:grid;place-items:center;flex:0 0 auto;width:44px;height:44px;border-radius:12px;background:var(--blue-l);color:var(--blue);font:700 1.15rem/1 var(--display)}
+  .tiep-chu{min-width:0;flex:1}
+  .tiep-chu b{display:block;font:700 1rem/1.3 var(--display);color:var(--ink)}
+  .tiep-chu i{display:block;margin-top:3px;font-style:normal;font-size:.82rem;color:var(--muted);line-height:1.45}
+  .tiep-mui{flex:0 0 auto;color:var(--blue);font-size:1.2rem;transition:transform .2s ease}
+  .tiep-the:hover .tiep-mui{transform:translateX(4px)}
+
+  mjx-container{overflow-x:auto;overflow-y:hidden;max-width:100%;vertical-align:middle;-webkit-overflow-scrolling:touch}
+  mjx-container:not([display="true"]){display:inline-block!important;max-width:100%!important}
+
+  @media (min-width:1280px){
+    .page{grid-template-columns:270px minmax(0,1fr);gap:30px}
+    .lesson-content{font-size:16.5px}
+    .cau{padding:21px 24px}
+  }
+  @media (max-width:900px){
+    .page{width:min(100% - 28px,780px);grid-template-columns:minmax(0,1fr);padding-top:14px;gap:14px}
+    .lesson-nav{position:static;padding:15px;border-radius:15px}
+    .lesson-brand{margin-bottom:14px}
+    .lesson-nav nav{display:flex;flex-wrap:wrap;gap:6px}
+    .lesson-nav nav a{padding:8px 10px;background:#f4f7f9}
+    .nav-them{margin-top:10px;padding-top:10px}
+    .diem-hop{margin-top:12px;padding-top:12px;display:flex;align-items:center;gap:14px}
+    .diem-hop .thanh{flex:1;margin-top:0}
+    .diem-chu{display:none}
+    .hoc-tiep{margin-top:32px;padding-top:24px}
+    header{min-height:190px;margin-bottom:22px;border-radius:18px}
+  }
+  @media (max-width:560px){
+    body{font-size:15px;line-height:1.62}
+    .page{width:min(100% - 20px,780px);padding-bottom:46px}
+    .lesson-nav{padding:12px}
+    .nav-label{display:none}
+    .lesson-nav nav a{font-size:.74rem;padding:7px 9px}
+    header{min-height:175px;padding:25px 22px}
+    .breadcrumb{margin-bottom:22px;font-size:.65rem}
+    header h1{font-size:clamp(1.6rem,7.5vw,2.6rem)}
+    header p{font-size:.82rem;line-height:1.55}
+    .hero-number{display:none}
+    .cau{padding:15px 14px;border-radius:13px}
+    .lua-chon{padding:11px 12px;font-size:.88rem}
+  }
+  @media print{
+    body{background:#fff}
+    .page{display:block;width:100%;padding:0}
+    .lesson-nav,.hoc-tiep,.ket-qua{display:none}
+    header,.cau{box-shadow:none;break-inside:avoid}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<aside class="lesson-nav" aria-label="Điều hướng">
+  <a class="lesson-brand" href="/" aria-label="Về trang chủ Vở Toán"><span aria-hidden="true">VT</span><span>Vở Toán</span></a>
+  <p class="nav-label">Bài học</p>
+  <nav>
+    <a href="./">Quay lại bài học</a>
+  </nav>
+  <div class="diem-hop" aria-live="polite">
+    <p class="diem-so"><span id="diem">0</span><small>/<span id="tong-cau">0</span></small></p>
+    <p class="diem-chu">câu đúng</p>
+    <div class="thanh"><i id="thanh-diem"></i></div>
+  </div>
+  <div class="nav-them">
+    <p class="nav-label">Luyện tập</p>
+    <nav class="them">
+      <a href="trac-nghiem.html" aria-current="page">Trắc nghiệm</a>
+    </nav>
+  </div>
+</aside>
+
+<main class="lesson-content">
+
+<header id="top">
+  <p class="breadcrumb">Toán 12 · Chương I — Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số · Bài 3 · Đường tiệm cận</p>
+  <div class="hero-row">
+    <div>
+      <h1>Trắc nghiệm</h1>
+      <p>16 câu về ba loại đường tiệm cận của đồ thị hàm số. Chọn đáp án để xem kết quả ngay.</p>
+    </div>
+    <span class="hero-number" aria-hidden="true">03</span>
+  </div>
+</header>
+
+<div id="bo-cau">
+<div class="cau" data-dung="B" data-muc="1">
+    <div class="cau-dau"><span class="cau-so">1</span><p class="cau-de">Đường thẳng \(y=y_0\) là tiệm cận ngang của đồ thị hàm số \(y=f(x)\) nếu</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(\lim\limits_{x\to y_0}f(x)=+\infty\) hoặc \(\lim\limits_{x\to y_0}f(x)=-\infty\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(\lim\limits_{x\to+\infty}f(x)=y_0\) hoặc \(\lim\limits_{x\to-\infty}f(x)=y_0\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(f(x)=y_0\) với mọi \(x\) đủ lớn, không cần xét giới hạn</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>đồ thị hàm số \(y=f(x)\) không bao giờ cắt đường thẳng \(y=y_0\)</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> Tiệm cận ngang được định nghĩa bằng giới hạn của hàm số khi biến ra vô cực. Phương án A là định nghĩa của tiệm cận đứng, lại còn nhầm vai trò của \(x\) và \(y\); phương án C đòi hàm số bằng hằng số, chặt hơn hẳn định nghĩa; phương án D nhầm "áp sát" với "không cắt", trong khi đồ thị vẫn được phép cắt tiệm cận ngang.</p>
+  </div>
+
+  <div class="cau" data-dung="D" data-muc="1">
+    <div class="cau-dau"><span class="cau-so">2</span><p class="cau-de">Đồ thị hàm số \(y=\dfrac{2x-3}{x+5}\) có tiệm cận ngang là</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(y=-5\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(x=-5\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(y=-3\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(y=2\)</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> Chia tử và mẫu cho \(x\) được giới hạn bằng \(2\) khi \(x\) ra vô cực. Phương án A lấy nghiệm của mẫu nhưng gọi thành đường nằm ngang; phương án B là tiệm cận đứng, không phải điều đề hỏi; phương án C lấy hạng tử tự do của tử.</p>
+  </div>
+
+  <div class="cau" data-dung="A" data-muc="1">
+    <div class="cau-dau"><span class="cau-so">3</span><p class="cau-de">Đồ thị hàm số \(y=\dfrac{x+1}{x-3}\) có tiệm cận đứng là</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(x=3\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(x=-1\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(y=3\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(y=1\)</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> Mẫu bằng \(0\) tại \(x=3\), tử tại đó bằng \(4\ne0\) nên giới hạn một bên ra vô cực. Phương án B lấy nghiệm của tử — nơi đồ thị cắt trục hoành; phương án C viết đúng số nhưng sai loại đường; phương án D là tiệm cận ngang.</p>
+  </div>
+
+  <div class="cau" data-dung="C" data-muc="2">
+    <div class="cau-dau"><span class="cau-so">4</span><p class="cau-de">Số đường tiệm cận của đồ thị hàm số \(y=\dfrac{3x-1}{x+2}\) là</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(1\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(3\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(2\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(0\)</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> Đồ thị có tiệm cận đứng \(x=-2\) và tiệm cận ngang \(y=3\), tất cả là hai đường. Phương án A chỉ đếm một loại; phương án B đếm thêm một tiệm cận xiên, nhưng hàm bậc nhất trên bậc nhất không có tiệm cận xiên; phương án D cho rằng hàm phân thức không có tiệm cận.</p>
+  </div>
+
+  <div class="cau" data-dung="D" data-muc="2">
+    <div class="cau-dau"><span class="cau-so">5</span><p class="cau-de">Đường thẳng \(x=2\) có phải là tiệm cận đứng của đồ thị hàm số \(y=\dfrac{x^2-4}{x-2}\) không?</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>Có, vì mẫu triệt tiêu tại \(x=2\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>Có, vì hàm số không xác định tại \(x=2\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>Không, vì hàm số nhận giá trị \(4\) tại \(x=2\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>Không, vì rút gọn được thành \(y=x+2\)</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> Tử và mẫu cùng triệt tiêu; sau khi rút gọn thì \(\lim\limits_{x\to2}y=4\) là số hữu hạn nên không có tiệm cận đứng. Phương án A và phương án B chỉ nhìn mẫu hoặc tập xác định mà quên xét tử; phương án C kết luận đúng nhưng lí do sai, vì hàm số không xác định tại \(x=2\) nên không có giá trị tại đó.</p>
+  </div>
+
+  <div class="cau" data-dung="B" data-muc="2">
+    <div class="cau-dau"><span class="cau-so">6</span><p class="cau-de">Đồ thị hàm số \(y=\dfrac{x^2+3x+1}{x+1}\) có tiệm cận xiên là</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(y=x+3\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(y=x+2\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(y=x-2\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(y=2x+3\)</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> Chia đa thức được \(y=x+2-\dfrac{1}{x+1}\), phần dư dần về \(0\) nên tiệm cận xiên là \(y=x+2\). Phương án A lấy luôn hệ số \(3\) của tử làm hạng tử tự do; phương án C đổi dấu hạng tử tự do khi chia; phương án D lấy hệ số \(3\) của hạng tử \(3x\) làm hệ số góc.</p>
+  </div>
+
+  <div class="cau" data-dung="C" data-muc="3">
+    <div class="cau-dau"><span class="cau-so">7</span><p class="cau-de">Đồ thị hàm số \(y=\dfrac{\sqrt{4x^2+1}}{x}\) có bao nhiêu tiệm cận ngang?</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(1\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(0\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(2\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(4\)</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> Khi \(x\to+\infty\) giới hạn bằng \(2\), khi \(x\to-\infty\) giới hạn bằng \(-2\), nên có hai tiệm cận ngang. Phương án A quên rằng \(\sqrt{x^2}=|x|\) nên chỉ ra một giới hạn; phương án B tưởng có căn thì không có tiệm cận; phương án D đếm cả hệ số \(4\) dưới căn.</p>
+  </div>
+
+  <div class="cau" data-dung="A" data-muc="3">
+    <div class="cau-dau"><span class="cau-so">8</span><p class="cau-de">Đồ thị hàm số \(y=\dfrac{x}{x^2-4}\) có tổng cộng bao nhiêu đường tiệm cận?</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(3\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(2\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(1\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(4\)</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> Hai tiệm cận đứng \(x=2\), \(x=-2\) và một tiệm cận ngang \(y=0\), tất cả là ba đường. Phương án B bỏ sót tiệm cận ngang vì thấy tử khác hằng số; phương án C chỉ đếm tiệm cận ngang; phương án D đếm thêm trục tung, nhưng \(x=0\) không làm mẫu triệt tiêu.</p>
+  </div>
+
+  <div class="cau" data-dung="C" data-muc="3">
+    <div class="cau-dau"><span class="cau-so">9</span><p class="cau-de">Chi phí loại bỏ \(p\%\) chất thải của một nhà máy là \(C(p)=\dfrac{60p}{100-p}\) (triệu đồng), \(0\le p&lt;100\). Tiệm cận đứng của đồ thị hàm số \(C(p)\) cho biết</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>chi phí không bao giờ vượt quá \(60\) triệu đồng</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>chi phí bằng \(0\) khi chưa xử lí gì</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>không thể loại bỏ hết \(100\%\) chất thải</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>chi phí tăng đều theo tỉ lệ phần trăm</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> Vì \(\lim\limits_{p\to100^-}C(p)=+\infty\) nên chi phí vượt mọi con số khi \(p\) tiến tới \(100\). Phương án A đọc nhầm hệ số \(60\) ở tử thành một chặn trên của chi phí; phương án B đúng ở \(p=0\) nhưng không liên quan tới tiệm cận đứng; phương án D mô tả một hàm bậc nhất, trong khi hàm này tăng ngày càng nhanh.</p>
+  </div>
+
+  <div class="cau" data-dung="A" data-muc="2">
+    <div class="cau-dau"><span class="cau-so">10</span><p class="cau-de">Đồ thị hàm số \(y=x+2+\dfrac{3}{x-1}\) có các tiệm cận là</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(x=1\) và \(y=x+2\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(x=1\) và \(y=3\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(x=-1\) và \(y=x+2\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(x=1\) và \(y=x-2\)</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> Mẫu triệt tiêu tại \(x=1\) cho tiệm cận đứng, còn phần dư \(\dfrac{3}{x-1}\) dần về \(0\) nên \(y=x+2\) là tiệm cận xiên. Phương án B lấy tử của phần dư làm tiệm cận ngang; phương án C đổi dấu nghiệm của mẫu; phương án D đổi dấu hạng tử tự do của phần nguyên.</p>
+  </div>
+
+  <div class="cau" data-dung="D" data-muc="2">
+    <div class="cau-dau"><span class="cau-so">11</span><p class="cau-de">Cho hàm số \(y=f(x)\) thoả mãn \(\lim\limits_{x\to3^+}f(x)=-\infty\) và \(\lim\limits_{x\to+\infty}f(x)=1\). Khẳng định nào sau đây đúng?</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>Đồ thị có tiệm cận đứng \(x=1\) và tiệm cận ngang \(y=3\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>Đồ thị có tiệm cận ngang \(y=3\) và tiệm cận xiên \(y=x+1\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>Đồ thị chỉ có tiệm cận đứng \(x=3\), không có tiệm cận ngang</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>Đồ thị có tiệm cận đứng \(x=3\) và tiệm cận ngang \(y=1\)</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> Giới hạn vô cực tại \(x=3\) cho tiệm cận đứng \(x=3\); giới hạn hữu hạn khi \(x\to+\infty\) cho tiệm cận ngang \(y=1\). Phương án A đổi chỗ hai con số; phương án B bịa thêm một tiệm cận xiên trong khi chỉ có giới hạn hữu hạn; phương án C bỏ sót tiệm cận ngang dù giả thiết đã cho sẵn.</p>
+  </div>
+
+  <div class="cau" data-dung="B" data-muc="3">
+    <div class="cau-dau"><span class="cau-so">12</span><p class="cau-de">Đồ thị hàm số \(y=\dfrac{mx+1}{x-2}\) có tiệm cận ngang \(y=3\) khi</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(m=-3\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(m=3\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(m=6\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(m=\dfrac{3}{2}\)</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> Giới hạn khi \(x\) ra vô cực bằng \(m\), nên \(m=3\). Phương án A đổi dấu; phương án C nhân \(3\) với \(2\) vì tưởng phải bù cho mẫu \(x-2\); phương án D chia \(3\) cho \(2\) theo cùng nhầm lẫn đó.</p>
+  </div>
+
+  <div class="cau" data-dung="A" data-muc="4">
+    <div class="cau-dau"><span class="cau-so">13</span><p class="cau-de">Đồ thị hàm số \(y=\dfrac{x-1}{x^2-3x+2}\) có bao nhiêu tiệm cận đứng?</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(1\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(2\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(0\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(3\)</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> Mẫu bằng \((x-1)(x-2)\); rút gọn với tử được \(y=\dfrac{1}{x-2}\) nên chỉ còn tiệm cận đứng \(x=2\). Phương án B đếm cả \(x=1\) mà quên rút gọn; phương án C tưởng rút gọn xong thì hết tiệm cận; phương án D đếm thêm tiệm cận ngang vào cùng một rổ.</p>
+  </div>
+
+  <div class="cau" data-dung="C" data-muc="4">
+    <div class="cau-dau"><span class="cau-so">14</span><p class="cau-de">Đồ thị hàm số \(y=\dfrac{2x^2-3x+m}{x-1}\) không có tiệm cận đứng khi</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(m=-1\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(m=0\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(m=1\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(m=2\)</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> Muốn mất tiệm cận đứng thì tử phải triệt tiêu tại \(x=1\), tức \(2-3+m=0\) cho \(m=1\). Phương án A đổi dấu khi chuyển vế; phương án B chỉ nhìn hạng tử tự do của tử; phương án D lấy luôn hệ số của \(x^2\).</p>
+  </div>
+
+  <div class="cau" data-dung="A" data-muc="3">
+    <div class="cau-dau"><span class="cau-so">15</span><p class="cau-de">Một mảnh vườn hình chữ nhật có diện tích \(100\) m², một cạnh dài \(x\) (m). Chu vi \(P(x)\) của mảnh vườn có tiệm cận xiên là</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(y=2x\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(y=x\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(y=200x\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(y=2x+200\)</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> Cạnh kia bằng \(\dfrac{100}{x}\) nên \(P(x)=2x+\dfrac{200}{x}\); phần \(\dfrac{200}{x}\) dần về \(0\) nên tiệm cận xiên là \(y=2x\). Phương án B quên nhân \(2\) khi tính chu vi; phương án C nhân nhầm phần dư vào hệ số góc; phương án D giữ lại phần dư như một hằng số thay vì cho nó dần về \(0\).</p>
+  </div>
+
+  <div class="cau" data-dung="B" data-muc="4">
+    <div class="cau-dau"><span class="cau-so">16</span><p class="cau-de">Cho hàm số \(y=\dfrac{ax+b}{x-c}\) có đồ thị nhận \(x=2\) làm tiệm cận đứng, \(y=-1\) làm tiệm cận ngang và đi qua điểm \((0;1)\). Khi đó \(a+b+c\) bằng</p></div>
+    <div class="dap-an">
+      <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(-1\)</span></button>
+      <button class="lua-chon" data-chon="B"><span class="chu">B</span><span>\(3\)</span></button>
+      <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(1\)</span></button>
+      <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(5\)</span></button>
+    </div>
+    <p class="giai-thich"><b>Vì sao.</b> Tiệm cận đứng cho \(c=2\), tiệm cận ngang cho \(a=-1\); thay \((0;1)\) được \(\dfrac{b}{-2}=1\) nên \(b=-2\), do đó \(a+b+c=-1\). Phương án B lấy \(a=1\) vì bỏ quên dấu âm của tiệm cận ngang; phương án C cộng nhầm \(b=2\); phương án D dùng cả ba giá trị dương.</p>
+  </div>
+
+</div>
+
+<div class="ket-qua" id="ket-qua">
+  <p class="kq-diem"><span id="kq-diem-so">0</span>/<span id="kq-tong">0</span></p>
+  <p class="kq-loi" id="kq-loi"></p>
+  <button class="nut-lam-lai" id="nut-lam-lai" type="button">Làm lại từ đầu</button>
+</div>
+
+<!-- ==================================================== -->
+<!-- HỌC TIẾP — tài nguyên kèm bài                        -->
+<!-- Thêm mục mới: chép một khối .tiep-the, sửa link và chữ -->
+<!-- ==================================================== -->
+<section class="hoc-tiep" aria-label="Học tiếp">
+  <p class="nav-label">Học tiếp</p>
+  <div class="tiep-luoi">
+    <a class="tiep-the" href="./">
+      <span class="tiep-ico" aria-hidden="true">←</span>
+      <span class="tiep-chu">
+        <b>Quay lại bài học</b>
+        <i>Xem lại sơ đồ kiến thức và lời giải chi tiết</i>
+      </span>
+    </a>
+    <a class="tiep-the" href="/bai-hoc/lop-12/">
+      <span class="tiep-ico" aria-hidden="true">☰</span>
+      <span class="tiep-chu">
+        <b>Mục lục Toán 12</b>
+        <i>Chọn bài khác để học tiếp</i>
+      </span>
+      <span class="tiep-mui" aria-hidden="true">→</span>
+    </a>
+  </div>
+</section>
+
+</main>
+</div>
+<script>
+(function () {
+  var tongSoCau = document.querySelectorAll('.cau').length;
+  var oDiem = document.getElementById('diem');
+  var thanhDiem = document.getElementById('thanh-diem');
+  var hopKetQua = document.getElementById('ket-qua');
+  var soDung = 0, soDaLam = 0;
+
+  // Tổng số câu tự đếm từ số khối .cau — thêm bớt câu không phải sửa gì ở đây.
+  document.getElementById('tong-cau').textContent = tongSoCau;
+  document.getElementById('kq-tong').textContent = tongSoCau;
+
+  function capNhatDiem() {
+    oDiem.textContent = soDung;
+    thanhDiem.style.width = (soDaLam / tongSoCau * 100) + '%';
+    if (soDaLam < tongSoCau) return;
+    document.getElementById('kq-diem-so').textContent = soDung;
+    document.getElementById('kq-loi').textContent =
+      soDung === tongSoCau ? 'Đúng hết. Rất tốt!'
+      : soDung >= tongSoCau * 0.8 ? 'Nắm bài khá chắc, xem lại vài câu sai là ổn.'
+      : soDung >= tongSoCau * 0.5 ? 'Tạm được. Nên đọc lại phần lý thuyết rồi làm lại.'
+      : 'Chưa vững. Quay lại bài học đọc kỹ rồi thử lần nữa nhé.';
+    hopKetQua.classList.add('hien');
+  }
+
+  document.querySelectorAll('.cau').forEach(function (cau) {
+    var dapAnDung = cau.dataset.dung;
+    cau.querySelectorAll('.lua-chon').forEach(function (nut) {
+      nut.addEventListener('click', function () {
+        if (cau.dataset.daLam) return;
+        cau.dataset.daLam = '1';
+        soDaLam++;
+        if (nut.dataset.chon === dapAnDung) soDung++;
+        cau.querySelectorAll('.lua-chon').forEach(function (n) {
+          n.disabled = true;
+          if (n.dataset.chon === dapAnDung) n.classList.add('dung');
+          else if (n === nut) n.classList.add('sai');
+        });
+        cau.querySelector('.giai-thich').classList.add('hien');
+        capNhatDiem();
+      });
+    });
+  });
+
+  document.getElementById('nut-lam-lai').addEventListener('click', function () {
+    soDung = 0; soDaLam = 0;
+    hopKetQua.classList.remove('hien');
+    document.querySelectorAll('.cau').forEach(function (cau) {
+      delete cau.dataset.daLam;
+      cau.querySelectorAll('.lua-chon').forEach(function (n) {
+        n.disabled = false;
+        n.classList.remove('dung', 'sai');
+      });
+      cau.querySelector('.giai-thich').classList.remove('hien');
+    });
+    capNhatDiem();
+    document.getElementById('top').scrollIntoView({ behavior: 'smooth' });
+  });
+})();
+</script>
+</body>
+</html>

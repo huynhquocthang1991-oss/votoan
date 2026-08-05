@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Trình chiếu — Bài 2. Đa thức (Toán 8 KNTT)</title>
+<title>Trình chiếu — Bài 4. Khảo sát sự biến thiên và vẽ đồ thị của hàm số (Toán 12 KNTT)</title>
 <script>
 MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.04 } };
 </script>
@@ -13,7 +13,7 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.04 } };
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;display=swap" rel="stylesheet">
 <style>
   /* ═══════════════════════════════════════════════════════════════
-     Trình chiếu Bài 1 — ngôn ngữ "vở ô ly" (đồng bộ index.html).
+     Trình chiếu Bài 4. Khảo sát sự biến thiên và vẽ đồ thị của hàm số (Toán 12) — ngôn ngữ "vở ô ly" (đồng bộ index.html).
      Kiến trúc: nội dung lấy nguyên bản từ index.html rồi dựng slide.
      ─ tien-do   : thanh tiến trình trên cùng
      ─ khung     : [rail điều hướng] + [san-khau sân khấu]
@@ -107,11 +107,11 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.04 } };
   .slide.bia::before,.slide.bia .vong{content:"";position:absolute;border:1px solid rgba(255,255,255,.16);border-radius:50%;pointer-events:none}
   .slide.bia::before{width:430px;height:430px;right:-115px;top:-205px;animation:troi 22s linear infinite}
   .slide.bia .vong{width:270px;height:270px;right:100px;top:-145px;animation:troi 30s linear infinite reverse}
-  .slide.bia::after{content:"01";right:6vw;top:auto;bottom:8vh;color:rgba(255,255,255,.16);font-size:clamp(7rem,18vw,14rem)}
+  .slide.bia::after{content:"04";right:6vw;top:auto;bottom:8vh;color:rgba(255,255,255,.16);font-size:clamp(7rem,18vw,14rem)}
   @keyframes troi{to{transform:rotate(360deg)}}
   .bia .noi-dung-slide{justify-content:flex-end}
   .bia .breadcrumb{margin:0 0 30px;font-size:.82rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;opacity:.9}
-  .bia h1{margin:0;font:800 clamp(2.8rem,8vw,6rem)/.95 var(--display);letter-spacing:-.055em;white-space:nowrap}
+  .bia h1{max-width:16ch;margin:0;font:800 clamp(2rem,4.3vw,3.7rem)/1.04 var(--display);letter-spacing:-.04em}
   .bia .mo-ta{max-width:650px;margin:17px 0 0;opacity:.92;font-size:clamp(.95rem,2vw,1.22rem)}
   .bia .goi-y{display:flex;flex-wrap:wrap;gap:9px;align-self:flex-start;margin-top:28px}
   .bia .goi-y span{display:inline-flex;align-items:center;gap:7px;padding:8px 13px;border:1px solid rgba(255,255,255,.28);border-radius:10px;background:rgba(255,255,255,.1);font-size:.76em}
@@ -288,7 +288,7 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.04 } };
 <div class="khung">
   <aside class="rail" id="rail" aria-label="Điều hướng slide">
     <div class="rail-top">
-      <a class="rail-brand" href="index.html" aria-label="Về bài học"><span aria-hidden="true">VT</span><b>Bài 2 · Đa thức</b></a>
+      <a class="rail-brand" href="index.html" aria-label="Về bài học"><span aria-hidden="true">VT</span><b>Bài 4 · Khảo sát và vẽ đồ thị · Ứng dụng đạo hàm</b></a>
       <button class="rail-thu" id="rail-thu" type="button" aria-label="Thu gọn thanh điều hướng" title="Thu gọn (T)">⟨</button>
     </div>
     <nav class="rail-list" id="rail-list"></nav>
@@ -402,7 +402,8 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.04 } };
   }
 
   function mathTokens(formula) {
-    var source = formula.replace(/\\left\s*/g, '').replace(/\\right\s*/g, '');
+    var source = formula.replace(/\\left\s*/g, '').replace(/\\right\s*/g, '')
+                        .replace(/\\big{1,2}[lrm]?\s*/g, '');
     var tokens = [];
     var i = 0;
     while (i < source.length) {
@@ -431,6 +432,14 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.04 } };
         var radicand = takeTexArgument(source, afterSqrt);
         tokens.push(command[0] + rootIndex + radicand.value);
         i = radicand.end;
+        continue;
+      }
+      command = source.slice(i).match(
+        /^\\(?:mathbb|Bbb|mathbf|mathrm|mathit|mathcal|mathsf|text|overline|underline|vec|hat|bar|tilde)/);
+      if (command) {
+        var boc = takeTexArgument(source, i + command[0].length);
+        tokens.push(command[0] + boc.value);
+        i = boc.end;
         continue;
       }
       command = source.slice(i).match(/^\\[A-Za-z]+/);
@@ -843,7 +852,7 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.04 } };
         var cardTitle = textOf(card.querySelector('.tag')) || 'Bài tập';
         var cardSlide = addSlide('the-noi-dung', cardTitle, card);
         if (card.querySelector('table')) cardSlide.classList.add('co-bang');
-        if (card.querySelector('figure')) cardSlide.classList.add('co-hinh');
+        if (card.querySelector(':scope > figure')) cardSlide.classList.add('co-hinh');
       }
     }
     // Đánh số thứ tự các bước trong mỗi slide
@@ -987,7 +996,7 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.04 } };
 
     nutTruoc.disabled = slideIndex === 0 && stepIndex === 0;
     nutSau.disabled = slideIndex === slides.length - 1 && stepIndex === steps.length;
-    try { localStorage.setItem('vt-trinh-chieu-l8-b2-index-v3', JSON.stringify([slideIndex, stepIndex])); } catch (e) {}
+    try { localStorage.setItem('vt-trinh-chieu-l12-b4-index-v3', JSON.stringify([slideIndex, stepIndex])); } catch (e) {}
     var activeStep = stepIndex ? steps[stepIndex - 1] : null;
     fitVisible();
     scrollToActive(current, activeStep);
@@ -1035,7 +1044,7 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.04 } };
 
   function restoreState() {
     try {
-      var saved = JSON.parse(localStorage.getItem('vt-trinh-chieu-l8-b2-index-v3') || '[0,0]');
+      var saved = JSON.parse(localStorage.getItem('vt-trinh-chieu-l12-b4-index-v3') || '[0,0]');
       slideIndex = Math.max(0, Math.min(slides.length - 1, Number(saved[0]) || 0));
       stepIndex = Math.max(0, Math.min(stepsOf(slides[slideIndex]).length, Number(saved[1]) || 0));
     } catch (e) {}

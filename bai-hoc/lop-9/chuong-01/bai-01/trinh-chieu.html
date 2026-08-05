@@ -426,8 +426,17 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.04 } };
       }
       command = source.slice(i).match(/^\\sqrt/);
       if (command) {
-        var radicand = takeTexArgument(source, i + command[0].length);
-        tokens.push(command[0] + radicand.value);
+        var afterSqrt = i + command[0].length;
+        var rootIndex = '';
+        if (source[afterSqrt] === '[') {
+          var closeIndex = source.indexOf(']', afterSqrt);
+          if (closeIndex > -1) {
+            rootIndex = source.slice(afterSqrt, closeIndex + 1);
+            afterSqrt = closeIndex + 1;
+          }
+        }
+        var radicand = takeTexArgument(source, afterSqrt);
+        tokens.push(command[0] + rootIndex + radicand.value);
         i = radicand.end;
         continue;
       }
