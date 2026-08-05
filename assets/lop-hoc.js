@@ -20,6 +20,12 @@
 
   var phien = null, toi = null, giaoVien = null, sb = null, vaiTro = 'khach';
 
+  /* Lời hứa "đã đọc xong phiên đăng nhập". Trang trắc nghiệm phải đợi cái này
+   * trước khi gửi câu trả lời đầu tiên: em bấm trong giây đầu mà phiên chưa
+   * đọc xong thì goi() gửi bằng ANON_KEY, server coi là khách vãng lai và câu
+   * đó KHÔNG được sao. Lỗi im lặng, chỉ rơi vào em nào bấm nhanh. */
+  var khoiDong = null;
+
   /* ------------------------------------------------------------ nền tảng */
 
   function napSupabase() {
@@ -104,6 +110,78 @@
       };
       img.onerror = function () { hong(new Error('Không đọc được ảnh này.')); };
       img.src = URL.createObjectURL(file);
+    });
+  }
+
+  /* ------------------------------------------------------------ chú thích lên ảnh */
+
+  /* Vẽ nhận xét của máy đè lên chính ảnh bài làm.
+   *
+   * CỐ Ý KHÔNG để model sinh ảnh mới: nó sẽ vẽ lại bài của học sinh thành một
+   * bài khác, chữ Việt hỏng, và mỗi lần chạy ra một kiểu. Ở đây model chỉ trả
+   * TOẠ ĐỘ (mục "chu_thich" trong cham-bai), còn nét vẽ là của mình — chuẩn,
+   * lặp lại được, không tốn thêm đồng API nào.
+   *
+   * Vẽ DẢI NGANG chứ không đóng khung ôm sát chữ: model định vị chữ viết tay
+   * chỉ chính xác cỡ vài phần trăm chiều cao ảnh, khung ôm sát mà lệch là đóng
+   * vào dòng bên cạnh.
+   */
+  var MAU_CHU_THICH = {
+    sai:   { vien: '#c62828', nen: 'rgba(198,40,40,.14)',  chu: '#fff' },
+    thieu: { vien: '#d84f00', nen: 'rgba(216,79,0,.14)',   chu: '#fff' },
+    tot:   { vien: '#2e7d32', nen: 'rgba(46,125,50,.14)',  chu: '#fff' }
+  };
+
+  function veChuThich(anh, danhSach) {
+    var c = document.createElement('canvas');
+    c.width = anh.naturalWidth || anh.width;
+    c.height = anh.naturalHeight || anh.height;
+    var ctx = c.getContext('2d');
+    ctx.drawImage(anh, 0, 0);
+
+    var don = Math.max(12, Math.round(c.width / 46));   // cỡ chữ theo bề ngang ảnh
+    (danhSach || []).forEach(function (ct) {
+      var mau = MAU_CHU_THICH[ct.loai] || MAU_CHU_THICH.sai;
+      var y = ct.tu * c.height;
+      var cao = Math.max(don * 1.2, (ct.den - ct.tu) * c.height);
+
+      ctx.fillStyle = mau.nen;
+      ctx.fillRect(0, y, c.width, cao);
+      ctx.strokeStyle = mau.vien;
+      ctx.lineWidth = Math.max(2, c.width / 300);
+      ctx.strokeRect(ctx.lineWidth / 2, y, c.width - ctx.lineWidth, cao);
+
+      if (!ct.chu) return;
+      ctx.font = '600 ' + don + 'px "Be Vietnam Pro",system-ui,sans-serif';
+      var rong = ctx.measureText(ct.chu).width + don;
+      /* Nhãn nằm trong lòng ảnh, ưu tiên mép phải; dải sát mép dưới thì lật
+         nhãn lên trên, không thì chữ rơi ra ngoài khung. */
+      var nx = Math.max(0, c.width - rong - don / 2);
+      var ny = y + cao + don * 1.4 < c.height ? y + cao : y - don * 1.4;
+      ctx.fillStyle = mau.vien;
+      ctx.fillRect(nx, ny, rong, don * 1.4);
+      ctx.fillStyle = mau.chu;
+      ctx.fillText(ct.chu, nx + don / 2, ny + don * 1.02);
+    });
+    return c;
+  }
+
+  /* Ảnh trong Storage là riêng tư nên phải xin đường dẫn ký hạn giờ. */
+  function duongDanAnh(url) {
+    return sb.storage.from('bai-lam').createSignedUrl(url, 3600)
+      .then(function (r) {
+        if (r.error || !r.data) throw new Error('không mở được ảnh');
+        return r.data.signedUrl;
+      });
+  }
+
+  function napAnh(src) {
+    return new Promise(function (ok, hong) {
+      var i = new Image();
+      i.crossOrigin = 'anonymous';
+      i.onload = function () { ok(i); };
+      i.onerror = function () { hong(new Error('không tải được ảnh')); };
+      i.src = src;
     });
   }
 
@@ -369,7 +447,48 @@
      * Chưa đăng nhập vẫn chấm được, chỉ là không có sao. */
     chamTracNghiem: function (bai, maCau, chon) {
       if (!BAT) return Promise.reject(new Error('chua-cau-hinh'));
-      return goi('cham-trac-nghiem', { bai: bai, ma_cau: maCau, chon: chon });
+      return API.sanSang().then(function () {
+        return goi('cham-trac-nghiem', { bai: bai, ma_cau: maCau, chon: chon });
+      });
+    },
+    /* Đợi đọc xong phiên đăng nhập. Chưa cấu hình thì trả về ngay. */
+    sanSang: function () { return khoiDong || Promise.resolve(); },
+
+    /* Trang nộp bài riêng (/lop-hoc/nop.html) dùng lại đúng đường ống của khối
+     * nộp trong bài học: cùng cách nén, cùng ngưỡng mờ/tối, cùng hàm chờ chấm.
+     * Viết lại một bản thứ hai là hai bản lệch nhau sau vài tháng. */
+    nop: {
+      tuFile: function (ma, file) {
+        return API.sanSang().then(function () {
+          if (!toi) throw new Error('chua-dang-nhap');
+          return nenAnh(file);
+        }).then(function (blob) { return taiLen(ma, blob); });
+      },
+      /* Nét viết trên iPad: đã là ảnh sạch nền trắng, KHÔNG chạy xetAnh —
+       * ảnh nền trắng có phương sai Laplacian thấp, bộ đo độ mờ sẽ báo "ảnh
+       * mờ quá" và chặn oan một bài làm hoàn toàn rõ. */
+      tuBlob: function (ma, blob) {
+        return API.sanSang().then(function () {
+          if (!toi) throw new Error('chua-dang-nhap');
+          return taiLen(ma, blob);
+        });
+      },
+      theoDoi: function (baiNopId, oKq, oBao) { return doiKetQua(baiNopId, oKq, oBao); },
+      daNop: function (ma) {
+        return sb.from('bai_nop')
+          .select('id,lan_thu,trang_thai,luc_nop')
+          .eq('hoc_sinh_id', toi.id).eq('bai_tap_ma', ma)
+          .order('lan_thu', { ascending: false });
+      }
+    },
+
+    /* Ảnh bài làm + chú thích của máy, trả về canvas đã vẽ xong. */
+    anhDaChamGoc: duongDanAnh,
+    veChuThichLen: veChuThich,
+    veAnhDaCham: function (anhUrl, chuThich) {
+      return duongDanAnh(anhUrl).then(napAnh).then(function (anh) {
+        return veChuThich(anh, chuThich);
+      });
     },
     dangNhapHocSinh: function (ma, matKhau) {
       return sb.auth.signInWithPassword({
@@ -419,7 +538,7 @@
     }
   }
 
-  napSupabase().then(function (lib) {
+  khoiDong = napSupabase().then(function (lib) {
     sb = lib.createClient(CH.URL, CH.ANON_KEY);
     API.sb = function () { return sb; };
     // Bắt cả lúc đăng nhập, lúc thoát, và lúc token tự gia hạn

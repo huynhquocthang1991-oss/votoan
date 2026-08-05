@@ -1,0 +1,957 @@
+<!-- FILE NÀY DO MÁY SINH RA. Đừng sửa tay.
+     Nguồn: index.html cùng thư mục. Sinh lại bằng:
+       python3 tools/tach_ban_hoc_sinh.py --that
+     Sửa ở đây là lần chạy sau mất sạch. -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bài 4. Khảo sát sự biến thiên và vẽ đồ thị của hàm số — Toán 12 (KNTT)</title>
+<script>
+MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;display=swap" rel="stylesheet">
+<script>
+try {
+  var luu = localStorage.getItem('vo-toan-theme');
+  if (['light','night','sand','ocean','rose','forest'].indexOf(luu) >= 0) {
+    document.documentElement.dataset.theme = luu;
+  }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="/assets/theme.css">
+<style>
+  :root{
+    /* Màu nằm ở /assets/theme.css — nguồn duy nhất cho cả web.
+       Đừng khai lại màu ở đây, khai lại là trang không đổi giao diện nữa. */
+    --body:"Be Vietnam Pro",system-ui,-apple-system,sans-serif;
+    --display:"Bricolage Grotesque","Be Vietnam Pro",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    margin:0;color:var(--ink);font:400 17px/1.7 var(--body);overflow-x:hidden;
+    background-color:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:30px 30px;
+  }
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 45%,transparent);outline-offset:3px;border-radius:8px}
+  .page{width:min(1580px,calc(100% - 40px));margin:0 auto;padding:24px 0 72px;display:grid;grid-template-columns:260px minmax(0,1fr);gap:24px;align-items:start}
+  .lesson-content{min-width:0}
+
+  /* Mục lục trên máy tính, thanh điều hướng gọn trên điện thoại */
+  .lesson-nav{position:sticky;top:20px;min-width:0;max-height:calc(100vh - 40px);overflow-y:auto;padding:22px;background:color-mix(in srgb,var(--surface) 94%,transparent);border:1.5px solid var(--line);border-radius:20px;box-shadow:0 16px 42px color-mix(in srgb,var(--ink) 7%,transparent);backdrop-filter:blur(12px)}
+  .lesson-brand{display:flex;align-items:center;gap:10px;margin-bottom:12px;font:700 1.05rem/1 var(--display);letter-spacing:-.02em}
+  .lesson-brand span:first-child{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:var(--blue);color:var(--on-accent);font-size:.76rem}
+  .ve-lop{display:inline-flex;align-items:center;gap:7px;min-height:42px;margin-bottom:18px;padding:0 13px;background:var(--blue-l);border-radius:11px;color:var(--blue);font-size:.9rem;font-weight:700;transition:background .2s ease}
+  .ve-lop:hover{background:var(--accent-soft)}
+  .nav-label{margin:0 0 10px;color:var(--muted);font-size:.76rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase}
+  .lesson-nav nav{display:grid;gap:5px}
+  .lesson-nav nav a{display:flex;align-items:center;gap:10px;min-height:44px;padding:10px 12px;border-radius:11px;color:var(--muted);font-size:.9rem;line-height:1.4;transition:background .2s ease,color .2s ease}
+  .lesson-nav nav a::before{content:"";width:6px;height:6px;flex:0 0 auto;border:1.5px solid currentColor;border-radius:50%}
+  .lesson-nav nav a:hover{color:var(--blue);background:var(--blue-l)}
+  .lesson-nav nav a.active{color:var(--blue);background:var(--blue-l);font-weight:600}
+  .lesson-nav nav a.active::before{background:var(--blue);border-color:var(--blue)}
+  .lesson-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+  .lesson-meta span{display:block;color:var(--muted);font-size:.78rem;line-height:1.45}
+  .lesson-meta b{display:block;margin-bottom:2px;color:var(--ink);font:700 1.05rem/1 var(--display)}
+
+  /* Đầu bài */
+  header{scroll-margin-top:24px;position:relative;min-height:250px;display:grid;align-content:end;overflow:hidden;background:linear-gradient(125deg,var(--accent),color-mix(in srgb,var(--accent) 62%,var(--accent-2)));color:var(--on-accent);border-radius:24px;padding:clamp(28px,5vw,58px);margin-bottom:32px;box-shadow:0 24px 58px color-mix(in srgb,var(--accent) 18%,transparent)}
+  header::before,header::after{content:"";position:absolute;border:1px solid color-mix(in srgb,var(--on-accent) 16%,transparent);border-radius:50%;pointer-events:none}
+  header::before{width:340px;height:340px;right:-105px;top:-175px}
+  header::after{width:210px;height:210px;right:80px;top:-120px}
+  .breadcrumb{position:relative;z-index:1;margin:0 0 32px;font-size:.82rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;opacity:.9}
+  .breadcrumb a{display:inline-flex;align-items:center;min-height:32px;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px;text-decoration-color:color-mix(in srgb,var(--on-accent) 55%,transparent)}
+  .breadcrumb a:hover{text-decoration-color:var(--on-accent)}
+  .hero-row{position:relative;z-index:1;display:flex;align-items:end;justify-content:space-between;gap:32px}
+  header h1{margin:0;font:800 clamp(2.25rem,5vw,4.8rem)/.95 var(--display);letter-spacing:-.055em}
+  header p{max-width:600px;margin:15px 0 0;opacity:.9;font-size:1rem}
+  .hero-number{font:700 clamp(4.5rem,10vw,8rem)/.72 var(--display);letter-spacing:-.07em;color:color-mix(in srgb,var(--on-accent) 17%,transparent)}
+
+  /* Tiêu đề mục lớn */
+  h2.sec{scroll-margin-top:24px;display:flex;align-items:center;gap:14px;font:700 clamp(1.25rem,2vw,1.55rem)/1.3 var(--display);letter-spacing:-.02em;margin:46px 0 18px;padding:16px 18px;background:var(--surface);color:var(--blue);border:1.5px solid var(--line);border-left:5px solid var(--blue);border-radius:0 14px 14px 0;box-shadow:0 9px 30px color-mix(in srgb,var(--ink) 4.5%,transparent)}
+  h2.sec .num{display:grid;place-items:center;min-width:37px;height:33px;padding:0 8px;background:var(--blue-l);color:var(--blue);border-radius:9px;font-size:.92rem}
+  h2.sec.red{color:var(--red);border-left-color:var(--red)} h2.sec.red .num{background:var(--red-l);color:var(--red)}
+  h3.sub{scroll-margin-top:24px;font:700 1.15rem/1.4 var(--display);color:var(--blue);margin:30px 0 12px;padding-left:13px;border-left:3px solid var(--blue)}
+
+  /* Sơ đồ kiến thức */
+  .map{border:1.5px solid color-mix(in srgb,var(--accent) 26%,transparent);border-radius:18px;padding:17px;background:var(--surface);margin:12px 0 16px;box-shadow:0 12px 36px color-mix(in srgb,var(--ink) 4.5%,transparent)}
+  .map .root{background:var(--blue);color:var(--on-accent);font-weight:700;text-align:center;padding:12px 14px;border-radius:11px;font-size:.95rem;letter-spacing:.02em}
+  .map.orange{border-color:color-mix(in srgb,var(--warn) 28%,transparent)} .map.orange .root{background:var(--orange)}
+  .map.purple{border-color:color-mix(in srgb,var(--note) 27%,transparent)} .map.purple .root{background:var(--purple)}
+  .branches{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:12px;margin-top:12px}
+  .node{min-width:0;border-radius:13px;padding:15px 17px;border:1px solid}
+  .node h4{margin:0 0 8px;font:700 1.02rem/1.35 var(--display)}
+  .node ul{margin:0;padding-left:20px}
+  .node li{margin:6px 0}
+  .n-blue{background:var(--blue-l);border-color:color-mix(in srgb,var(--accent) 22%,transparent)} .n-blue h4{color:var(--blue)}
+  .n-orange{background:var(--orange-l);border-color:color-mix(in srgb,var(--warn) 22%,transparent)} .n-orange h4{color:var(--orange)}
+  .n-green{background:var(--green-l);border-color:color-mix(in srgb,var(--success) 22%,transparent)} .n-green h4{color:var(--green)}
+  .n-purple{background:var(--purple-l);border-color:color-mix(in srgb,var(--note) 20%,transparent)} .n-purple h4{color:var(--purple)}
+  .def{background:color-mix(in srgb,var(--surface) 88%,transparent);border-left:3px solid var(--warn);padding:10px 12px;border-radius:0 9px 9px 0;margin:8px 0;font-weight:600}
+  .note{font-size:.95rem;color:var(--muted);background:var(--surface-2);border-radius:10px;padding:10px 12px;margin-top:9px}
+
+  /* Ví dụ, luyện tập và bài tập */
+  .card{min-width:0;overflow:hidden;background:var(--surface);border:1.5px solid var(--line);border-radius:15px;padding:18px 20px;margin:14px 0;box-shadow:0 8px 28px color-mix(in srgb,var(--ink) 3.5%,transparent)}
+  .card .tag{display:inline-flex;align-items:center;min-height:29px;font-weight:700;color:var(--on-accent);border-radius:8px;padding:3px 12px;font-size:.85rem;margin-bottom:8px;letter-spacing:.01em}
+  .tag.vd{background:var(--blue)} .tag.lt{background:var(--green)} .tag.vdung{background:var(--purple)} .tag.bt{background:var(--red)}
+  .card .de{margin:5px 0 9px;overflow-wrap:anywhere}
+  .giai{border-top:1px dashed var(--line);margin-top:10px;padding-top:11px}
+  .solution{margin-top:12px;border-top:1px dashed var(--line)}
+  .solution summary{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:48px;cursor:pointer;color:var(--blue);font-size:.92rem;font-weight:700;list-style:none;user-select:none}
+  .solution summary::-webkit-details-marker{display:none}
+  .solution summary::after{content:"+";display:grid;place-items:center;width:27px;height:27px;border-radius:50%;background:var(--blue-l);font-size:1.1rem;transition:transform .2s ease}
+  .solution[open] summary::after{transform:rotate(45deg)}
+  .solution .giai{margin-top:0;padding-bottom:3px}
+  .solution .giai::before{content:"Lời giải.";display:block;margin-bottom:6px;font-weight:700;color:var(--blue)}
+  .kq{max-width:100%;background:var(--green-l);border-left:3px solid var(--green);padding:8px 12px;border-radius:0 9px 9px 0;display:inline-block;margin-top:8px}
+  table.grp{display:block;width:100%;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border-collapse:collapse;margin:10px 0;white-space:nowrap}
+  table.grp td,table.grp th{border:1px solid var(--line);padding:9px 14px;text-align:center}
+  table.grp th{background:var(--blue-l);color:var(--blue)}
+  table.grp td.phim{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.06em}
+  .phim-ten{display:inline-block;padding:1px 7px;border:1px solid var(--line);border-radius:6px;background:var(--surface-2);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.92em}
+  figure{margin:16px 0;text-align:center}
+  figure svg{display:block;width:min(100%,520px);height:auto;margin-inline:auto;background:#fdfdfb;border:1px solid var(--line);border-radius:12px;padding:10px}
+  figcaption{font-size:.85rem;color:var(--muted);margin-top:6px}
+  mjx-container{overflow-x:auto;overflow-y:hidden;max-width:100%;vertical-align:middle;-webkit-overflow-scrolling:touch}
+  mjx-container:not([display="true"]){display:inline-block!important;max-width:100%!important}
+
+  /* Tài nguyên kèm bài — hiện ở cuối sidebar và cuối trang.
+     Thêm mục mới (tự luận, phiếu in…) = thêm một thẻ <a> ở cả hai chỗ. */
+  .nav-them{margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+  .lesson-nav nav.them a{color:var(--blue);background:var(--blue-l);font-weight:600}
+  .lesson-nav nav.them a::before{border-color:var(--blue)}
+  .lesson-nav nav.them a:hover{background:var(--accent-soft)}
+  .hoc-tiep{margin:46px 0 0;padding-top:30px;border-top:1px solid var(--line)}
+  .hoc-tiep .nav-label{margin-bottom:14px}
+  .tiep-luoi{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:14px}
+  .tiep-the{display:flex;align-items:center;gap:15px;min-height:64px;padding:18px 20px;background:var(--surface);border:1.5px solid var(--line);border-radius:15px;box-shadow:0 8px 28px color-mix(in srgb,var(--ink) 3.5%,transparent);transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease}
+  .tiep-the:hover{border-color:var(--blue);box-shadow:0 14px 36px color-mix(in srgb,var(--accent) 13%,transparent);transform:translateY(-2px)}
+  .tiep-ico{display:grid;place-items:center;flex:0 0 auto;width:46px;height:46px;border-radius:13px;background:var(--blue-l);color:var(--blue);font:700 1.15rem/1 var(--display)}
+  .tiep-chu{min-width:0;flex:1}
+  .tiep-chu b{display:block;font:700 1.02rem/1.3 var(--display);color:var(--ink)}
+  .tiep-chu i{display:block;margin-top:3px;font-style:normal;font-size:.88rem;color:var(--muted);line-height:1.5}
+  .tiep-mui{flex:0 0 auto;color:var(--blue);font-size:1.2rem;transition:transform .2s ease}
+  .tiep-the:hover .tiep-mui{transform:translateX(4px)}
+
+  @media (min-width:1280px){
+    .page{grid-template-columns:280px minmax(0,1fr);gap:30px}
+    .map{padding:20px}
+    .card{padding:20px 23px}
+  }
+  @media (max-width:900px){
+    .page{width:min(100% - 28px,780px);grid-template-columns:minmax(0,1fr);padding-top:14px;gap:14px}
+    .lesson-nav{position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:9px;max-height:none;overflow-y:visible;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:9px 12px;border-radius:0 0 15px 15px;border-top:0}
+    .lesson-brand{margin-bottom:0;flex:0 0 auto}
+    .lesson-brand span:last-child{display:none}
+    .ve-lop{margin:0;flex:0 0 auto;min-height:40px;padding:0 11px;font-size:.82rem;white-space:nowrap}
+    .nav-label{display:none}
+    .lesson-nav nav{display:flex;flex-wrap:nowrap;gap:6px}
+    .lesson-nav nav a{min-height:40px;padding:8px 11px;background:var(--surface-2);white-space:nowrap;font-size:.84rem}
+    .lesson-meta{display:none}
+    .nav-them{display:flex;margin:0 0 0 3px;padding:0 0 0 12px;border-top:0;border-left:1px solid var(--line)}
+    h2.sec,h3.sub{scroll-margin-top:74px}
+    .hoc-tiep{margin-top:34px;padding-top:24px}
+    header{scroll-margin-top:74px;min-height:230px;margin-bottom:22px;border-radius:18px}
+  }
+  @media (max-width:560px){
+    body{font-size:16px;line-height:1.65}
+    .page{width:min(100% - 20px,780px);padding-bottom:46px}
+    .lesson-nav{padding:10px 12px}
+    .lesson-brand span:first-child{width:32px;height:32px}
+    .lesson-nav nav a{font-size:.8rem;padding:7px 10px}
+    .ve-lop{font-size:.8rem}
+    header{min-height:215px;padding:25px 22px}
+    .breadcrumb{margin-bottom:24px;font-size:.72rem}
+    .hero-row{align-items:flex-end}
+    header h1{font-size:clamp(1.8rem,8.5vw,3.2rem)}
+    header p{font-size:.9rem;line-height:1.6}
+    .hero-number{display:none}
+    h2.sec{margin-top:34px;padding:13px 13px;gap:10px;font-size:1.08rem}
+    h2.sec .num{min-width:32px;height:30px}
+    h3.sub{margin-top:24px;font-size:1.05rem}
+    .map{padding:12px;border-radius:14px}
+    .map .root{padding:10px 10px;font-size:.82rem}
+    .node{padding:13px}
+    .card{padding:15px 14px;border-radius:13px}
+    .solution summary{min-height:46px}
+    table.grp td,table.grp th{padding:8px 11px}
+  }
+  @media print{
+    body{background:#fff}
+    .page{display:block;width:100%;padding:0}
+    .lesson-nav,.hoc-tiep{display:none}
+    header,.map,.card{box-shadow:none;break-inside:avoid}
+    .solution summary{display:none}
+    .solution:not([open])>*:not(summary){display:block}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
+
+  /* ── Phiếu học tập nhúng (PDF hiển thị ngay trong trang) ── */
+  .phieu{scroll-margin-top:80px;margin:34px 0 10px;padding:20px;background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 32px color-mix(in srgb,var(--ink) 6%,transparent)}
+  .phieu-top{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:14px}
+  .phieu-top h2{margin:0;flex:1;min-width:180px;display:flex;align-items:center;gap:10px;font:700 21px/1.2 var(--display);color:var(--ink)}
+  .phieu-top .ico{display:grid;place-items:center;width:34px;height:34px;border-radius:9px;background:var(--blue-l);color:var(--blue);font-size:18px}
+  .phieu-acts{display:flex;gap:8px;flex-wrap:wrap}
+  .phieu-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 14px;border-radius:10px;font:600 14px/1 var(--body);border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+  .phieu-btn.primary{background:var(--blue);color:var(--on-accent);border-color:var(--blue);box-shadow:0 6px 14px color-mix(in srgb,var(--accent) 20%,transparent)}
+  .phieu-frame{width:100%;height:min(85vh,1100px);border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface-2)}
+  .phieu-frame iframe{width:100%;height:100%;border:0;display:block}
+  .phieu-note{margin:11px 2px 0;color:var(--muted);font-size:13.5px}
+  .phieu-mobile{display:none}
+  /* Điện thoại: iframe PDF không ổn định → ẩn khung, hiện thẻ mở/tải */
+  @media (max-width:760px){
+    .phieu-frame{display:none}
+    .phieu-mobile{display:flex;flex-direction:column;gap:12px;align-items:flex-start;padding:22px;border:1px dashed var(--blue);border-radius:12px;background:var(--blue-l)}
+    .phieu-mobile b{font:700 16px/1.3 var(--display);color:var(--ink)}
+    .phieu-mobile span{color:var(--muted);font-size:14px}
+  }
+  @media print{.phieu{display:none}}
+
+  /* Đề bài (CHUAN_BAI 3.3): số câu nằm CÙNG DÒNG với đề, thụt lề treo.
+     Đề một dòng thì .q canh giữa để không lệch khi có \dfrac; đề nhiều dòng
+     (có a) b) hoặc bảng phương án) thêm class "dai" để nhãn bám dòng đầu. */
+  .card .de{display:flex;gap:2mm;align-items:flex-start;line-height:1.65;margin:2px 0 9px}
+  .card .de>.tag{flex:0 0 auto;margin:0}
+  .card .de>.q{flex:1;min-width:0;overflow-wrap:anywhere;align-self:center}
+  .card .de.dai>.q{align-self:flex-start}
+  .card .de mjx-container:not([display="true"]){vertical-align:middle}
+  .fig-wide svg{width:min(100%,660px)}
+  @media(max-width:560px){.card .de{gap:7px}}
+
+
+  /* ── Bản học sinh ────────────────────────────────────────────────
+     Ví dụ vẫn có đủ lời giải. Luyện tập và bài tập chỉ có đề, một gợi ý
+     và đáp số để tự đối chiếu; phần diễn giải mở sau khi nộp bài. */
+  .hs-goi-y,.hs-dap-so{margin-top:12px;border:1px dashed var(--line);border-radius:12px;background:var(--surface-2)}
+  .hs-goi-y summary,.hs-dap-so summary{padding:11px 15px;min-height:44px;display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:600;color:var(--blue);list-style:none}
+  .hs-goi-y summary::before{content:"💡"}
+  .hs-dap-so summary::before{content:"✓"}
+  .hs-goi-y summary::-webkit-details-marker,.hs-dap-so summary::-webkit-details-marker{display:none}
+  .hs-goi-y[open] summary,.hs-dap-so[open] summary{border-bottom:1px dashed var(--line)}
+  .hs-goi-y>p,.hs-dap-so>*:not(summary){margin:11px 15px}
+  .hs-nho{color:var(--muted);font-size:.9em}
+  .hs-nop{margin-top:14px}
+  .hs-nut{display:inline-flex;align-items:center;min-height:44px;padding:0 20px;border-radius:12px;background:var(--blue);color:var(--on-accent);font-weight:600;text-decoration:none}
+  .hs-nut:hover{filter:brightness(1.08)}
+</style>
+<link rel="stylesheet" href="/assets/lop-hoc.css">
+</head>
+<body>
+<div class="page">
+<aside class="lesson-nav" aria-label="Mục lục bài học">
+  <a class="lesson-brand" href="/" aria-label="Về trang chủ Vở Toán"><span aria-hidden="true">VT</span><span>Vở Toán</span></a>
+  <a class="ve-lop" href="/bai-hoc/lop-12/">← Mục lục Toán 12</a>
+  <p class="nav-label">Trong bài này</p>
+  <nav>
+    <a href="#so-do">Sơ đồ khảo sát</a>
+    <a href="#bac-ba">Hàm số bậc ba</a>
+    <a href="#phan-thuc-1">Phân thức bậc nhất</a>
+    <a href="#phan-thuc-2">Phân thức bậc hai</a>
+    <a href="#bai-tap">Bài tập</a>
+  </nav>
+  <div class="lesson-meta" aria-label="Thông tin bài học">
+    <span><b>05</b>phần học</span>
+    <span><b>05</b>bài tập</span>
+  </div>
+  <div class="nav-them">
+    <p class="nav-label">Học liệu</p>
+    <nav class="them">
+      <a href="#phieu-hoc-tap">Phiếu học tập</a>
+      <a href="trac-nghiem.html">Trắc nghiệm</a>
+    </nav>
+  </div>
+</aside>
+
+<main class="lesson-content">
+<header id="top">
+  <p class="breadcrumb"><a href="/bai-hoc/lop-12/">Toán 12</a>&nbsp; · &nbsp;Chương I — Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số</p>
+  <div class="hero-row">
+    <div><h1>Bài 4. Khảo sát sự biến thiên và vẽ đồ thị của hàm số</h1><p>Sơ đồ ba bước khảo sát hàm số, rồi áp dụng cho hàm bậc ba và hai dạng hàm phân thức hữu tỉ đơn giản.</p></div>
+    <span class="hero-number" aria-hidden="true">04</span>
+  </div>
+</header>
+
+<h2 class="sec" id="so-do"><span class="num">1</span> SƠ ĐỒ KHẢO SÁT HÀM SỐ</h2>
+<p class="note">Một đơn vị sản xuất ước tính chi phí để làm \(x\) đơn vị sản phẩm là \(C(x)=2x+45\) (triệu đồng), nên chi phí trung bình mỗi sản phẩm là \(f(x)=\dfrac{C(x)}{x}\). Vì sao chi phí trung bình giảm theo \(x\) nhưng luôn lớn hơn \(2\) triệu đồng? Muốn trả lời gọn, ta cần <b>khảo sát</b> hàm số rồi <b>vẽ đồ thị</b> của nó.</p>
+
+<h3 class="sub">Ba bước khảo sát hàm số</h3>
+<div class="map">
+  <div class="root">SƠ ĐỒ KHẢO SÁT HÀM SỐ \(y=f(x)\)</div>
+  <div class="branches">
+    <div class="node n-blue"><h4>Bước 1</h4><ul>
+      <li>Tìm <b>tập xác định</b> của hàm số.</li>
+    </ul></div>
+    <div class="node n-orange"><h4>Bước 2 · Khảo sát sự biến thiên</h4><ul>
+      <li>Tính \(y'\); tìm các điểm mà \(y'\) bằng \(0\) hoặc <b>không tồn tại</b>.</li>
+      <li>Xét dấu \(y'\) để chỉ ra các <b>khoảng đơn điệu</b>.</li>
+      <li>Tìm <b>cực trị</b> của hàm số.</li>
+      <li>Tìm các <b>giới hạn tại vô cực</b>, giới hạn vô cực và các <b>tiệm cận</b> (nếu có).</li>
+      <li>Lập <b>bảng biến thiên</b>.</li>
+    </ul></div>
+    <div class="node n-green"><h4>Bước 3 · Vẽ đồ thị</h4><ul>
+      <li>Vẽ đồ thị dựa vào <b>bảng biến thiên</b>.</li>
+      <li>Xác định thêm <b>giao điểm với hai trục toạ độ</b> khi tìm được dễ dàng.</li>
+      <li>Lưu ý <b>tính đối xứng</b> của đồ thị: tâm đối xứng hoặc trục đối xứng.</li>
+    </ul></div>
+  </div>
+</div>
+
+<h2 class="sec" id="bac-ba"><span class="num">2</span> HÀM SỐ ĐA THỨC BẬC BA</h2>
+<p class="note">Đồ thị hàm bậc ba \(y=ax^3+bx^2+cx+d\) luôn có <b>tâm đối xứng</b> tại điểm có hoành độ thoả \(y''=0\), tức \(x=-\dfrac{b}{3a}\), và <b>không có tiệm cận</b>.</p>
+
+<div class="card">
+  <p class="de"><span class="tag vd">Ví dụ 1</span><span class="q">Khảo sát sự biến thiên và vẽ đồ thị của hàm số \(y=-x^3+3x^2-4\).</span></p>
+  <div class="giai">
+    Tập xác định của hàm số là \(\mathbb{R}\).<br>
+    Ta có: \(y'=-3x^2+6x=-3x(x-2)\).<br>
+    \(y'=0\) khi \(x=0\) hoặc \(x=2\).<br>
+    Trên khoảng \((0;2)\) thì \(y'&gt;0\) nên hàm số đồng biến; trên các khoảng \((-\infty;0)\) và \((2;+\infty)\) thì \(y'&lt;0\) nên hàm số nghịch biến.<br>
+    Hàm số đạt cực tiểu tại \(x=0\) với \(y_{CT}=-4\), đạt cực đại tại \(x=2\) với \(y_{C\text{Đ}}=0\).<br>
+    \(\lim\limits_{x\to-\infty}y=+\infty\); \(\lim\limits_{x\to+\infty}y=-\infty\).<br>
+    Lập bảng biến thiên của hàm số:
+    <figure class="fig-wide">
+<svg viewBox="0 0 594 162" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bảng biến thiên của hàm bậc ba với hệ số bậc cao nhất âm.">
+<defs><marker id="mt" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#1a2438"/></marker></defs>
+<line x1="6" y1="38" x2="588" y2="38" stroke="#4a5568" stroke-width="1.3"/>
+<line x1="6" y1="68" x2="588" y2="68" stroke="#4a5568" stroke-width="1.3"/>
+<line x1="26" y1="8" x2="26" y2="154" stroke="#4a5568" stroke-width="1.3"/>
+<text x="18" y="29" fill="#1a2438" font-size="14" text-anchor="middle" font-style="italic">x</text>
+<text x="18" y="59" fill="#1a2438" font-size="14" text-anchor="middle" font-style="italic">y'</text>
+<text x="18" y="98" fill="#1a2438" font-size="14" text-anchor="middle" font-style="italic">y</text>
+<text x="136.67" y="59" fill="#1a2438" font-size="15" text-anchor="middle">−</text>
+<text x="314" y="59" fill="#1a2438" font-size="15" text-anchor="middle">+</text>
+<text x="491.33" y="59" fill="#1a2438" font-size="15" text-anchor="middle">−</text>
+<text x="225.33" y="59" fill="#1a2438" font-size="13.5" text-anchor="middle">0</text>
+<text x="402.67" y="59" fill="#1a2438" font-size="13.5" text-anchor="middle">0</text>
+<text x="54" y="95" fill="#1a2438" font-size="13.5" text-anchor="start">+∞</text>
+<text x="225.33" y="151" fill="#1a2438" font-size="13.5" text-anchor="middle">−4</text>
+<text x="402.67" y="95" fill="#1a2438" font-size="13.5" text-anchor="middle">0</text>
+<text x="574" y="151" fill="#1a2438" font-size="13.5" text-anchor="end">−∞</text>
+<text x="48" y="29" fill="#1a2438" font-size="13.5" text-anchor="middle">−∞</text>
+<text x="225.33" y="29" fill="#1a2438" font-size="13.5" text-anchor="middle">0</text>
+<text x="402.67" y="29" fill="#1a2438" font-size="13.5" text-anchor="middle">2</text>
+<text x="580" y="29" fill="#1a2438" font-size="13.5" text-anchor="middle">+∞</text>
+<line x1="79.2" y1="96" x2="209.23" y2="140" stroke="#1a2438" stroke-width="1.3" marker-end="url(#mt)"/>
+<line x1="241.43" y1="140" x2="390.37" y2="96" stroke="#1a2438" stroke-width="1.3" marker-end="url(#mt)"/>
+<line x1="414.97" y1="96" x2="548.8" y2="140" stroke="#1a2438" stroke-width="1.3" marker-end="url(#mt)"/>
+</svg>
+</figure>
+    Giao điểm với trục tung là \((0;-4)\).<br>
+    \(y=0\) khi \(-(x-2)^2(x+1)=0\), tức là \(x=-1\) hoặc \(x=2\).<br>
+    \(y''=-6x+6\); \(y''=0\) khi \(x=1\), nên đồ thị có tâm đối xứng \(I(1;-2)\).<br>
+    <figure>
+<svg viewBox="0 0 400 310" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Đồ thị hàm số trừ x mũ ba cộng 3x bình phương trừ 4: đi xuống, có điểm cực tiểu tại x bằng 0 với giá trị trừ 4, cực đại tại x bằng 2 với giá trị 0, cắt trục hoành tại x bằng trừ 1 và x bằng 2.">
+<line x1="10" y1="101.54" x2="386" y2="101.54" stroke="#2b2b2b" stroke-width="1.6"/>
+<polygon points="394,101.54 385,97.94 385,105.14" fill="#2b2b2b"/>
+<text x="392" y="119.54" fill="#17a2c9" font-size="14" font-style="italic" text-anchor="middle">x</text>
+<line x1="163.2" y1="300" x2="163.2" y2="14" stroke="#2b2b2b" stroke-width="1.6"/>
+<polygon points="163.2,6 159.6,15 166.8,15" fill="#2b2b2b"/>
+<text x="151.2" y="12" fill="#17a2c9" font-size="14" font-style="italic" text-anchor="middle">y</text>
+<text x="152.2" y="115.54" fill="#17a2c9" font-size="13" font-style="italic" text-anchor="middle">O</text>
+<line x1="40.53" y1="97.54" x2="40.53" y2="105.54" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="40.53" y="120.54" fill="#17a2c9" font-size="13" text-anchor="middle">−2</text>
+<line x1="101.87" y1="97.54" x2="101.87" y2="105.54" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="101.87" y="120.54" fill="#17a2c9" font-size="13" text-anchor="middle">−1</text>
+<line x1="224.53" y1="97.54" x2="224.53" y2="105.54" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="224.53" y="120.54" fill="#17a2c9" font-size="13" text-anchor="middle">1</text>
+<line x1="285.87" y1="97.54" x2="285.87" y2="105.54" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="285.87" y="120.54" fill="#17a2c9" font-size="13" text-anchor="middle">2</text>
+<line x1="347.2" y1="97.54" x2="347.2" y2="105.54" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="347.2" y="120.54" fill="#17a2c9" font-size="13" text-anchor="middle">3</text>
+<line x1="159.2" y1="172.82" x2="167.2" y2="172.82" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="155.2" y="177.32" fill="#17a2c9" font-size="13" text-anchor="end">−2</text>
+<line x1="159.2" y1="244.1" x2="167.2" y2="244.1" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="155.2" y="248.6" fill="#17a2c9" font-size="13" text-anchor="end">−4</text>
+<line x1="159.2" y1="30.26" x2="167.2" y2="30.26" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="155.2" y="34.76" fill="#17a2c9" font-size="13" text-anchor="end">2</text>
+<path d="M 87.76 16.02 L 88.68 22.33 L 89.6 28.55 L 90.52 34.65 L 91.44 40.65 L 92.36 46.55 L 93.28 52.34 L 94.2 58.03 L 95.12 63.62 L 96.04 69.1 L 96.96 74.49 L 97.88 79.78 L 98.8 84.96 L 99.72 90.05 L 100.64 95.04 L 101.56 99.93 L 102.48 104.72 L 103.4 109.42 L 104.32 114.03 L 105.24 118.54 L 106.16 122.96 L 107.08 127.28 L 108 131.51 L 108.92 135.65 L 109.84 139.7 L 110.76 143.66 L 111.68 147.53 L 112.6 151.32 L 113.52 155.01 L 114.44 158.62 L 115.36 162.14 L 116.28 165.57 L 117.2 168.92 L 118.12 172.19 L 119.04 175.37 L 119.96 178.47 L 120.88 181.49 L 121.8 184.42 L 122.72 187.28 L 123.64 190.06 L 124.56 192.75 L 125.48 195.37 L 126.4 197.91 L 127.32 200.38 L 128.24 202.76 L 129.16 205.07 L 130.08 207.31 L 131 209.47 L 131.92 211.56 L 132.84 213.58 L 133.76 215.53 L 134.68 217.4 L 135.6 219.2 L 136.52 220.94 L 137.44 222.6 L 138.36 224.2 L 139.28 225.73 L 140.2 227.19 L 141.12 228.58 L 142.04 229.91 L 142.96 231.18 L 143.88 232.38 L 144.8 233.52 L 145.72 234.59 L 146.64 235.61 L 147.56 236.56 L 148.48 237.45 L 149.4 238.28 L 150.32 239.06 L 151.24 239.77 L 152.16 240.43 L 153.08 241.03 L 154 241.58 L 154.92 242.07 L 155.84 242.5 L 156.76 242.88 L 157.68 243.21 L 158.6 243.49 L 159.52 243.71 L 160.44 243.88 L 161.36 244.01 L 162.28 244.08 L 163.2 244.1 L 164.12 244.08 L 165.04 244.01 L 165.96 243.89 L 166.88 243.73 L 167.8 243.52 L 168.72 243.26 L 169.64 242.96 L 170.56 242.62 L 171.48 242.24 L 172.4 241.82 L 173.32 241.35 L 174.24 240.85 L 175.16 240.3 L 176.08 239.72 L 177 239.1 L 177.92 238.44 L 178.84 237.74 L 179.76 237.01 L 180.68 236.24 L 181.6 235.44 L 182.52 234.61 L 183.44 233.74 L 184.36 232.84 L 185.28 231.91 L 186.2 230.95 L 187.12 229.95 L 188.04 228.93 L 188.96 227.88 L 189.88 226.8 L 190.8 225.7 L 191.72 224.57 L 192.64 223.41 L 193.56 222.23 L 194.48 221.02 L 195.4 219.79 L 196.32 218.54 L 197.24 217.26 L 198.16 215.96 L 199.08 214.65 L 200 213.31 L 200.92 211.95 L 201.84 210.58 L 202.76 209.18 L 203.68 207.77 L 204.6 206.35 L 205.52 204.9 L 206.44 203.45 L 207.36 201.98 L 208.28 200.49 L 209.2 198.99 L 210.12 197.48 L 211.04 195.96 L 211.96 194.43 L 212.88 192.89 L 213.8 191.34 L 214.72 189.78 L 215.64 188.22 L 216.56 186.64 L 217.48 185.06 L 218.4 183.48 L 219.32 181.89 L 220.24 180.29 L 221.16 178.7 L 222.08 177.1 L 223 175.49 L 223.92 173.89 L 224.84 172.29 L 225.76 170.68 L 226.68 169.08 L 227.6 167.48 L 228.52 165.88 L 229.44 164.28 L 230.36 162.69 L 231.28 161.11 L 232.2 159.52 L 233.12 157.95 L 234.04 156.38 L 234.96 154.82 L 235.88 153.27 L 236.8 151.72 L 237.72 150.19 L 238.64 148.66 L 239.56 147.15 L 240.48 145.65 L 241.4 144.16 L 242.32 142.68 L 243.24 141.22 L 244.16 139.77 L 245.08 138.34 L 246 136.93 L 246.92 135.53 L 247.84 134.15 L 248.76 132.78 L 249.68 131.44 L 250.6 130.11 L 251.52 128.81 L 252.44 127.53 L 253.36 126.27 L 254.28 125.03 L 255.2 123.81 L 256.12 122.62 L 257.04 121.46 L 257.96 120.32 L 258.88 119.2 L 259.8 118.12 L 260.72 117.06 L 261.64 116.02 L 262.56 115.02 L 263.48 114.05 L 264.4 113.11 L 265.32 112.2 L 266.24 111.32 L 267.16 110.47 L 268.08 109.66 L 269 108.88 L 269.92 108.14 L 270.84 107.43 L 271.76 106.76 L 272.68 106.13 L 273.6 105.53 L 274.52 104.97 L 275.44 104.45 L 276.36 103.97 L 277.28 103.54 L 278.2 103.14 L 279.12 102.78 L 280.04 102.47 L 280.96 102.2 L 281.88 101.98 L 282.8 101.8 L 283.72 101.67 L 284.64 101.58 L 285.56 101.54 L 286.48 101.55 L 287.4 101.61 L 288.32 101.71 L 289.24 101.87 L 290.16 102.07 L 291.08 102.33 L 292 102.64 L 292.92 103.01 L 293.84 103.42 L 294.76 103.9 L 295.68 104.42 L 296.6 105 L 297.52 105.64 L 298.44 106.34 L 299.36 107.09 L 300.28 107.91 L 301.2 108.78 L 302.12 109.71 L 303.04 110.7 L 303.96 111.76 L 304.88 112.88 L 305.8 114.06 L 306.72 115.3 L 307.64 116.61 L 308.56 117.98 L 309.48 119.42 L 310.4 120.93 L 311.32 122.5 L 312.24 124.14 L 313.16 125.85 L 314.08 127.63 L 315 129.48 L 315.92 131.4 L 316.84 133.4 L 317.76 135.46 L 318.68 137.6 L 319.6 139.81 L 320.52 142.1 L 321.44 144.46 L 322.36 146.9 L 323.28 149.41 L 324.2 152.01 L 325.12 154.68 L 326.04 157.43 L 326.96 160.26 L 327.88 163.17 L 328.8 166.16 L 329.72 169.23 L 330.64 172.38 L 331.56 175.62 L 332.48 178.94 L 333.4 182.35 L 334.32 185.84 L 335.24 189.42 L 336.16 193.08 L 337.08 196.84 L 338 200.68 L 338.92 204.61 L 339.84 208.63 L 340.76 212.74 L 341.68 216.94 L 342.6 221.23 L 343.52 225.62 L 344.44 230.1 L 345.36 234.67 L 346.28 239.34 L 347.2 244.1 L 348.12 248.96 L 349.04 253.92 L 349.96 258.97 L 350.88 264.13 L 351.8 269.38 L 352.72 274.73 L 353.64 280.18 L 354.56 285.74 L 355.48 291.39" fill="none" stroke="#ef8b28" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="224.53" y1="101.54" x2="224.53" y2="172.82" stroke="#8a8a8a" stroke-width="1.2" stroke-dasharray="4 3"/>
+<line x1="163.2" y1="172.82" x2="224.53" y2="172.82" stroke="#8a8a8a" stroke-width="1.2" stroke-dasharray="4 3"/>
+<circle cx="224.53" cy="172.82" r="3" fill="#e8710a"/>
+</svg>
+<figcaption>Hình 1.28 — đồ thị hàm số \(y=-x^3+3x^2-4\), tâm đối xứng \(I(1;-2)\) (vẽ lại theo SGK tr.27)</figcaption>
+</figure>
+    <span class="kq">Vậy đồ thị hàm số là đường cong đi từ \(+\infty\) xuống \(-\infty\), nhận \(I(1;-2)\) làm tâm đối xứng.</span>
+  </div>
+</div>
+
+<div class="card">
+  <p class="de"><span class="tag vd">Ví dụ 2</span><span class="q">Khảo sát sự biến thiên và vẽ đồ thị của hàm số \(y=x^3-2x^2+2x-1\).</span></p>
+  <div class="giai">
+    Tập xác định của hàm số là \(\mathbb{R}\).<br>
+    Ta có: \(y'=3x^2-4x+2=3\left(x-\dfrac{2}{3}\right)^2+\dfrac{2}{3}&gt;0\) với mọi \(x\).<br>
+    Hàm số đồng biến trên khoảng \((-\infty;+\infty)\) và không có cực trị.<br>
+    \(\lim\limits_{x\to-\infty}y=-\infty\); \(\lim\limits_{x\to+\infty}y=+\infty\).<br>
+    Lập bảng biến thiên của hàm số:
+    <figure class="fig-wide">
+<svg viewBox="0 0 474 162" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bảng biến thiên của hàm số luôn đồng biến trên tập số thực.">
+<defs><marker id="mt" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#1a2438"/></marker></defs>
+<line x1="6" y1="38" x2="468" y2="38" stroke="#4a5568" stroke-width="1.3"/>
+<line x1="6" y1="68" x2="468" y2="68" stroke="#4a5568" stroke-width="1.3"/>
+<line x1="26" y1="8" x2="26" y2="154" stroke="#4a5568" stroke-width="1.3"/>
+<text x="18" y="29" fill="#1a2438" font-size="14" text-anchor="middle" font-style="italic">x</text>
+<text x="18" y="59" fill="#1a2438" font-size="14" text-anchor="middle" font-style="italic">y'</text>
+<text x="18" y="98" fill="#1a2438" font-size="14" text-anchor="middle" font-style="italic">y</text>
+<text x="254" y="59" fill="#1a2438" font-size="15" text-anchor="middle">+</text>
+<text x="54" y="151" fill="#1a2438" font-size="13.5" text-anchor="start">−∞</text>
+<text x="454" y="95" fill="#1a2438" font-size="13.5" text-anchor="end">+∞</text>
+<text x="48" y="29" fill="#1a2438" font-size="13.5" text-anchor="middle">−∞</text>
+<text x="460" y="29" fill="#1a2438" font-size="13.5" text-anchor="middle">+∞</text>
+<line x1="79.2" y1="140" x2="428.8" y2="96" stroke="#1a2438" stroke-width="1.3" marker-end="url(#mt)"/>
+</svg>
+</figure>
+    Giao điểm với trục tung là \((0;-1)\).<br>
+    \(y=0\) khi \((x-1)\left(x^2-x+1\right)=0\), tức là \(x=1\).<br>
+    \(y''=6x-4\); \(y''=0\) khi \(x=\dfrac{2}{3}\), nên đồ thị có tâm đối xứng \(I\left(\dfrac{2}{3};-\dfrac{7}{27}\right)\).<br>
+    <figure>
+<svg viewBox="0 0 380 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Đồ thị hàm số x mũ ba trừ 2x bình phương cộng 2x trừ 1 luôn đi lên, cắt trục tung tại điểm 0 và trừ 1, cắt trục hoành tại x bằng 1.">
+<line x1="10" y1="145" x2="366" y2="145" stroke="#2b2b2b" stroke-width="1.6"/>
+<polygon points="374,145 365,141.4 365,148.6" fill="#2b2b2b"/>
+<text x="372" y="163" fill="#17a2c9" font-size="14" font-style="italic" text-anchor="middle">x</text>
+<line x1="137.8" y1="280" x2="137.8" y2="14" stroke="#2b2b2b" stroke-width="1.6"/>
+<polygon points="137.8,6 134.2,15 141.4,15" fill="#2b2b2b"/>
+<text x="125.8" y="12" fill="#17a2c9" font-size="14" font-style="italic" text-anchor="middle">y</text>
+<text x="126.8" y="159" fill="#17a2c9" font-size="13" font-style="italic" text-anchor="middle">O</text>
+<line x1="50.8" y1="141" x2="50.8" y2="149" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="50.8" y="164" fill="#17a2c9" font-size="13" text-anchor="middle">−1</text>
+<line x1="224.8" y1="141" x2="224.8" y2="149" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="224.8" y="164" fill="#17a2c9" font-size="13" text-anchor="middle">1</text>
+<line x1="311.8" y1="141" x2="311.8" y2="149" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="311.8" y="164" fill="#17a2c9" font-size="13" text-anchor="middle">2</text>
+<line x1="133.8" y1="194.62" x2="141.8" y2="194.62" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="129.8" y="199.12" fill="#17a2c9" font-size="13" text-anchor="end">−1</text>
+<line x1="133.8" y1="244.23" x2="141.8" y2="244.23" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="129.8" y="248.73" fill="#17a2c9" font-size="13" text-anchor="end">−2</text>
+<line x1="133.8" y1="95.38" x2="141.8" y2="95.38" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="129.8" y="99.88" fill="#17a2c9" font-size="13" text-anchor="end">1</text>
+<line x1="133.8" y1="45.77" x2="141.8" y2="45.77" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="129.8" y="50.27" fill="#17a2c9" font-size="13" text-anchor="end">2</text>
+<path d="M 95.04 273.25 L 95.6 271.74 L 96.17 270.25 L 96.74 268.78 L 97.3 267.31 L 97.87 265.87 L 98.43 264.43 L 99 263.01 L 99.56 261.61 L 100.13 260.21 L 100.69 258.84 L 101.26 257.47 L 101.83 256.12 L 102.39 254.78 L 102.96 253.46 L 103.52 252.15 L 104.09 250.85 L 104.65 249.57 L 105.22 248.3 L 105.78 247.04 L 106.35 245.8 L 106.91 244.57 L 107.48 243.35 L 108.05 242.14 L 108.61 240.95 L 109.18 239.77 L 109.74 238.6 L 110.31 237.45 L 110.87 236.3 L 111.44 235.17 L 112 234.05 L 112.57 232.95 L 113.14 231.85 L 113.7 230.77 L 114.27 229.7 L 114.83 228.64 L 115.4 227.59 L 115.96 226.56 L 116.53 225.53 L 117.09 224.52 L 117.66 223.52 L 118.22 222.53 L 118.79 221.55 L 119.36 220.58 L 119.92 219.63 L 120.49 218.68 L 121.05 217.75 L 121.62 216.82 L 122.18 215.91 L 122.75 215.01 L 123.31 214.12 L 123.88 213.24 L 124.45 212.36 L 125.01 211.5 L 125.58 210.65 L 126.14 209.81 L 126.71 208.98 L 127.27 208.16 L 127.84 207.35 L 128.4 206.55 L 128.97 205.76 L 129.53 204.98 L 130.1 204.21 L 130.67 203.45 L 131.23 202.69 L 131.8 201.95 L 132.36 201.22 L 132.93 200.49 L 133.49 199.78 L 134.06 199.07 L 134.62 198.37 L 135.19 197.68 L 135.76 197 L 136.32 196.33 L 136.89 195.67 L 137.45 195.01 L 138.02 194.37 L 138.58 193.73 L 139.15 193.1 L 139.71 192.48 L 140.28 191.87 L 140.84 191.26 L 141.41 190.66 L 141.98 190.08 L 142.54 189.49 L 143.11 188.92 L 143.67 188.35 L 144.24 187.8 L 144.8 187.24 L 145.37 186.7 L 145.93 186.16 L 146.5 185.63 L 147.07 185.11 L 147.63 184.6 L 148.2 184.09 L 148.76 183.59 L 149.33 183.09 L 149.89 182.61 L 150.46 182.13 L 151.02 181.65 L 151.59 181.18 L 152.15 180.72 L 152.72 180.27 L 153.29 179.82 L 153.85 179.37 L 154.42 178.94 L 154.98 178.51 L 155.55 178.08 L 156.11 177.66 L 156.68 177.25 L 157.24 176.84 L 157.81 176.44 L 158.38 176.04 L 158.94 175.65 L 159.51 175.26 L 160.07 174.88 L 160.64 174.51 L 161.2 174.14 L 161.77 173.77 L 162.33 173.41 L 162.9 173.06 L 163.46 172.7 L 164.03 172.36 L 164.6 172.02 L 165.16 171.68 L 165.73 171.35 L 166.29 171.02 L 166.86 170.69 L 167.42 170.37 L 167.99 170.06 L 168.55 169.75 L 169.12 169.44 L 169.69 169.13 L 170.25 168.83 L 170.82 168.54 L 171.38 168.24 L 171.95 167.95 L 172.51 167.67 L 173.08 167.39 L 173.64 167.11 L 174.21 166.83 L 174.77 166.56 L 175.34 166.29 L 175.91 166.02 L 176.47 165.76 L 177.04 165.49 L 177.6 165.24 L 178.17 164.98 L 178.73 164.73 L 179.3 164.48 L 179.86 164.23 L 180.43 163.98 L 181 163.74 L 181.56 163.49 L 182.13 163.25 L 182.69 163.02 L 183.26 162.78 L 183.82 162.55 L 184.39 162.31 L 184.95 162.08 L 185.52 161.85 L 186.08 161.63 L 186.65 161.4 L 187.22 161.17 L 187.78 160.95 L 188.35 160.73 L 188.91 160.51 L 189.48 160.29 L 190.04 160.07 L 190.61 159.85 L 191.17 159.63 L 191.74 159.41 L 192.31 159.2 L 192.87 158.98 L 193.44 158.76 L 194 158.55 L 194.57 158.33 L 195.13 158.12 L 195.7 157.9 L 196.26 157.69 L 196.83 157.47 L 197.4 157.26 L 197.96 157.04 L 198.53 156.83 L 199.09 156.61 L 199.66 156.39 L 200.22 156.18 L 200.79 155.96 L 201.35 155.74 L 201.92 155.52 L 202.48 155.3 L 203.05 155.08 L 203.62 154.86 L 204.18 154.63 L 204.75 154.41 L 205.31 154.18 L 205.88 153.95 L 206.44 153.73 L 207.01 153.5 L 207.57 153.26 L 208.14 153.03 L 208.7 152.79 L 209.27 152.56 L 209.84 152.32 L 210.4 152.08 L 210.97 151.83 L 211.53 151.59 L 212.1 151.34 L 212.66 151.09 L 213.23 150.84 L 213.79 150.58 L 214.36 150.33 L 214.93 150.06 L 215.49 149.8 L 216.06 149.54 L 216.62 149.27 L 217.19 148.99 L 217.75 148.72 L 218.32 148.44 L 218.88 148.16 L 219.45 147.88 L 220.01 147.59 L 220.58 147.3 L 221.15 147 L 221.71 146.7 L 222.28 146.4 L 222.84 146.09 L 223.41 145.78 L 223.97 145.47 L 224.54 145.15 L 225.1 144.83 L 225.67 144.5 L 226.24 144.17 L 226.8 143.83 L 227.37 143.49 L 227.93 143.15 L 228.5 142.8 L 229.06 142.44 L 229.63 142.09 L 230.19 141.72 L 230.76 141.35 L 231.32 140.98 L 231.89 140.6 L 232.46 140.22 L 233.02 139.83 L 233.59 139.43 L 234.15 139.03 L 234.72 138.63 L 235.28 138.21 L 235.85 137.8 L 236.41 137.37 L 236.98 136.95 L 237.55 136.51 L 238.11 136.07 L 238.68 135.62 L 239.24 135.17 L 239.81 134.71 L 240.37 134.24 L 240.94 133.77 L 241.5 133.29 L 242.07 132.81 L 242.63 132.32 L 243.2 131.82 L 243.77 131.31 L 244.33 130.8 L 244.9 130.28 L 245.46 129.75 L 246.03 129.22 L 246.59 128.68 L 247.16 128.13 L 247.72 127.57 L 248.29 127.01 L 248.86 126.44 L 249.42 125.86 L 249.99 125.27 L 250.55 124.68 L 251.12 124.08 L 251.68 123.47 L 252.25 122.85 L 252.81 122.22 L 253.38 121.59 L 253.94 120.95 L 254.51 120.29 L 255.08 119.63 L 255.64 118.97 L 256.21 118.29 L 256.77 117.6 L 257.34 116.91 L 257.9 116.2 L 258.47 115.49 L 259.03 114.77 L 259.6 114.04 L 260.17 113.3 L 260.73 112.55 L 261.3 111.79 L 261.86 111.02 L 262.43 110.25 L 262.99 109.46 L 263.56 108.66 L 264.12 107.86 L 264.69 107.04 L 265.25 106.21 L 265.82 105.38 L 266.39 104.53 L 266.95 103.67 L 267.52 102.8 L 268.08 101.93 L 268.65 101.04 L 269.21 100.14 L 269.78 99.23 L 270.34 98.31 L 270.91 97.38 L 271.48 96.44 L 272.04 95.49 L 272.61 94.52 L 273.17 93.55 L 273.74 92.56 L 274.3 91.57 L 274.87 90.56 L 275.43 89.54 L 276 88.51 L 276.56 87.46 L 277.13 86.41 L 277.7 85.34 L 278.26 84.26 L 278.83 83.17 L 279.39 82.07 L 279.96 80.96 L 280.52 79.83 L 281.09 78.69 L 281.65 77.54 L 282.22 76.38 L 282.79 75.2 L 283.35 74.01 L 283.92 72.81 L 284.48 71.6 L 285.05 70.37 L 285.61 69.13 L 286.18 67.88 L 286.74 66.61 L 287.31 65.33 L 287.88 64.04 L 288.44 62.74 L 289.01 61.42 L 289.57 60.09 L 290.14 58.74 L 290.7 57.38 L 291.27 56.01 L 291.83 54.62 L 292.4 53.22 L 292.96 51.81 L 293.53 50.38 L 294.1 48.93 L 294.66 47.48 L 295.23 46.01 L 295.79 44.52 L 296.36 43.02 L 296.92 41.5 L 297.49 39.97 L 298.05 38.43 L 298.62 36.87 L 299.19 35.3 L 299.75 33.71 L 300.32 32.11 L 300.88 30.49 L 301.45 28.85 L 302.01 27.2 L 302.58 25.54 L 303.14 23.86 L 303.71 22.16 L 304.27 20.45 L 304.84 18.72 L 305.41 16.98" fill="none" stroke="#ef8b28" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="195.8" y1="145" x2="195.8" y2="157.86" stroke="#8a8a8a" stroke-width="1.2" stroke-dasharray="4 3"/>
+<line x1="137.8" y1="157.86" x2="195.8" y2="157.86" stroke="#8a8a8a" stroke-width="1.2" stroke-dasharray="4 3"/>
+<circle cx="195.8" cy="157.86" r="3" fill="#e8710a"/>
+<text x="196.96" y="124.16" fill="#17a2c9" font-size="12" text-anchor="middle">⅔</text>
+</svg>
+<figcaption>Hình 1.29 — đồ thị hàm số \(y=x^3-2x^2+2x-1\), tâm đối xứng \(I\left(\dfrac{2}{3};-\dfrac{7}{27}\right)\) (vẽ lại theo SGK tr.28)</figcaption>
+</figure>
+    <span class="kq">Vậy đồ thị hàm số luôn đi lên, cắt trục hoành đúng một lần tại \(x=1\).</span>
+  </div>
+</div>
+
+<div class="card" data-ma="lop-12/chuong-01/bai-04#lt1">
+  <p class="de"><span class="tag lt">Luyện tập 1</span><span class="q">Khảo sát sự biến thiên và vẽ đồ thị của hàm số \(y=-2x^3+3x^2-5x\).</span></p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>Tập xác định của hàm số là \(\mathbb{R}\).</p>
+    </details>
+    <details class="hs-dap-so"><summary>Đáp số để đối chiếu</summary>
+      <div class="kq">Vậy đồ thị hàm số luôn đi xuống, cắt trục hoành đúng một lần tại gốc toạ độ.</div>
+      <p class="hs-nho">Ra khác đáp số thì em xem lại các bước, đừng sửa vội cho khớp.</p>
+    </details>
+  </div>
+
+<h2 class="sec" id="phan-thuc-1"><span class="num">3</span> HÀM PHÂN THỨC \(y=\dfrac{ax+b}{cx+d}\)</h2>
+<p class="note">Với \(c\ne0\) và \(ad-bc\ne0\), đồ thị luôn gồm <b>hai nhánh</b>, nhận giao điểm của tiệm cận đứng và tiệm cận ngang làm <b>tâm đối xứng</b>.</p>
+
+<div class="card">
+  <p class="de"><span class="tag vd">Ví dụ 3</span><span class="q">Khảo sát sự biến thiên và vẽ đồ thị của hàm số \(y=\dfrac{x+1}{x-2}\).</span></p>
+  <div class="giai">
+    Tập xác định của hàm số là \(\mathbb{R}\setminus\{2\}\).<br>
+    Ta có: \(y'=\dfrac{-3}{(x-2)^2}&lt;0\) với mọi \(x\ne2\).<br>
+    Hàm số nghịch biến trên từng khoảng \((-\infty;2)\) và \((2;+\infty)\); hàm số không có cực trị.<br>
+    \(\lim\limits_{x\to2^-}y=-\infty\); \(\lim\limits_{x\to2^+}y=+\infty\), nên \(x=2\) là tiệm cận đứng.<br>
+    \(\lim\limits_{x\to\pm\infty}y=1\), nên \(y=1\) là tiệm cận ngang.<br>
+    Lập bảng biến thiên của hàm số:
+    <figure class="fig-wide">
+<svg viewBox="0 0 594 162" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bảng biến thiên của hàm phân thức bậc nhất trên bậc nhất, nghịch biến trên từng khoảng.">
+<defs><marker id="mt" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#1a2438"/></marker></defs>
+<line x1="6" y1="38" x2="588" y2="38" stroke="#4a5568" stroke-width="1.3"/>
+<line x1="6" y1="68" x2="588" y2="68" stroke="#4a5568" stroke-width="1.3"/>
+<line x1="26" y1="8" x2="26" y2="154" stroke="#4a5568" stroke-width="1.3"/>
+<text x="18" y="29" fill="#1a2438" font-size="14" text-anchor="middle" font-style="italic">x</text>
+<text x="18" y="59" fill="#1a2438" font-size="14" text-anchor="middle" font-style="italic">y'</text>
+<text x="18" y="98" fill="#1a2438" font-size="14" text-anchor="middle" font-style="italic">y</text>
+<text x="181" y="59" fill="#1a2438" font-size="15" text-anchor="middle">−</text>
+<text x="447" y="59" fill="#1a2438" font-size="15" text-anchor="middle">−</text>
+<line x1="312" y1="38" x2="312" y2="154" stroke="#4a5568" stroke-width="1.2"/>
+<line x1="316" y1="38" x2="316" y2="154" stroke="#4a5568" stroke-width="1.2"/>
+<text x="54" y="95" fill="#1a2438" font-size="13.5" text-anchor="start">1</text>
+<text x="304" y="151" fill="#1a2438" font-size="13.5" text-anchor="end">−∞</text>
+<text x="324" y="95" fill="#1a2438" font-size="13.5" text-anchor="start">+∞</text>
+<text x="574" y="151" fill="#1a2438" font-size="13.5" text-anchor="end">1</text>
+<text x="48" y="29" fill="#1a2438" font-size="13.5" text-anchor="middle">−∞</text>
+<text x="314" y="29" fill="#1a2438" font-size="13.5" text-anchor="middle">2</text>
+<text x="580" y="29" fill="#1a2438" font-size="13.5" text-anchor="middle">+∞</text>
+<line x1="71.6" y1="96" x2="278.8" y2="140" stroke="#1a2438" stroke-width="1.3" marker-end="url(#mt)"/>
+<line x1="349.2" y1="96" x2="556.4" y2="140" stroke="#1a2438" stroke-width="1.3" marker-end="url(#mt)"/>
+</svg>
+</figure>
+    Giao điểm với trục tung là \(\left(0;-\dfrac{1}{2}\right)\); giao điểm với trục hoành là \((-1;0)\).<br>
+    Đồ thị nhận \(I(2;1)\) làm tâm đối xứng và nhận hai đường phân giác của các góc tạo bởi hai tiệm cận làm trục đối xứng.<br>
+    <figure>
+<svg viewBox="0 0 440 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Đồ thị hàm số x cộng 1 trên x trừ 2 gồm hai nhánh nhận đường thẳng x bằng 2 làm tiệm cận đứng và đường thẳng y bằng 1 làm tiệm cận ngang, tâm đối xứng là giao điểm I của hai tiệm cận.">
+<line x1="10" y1="182.5" x2="426" y2="182.5" stroke="#2b2b2b" stroke-width="1.6"/>
+<polygon points="434,182.5 425,178.9 425,186.1" fill="#2b2b2b"/>
+<text x="432" y="200.5" fill="#17a2c9" font-size="14" font-style="italic" text-anchor="middle">x</text>
+<line x1="192.43" y1="310" x2="192.43" y2="14" stroke="#2b2b2b" stroke-width="1.6"/>
+<polygon points="192.43,6 188.83,15 196.03,15" fill="#2b2b2b"/>
+<text x="180.43" y="12" fill="#17a2c9" font-size="14" font-style="italic" text-anchor="middle">y</text>
+<text x="181.43" y="196.5" fill="#17a2c9" font-size="13" font-style="italic" text-anchor="middle">O</text>
+<line x1="27.03" y1="178.5" x2="27.03" y2="186.5" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="27.03" y="201.5" fill="#17a2c9" font-size="13" text-anchor="middle">−6</text>
+<line x1="82.16" y1="178.5" x2="82.16" y2="186.5" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="82.16" y="201.5" fill="#17a2c9" font-size="13" text-anchor="middle">−4</text>
+<line x1="137.3" y1="178.5" x2="137.3" y2="186.5" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="137.3" y="201.5" fill="#17a2c9" font-size="13" text-anchor="middle">−2</text>
+<line x1="247.57" y1="178.5" x2="247.57" y2="186.5" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="247.57" y="201.5" fill="#17a2c9" font-size="13" text-anchor="middle">2</text>
+<line x1="302.7" y1="178.5" x2="302.7" y2="186.5" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="302.7" y="201.5" fill="#17a2c9" font-size="13" text-anchor="middle">4</text>
+<line x1="357.84" y1="178.5" x2="357.84" y2="186.5" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="357.84" y="201.5" fill="#17a2c9" font-size="13" text-anchor="middle">6</text>
+<line x1="412.97" y1="178.5" x2="412.97" y2="186.5" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="412.97" y="201.5" fill="#17a2c9" font-size="13" text-anchor="middle">8</text>
+<line x1="188.43" y1="227.5" x2="196.43" y2="227.5" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="184.43" y="232" fill="#17a2c9" font-size="13" text-anchor="end">−2</text>
+<line x1="188.43" y1="272.5" x2="196.43" y2="272.5" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="184.43" y="277" fill="#17a2c9" font-size="13" text-anchor="end">−4</text>
+<line x1="188.43" y1="160" x2="196.43" y2="160" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="184.43" y="164.5" fill="#17a2c9" font-size="13" text-anchor="end">1</text>
+<line x1="188.43" y1="137.5" x2="196.43" y2="137.5" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="184.43" y="142" fill="#17a2c9" font-size="13" text-anchor="end">2</text>
+<line x1="188.43" y1="92.5" x2="196.43" y2="92.5" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="184.43" y="97" fill="#17a2c9" font-size="13" text-anchor="end">4</text>
+<line x1="188.43" y1="47.5" x2="196.43" y2="47.5" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="184.43" y="52" fill="#17a2c9" font-size="13" text-anchor="end">6</text>
+<line x1="16" y1="160" x2="424" y2="160" stroke="#17a2c9" stroke-width="1.5"/>
+<line x1="247.57" y1="304" x2="247.57" y2="16" stroke="#17a2c9" stroke-width="1.5"/>
+<path d="M 260.9 20.45 L 261.34 24.92 L 261.78 29.1 L 262.22 33.04 L 262.67 36.75 L 263.11 40.24 L 263.55 43.55 L 263.99 46.67 L 264.43 49.64 L 264.87 52.45 L 265.31 55.12 L 265.75 57.66 L 266.19 60.09 L 266.63 62.4 L 267.07 64.6 L 267.51 66.71 L 267.95 68.73 L 268.4 70.66 L 268.84 72.51 L 269.28 74.29 L 269.72 75.99 L 270.16 77.63 L 270.6 79.21 L 271.04 80.73 L 271.48 82.19 L 271.92 83.59 L 272.36 84.95 L 272.8 86.26 L 273.24 87.53 L 273.69 88.75 L 274.13 89.94 L 274.57 91.08 L 275.01 92.19 L 275.45 93.26 L 275.89 94.3 L 276.33 95.3 L 276.77 96.28 L 277.21 97.23 L 277.65 98.15 L 278.09 99.04 L 278.53 99.91 L 278.98 100.75 L 279.42 101.57 L 279.86 102.37 L 280.3 103.15 L 280.74 103.9 L 281.18 104.64 L 281.62 105.35 L 282.06 106.05 L 282.5 106.73 L 282.94 107.4 L 283.38 108.04 L 283.82 108.68 L 284.26 109.29 L 284.71 109.89 L 285.15 110.48 L 285.59 111.06 L 286.03 111.62 L 286.47 112.17 L 286.91 112.7 L 287.35 113.23 L 287.79 113.74 L 288.23 114.24 L 288.67 114.73 L 289.11 115.21 L 289.55 115.68 L 290 116.14 L 290.44 116.59 L 290.88 117.03 L 291.32 117.47 L 291.76 117.89 L 292.2 118.31 L 292.64 118.72 L 293.08 119.11 L 293.52 119.51 L 293.96 119.89 L 294.4 120.27 L 294.84 120.64 L 295.28 121 L 295.73 121.36 L 296.17 121.71 L 296.61 122.05 L 297.05 122.39 L 297.49 122.73 L 297.93 123.05 L 298.37 123.37 L 298.81 123.69 L 299.25 124 L 299.69 124.3 L 300.13 124.6 L 300.57 124.89 L 301.02 125.18 L 301.46 125.47 L 301.9 125.75 L 302.34 126.03 L 302.78 126.3 L 303.22 126.56 L 303.66 126.83 L 304.1 127.08 L 304.54 127.34 L 304.98 127.59 L 305.42 127.84 L 305.86 128.08 L 306.3 128.32 L 306.75 128.56 L 307.19 128.79 L 307.63 129.02 L 308.07 129.24 L 308.51 129.47 L 308.95 129.68 L 309.39 129.9 L 309.83 130.11 L 310.27 130.32 L 310.71 130.53 L 311.15 130.74 L 311.59 130.94 L 312.04 131.14 L 312.48 131.33 L 312.92 131.53 L 313.36 131.72 L 313.8 131.9 L 314.24 132.09 L 314.68 132.27 L 315.12 132.45 L 315.56 132.63 L 316 132.81 L 316.44 132.98 L 316.88 133.15 L 317.33 133.32 L 317.77 133.49 L 318.21 133.66 L 318.65 133.82 L 319.09 133.98 L 319.53 134.14 L 319.97 134.3 L 320.41 134.45 L 320.85 134.61 L 321.29 134.76 L 321.73 134.91 L 322.17 135.06 L 322.61 135.2 L 323.06 135.35 L 323.5 135.49 L 323.94 135.63 L 324.38 135.77 L 324.82 135.91 L 325.26 136.05 L 325.7 136.18 L 326.14 136.32 L 326.58 136.45 L 327.02 136.58 L 327.46 136.71 L 327.9 136.84 L 328.35 136.96 L 328.79 137.09 L 329.23 137.21 L 329.67 137.33 L 330.11 137.46 L 330.55 137.58 L 330.99 137.69 L 331.43 137.81 L 331.87 137.93 L 332.31 138.04 L 332.75 138.16 L 333.19 138.27 L 333.63 138.38 L 334.08 138.49 L 334.52 138.6 L 334.96 138.71 L 335.4 138.81 L 335.84 138.92 L 336.28 139.02 L 336.72 139.13 L 337.16 139.23 L 337.6 139.33 L 338.04 139.43 L 338.48 139.53 L 338.92 139.63 L 339.37 139.73 L 339.81 139.83 L 340.25 139.92 L 340.69 140.02 L 341.13 140.11 L 341.57 140.2 L 342.01 140.3 L 342.45 140.39 L 342.89 140.48 L 343.33 140.57 L 343.77 140.66 L 344.21 140.75 L 344.66 140.83 L 345.1 140.92 L 345.54 141.01 L 345.98 141.09 L 346.42 141.18 L 346.86 141.26 L 347.3 141.34 L 347.74 141.42 L 348.18 141.51 L 348.62 141.59 L 349.06 141.67 L 349.5 141.75 L 349.94 141.82 L 350.39 141.9 L 350.83 141.98 L 351.27 142.06 L 351.71 142.13 L 352.15 142.21 L 352.59 142.28 L 353.03 142.36 L 353.47 142.43 L 353.91 142.5 L 354.35 142.57 L 354.79 142.65 L 355.23 142.72 L 355.68 142.79 L 356.12 142.86 L 356.56 142.93 L 357 143 L 357.44 143.06 L 357.88 143.13 L 358.32 143.2 L 358.76 143.27 L 359.2 143.33 L 359.64 143.4 L 360.08 143.46 L 360.52 143.53 L 360.96 143.59 L 361.41 143.65 L 361.85 143.72 L 362.29 143.78 L 362.73 143.84 L 363.17 143.9 L 363.61 143.96 L 364.05 144.03 L 364.49 144.09 L 364.93 144.15 L 365.37 144.2 L 365.81 144.26 L 366.25 144.32 L 366.7 144.38 L 367.14 144.44 L 367.58 144.49 L 368.02 144.55 L 368.46 144.61 L 368.9 144.66 L 369.34 144.72 L 369.78 144.77 L 370.22 144.83 L 370.66 144.88 L 371.1 144.94 L 371.54 144.99 L 371.98 145.04 L 372.43 145.1 L 372.87 145.15 L 373.31 145.2 L 373.75 145.25 L 374.19 145.3 L 374.63 145.36 L 375.07 145.41 L 375.51 145.46 L 375.95 145.51 L 376.39 145.56 L 376.83 145.6 L 377.27 145.65 L 377.72 145.7 L 378.16 145.75 L 378.6 145.8 L 379.04 145.85 L 379.48 145.89 L 379.92 145.94 L 380.36 145.99 L 380.8 146.03 L 381.24 146.08 L 381.68 146.13 L 382.12 146.17 L 382.56 146.22 L 383.01 146.26 L 383.45 146.31 L 383.89 146.35 L 384.33 146.39 L 384.77 146.44 L 385.21 146.48 L 385.65 146.52 L 386.09 146.57 L 386.53 146.61 L 386.97 146.65 L 387.41 146.69 L 387.85 146.74 L 388.29 146.78 L 388.74 146.82 L 389.18 146.86 L 389.62 146.9 L 390.06 146.94 L 390.5 146.98 L 390.94 147.02 L 391.38 147.06 L 391.82 147.1 L 392.26 147.14 L 392.7 147.18 L 393.14 147.22 L 393.58 147.26 L 394.03 147.29 L 394.47 147.33 L 394.91 147.37 L 395.35 147.41 L 395.79 147.45 L 396.23 147.48 L 396.67 147.52 L 397.11 147.56 L 397.55 147.59 L 397.99 147.63 L 398.43 147.67 L 398.87 147.7 L 399.31 147.74 L 399.76 147.77 L 400.2 147.81 L 400.64 147.84 L 401.08 147.88 L 401.52 147.91 L 401.96 147.95 L 402.4 147.98 L 402.84 148.02 L 403.28 148.05 L 403.72 148.08 L 404.16 148.12 L 404.6 148.15 L 405.05 148.18 L 405.49 148.22 L 405.93 148.25 L 406.37 148.28 L 406.81 148.31 L 407.25 148.35 L 407.69 148.38 L 408.13 148.41 L 408.57 148.44 L 409.01 148.47 L 409.45 148.51 L 409.89 148.54 L 410.34 148.57 L 410.78 148.6 L 411.22 148.63 L 411.66 148.66 L 412.1 148.69 L 412.54 148.72 L 412.98 148.75 L 413.42 148.78 L 413.86 148.81 L 414.3 148.84 L 414.74 148.87 L 415.18 148.9 L 415.62 148.93 L 416.07 148.96 L 416.51 148.99 L 416.95 149.01 L 417.39 149.04 L 417.83 149.07 L 418.27 149.1 L 418.71 149.13 L 419.15 149.16 L 419.59 149.18 L 420.03 149.21 L 420.47 149.24 L 420.91 149.27 L 421.36 149.29 L 421.8 149.32 L 422.24 149.35 L 422.68 149.37 L 423.12 149.4 L 423.56 149.43 L 424 149.45" fill="none" stroke="#ef8b28" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 16 168.04 L 16.58 168.06 L 17.16 168.08 L 17.74 168.1 L 18.31 168.12 L 18.89 168.14 L 19.47 168.16 L 20.05 168.18 L 20.63 168.2 L 21.21 168.22 L 21.79 168.24 L 22.37 168.26 L 22.94 168.28 L 23.52 168.31 L 24.1 168.33 L 24.68 168.35 L 25.26 168.37 L 25.84 168.39 L 26.42 168.41 L 26.99 168.44 L 27.57 168.46 L 28.15 168.48 L 28.73 168.5 L 29.31 168.53 L 29.89 168.55 L 30.47 168.57 L 31.04 168.59 L 31.62 168.62 L 32.2 168.64 L 32.78 168.66 L 33.36 168.69 L 33.94 168.71 L 34.52 168.73 L 35.1 168.76 L 35.67 168.78 L 36.25 168.81 L 36.83 168.83 L 37.41 168.85 L 37.99 168.88 L 38.57 168.9 L 39.15 168.93 L 39.72 168.95 L 40.3 168.98 L 40.88 169 L 41.46 169.03 L 42.04 169.05 L 42.62 169.08 L 43.2 169.11 L 43.77 169.13 L 44.35 169.16 L 44.93 169.18 L 45.51 169.21 L 46.09 169.24 L 46.67 169.26 L 47.25 169.29 L 47.83 169.32 L 48.4 169.34 L 48.98 169.37 L 49.56 169.4 L 50.14 169.43 L 50.72 169.45 L 51.3 169.48 L 51.88 169.51 L 52.45 169.54 L 53.03 169.57 L 53.61 169.59 L 54.19 169.62 L 54.77 169.65 L 55.35 169.68 L 55.93 169.71 L 56.51 169.74 L 57.08 169.77 L 57.66 169.8 L 58.24 169.83 L 58.82 169.86 L 59.4 169.89 L 59.98 169.92 L 60.56 169.95 L 61.13 169.98 L 61.71 170.01 L 62.29 170.04 L 62.87 170.07 L 63.45 170.11 L 64.03 170.14 L 64.61 170.17 L 65.18 170.2 L 65.76 170.24 L 66.34 170.27 L 66.92 170.3 L 67.5 170.33 L 68.08 170.37 L 68.66 170.4 L 69.24 170.43 L 69.81 170.47 L 70.39 170.5 L 70.97 170.54 L 71.55 170.57 L 72.13 170.61 L 72.71 170.64 L 73.29 170.68 L 73.86 170.71 L 74.44 170.75 L 75.02 170.78 L 75.6 170.82 L 76.18 170.86 L 76.76 170.89 L 77.34 170.93 L 77.91 170.97 L 78.49 171.01 L 79.07 171.04 L 79.65 171.08 L 80.23 171.12 L 80.81 171.16 L 81.39 171.2 L 81.97 171.24 L 82.54 171.28 L 83.12 171.32 L 83.7 171.36 L 84.28 171.4 L 84.86 171.44 L 85.44 171.48 L 86.02 171.52 L 86.59 171.56 L 87.17 171.6 L 87.75 171.64 L 88.33 171.69 L 88.91 171.73 L 89.49 171.77 L 90.07 171.81 L 90.64 171.86 L 91.22 171.9 L 91.8 171.95 L 92.38 171.99 L 92.96 172.04 L 93.54 172.08 L 94.12 172.13 L 94.7 172.17 L 95.27 172.22 L 95.85 172.27 L 96.43 172.31 L 97.01 172.36 L 97.59 172.41 L 98.17 172.46 L 98.75 172.5 L 99.32 172.55 L 99.9 172.6 L 100.48 172.65 L 101.06 172.7 L 101.64 172.75 L 102.22 172.8 L 102.8 172.85 L 103.38 172.91 L 103.95 172.96 L 104.53 173.01 L 105.11 173.06 L 105.69 173.12 L 106.27 173.17 L 106.85 173.22 L 107.43 173.28 L 108 173.33 L 108.58 173.39 L 109.16 173.44 L 109.74 173.5 L 110.32 173.56 L 110.9 173.62 L 111.48 173.67 L 112.05 173.73 L 112.63 173.79 L 113.21 173.85 L 113.79 173.91 L 114.37 173.97 L 114.95 174.03 L 115.53 174.09 L 116.11 174.15 L 116.68 174.22 L 117.26 174.28 L 117.84 174.34 L 118.42 174.41 L 119 174.47 L 119.58 174.54 L 120.16 174.6 L 120.73 174.67 L 121.31 174.74 L 121.89 174.81 L 122.47 174.87 L 123.05 174.94 L 123.63 175.01 L 124.21 175.08 L 124.78 175.16 L 125.36 175.23 L 125.94 175.3 L 126.52 175.37 L 127.1 175.45 L 127.68 175.52 L 128.26 175.6 L 128.84 175.67 L 129.41 175.75 L 129.99 175.83 L 130.57 175.9 L 131.15 175.98 L 131.73 176.06 L 132.31 176.14 L 132.89 176.23 L 133.46 176.31 L 134.04 176.39 L 134.62 176.48 L 135.2 176.56 L 135.78 176.65 L 136.36 176.73 L 136.94 176.82 L 137.52 176.91 L 138.09 177 L 138.67 177.09 L 139.25 177.18 L 139.83 177.27 L 140.41 177.36 L 140.99 177.46 L 141.57 177.55 L 142.14 177.65 L 142.72 177.75 L 143.3 177.85 L 143.88 177.95 L 144.46 178.05 L 145.04 178.15 L 145.62 178.25 L 146.19 178.36 L 146.77 178.46 L 147.35 178.57 L 147.93 178.68 L 148.51 178.79 L 149.09 178.9 L 149.67 179.01 L 150.25 179.12 L 150.82 179.23 L 151.4 179.35 L 151.98 179.47 L 152.56 179.59 L 153.14 179.71 L 153.72 179.83 L 154.3 179.95 L 154.87 180.07 L 155.45 180.2 L 156.03 180.33 L 156.61 180.46 L 157.19 180.59 L 157.77 180.72 L 158.35 180.86 L 158.92 180.99 L 159.5 181.13 L 160.08 181.27 L 160.66 181.41 L 161.24 181.56 L 161.82 181.7 L 162.4 181.85 L 162.98 182 L 163.55 182.15 L 164.13 182.3 L 164.71 182.46 L 165.29 182.62 L 165.87 182.78 L 166.45 182.94 L 167.03 183.1 L 167.6 183.27 L 168.18 183.44 L 168.76 183.61 L 169.34 183.79 L 169.92 183.96 L 170.5 184.14 L 171.08 184.33 L 171.66 184.51 L 172.23 184.7 L 172.81 184.89 L 173.39 185.09 L 173.97 185.28 L 174.55 185.48 L 175.13 185.69 L 175.71 185.89 L 176.28 186.1 L 176.86 186.32 L 177.44 186.54 L 178.02 186.76 L 178.6 186.98 L 179.18 187.21 L 179.76 187.44 L 180.33 187.68 L 180.91 187.92 L 181.49 188.16 L 182.07 188.41 L 182.65 188.66 L 183.23 188.92 L 183.81 189.18 L 184.39 189.45 L 184.96 189.72 L 185.54 190 L 186.12 190.28 L 186.7 190.57 L 187.28 190.86 L 187.86 191.16 L 188.44 191.47 L 189.01 191.78 L 189.59 192.1 L 190.17 192.42 L 190.75 192.75 L 191.33 193.09 L 191.91 193.43 L 192.49 193.78 L 193.06 194.14 L 193.64 194.51 L 194.22 194.88 L 194.8 195.26 L 195.38 195.66 L 195.96 196.06 L 196.54 196.46 L 197.12 196.88 L 197.69 197.31 L 198.27 197.75 L 198.85 198.2 L 199.43 198.66 L 200.01 199.13 L 200.59 199.61 L 201.17 200.1 L 201.74 200.61 L 202.32 201.13 L 202.9 201.66 L 203.48 202.21 L 204.06 202.77 L 204.64 203.35 L 205.22 203.94 L 205.79 204.55 L 206.37 205.17 L 206.95 205.82 L 207.53 206.48 L 208.11 207.16 L 208.69 207.86 L 209.27 208.58 L 209.85 209.33 L 210.42 210.1 L 211 210.89 L 211.58 211.71 L 212.16 212.55 L 212.74 213.43 L 213.32 214.33 L 213.9 215.26 L 214.47 216.23 L 215.05 217.23 L 215.63 218.27 L 216.21 219.34 L 216.79 220.46 L 217.37 221.62 L 217.95 222.82 L 218.53 224.07 L 219.1 225.37 L 219.68 226.73 L 220.26 228.15 L 220.84 229.62 L 221.42 231.16 L 222 232.77 L 222.58 234.46 L 223.15 236.22 L 223.73 238.07 L 224.31 240.01 L 224.89 242.06 L 225.47 244.2 L 226.05 246.47 L 226.63 248.86 L 227.2 251.38 L 227.78 254.06 L 228.36 256.89 L 228.94 259.9 L 229.52 263.1 L 230.1 266.52 L 230.68 270.17 L 231.26 274.07 L 231.83 278.27 L 232.41 282.79 L 232.99 287.66 L 233.57 292.94 L 234.15 298.67" fill="none" stroke="#ef8b28" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="247.57" cy="160" r="3" fill="#17a2c9"/>
+<text x="257.22" y="149.88" fill="#17a2c9" font-size="13" text-anchor="start" font-style="italic">I</text>
+<text x="120.76" y="148.75" fill="#17a2c9" font-size="12" text-anchor="middle" font-style="italic">y = 1</text>
+<text x="257.22" y="259" fill="#17a2c9" font-size="12" text-anchor="start" font-style="italic">x = 2</text>
+</svg>
+<figcaption>Hình 1.30 — đồ thị hàm số \(y=\dfrac{x+1}{x-2}\), tâm đối xứng \(I(2;1)\) (vẽ lại theo SGK tr.29)</figcaption>
+</figure>
+    <span class="kq">Vậy đồ thị gồm hai nhánh nằm về hai phía của tâm đối xứng \(I(2;1)\).</span>
+  </div>
+</div>
+
+<div class="card" data-ma="lop-12/chuong-01/bai-04#vdung2">
+  <p class="de dai"><span class="tag vdung">Vận dụng</span><span class="q">Một bể chứa ban đầu có \(200\) lít nước. Sau đó cứ mỗi phút người ta bơm thêm \(40\) lít nước, đồng thời cho vào bể \(20\) gam chất khử trùng (hoà tan).<br>a) Tính nồng độ chất khử trùng (gam/lít) trong bể sau \(t\) phút.<br>b) Khảo sát sự biến thiên của hàm số đó với \(t\ge0\).<br>c) Giải thích vì sao nồng độ tăng theo \(t\) nhưng không vượt ngưỡng \(0{,}5\) gam/lít.</span></p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>a) Thể tích nước trong bể sau \(t\) phút là \(200+40t\) (lít).</p>
+    </details>
+    <details class="hs-dap-so"><summary>Đáp số để đối chiếu</summary>
+      <div class="kq">Vậy nồng độ chất khử trùng luôn tăng nhưng không bao giờ đạt tới \(0{,}5\) gam/lít.</div>
+      <p class="hs-nho">Ra khác đáp số thì em xem lại các bước, đừng sửa vội cho khớp.</p>
+    </details>
+  </div>
+
+<h2 class="sec" id="phan-thuc-2"><span class="num">4</span> HÀM PHÂN THỨC \(y=\dfrac{ax^2+bx+c}{px+q}\)</h2>
+<p class="note">Khi tử <b>không chia hết</b> cho mẫu, ta tách \(y=\text{(bậc nhất)}+\dfrac{\text{hằng số}}{px+q}\). Phần bậc nhất chính là <b>tiệm cận xiên</b>, còn nghiệm của mẫu cho <b>tiệm cận đứng</b>.</p>
+
+<div class="card">
+  <p class="de"><span class="tag vd">Ví dụ 4</span><span class="q">Khảo sát sự biến thiên và vẽ đồ thị của hàm số \(y=\dfrac{x^2-x-1}{x-2}\).</span></p>
+  <div class="giai">
+    Tập xác định của hàm số là \(\mathbb{R}\setminus\{2\}\).<br>
+    Viết lại \(y=x+1+\dfrac{1}{x-2}\).<br>
+    Ta có: \(y'=1-\dfrac{1}{(x-2)^2}=\dfrac{x^2-4x+3}{(x-2)^2}\).<br>
+    \(y'=0\) khi \(x=1\) hoặc \(x=3\).<br>
+    Trên các khoảng \((-\infty;1)\) và \((3;+\infty)\) thì \(y'&gt;0\); trên các khoảng \((1;2)\) và \((2;3)\) thì \(y'&lt;0\).<br>
+    Hàm số đạt cực đại tại \(x=1\) với \(y_{C\text{Đ}}=1\), đạt cực tiểu tại \(x=3\) với \(y_{CT}=5\).<br>
+    \(\lim\limits_{x\to2^-}y=-\infty\); \(\lim\limits_{x\to2^+}y=+\infty\), nên \(x=2\) là tiệm cận đứng.<br>
+    \(\lim\limits_{x\to\pm\infty}[y-(x+1)]=\lim\limits_{x\to\pm\infty}\dfrac{1}{x-2}=0\), nên \(y=x+1\) là tiệm cận xiên.<br>
+    Lập bảng biến thiên của hàm số:
+    <figure class="fig-wide">
+<svg viewBox="0 0 594 162" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bảng biến thiên có cực đại bằng 1 tại x bằng 1 và cực tiểu bằng 5 tại x bằng 3, hàm số không xác định tại x bằng 2.">
+<defs><marker id="mt" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#1a2438"/></marker></defs>
+<line x1="6" y1="38" x2="588" y2="38" stroke="#4a5568" stroke-width="1.3"/>
+<line x1="6" y1="68" x2="588" y2="68" stroke="#4a5568" stroke-width="1.3"/>
+<line x1="26" y1="8" x2="26" y2="154" stroke="#4a5568" stroke-width="1.3"/>
+<text x="18" y="29" fill="#1a2438" font-size="14" text-anchor="middle" font-style="italic">x</text>
+<text x="18" y="59" fill="#1a2438" font-size="14" text-anchor="middle" font-style="italic">y'</text>
+<text x="18" y="98" fill="#1a2438" font-size="14" text-anchor="middle" font-style="italic">y</text>
+<text x="114.5" y="59" fill="#1a2438" font-size="15" text-anchor="middle">+</text>
+<text x="247.5" y="59" fill="#1a2438" font-size="15" text-anchor="middle">−</text>
+<text x="380.5" y="59" fill="#1a2438" font-size="15" text-anchor="middle">−</text>
+<text x="513.5" y="59" fill="#1a2438" font-size="15" text-anchor="middle">+</text>
+<text x="181" y="59" fill="#1a2438" font-size="13.5" text-anchor="middle">0</text>
+<line x1="312" y1="38" x2="312" y2="154" stroke="#4a5568" stroke-width="1.2"/>
+<line x1="316" y1="38" x2="316" y2="154" stroke="#4a5568" stroke-width="1.2"/>
+<text x="447" y="59" fill="#1a2438" font-size="13.5" text-anchor="middle">0</text>
+<text x="54" y="151" fill="#1a2438" font-size="13.5" text-anchor="start">−∞</text>
+<text x="181" y="95" fill="#1a2438" font-size="13.5" text-anchor="middle">1</text>
+<text x="304" y="151" fill="#1a2438" font-size="13.5" text-anchor="end">−∞</text>
+<text x="324" y="95" fill="#1a2438" font-size="13.5" text-anchor="start">+∞</text>
+<text x="447" y="151" fill="#1a2438" font-size="13.5" text-anchor="middle">5</text>
+<text x="574" y="95" fill="#1a2438" font-size="13.5" text-anchor="end">+∞</text>
+<text x="48" y="29" fill="#1a2438" font-size="13.5" text-anchor="middle">−∞</text>
+<text x="181" y="29" fill="#1a2438" font-size="13.5" text-anchor="middle">1</text>
+<text x="314" y="29" fill="#1a2438" font-size="13.5" text-anchor="middle">2</text>
+<text x="447" y="29" fill="#1a2438" font-size="13.5" text-anchor="middle">3</text>
+<text x="580" y="29" fill="#1a2438" font-size="13.5" text-anchor="middle">+∞</text>
+<line x1="79.2" y1="140" x2="168.7" y2="96" stroke="#1a2438" stroke-width="1.3" marker-end="url(#mt)"/>
+<line x1="193.3" y1="96" x2="278.8" y2="140" stroke="#1a2438" stroke-width="1.3" marker-end="url(#mt)"/>
+<line x1="349.2" y1="96" x2="434.7" y2="140" stroke="#1a2438" stroke-width="1.3" marker-end="url(#mt)"/>
+<line x1="459.3" y1="140" x2="548.8" y2="96" stroke="#1a2438" stroke-width="1.3" marker-end="url(#mt)"/>
+</svg>
+</figure>
+    Giao điểm với trục tung là \(\left(0;\dfrac{1}{2}\right)\); giao điểm với trục hoành là \(\left(\dfrac{1-\sqrt5}{2};0\right)\) và \(\left(\dfrac{1+\sqrt5}{2};0\right)\).<br>
+    Đồ thị nhận \(I(2;3)\) làm tâm đối xứng.<br>
+    <figure>
+<svg viewBox="0 0 420 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Đồ thị hàm số x bình phương trừ x trừ 1, chia cho x trừ 2, gồm hai nhánh; nhánh trái có điểm cực đại tại x bằng 1 với giá trị 1, nhánh phải có điểm cực tiểu tại x bằng 3 với giá trị 5.">
+<line x1="10" y1="252.8" x2="406" y2="252.8" stroke="#2b2b2b" stroke-width="1.6"/>
+<polygon points="414,252.8 405,249.2 405,256.4" fill="#2b2b2b"/>
+<text x="412" y="270.8" fill="#17a2c9" font-size="14" font-style="italic" text-anchor="middle">x</text>
+<line x1="132.4" y1="310" x2="132.4" y2="14" stroke="#2b2b2b" stroke-width="1.6"/>
+<polygon points="132.4,6 128.8,15 136,15" fill="#2b2b2b"/>
+<text x="120.4" y="12" fill="#17a2c9" font-size="14" font-style="italic" text-anchor="middle">y</text>
+<text x="121.4" y="266.8" fill="#17a2c9" font-size="13" font-style="italic" text-anchor="middle">O</text>
+<line x1="35.4" y1="248.8" x2="35.4" y2="256.8" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="35.4" y="271.8" fill="#17a2c9" font-size="13" text-anchor="middle">−2</text>
+<line x1="83.9" y1="248.8" x2="83.9" y2="256.8" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="83.9" y="271.8" fill="#17a2c9" font-size="13" text-anchor="middle">−1</text>
+<line x1="180.9" y1="248.8" x2="180.9" y2="256.8" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="180.9" y="271.8" fill="#17a2c9" font-size="13" text-anchor="middle">1</text>
+<line x1="229.4" y1="248.8" x2="229.4" y2="256.8" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="229.4" y="271.8" fill="#17a2c9" font-size="13" text-anchor="middle">2</text>
+<line x1="277.9" y1="248.8" x2="277.9" y2="256.8" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="277.9" y="271.8" fill="#17a2c9" font-size="13" text-anchor="middle">3</text>
+<line x1="326.4" y1="248.8" x2="326.4" y2="256.8" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="326.4" y="271.8" fill="#17a2c9" font-size="13" text-anchor="middle">4</text>
+<line x1="374.9" y1="248.8" x2="374.9" y2="256.8" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="374.9" y="271.8" fill="#17a2c9" font-size="13" text-anchor="middle">5</text>
+<line x1="128.4" y1="284.8" x2="136.4" y2="284.8" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="124.4" y="289.3" fill="#17a2c9" font-size="13" text-anchor="end">−1</text>
+<line x1="128.4" y1="220.8" x2="136.4" y2="220.8" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="124.4" y="225.3" fill="#17a2c9" font-size="13" text-anchor="end">1</text>
+<line x1="128.4" y1="188.8" x2="136.4" y2="188.8" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="124.4" y="193.3" fill="#17a2c9" font-size="13" text-anchor="end">2</text>
+<line x1="128.4" y1="156.8" x2="136.4" y2="156.8" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="124.4" y="161.3" fill="#17a2c9" font-size="13" text-anchor="end">3</text>
+<line x1="128.4" y1="124.8" x2="136.4" y2="124.8" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="124.4" y="129.3" fill="#17a2c9" font-size="13" text-anchor="end">4</text>
+<line x1="128.4" y1="92.8" x2="136.4" y2="92.8" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="124.4" y="97.3" fill="#17a2c9" font-size="13" text-anchor="end">5</text>
+<line x1="128.4" y1="60.8" x2="136.4" y2="60.8" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="124.4" y="65.3" fill="#17a2c9" font-size="13" text-anchor="end">6</text>
+<line x1="16" y1="297.6" x2="404" y2="41.6" stroke="#17a2c9" stroke-width="1.5"/>
+<line x1="229.4" y1="304" x2="229.4" y2="16" stroke="#17a2c9" stroke-width="1.5"/>
+<path d="M 241.37 19.21 L 241.8 23.48 L 242.24 27.44 L 242.67 31.13 L 243.11 34.56 L 243.55 37.76 L 243.98 40.75 L 244.42 43.55 L 244.85 46.18 L 245.29 48.65 L 245.73 50.97 L 246.16 53.15 L 246.6 55.21 L 247.03 57.16 L 247.47 58.99 L 247.91 60.73 L 248.34 62.37 L 248.78 63.93 L 249.21 65.4 L 249.65 66.8 L 250.09 68.13 L 250.52 69.39 L 250.96 70.59 L 251.39 71.73 L 251.83 72.81 L 252.27 73.84 L 252.7 74.82 L 253.14 75.76 L 253.57 76.65 L 254.01 77.5 L 254.45 78.31 L 254.88 79.08 L 255.32 79.82 L 255.75 80.52 L 256.19 81.19 L 256.63 81.83 L 257.06 82.44 L 257.5 83.03 L 257.93 83.58 L 258.37 84.11 L 258.81 84.62 L 259.24 85.1 L 259.68 85.57 L 260.12 86.01 L 260.55 86.42 L 260.99 86.83 L 261.42 87.21 L 261.86 87.57 L 262.3 87.92 L 262.73 88.25 L 263.17 88.56 L 263.6 88.86 L 264.04 89.14 L 264.48 89.41 L 264.91 89.67 L 265.35 89.91 L 265.78 90.14 L 266.22 90.36 L 266.66 90.56 L 267.09 90.75 L 267.53 90.94 L 267.96 91.11 L 268.4 91.27 L 268.84 91.43 L 269.27 91.57 L 269.71 91.7 L 270.14 91.83 L 270.58 91.94 L 271.02 92.05 L 271.45 92.15 L 271.89 92.24 L 272.32 92.32 L 272.76 92.4 L 273.2 92.47 L 273.63 92.53 L 274.07 92.58 L 274.5 92.63 L 274.94 92.67 L 275.38 92.71 L 275.81 92.74 L 276.25 92.76 L 276.68 92.78 L 277.12 92.79 L 277.56 92.8 L 277.99 92.8 L 278.43 92.8 L 278.86 92.79 L 279.3 92.77 L 279.74 92.76 L 280.17 92.73 L 280.61 92.71 L 281.04 92.67 L 281.48 92.64 L 281.92 92.6 L 282.35 92.55 L 282.79 92.5 L 283.22 92.45 L 283.66 92.4 L 284.1 92.34 L 284.53 92.27 L 284.97 92.21 L 285.4 92.14 L 285.84 92.06 L 286.28 91.99 L 286.71 91.91 L 287.15 91.82 L 287.58 91.74 L 288.02 91.65 L 288.46 91.56 L 288.89 91.46 L 289.33 91.36 L 289.76 91.26 L 290.2 91.16 L 290.64 91.05 L 291.07 90.94 L 291.51 90.83 L 291.94 90.72 L 292.38 90.6 L 292.82 90.49 L 293.25 90.36 L 293.69 90.24 L 294.12 90.12 L 294.56 89.99 L 295 89.86 L 295.43 89.73 L 295.87 89.6 L 296.3 89.46 L 296.74 89.32 L 297.18 89.18 L 297.61 89.04 L 298.05 88.9 L 298.48 88.75 L 298.92 88.61 L 299.36 88.46 L 299.79 88.31 L 300.23 88.16 L 300.66 88 L 301.1 87.85 L 301.54 87.69 L 301.97 87.53 L 302.41 87.37 L 302.84 87.21 L 303.28 87.05 L 303.72 86.88 L 304.15 86.72 L 304.59 86.55 L 305.02 86.38 L 305.46 86.21 L 305.9 86.04 L 306.33 85.87 L 306.77 85.69 L 307.2 85.52 L 307.64 85.34 L 308.08 85.16 L 308.51 84.98 L 308.95 84.8 L 309.38 84.62 L 309.82 84.44 L 310.26 84.26 L 310.69 84.07 L 311.13 83.89 L 311.56 83.7 L 312 83.51 L 312.44 83.32 L 312.87 83.13 L 313.31 82.94 L 313.74 82.75 L 314.18 82.56 L 314.62 82.36 L 315.05 82.17 L 315.49 81.97 L 315.92 81.77 L 316.36 81.58 L 316.8 81.38 L 317.23 81.18 L 317.67 80.98 L 318.11 80.78 L 318.54 80.57 L 318.98 80.37 L 319.41 80.17 L 319.85 79.96 L 320.29 79.76 L 320.72 79.55 L 321.16 79.34 L 321.59 79.14 L 322.03 78.93 L 322.47 78.72 L 322.9 78.51 L 323.34 78.3 L 323.77 78.09 L 324.21 77.88 L 324.65 77.66 L 325.08 77.45 L 325.52 77.24 L 325.95 77.02 L 326.39 76.81 L 326.83 76.59 L 327.26 76.37 L 327.7 76.16 L 328.13 75.94 L 328.57 75.72 L 329.01 75.5 L 329.44 75.28 L 329.88 75.06 L 330.31 74.84 L 330.75 74.62 L 331.19 74.39 L 331.62 74.17 L 332.06 73.95 L 332.49 73.73 L 332.93 73.5 L 333.37 73.28 L 333.8 73.05 L 334.24 72.82 L 334.67 72.6 L 335.11 72.37 L 335.55 72.14 L 335.98 71.92 L 336.42 71.69 L 336.85 71.46 L 337.29 71.23 L 337.73 71 L 338.16 70.77 L 338.6 70.54 L 339.03 70.31 L 339.47 70.08 L 339.91 69.84 L 340.34 69.61 L 340.78 69.38 L 341.21 69.15 L 341.65 68.91 L 342.09 68.68 L 342.52 68.44 L 342.96 68.21 L 343.39 67.97 L 343.83 67.74 L 344.27 67.5 L 344.7 67.26 L 345.14 67.03 L 345.57 66.79 L 346.01 66.55 L 346.45 66.31 L 346.88 66.08 L 347.32 65.84 L 347.75 65.6 L 348.19 65.36 L 348.63 65.12 L 349.06 64.88 L 349.5 64.64 L 349.93 64.4 L 350.37 64.16 L 350.81 63.91 L 351.24 63.67 L 351.68 63.43 L 352.11 63.19 L 352.55 62.94 L 352.99 62.7 L 353.42 62.46 L 353.86 62.21 L 354.29 61.97 L 354.73 61.72 L 355.17 61.48 L 355.6 61.23 L 356.04 60.99 L 356.47 60.74 L 356.91 60.5 L 357.35 60.25 L 357.78 60.01 L 358.22 59.76 L 358.65 59.51 L 359.09 59.26 L 359.53 59.02 L 359.96 58.77 L 360.4 58.52 L 360.83 58.27 L 361.27 58.02 L 361.71 57.77 L 362.14 57.53 L 362.58 57.28 L 363.01 57.03 L 363.45 56.78 L 363.89 56.53 L 364.32 56.28 L 364.76 56.03 L 365.19 55.77 L 365.63 55.52 L 366.07 55.27 L 366.5 55.02 L 366.94 54.77 L 367.37 54.52 L 367.81 54.26 L 368.25 54.01 L 368.68 53.76 L 369.12 53.51 L 369.55 53.25 L 369.99 53 L 370.43 52.75 L 370.86 52.49 L 371.3 52.24 L 371.73 51.98 L 372.17 51.73 L 372.61 51.48 L 373.04 51.22 L 373.48 50.97 L 373.91 50.71 L 374.35 50.46 L 374.79 50.2 L 375.22 49.94 L 375.66 49.69 L 376.1 49.43 L 376.53 49.18 L 376.97 48.92 L 377.4 48.66 L 377.84 48.41 L 378.28 48.15 L 378.71 47.89 L 379.15 47.63 L 379.58 47.38 L 380.02 47.12 L 380.46 46.86 L 380.89 46.6 L 381.33 46.34 L 381.76 46.09 L 382.2 45.83 L 382.64 45.57 L 383.07 45.31 L 383.51 45.05 L 383.94 44.79 L 384.38 44.53 L 384.82 44.27 L 385.25 44.01 L 385.69 43.75 L 386.12 43.49 L 386.56 43.23 L 387 42.97 L 387.43 42.71 L 387.87 42.45 L 388.3 42.19 L 388.74 41.93 L 389.18 41.67 L 389.61 41.41 L 390.05 41.14 L 390.48 40.88 L 390.92 40.62 L 391.36 40.36 L 391.79 40.1 L 392.23 39.84 L 392.66 39.57 L 393.1 39.31 L 393.54 39.05 L 393.97 38.79 L 394.41 38.52 L 394.84 38.26 L 395.28 38 L 395.72 37.73 L 396.15 37.47 L 396.59 37.21 L 397.02 36.94 L 397.46 36.68 L 397.9 36.42 L 398.33 36.15 L 398.77 35.89 L 399.2 35.62 L 399.64 35.36 L 400.08 35.1 L 400.51 34.83 L 400.95 34.57 L 401.38 34.3 L 401.82 34.04 L 402.26 33.77 L 402.69 33.51 L 403.13 33.24 L 403.56 32.98 L 404 32.71" fill="none" stroke="#ef8b28" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 17.6 303.87 L 18.13 303.54 L 18.67 303.21 L 19.2 302.87 L 19.73 302.54 L 20.26 302.21 L 20.8 301.87 L 21.33 301.54 L 21.86 301.21 L 22.4 300.88 L 22.93 300.54 L 23.46 300.21 L 24 299.88 L 24.53 299.55 L 25.06 299.22 L 25.59 298.88 L 26.13 298.55 L 26.66 298.22 L 27.19 297.89 L 27.73 297.56 L 28.26 297.23 L 28.79 296.9 L 29.33 296.57 L 29.86 296.23 L 30.39 295.9 L 30.92 295.57 L 31.46 295.24 L 31.99 294.91 L 32.52 294.58 L 33.06 294.25 L 33.59 293.92 L 34.12 293.59 L 34.66 293.26 L 35.19 292.93 L 35.72 292.6 L 36.25 292.27 L 36.79 291.94 L 37.32 291.61 L 37.85 291.28 L 38.39 290.95 L 38.92 290.63 L 39.45 290.3 L 39.99 289.97 L 40.52 289.64 L 41.05 289.31 L 41.58 288.98 L 42.12 288.65 L 42.65 288.33 L 43.18 288 L 43.72 287.67 L 44.25 287.34 L 44.78 287.02 L 45.32 286.69 L 45.85 286.36 L 46.38 286.03 L 46.91 285.71 L 47.45 285.38 L 47.98 285.05 L 48.51 284.73 L 49.05 284.4 L 49.58 284.08 L 50.11 283.75 L 50.65 283.42 L 51.18 283.1 L 51.71 282.77 L 52.25 282.45 L 52.78 282.12 L 53.31 281.8 L 53.84 281.47 L 54.38 281.15 L 54.91 280.82 L 55.44 280.5 L 55.98 280.17 L 56.51 279.85 L 57.04 279.53 L 57.58 279.2 L 58.11 278.88 L 58.64 278.55 L 59.17 278.23 L 59.71 277.91 L 60.24 277.59 L 60.77 277.26 L 61.31 276.94 L 61.84 276.62 L 62.37 276.3 L 62.91 275.97 L 63.44 275.65 L 63.97 275.33 L 64.5 275.01 L 65.04 274.69 L 65.57 274.37 L 66.1 274.05 L 66.64 273.73 L 67.17 273.41 L 67.7 273.09 L 68.24 272.77 L 68.77 272.45 L 69.3 272.13 L 69.83 271.81 L 70.37 271.49 L 70.9 271.17 L 71.43 270.85 L 71.97 270.53 L 72.5 270.21 L 73.03 269.9 L 73.57 269.58 L 74.1 269.26 L 74.63 268.94 L 75.16 268.63 L 75.7 268.31 L 76.23 267.99 L 76.76 267.68 L 77.3 267.36 L 77.83 267.04 L 78.36 266.73 L 78.9 266.41 L 79.43 266.1 L 79.96 265.78 L 80.49 265.47 L 81.03 265.16 L 81.56 264.84 L 82.09 264.53 L 82.63 264.21 L 83.16 263.9 L 83.69 263.59 L 84.23 263.28 L 84.76 262.96 L 85.29 262.65 L 85.82 262.34 L 86.36 262.03 L 86.89 261.72 L 87.42 261.41 L 87.96 261.1 L 88.49 260.79 L 89.02 260.48 L 89.56 260.17 L 90.09 259.86 L 90.62 259.55 L 91.16 259.24 L 91.69 258.93 L 92.22 258.62 L 92.75 258.32 L 93.29 258.01 L 93.82 257.7 L 94.35 257.4 L 94.89 257.09 L 95.42 256.78 L 95.95 256.48 L 96.49 256.17 L 97.02 255.87 L 97.55 255.56 L 98.08 255.26 L 98.62 254.96 L 99.15 254.65 L 99.68 254.35 L 100.22 254.05 L 100.75 253.75 L 101.28 253.45 L 101.82 253.14 L 102.35 252.84 L 102.88 252.54 L 103.41 252.24 L 103.95 251.94 L 104.48 251.65 L 105.01 251.35 L 105.55 251.05 L 106.08 250.75 L 106.61 250.45 L 107.15 250.16 L 107.68 249.86 L 108.21 249.57 L 108.74 249.27 L 109.28 248.98 L 109.81 248.68 L 110.34 248.39 L 110.88 248.1 L 111.41 247.8 L 111.94 247.51 L 112.48 247.22 L 113.01 246.93 L 113.54 246.64 L 114.07 246.35 L 114.61 246.06 L 115.14 245.77 L 115.67 245.48 L 116.21 245.2 L 116.74 244.91 L 117.27 244.62 L 117.81 244.34 L 118.34 244.05 L 118.87 243.77 L 119.4 243.48 L 119.94 243.2 L 120.47 242.92 L 121 242.64 L 121.54 242.36 L 122.07 242.08 L 122.6 241.8 L 123.14 241.52 L 123.67 241.24 L 124.2 240.96 L 124.74 240.69 L 125.27 240.41 L 125.8 240.13 L 126.33 239.86 L 126.87 239.59 L 127.4 239.31 L 127.93 239.04 L 128.47 238.77 L 129 238.5 L 129.53 238.23 L 130.07 237.96 L 130.6 237.7 L 131.13 237.43 L 131.66 237.16 L 132.2 236.9 L 132.73 236.64 L 133.26 236.37 L 133.8 236.11 L 134.33 235.85 L 134.86 235.59 L 135.4 235.33 L 135.93 235.08 L 136.46 234.82 L 136.99 234.56 L 137.53 234.31 L 138.06 234.06 L 138.59 233.8 L 139.13 233.55 L 139.66 233.3 L 140.19 233.06 L 140.73 232.81 L 141.26 232.56 L 141.79 232.32 L 142.32 232.08 L 142.86 231.83 L 143.39 231.59 L 143.92 231.35 L 144.46 231.12 L 144.99 230.88 L 145.52 230.64 L 146.06 230.41 L 146.59 230.18 L 147.12 229.95 L 147.65 229.72 L 148.19 229.49 L 148.72 229.27 L 149.25 229.04 L 149.79 228.82 L 150.32 228.6 L 150.85 228.38 L 151.39 228.17 L 151.92 227.95 L 152.45 227.74 L 152.98 227.53 L 153.52 227.32 L 154.05 227.11 L 154.58 226.91 L 155.12 226.7 L 155.65 226.5 L 156.18 226.31 L 156.72 226.11 L 157.25 225.92 L 157.78 225.72 L 158.32 225.53 L 158.85 225.35 L 159.38 225.16 L 159.91 224.98 L 160.45 224.8 L 160.98 224.63 L 161.51 224.45 L 162.05 224.28 L 162.58 224.11 L 163.11 223.95 L 163.65 223.79 L 164.18 223.63 L 164.71 223.47 L 165.24 223.32 L 165.78 223.17 L 166.31 223.03 L 166.84 222.88 L 167.38 222.75 L 167.91 222.61 L 168.44 222.48 L 168.98 222.35 L 169.51 222.23 L 170.04 222.11 L 170.57 222 L 171.11 221.89 L 171.64 221.78 L 172.17 221.68 L 172.71 221.58 L 173.24 221.49 L 173.77 221.4 L 174.31 221.32 L 174.84 221.24 L 175.37 221.17 L 175.9 221.11 L 176.44 221.05 L 176.97 220.99 L 177.5 220.95 L 178.04 220.91 L 178.57 220.87 L 179.1 220.84 L 179.64 220.82 L 180.17 220.81 L 180.7 220.8 L 181.23 220.8 L 181.77 220.81 L 182.3 220.83 L 182.83 220.85 L 183.37 220.89 L 183.9 220.93 L 184.43 220.98 L 184.97 221.05 L 185.5 221.12 L 186.03 221.2 L 186.56 221.29 L 187.1 221.4 L 187.63 221.52 L 188.16 221.64 L 188.7 221.79 L 189.23 221.94 L 189.76 222.11 L 190.3 222.29 L 190.83 222.49 L 191.36 222.7 L 191.89 222.93 L 192.43 223.17 L 192.96 223.43 L 193.49 223.71 L 194.03 224.01 L 194.56 224.33 L 195.09 224.67 L 195.63 225.04 L 196.16 225.42 L 196.69 225.83 L 197.23 226.27 L 197.76 226.73 L 198.29 227.21 L 198.82 227.73 L 199.36 228.28 L 199.89 228.86 L 200.42 229.48 L 200.96 230.13 L 201.49 230.82 L 202.02 231.55 L 202.56 232.33 L 203.09 233.15 L 203.62 234.01 L 204.15 234.93 L 204.69 235.91 L 205.22 236.94 L 205.75 238.03 L 206.29 239.2 L 206.82 240.43 L 207.35 241.74 L 207.89 243.13 L 208.42 244.61 L 208.95 246.19 L 209.48 247.87 L 210.02 249.66 L 210.55 251.57 L 211.08 253.62 L 211.62 255.81 L 212.15 258.15 L 212.68 260.67 L 213.22 263.37 L 213.75 266.29 L 214.28 269.43 L 214.81 272.83 L 215.35 276.52 L 215.88 280.52 L 216.41 284.88 L 216.95 289.64 L 217.48 294.86 L 218.01 300.61" fill="none" stroke="#ef8b28" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="277.9" y1="252.8" x2="277.9" y2="92.8" stroke="#8a8a8a" stroke-width="1.2" stroke-dasharray="4 3"/>
+<line x1="132.4" y1="92.8" x2="277.9" y2="92.8" stroke="#8a8a8a" stroke-width="1.2" stroke-dasharray="4 3"/>
+<line x1="180.9" y1="252.8" x2="180.9" y2="220.8" stroke="#8a8a8a" stroke-width="1.2" stroke-dasharray="4 3"/>
+<line x1="132.4" y1="220.8" x2="180.9" y2="220.8" stroke="#8a8a8a" stroke-width="1.2" stroke-dasharray="4 3"/>
+<circle cx="229.4" cy="156.8" r="3" fill="#17a2c9"/>
+<text x="243.95" y="155.2" fill="#17a2c9" font-size="13" text-anchor="start" font-style="italic">I</text>
+<text x="350.65" y="57.6" fill="#17a2c9" font-size="12" text-anchor="middle" font-style="italic">y = x + 1</text>
+<text x="222.12" y="64" fill="#17a2c9" font-size="12" text-anchor="end" font-style="italic">x = 2</text>
+</svg>
+<figcaption>Hình 1.31 — đồ thị hàm số \(y=\dfrac{x^2-x-1}{x-2}\), tiệm cận đứng \(x=2\) và tiệm cận xiên \(y=x+1\) (vẽ lại theo SGK tr.30)</figcaption>
+</figure>
+    <span class="kq">Vậy đồ thị gồm hai nhánh; nhánh trái có điểm cực đại \((1;1)\), nhánh phải có điểm cực tiểu \((3;5)\).</span>
+  </div>
+</div>
+
+<div class="card">
+  <p class="de"><span class="tag vd">Ví dụ 5</span><span class="q">Khảo sát sự biến thiên và vẽ đồ thị của hàm số \(y=\dfrac{x^2+x-2}{x+1}\).</span></p>
+  <div class="giai">
+    Tập xác định của hàm số là \(\mathbb{R}\setminus\{-1\}\).<br>
+    Viết lại \(y=x-\dfrac{2}{x+1}\).<br>
+    Ta có: \(y'=1+\dfrac{2}{(x+1)^2}&gt;0\) với mọi \(x\ne-1\).<br>
+    Hàm số đồng biến trên từng khoảng \((-\infty;-1)\) và \((-1;+\infty)\); hàm số không có cực trị.<br>
+    \(\lim\limits_{x\to-1^-}y=+\infty\); \(\lim\limits_{x\to-1^+}y=-\infty\), nên \(x=-1\) là tiệm cận đứng.<br>
+    \(\lim\limits_{x\to\pm\infty}(y-x)=\lim\limits_{x\to\pm\infty}\left(-\dfrac{2}{x+1}\right)=0\), nên \(y=x\) là tiệm cận xiên.<br>
+    Lập bảng biến thiên của hàm số:
+    <figure class="fig-wide">
+<svg viewBox="0 0 594 162" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bảng biến thiên của hàm số đồng biến trên từng khoảng, không có cực trị.">
+<defs><marker id="mt" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#1a2438"/></marker></defs>
+<line x1="6" y1="38" x2="588" y2="38" stroke="#4a5568" stroke-width="1.3"/>
+<line x1="6" y1="68" x2="588" y2="68" stroke="#4a5568" stroke-width="1.3"/>
+<line x1="26" y1="8" x2="26" y2="154" stroke="#4a5568" stroke-width="1.3"/>
+<text x="18" y="29" fill="#1a2438" font-size="14" text-anchor="middle" font-style="italic">x</text>
+<text x="18" y="59" fill="#1a2438" font-size="14" text-anchor="middle" font-style="italic">y'</text>
+<text x="18" y="98" fill="#1a2438" font-size="14" text-anchor="middle" font-style="italic">y</text>
+<text x="181" y="59" fill="#1a2438" font-size="15" text-anchor="middle">+</text>
+<text x="447" y="59" fill="#1a2438" font-size="15" text-anchor="middle">+</text>
+<line x1="312" y1="38" x2="312" y2="154" stroke="#4a5568" stroke-width="1.2"/>
+<line x1="316" y1="38" x2="316" y2="154" stroke="#4a5568" stroke-width="1.2"/>
+<text x="54" y="151" fill="#1a2438" font-size="13.5" text-anchor="start">−∞</text>
+<text x="304" y="95" fill="#1a2438" font-size="13.5" text-anchor="end">+∞</text>
+<text x="324" y="151" fill="#1a2438" font-size="13.5" text-anchor="start">−∞</text>
+<text x="574" y="95" fill="#1a2438" font-size="13.5" text-anchor="end">+∞</text>
+<text x="48" y="29" fill="#1a2438" font-size="13.5" text-anchor="middle">−∞</text>
+<text x="314" y="29" fill="#1a2438" font-size="13.5" text-anchor="middle">−1</text>
+<text x="580" y="29" fill="#1a2438" font-size="13.5" text-anchor="middle">+∞</text>
+<line x1="79.2" y1="140" x2="278.8" y2="96" stroke="#1a2438" stroke-width="1.3" marker-end="url(#mt)"/>
+<line x1="349.2" y1="140" x2="548.8" y2="96" stroke="#1a2438" stroke-width="1.3" marker-end="url(#mt)"/>
+</svg>
+</figure>
+    Giao điểm với trục tung là \((0;-2)\).<br>
+    \(y=0\) khi \(x^2+x-2=0\), tức là \(x=-2\) hoặc \(x=1\).<br>
+    Đồ thị nhận \(I(-1;-1)\) làm tâm đối xứng.<br>
+    <figure>
+<svg viewBox="0 0 420 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Đồ thị hàm số x bình phương cộng x trừ 2, chia cho x cộng 1, gồm hai nhánh luôn đi lên, nhận đường thẳng x bằng trừ 1 làm tiệm cận đứng và đường thẳng y bằng x làm tiệm cận xiên.">
+<line x1="10" y1="160" x2="406" y2="160" stroke="#2b2b2b" stroke-width="1.6"/>
+<polygon points="414,160 405,156.4 405,163.6" fill="#2b2b2b"/>
+<text x="412" y="178" fill="#17a2c9" font-size="14" font-style="italic" text-anchor="middle">x</text>
+<line x1="210" y1="310" x2="210" y2="14" stroke="#2b2b2b" stroke-width="1.6"/>
+<polygon points="210,6 206.4,15 213.6,15" fill="#2b2b2b"/>
+<text x="198" y="12" fill="#17a2c9" font-size="14" font-style="italic" text-anchor="middle">y</text>
+<text x="199" y="174" fill="#17a2c9" font-size="13" font-style="italic" text-anchor="middle">O</text>
+<line x1="28.13" y1="156" x2="28.13" y2="164" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="28.13" y="179" fill="#17a2c9" font-size="13" text-anchor="middle">−6</text>
+<line x1="58.44" y1="156" x2="58.44" y2="164" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="58.44" y="179" fill="#17a2c9" font-size="13" text-anchor="middle">−5</text>
+<line x1="88.75" y1="156" x2="88.75" y2="164" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="88.75" y="179" fill="#17a2c9" font-size="13" text-anchor="middle">−4</text>
+<line x1="119.06" y1="156" x2="119.06" y2="164" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="119.06" y="179" fill="#17a2c9" font-size="13" text-anchor="middle">−3</text>
+<line x1="149.38" y1="156" x2="149.38" y2="164" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="149.38" y="179" fill="#17a2c9" font-size="13" text-anchor="middle">−2</text>
+<line x1="179.69" y1="156" x2="179.69" y2="164" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="179.69" y="179" fill="#17a2c9" font-size="13" text-anchor="middle">−1</text>
+<line x1="240.31" y1="156" x2="240.31" y2="164" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="240.31" y="179" fill="#17a2c9" font-size="13" text-anchor="middle">1</text>
+<line x1="270.62" y1="156" x2="270.62" y2="164" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="270.62" y="179" fill="#17a2c9" font-size="13" text-anchor="middle">2</text>
+<line x1="300.94" y1="156" x2="300.94" y2="164" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="300.94" y="179" fill="#17a2c9" font-size="13" text-anchor="middle">3</text>
+<line x1="331.25" y1="156" x2="331.25" y2="164" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="331.25" y="179" fill="#17a2c9" font-size="13" text-anchor="middle">4</text>
+<line x1="361.56" y1="156" x2="361.56" y2="164" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="361.56" y="179" fill="#17a2c9" font-size="13" text-anchor="middle">5</text>
+<line x1="206" y1="186.67" x2="214" y2="186.67" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="202" y="191.17" fill="#17a2c9" font-size="13" text-anchor="end">−1</text>
+<line x1="206" y1="213.33" x2="214" y2="213.33" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="202" y="217.83" fill="#17a2c9" font-size="13" text-anchor="end">−2</text>
+<line x1="206" y1="240" x2="214" y2="240" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="202" y="244.5" fill="#17a2c9" font-size="13" text-anchor="end">−3</text>
+<line x1="206" y1="266.67" x2="214" y2="266.67" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="202" y="271.17" fill="#17a2c9" font-size="13" text-anchor="end">−4</text>
+<line x1="206" y1="133.33" x2="214" y2="133.33" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="202" y="137.83" fill="#17a2c9" font-size="13" text-anchor="end">1</text>
+<line x1="206" y1="106.67" x2="214" y2="106.67" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="202" y="111.17" fill="#17a2c9" font-size="13" text-anchor="end">2</text>
+<line x1="206" y1="80" x2="214" y2="80" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="202" y="84.5" fill="#17a2c9" font-size="13" text-anchor="end">3</text>
+<line x1="206" y1="53.33" x2="214" y2="53.33" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="202" y="57.83" fill="#17a2c9" font-size="13" text-anchor="end">4</text>
+<line x1="46.31" y1="304" x2="373.69" y2="16" stroke="#17a2c9" stroke-width="1.5"/>
+<line x1="179.69" y1="304" x2="179.69" y2="16" stroke="#17a2c9" stroke-width="1.5"/>
+<path d="M 192.7 299.46 L 193.26 293.84 L 193.82 288.62 L 194.38 283.76 L 194.94 279.23 L 195.5 274.98 L 196.06 270.99 L 196.62 267.23 L 197.18 263.68 L 197.74 260.32 L 198.3 257.13 L 198.87 254.1 L 199.43 251.21 L 199.99 248.45 L 200.55 245.82 L 201.11 243.3 L 201.67 240.88 L 202.23 238.56 L 202.79 236.33 L 203.35 234.18 L 203.91 232.1 L 204.47 230.1 L 205.03 228.16 L 205.59 226.29 L 206.15 224.48 L 206.71 222.72 L 207.27 221.01 L 207.83 219.35 L 208.39 217.73 L 208.95 216.16 L 209.51 214.63 L 210.07 213.14 L 210.64 211.68 L 211.2 210.26 L 211.76 208.87 L 212.32 207.51 L 212.88 206.18 L 213.44 204.88 L 214 203.6 L 214.56 202.35 L 215.12 201.12 L 215.68 199.92 L 216.24 198.74 L 216.8 197.58 L 217.36 196.44 L 217.92 195.32 L 218.48 194.21 L 219.04 193.12 L 219.6 192.05 L 220.16 191 L 220.72 189.96 L 221.28 188.94 L 221.84 187.93 L 222.41 186.93 L 222.97 185.95 L 223.53 184.98 L 224.09 184.02 L 224.65 183.07 L 225.21 182.14 L 225.77 181.21 L 226.33 180.3 L 226.89 179.39 L 227.45 178.5 L 228.01 177.61 L 228.57 176.74 L 229.13 175.87 L 229.69 175.01 L 230.25 174.16 L 230.81 173.31 L 231.37 172.48 L 231.93 171.65 L 232.49 170.83 L 233.05 170.01 L 233.61 169.2 L 234.18 168.4 L 234.74 167.61 L 235.3 166.82 L 235.86 166.04 L 236.42 165.26 L 236.98 164.49 L 237.54 163.72 L 238.1 162.96 L 238.66 162.2 L 239.22 161.45 L 239.78 160.7 L 240.34 159.96 L 240.9 159.23 L 241.46 158.49 L 242.02 157.77 L 242.58 157.04 L 243.14 156.32 L 243.7 155.6 L 244.26 154.89 L 244.82 154.18 L 245.38 153.48 L 245.95 152.78 L 246.51 152.08 L 247.07 151.39 L 247.63 150.69 L 248.19 150.01 L 248.75 149.32 L 249.31 148.64 L 249.87 147.96 L 250.43 147.29 L 250.99 146.61 L 251.55 145.94 L 252.11 145.28 L 252.67 144.61 L 253.23 143.95 L 253.79 143.29 L 254.35 142.63 L 254.91 141.98 L 255.47 141.33 L 256.03 140.68 L 256.59 140.03 L 257.15 139.39 L 257.72 138.74 L 258.28 138.1 L 258.84 137.46 L 259.4 136.83 L 259.96 136.19 L 260.52 135.56 L 261.08 134.93 L 261.64 134.3 L 262.2 133.67 L 262.76 133.05 L 263.32 132.42 L 263.88 131.8 L 264.44 131.18 L 265 130.56 L 265.56 129.95 L 266.12 129.33 L 266.68 128.72 L 267.24 128.11 L 267.8 127.5 L 268.36 126.89 L 268.92 126.28 L 269.49 125.67 L 270.05 125.07 L 270.61 124.46 L 271.17 123.86 L 271.73 123.26 L 272.29 122.66 L 272.85 122.06 L 273.41 121.47 L 273.97 120.87 L 274.53 120.28 L 275.09 119.68 L 275.65 119.09 L 276.21 118.5 L 276.77 117.91 L 277.33 117.32 L 277.89 116.74 L 278.45 116.15 L 279.01 115.56 L 279.57 114.98 L 280.13 114.4 L 280.69 113.81 L 281.26 113.23 L 281.82 112.65 L 282.38 112.07 L 282.94 111.49 L 283.5 110.92 L 284.06 110.34 L 284.62 109.76 L 285.18 109.19 L 285.74 108.61 L 286.3 108.04 L 286.86 107.47 L 287.42 106.9 L 287.98 106.33 L 288.54 105.76 L 289.1 105.19 L 289.66 104.62 L 290.22 104.05 L 290.78 103.48 L 291.34 102.92 L 291.9 102.35 L 292.46 101.79 L 293.03 101.22 L 293.59 100.66 L 294.15 100.1 L 294.71 99.54 L 295.27 98.98 L 295.83 98.42 L 296.39 97.86 L 296.95 97.3 L 297.51 96.74 L 298.07 96.18 L 298.63 95.62 L 299.19 95.07 L 299.75 94.51 L 300.31 93.95 L 300.87 93.4 L 301.43 92.84 L 301.99 92.29 L 302.55 91.74 L 303.11 91.18 L 303.67 90.63 L 304.23 90.08 L 304.8 89.53 L 305.36 88.98 L 305.92 88.43 L 306.48 87.88 L 307.04 87.33 L 307.6 86.78 L 308.16 86.23 L 308.72 85.68 L 309.28 85.14 L 309.84 84.59 L 310.4 84.04 L 310.96 83.5 L 311.52 82.95 L 312.08 82.41 L 312.64 81.86 L 313.2 81.32 L 313.76 80.77 L 314.32 80.23 L 314.88 79.69 L 315.44 79.15 L 316 78.6 L 316.57 78.06 L 317.13 77.52 L 317.69 76.98 L 318.25 76.44 L 318.81 75.9 L 319.37 75.36 L 319.93 74.82 L 320.49 74.28 L 321.05 73.74 L 321.61 73.21 L 322.17 72.67 L 322.73 72.13 L 323.29 71.59 L 323.85 71.06 L 324.41 70.52 L 324.97 69.98 L 325.53 69.45 L 326.09 68.91 L 326.65 68.38 L 327.21 67.84 L 327.77 67.31 L 328.34 66.77 L 328.9 66.24 L 329.46 65.71 L 330.02 65.17 L 330.58 64.64 L 331.14 64.11 L 331.7 63.57 L 332.26 63.04 L 332.82 62.51 L 333.38 61.98 L 333.94 61.45 L 334.5 60.92 L 335.06 60.39 L 335.62 59.86 L 336.18 59.32 L 336.74 58.79 L 337.3 58.27 L 337.86 57.74 L 338.42 57.21 L 338.98 56.68 L 339.55 56.15 L 340.11 55.62 L 340.67 55.09 L 341.23 54.56 L 341.79 54.04 L 342.35 53.51 L 342.91 52.98 L 343.47 52.46 L 344.03 51.93 L 344.59 51.4 L 345.15 50.88 L 345.71 50.35 L 346.27 49.82 L 346.83 49.3 L 347.39 48.77 L 347.95 48.25 L 348.51 47.72 L 349.07 47.2 L 349.63 46.67 L 350.19 46.15 L 350.75 45.63 L 351.32 45.1 L 351.88 44.58 L 352.44 44.05 L 353 43.53 L 353.56 43.01 L 354.12 42.48 L 354.68 41.96 L 355.24 41.44 L 355.8 40.92 L 356.36 40.39 L 356.92 39.87 L 357.48 39.35 L 358.04 38.83 L 358.6 38.31 L 359.16 37.79 L 359.72 37.27 L 360.28 36.74 L 360.84 36.22 L 361.4 35.7 L 361.96 35.18 L 362.52 34.66 L 363.09 34.14 L 363.65 33.62 L 364.21 33.1 L 364.77 32.58 L 365.33 32.06 L 365.89 31.54 L 366.45 31.03 L 367.01 30.51 L 367.57 29.99 L 368.13 29.47 L 368.69 28.95 L 369.25 28.43 L 369.81 27.91 L 370.37 27.4 L 370.93 26.88 L 371.49 26.36 L 372.05 25.84 L 372.61 25.32 L 373.17 24.81 L 373.73 24.29 L 374.29 23.77 L 374.86 23.26 L 375.42 22.74 L 375.98 22.22 L 376.54 21.71 L 377.1 21.19 L 377.66 20.67 L 378.22 20.16 L 378.78 19.64 L 379.34 19.13 L 379.9 18.61 L 380.46 18.09 L 381.02 17.58 L 381.58 17.06 L 382.14 16.55 L 382.7 16.03" fill="none" stroke="#ef8b28" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 33.99 303.74 L 34.4 303.35 L 34.81 302.96 L 35.22 302.57 L 35.63 302.18 L 36.04 301.79 L 36.45 301.39 L 36.85 301 L 37.26 300.61 L 37.67 300.22 L 38.08 299.82 L 38.49 299.43 L 38.9 299.04 L 39.31 298.65 L 39.72 298.25 L 40.13 297.86 L 40.53 297.46 L 40.94 297.07 L 41.35 296.68 L 41.76 296.28 L 42.17 295.89 L 42.58 295.49 L 42.99 295.1 L 43.4 294.7 L 43.81 294.31 L 44.22 293.91 L 44.62 293.52 L 45.03 293.12 L 45.44 292.72 L 45.85 292.33 L 46.26 291.93 L 46.67 291.53 L 47.08 291.14 L 47.49 290.74 L 47.9 290.34 L 48.3 289.94 L 48.71 289.54 L 49.12 289.15 L 49.53 288.75 L 49.94 288.35 L 50.35 287.95 L 50.76 287.55 L 51.17 287.15 L 51.58 286.75 L 51.98 286.35 L 52.39 285.95 L 52.8 285.55 L 53.21 285.15 L 53.62 284.75 L 54.03 284.35 L 54.44 283.94 L 54.85 283.54 L 55.26 283.14 L 55.66 282.74 L 56.07 282.33 L 56.48 281.93 L 56.89 281.53 L 57.3 281.12 L 57.71 280.72 L 58.12 280.32 L 58.53 279.91 L 58.94 279.51 L 59.35 279.1 L 59.75 278.7 L 60.16 278.29 L 60.57 277.88 L 60.98 277.48 L 61.39 277.07 L 61.8 276.66 L 62.21 276.26 L 62.62 275.85 L 63.03 275.44 L 63.43 275.03 L 63.84 274.62 L 64.25 274.21 L 64.66 273.8 L 65.07 273.39 L 65.48 272.98 L 65.89 272.57 L 66.3 272.16 L 66.71 271.75 L 67.11 271.34 L 67.52 270.93 L 67.93 270.51 L 68.34 270.1 L 68.75 269.69 L 69.16 269.27 L 69.57 268.86 L 69.98 268.45 L 70.39 268.03 L 70.79 267.62 L 71.2 267.2 L 71.61 266.78 L 72.02 266.37 L 72.43 265.95 L 72.84 265.53 L 73.25 265.12 L 73.66 264.7 L 74.07 264.28 L 74.47 263.86 L 74.88 263.44 L 75.29 263.02 L 75.7 262.6 L 76.11 262.18 L 76.52 261.76 L 76.93 261.33 L 77.34 260.91 L 77.75 260.49 L 78.16 260.06 L 78.56 259.64 L 78.97 259.22 L 79.38 258.79 L 79.79 258.36 L 80.2 257.94 L 80.61 257.51 L 81.02 257.08 L 81.43 256.66 L 81.84 256.23 L 82.24 255.8 L 82.65 255.37 L 83.06 254.94 L 83.47 254.51 L 83.88 254.08 L 84.29 253.64 L 84.7 253.21 L 85.11 252.78 L 85.52 252.34 L 85.92 251.91 L 86.33 251.47 L 86.74 251.04 L 87.15 250.6 L 87.56 250.17 L 87.97 249.73 L 88.38 249.29 L 88.79 248.85 L 89.2 248.41 L 89.6 247.97 L 90.01 247.53 L 90.42 247.08 L 90.83 246.64 L 91.24 246.2 L 91.65 245.75 L 92.06 245.31 L 92.47 244.86 L 92.88 244.41 L 93.29 243.97 L 93.69 243.52 L 94.1 243.07 L 94.51 242.62 L 94.92 242.17 L 95.33 241.71 L 95.74 241.26 L 96.15 240.81 L 96.56 240.35 L 96.97 239.9 L 97.37 239.44 L 97.78 238.98 L 98.19 238.52 L 98.6 238.06 L 99.01 237.6 L 99.42 237.14 L 99.83 236.68 L 100.24 236.21 L 100.65 235.75 L 101.05 235.28 L 101.46 234.82 L 101.87 234.35 L 102.28 233.88 L 102.69 233.41 L 103.1 232.93 L 103.51 232.46 L 103.92 231.99 L 104.33 231.51 L 104.73 231.04 L 105.14 230.56 L 105.55 230.08 L 105.96 229.6 L 106.37 229.12 L 106.78 228.63 L 107.19 228.15 L 107.6 227.66 L 108.01 227.17 L 108.41 226.68 L 108.82 226.19 L 109.23 225.7 L 109.64 225.21 L 110.05 224.71 L 110.46 224.22 L 110.87 223.72 L 111.28 223.22 L 111.69 222.71 L 112.1 222.21 L 112.5 221.71 L 112.91 221.2 L 113.32 220.69 L 113.73 220.18 L 114.14 219.67 L 114.55 219.15 L 114.96 218.64 L 115.37 218.12 L 115.78 217.6 L 116.18 217.07 L 116.59 216.55 L 117 216.02 L 117.41 215.49 L 117.82 214.96 L 118.23 214.43 L 118.64 213.89 L 119.05 213.35 L 119.46 212.81 L 119.86 212.27 L 120.27 211.72 L 120.68 211.18 L 121.09 210.63 L 121.5 210.07 L 121.91 209.52 L 122.32 208.96 L 122.73 208.39 L 123.14 207.83 L 123.54 207.26 L 123.95 206.69 L 124.36 206.12 L 124.77 205.54 L 125.18 204.96 L 125.59 204.37 L 126 203.79 L 126.41 203.2 L 126.82 202.6 L 127.23 202 L 127.63 201.4 L 128.04 200.8 L 128.45 200.19 L 128.86 199.57 L 129.27 198.96 L 129.68 198.33 L 130.09 197.71 L 130.5 197.08 L 130.91 196.44 L 131.31 195.8 L 131.72 195.16 L 132.13 194.51 L 132.54 193.85 L 132.95 193.19 L 133.36 192.53 L 133.77 191.86 L 134.18 191.18 L 134.59 190.5 L 134.99 189.81 L 135.4 189.12 L 135.81 188.42 L 136.22 187.71 L 136.63 187 L 137.04 186.28 L 137.45 185.55 L 137.86 184.82 L 138.27 184.08 L 138.67 183.33 L 139.08 182.57 L 139.49 181.81 L 139.9 181.03 L 140.31 180.25 L 140.72 179.46 L 141.13 178.66 L 141.54 177.85 L 141.95 177.03 L 142.35 176.2 L 142.76 175.37 L 143.17 174.52 L 143.58 173.65 L 143.99 172.78 L 144.4 171.9 L 144.81 171 L 145.22 170.09 L 145.63 169.17 L 146.04 168.23 L 146.44 167.28 L 146.85 166.32 L 147.26 165.33 L 147.67 164.34 L 148.08 163.33 L 148.49 162.29 L 148.9 161.25 L 149.31 160.18 L 149.72 159.09 L 150.12 157.99 L 150.53 156.86 L 150.94 155.71 L 151.35 154.54 L 151.76 153.35 L 152.17 152.13 L 152.58 150.88 L 152.99 149.61 L 153.4 148.31 L 153.8 146.98 L 154.21 145.61 L 154.62 144.22 L 155.03 142.79 L 155.44 141.32 L 155.85 139.82 L 156.26 138.28 L 156.67 136.69 L 157.08 135.06 L 157.48 133.38 L 157.89 131.66 L 158.3 129.88 L 158.71 128.05 L 159.12 126.16 L 159.53 124.2 L 159.94 122.18 L 160.35 120.09 L 160.76 117.92 L 161.17 115.68 L 161.57 113.35 L 161.98 110.93 L 162.39 108.41 L 162.8 105.79 L 163.21 103.05 L 163.62 100.19 L 164.03 97.21 L 164.44 94.08 L 164.85 90.8 L 165.25 87.35 L 165.66 83.73 L 166.07 79.91 L 166.48 75.87 L 166.89 71.6 L 167.3 67.07 L 167.71 62.26 L 168.12 57.13 L 168.53 51.65 L 168.93 45.78 L 169.34 39.48 L 169.75 32.69 L 170.16 25.34 L 170.57 17.37" fill="none" stroke="#ef8b28" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="179.69" cy="186.67" r="3" fill="#17a2c9"/>
+<text x="349.44" y="26.67" fill="#17a2c9" font-size="12" text-anchor="middle" font-style="italic">y = x</text>
+<text x="172.11" y="64" fill="#17a2c9" font-size="12" text-anchor="end" font-style="italic">x = −1</text>
+</svg>
+<figcaption>Hình 1.32 — đồ thị hàm số \(y=\dfrac{x^2+x-2}{x+1}\), tâm đối xứng \(I(-1;-1)\) (vẽ lại theo SGK tr.31)</figcaption>
+</figure>
+    <span class="kq">Vậy đồ thị gồm hai nhánh cùng đi lên, áp sát đường thẳng \(y=x\) khi \(x\) ra vô cực.</span>
+  </div>
+</div>
+
+<div class="card" data-ma="lop-12/chuong-01/bai-04#lt3">
+  <p class="de"><span class="tag lt">Luyện tập 2</span><span class="q">Khảo sát sự biến thiên của hàm số \(y=\dfrac{-x^2+3x-1}{x-2}\).</span></p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>Tập xác định của hàm số là \(\mathbb{R}\setminus\{2\}\).</p>
+    </details>
+    <details class="hs-dap-so"><summary>Đáp số để đối chiếu</summary>
+      <div class="kq">Vậy hàm số nghịch biến trên từng khoảng xác định, có tiệm cận đứng \(x=2\) và tiệm cận xiên \(y=-x+1\).</div>
+      <p class="hs-nho">Ra khác đáp số thì em xem lại các bước, đừng sửa vội cho khớp.</p>
+    </details>
+  </div>
+
+<h2 class="sec red" id="bai-tap"><span class="num">5</span> BÀI TẬP</h2>
+<p class="note">Năm bài dưới đây khảo sát đủ ba dạng hàm số của bài học, kèm hai bài toán thực tiễn về nồng độ dung dịch và điện trở.</p>
+
+<div class="card" data-ma="lop-12/chuong-01/bai-04#bt4" data-nop="1">
+  <p class="de dai"><span class="tag bt">1.21</span><span class="q">Khảo sát sự biến thiên và vẽ đồ thị của các hàm số sau:<br>a) \(y=-x^3+3x+1\);<br>b) \(y=x^3+3x^2-x-1\).</span></p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>a) Tập xác định của hàm số là \(\mathbb{R}\).</p>
+    </details>
+    <details class="hs-dap-so"><summary>Đáp số để đối chiếu</summary>
+      <div class="kq">Vậy cả hai đồ thị đều là đường cong bậc ba có hai cực trị và một tâm đối xứng.</div>
+      <p class="hs-nho">Ra khác đáp số thì em xem lại các bước, đừng sửa vội cho khớp.</p>
+    </details>
+    <p class="hs-nop"><a class="hs-nut" href="/lop-hoc/nop.html?ma=lop-12%2Fchuong-01%2Fbai-04%23bt4">Nộp bài làm</a></p>
+  </div>
+
+<div class="card" data-ma="lop-12/chuong-01/bai-04#bt5" data-nop="1">
+  <p class="de dai"><span class="tag bt">1.22</span><span class="q">Khảo sát sự biến thiên và vẽ đồ thị của các hàm số sau:<br>a) \(y=\dfrac{2x+1}{x+1}\);<br>b) \(y=\dfrac{x+3}{1-x}\).</span></p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>a) Tập xác định của hàm số là \(\mathbb{R}\setminus\{-1\}\).</p>
+    </details>
+    <details class="hs-dap-so"><summary>Đáp số để đối chiếu</summary>
+      <div class="kq">Vậy đồ thị câu b) nhận \(I(1;-1)\) làm tâm đối xứng và gồm hai nhánh cùng đi lên.</div>
+      <p class="hs-nho">Ra khác đáp số thì em xem lại các bước, đừng sửa vội cho khớp.</p>
+    </details>
+    <p class="hs-nop"><a class="hs-nut" href="/lop-hoc/nop.html?ma=lop-12%2Fchuong-01%2Fbai-04%23bt5">Nộp bài làm</a></p>
+  </div>
+
+<div class="card" data-ma="lop-12/chuong-01/bai-04#bt6" data-nop="1">
+  <p class="de dai"><span class="tag bt">1.23</span><span class="q">Khảo sát sự biến thiên và vẽ đồ thị của các hàm số sau:<br>a) \(y=\dfrac{2x^2-x+4}{x-1}\);<br>b) \(y=\dfrac{x^2+2x+1}{x+3}\).</span></p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>a) Tập xác định của hàm số là \(\mathbb{R}\setminus\{1\}\).</p>
+    </details>
+    <details class="hs-dap-so"><summary>Đáp số để đối chiếu</summary>
+      <div class="kq">Vậy câu b) có giá trị cực đại bằng \(-8\) tại \(x=-5\) và giá trị cực tiểu bằng \(0\) tại \(x=-1\).</div>
+      <p class="hs-nho">Ra khác đáp số thì em xem lại các bước, đừng sửa vội cho khớp.</p>
+    </details>
+    <p class="hs-nop"><a class="hs-nut" href="/lop-hoc/nop.html?ma=lop-12%2Fchuong-01%2Fbai-04%23bt6">Nộp bài làm</a></p>
+  </div>
+
+<div class="card" data-ma="lop-12/chuong-01/bai-04#bt7" data-nop="1">
+  <p class="de dai"><span class="tag bt">1.24</span><span class="q">Một cốc chứa \(30\) ml dung dịch KOH với nồng độ \(100\) mg/ml. Một bình chứa dung dịch KOH khác với nồng độ \(8\) mg/ml được trộn vào cốc.<br>a) Tính nồng độ KOH trong cốc sau khi trộn \(x\) (ml) từ bình chứa, kí hiệu là \(C(x)\).<br>b) Khảo sát sự biến thiên của hàm số \(C(x)\) với \(x\ge0\).<br>c) Giải thích vì sao nồng độ KOH trong cốc giảm theo \(x\) nhưng luôn lớn hơn \(8\) mg/ml.</span></p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>a) Khối lượng KOH ban đầu trong cốc là \(30\cdot100=3\,000\) (mg).</p>
+    </details>
+    <details class="hs-dap-so"><summary>Đáp số để đối chiếu</summary>
+      <div class="kq">Vậy nồng độ KOH giảm dần từ \(100\) mg/ml nhưng luôn lớn hơn \(8\) mg/ml.</div>
+      <p class="hs-nho">Ra khác đáp số thì em xem lại các bước, đừng sửa vội cho khớp.</p>
+    </details>
+    <p class="hs-nop"><a class="hs-nut" href="/lop-hoc/nop.html?ma=lop-12%2Fchuong-01%2Fbai-04%23bt7">Nộp bài làm</a></p>
+  </div>
+
+<div class="card" data-ma="lop-12/chuong-01/bai-04#bt8" data-nop="1">
+  <p class="de dai"><span class="tag bt">1.25</span><span class="q">Khi mắc song song hai điện trở \(R_1\) và \(R_2\) thì điện trở tương đương là \(R=\dfrac{R_1R_2}{R_1+R_2}\). Một điện trở \(8\,\Omega\) được mắc song song với một biến trở \(x\,\Omega\) như Hình 1.33. Vẽ đồ thị của hàm số \(y=R(x)\) với \(x&gt;0\) rồi cho biết:<br>a) Điện trở tương đương của mạch thay đổi thế nào khi \(x\) tăng?<br>b) Tại sao điện trở tương đương của mạch không bao giờ vượt quá \(8\,\Omega\)?</span></p>
+  <figure>
+<svg viewBox="0 0 440 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sơ đồ mạch điện có hai điện trở mắc song song: nhánh trên là điện trở 8 ôm, nhánh dưới là biến trở x ôm." class="fig-wide">
+<line x1="39.4" y1="105" x2="106.6" y2="105" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="106.6" y1="105" x2="106.6" y2="43.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="106.6" y1="105" x2="106.6" y2="157.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="106.6" y1="43.78" x2="136" y2="43.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="136" y1="43.78" x2="136" y2="43.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="136" y1="43.78" x2="143.7" y2="24.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="143.7" y1="24.78" x2="151.4" y2="62.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="151.4" y1="62.78" x2="159.1" y2="24.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="159.1" y1="24.78" x2="166.8" y2="62.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="166.8" y1="62.78" x2="174.5" y2="24.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="174.5" y1="24.78" x2="182.2" y2="62.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="182.2" y1="62.78" x2="189.9" y2="24.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="189.9" y1="24.78" x2="197.6" y2="62.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="197.6" y1="62.78" x2="205.3" y2="24.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="205.3" y1="24.78" x2="213" y2="62.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="213" y1="62.78" x2="220.7" y2="24.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="220.7" y1="24.78" x2="228.4" y2="43.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="228.4" y1="43.78" x2="325" y2="43.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="106.6" y1="157.78" x2="136" y2="157.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="136" y1="157.78" x2="136" y2="157.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="136" y1="157.78" x2="143.7" y2="138.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="143.7" y1="138.78" x2="151.4" y2="176.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="151.4" y1="176.78" x2="159.1" y2="138.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="159.1" y1="138.78" x2="166.8" y2="176.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="166.8" y1="176.78" x2="174.5" y2="138.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="174.5" y1="138.78" x2="182.2" y2="176.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="182.2" y1="176.78" x2="189.9" y2="138.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="189.9" y1="138.78" x2="197.6" y2="176.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="197.6" y1="176.78" x2="205.3" y2="138.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="205.3" y1="138.78" x2="213" y2="176.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="213" y1="176.78" x2="220.7" y2="138.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="220.7" y1="138.78" x2="228.4" y2="157.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="228.4" y1="157.78" x2="325" y2="157.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="325" y1="43.78" x2="325" y2="157.78" stroke="#d6455a" stroke-width="1.6"/>
+<line x1="325" y1="105" x2="400.6" y2="105" stroke="#d6455a" stroke-width="1.6"/>
+<circle cx="136" cy="43.78" r="2.6" fill="#2b2b2b"/>
+<circle cx="228.4" cy="43.78" r="2.6" fill="#2b2b2b"/>
+<circle cx="136" cy="157.78" r="2.6" fill="#2b2b2b"/>
+<circle cx="228.4" cy="157.78" r="2.6" fill="#2b2b2b"/>
+<text x="182.2" y="22.67" fill="#ef8b28" font-size="13" text-anchor="middle">8 Ω</text>
+<text x="182.2" y="136.67" fill="#17a2c9" font-size="13" text-anchor="middle" font-style="italic">x</text>
+</svg>
+<figcaption>Hình 1.33 — điện trở \(8\,\Omega\) mắc song song với biến trở \(x\,\Omega\) (vẽ lại theo SGK tr.32)</figcaption>
+</figure>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>Ta có: \(R(x)=\dfrac{8x}{8+x}\) với \(x>0\).</p>
+    </details>
+    <details class="hs-dap-so"><summary>Đáp số để đối chiếu</summary>
+      <div class="kq">Vậy điện trở tương đương tăng theo \(x\) nhưng luôn nhỏ hơn \(8\,\Omega\).</div>
+      <p class="hs-nho">Ra khác đáp số thì em xem lại các bước, đừng sửa vội cho khớp.</p>
+    </details>
+    <p class="hs-nop"><a class="hs-nut" href="/lop-hoc/nop.html?ma=lop-12%2Fchuong-01%2Fbai-04%23bt8">Nộp bài làm</a></p>
+  </div>
+
+<section class="phieu" id="phieu-hoc-tap" aria-label="Phiếu học tập">
+  <div class="phieu-top">
+    <h2><span class="ico" aria-hidden="true">✍</span> Phiếu học tập</h2>
+    <div class="phieu-acts">
+      <a class="phieu-btn primary" href="phieu-hoc-tap.pdf" target="_blank" rel="noopener">Mở PDF</a>
+      <a class="phieu-btn" href="phieu-hoc-tap.pdf" download>⬇ Tải PDF</a>
+    </div>
+  </div>
+  <div class="phieu-frame"><iframe src="phieu-hoc-tap.pdf#view=FitH" title="Phiếu học tập — Bài 4. Khảo sát sự biến thiên và vẽ đồ thị của hàm số" loading="lazy"></iframe></div>
+  <div class="phieu-mobile">
+    <b>Xem phiếu trên điện thoại</b>
+    <span>Trình duyệt di động có thể không hiển thị PDF ngay trong trang. Nhấn để mở hoặc tải phiếu.</span>
+    <div class="phieu-acts">
+      <a class="phieu-btn primary" href="phieu-hoc-tap.pdf" target="_blank" rel="noopener">Mở phiếu (PDF)</a>
+      <a class="phieu-btn" href="phieu-hoc-tap.pdf" download>⬇ Tải về</a>
+    </div>
+  </div>
+  <p class="phieu-note">Phiếu A4 có chỗ trống để học sinh tự ghi lý thuyết và trình bày từng bước.</p>
+</section>
+
+<section class="hoc-tiep" aria-label="Học tiếp">
+  <p class="nav-label">Học tiếp</p>
+  <div class="tiep-luoi">
+    <a class="tiep-the" href="#phieu-hoc-tap"><span class="tiep-ico" aria-hidden="true">✍</span><span class="tiep-chu"><b>Phiếu học tập</b><i>Xem &amp; in ngay trong trang, chừa chỗ học sinh ghi</i></span><span class="tiep-mui" aria-hidden="true">→</span></a>
+    <a class="tiep-the" href="trac-nghiem.html"><span class="tiep-ico" aria-hidden="true">✓</span><span class="tiep-chu"><b>Trắc nghiệm</b><i>16 câu tự kiểm tra, chấm điểm ngay</i></span><span class="tiep-mui" aria-hidden="true">→</span></a>
+    <a class="tiep-the" href="/bai-hoc/lop-12/"><span class="tiep-ico" aria-hidden="true">→</span><span class="tiep-chu"><b>Mục lục Toán 12</b><i>Chọn bài tiếp theo để học</i></span><span class="tiep-mui" aria-hidden="true">→</span></a>
+  </div>
+</section>
+</main>
+</div>
+<script>
+document.querySelectorAll('.card .tag.vd').forEach(function (tag) {
+  var card = tag.closest('.card');
+  if (!card) return;
+  Array.prototype.slice.call(card.querySelectorAll('.giai')).forEach(function (answer) {
+    if (answer.closest('.show, .solution') || answer.closest('.card') !== card) return;
+    var panel = document.createElement('div');
+    panel.className = 'show';
+    answer.parentNode.insertBefore(panel, answer);
+    panel.appendChild(answer);
+  });
+});
+
+document.querySelectorAll('.show').forEach(function (panel) {
+  var details = document.createElement('details');
+  var summary = document.createElement('summary');
+  details.className = 'solution';
+  summary.textContent = 'Xem lời giải';
+  details.appendChild(summary);
+  while (panel.firstChild) details.appendChild(panel.firstChild);
+  panel.replaceWith(details);
+  details.addEventListener('toggle', function () {
+    summary.textContent = details.open ? 'Ẩn lời giải' : 'Xem lời giải';
+  });
+});
+
+// Đánh dấu mục đang xem trên thanh mục lục
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.lesson-nav nav a[href^="#"]'));
+  var sections = links.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); }).filter(Boolean);
+  if (!sections.length) return;
+  function capNhat() {
+    var moc = window.scrollY + 140, hienId = null;
+    sections.forEach(function (s) { if (s.offsetTop <= moc) hienId = s.id; });
+    links.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + hienId); });
+  }
+  window.addEventListener('scroll', capNhat, { passive: true });
+  window.addEventListener('resize', capNhat, { passive: true });
+  capNhat();
+})();
+</script>
+<script src="/assets/lop-hoc-cauhinh.js"></script>
+<script src="/assets/lop-hoc.js"></script>
+</body>
+</html>

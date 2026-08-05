@@ -1,0 +1,749 @@
+<!-- FILE NÀY DO MÁY SINH RA. Đừng sửa tay.
+     Nguồn: index.html cùng thư mục. Sinh lại bằng:
+       python3 tools/tach_ban_hoc_sinh.py --that
+     Sửa ở đây là lần chạy sau mất sạch. -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bài 2. Giá trị lớn nhất và giá trị nhỏ nhất của hàm số — Toán 12 (KNTT)</title>
+<script>
+MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;display=swap" rel="stylesheet">
+<script>
+try {
+  var luu = localStorage.getItem('vo-toan-theme');
+  if (['light','night','sand','ocean','rose','forest'].indexOf(luu) >= 0) {
+    document.documentElement.dataset.theme = luu;
+  }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="/assets/theme.css">
+<style>
+  :root{
+    /* Màu nằm ở /assets/theme.css — nguồn duy nhất cho cả web.
+       Đừng khai lại màu ở đây, khai lại là trang không đổi giao diện nữa. */
+    --body:"Be Vietnam Pro",system-ui,-apple-system,sans-serif;
+    --display:"Bricolage Grotesque","Be Vietnam Pro",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    margin:0;color:var(--ink);font:400 17px/1.7 var(--body);overflow-x:hidden;
+    background-color:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:30px 30px;
+  }
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 45%,transparent);outline-offset:3px;border-radius:8px}
+  .page{width:min(1580px,calc(100% - 40px));margin:0 auto;padding:24px 0 72px;display:grid;grid-template-columns:260px minmax(0,1fr);gap:24px;align-items:start}
+  .lesson-content{min-width:0}
+
+  /* Mục lục trên máy tính, thanh điều hướng gọn trên điện thoại */
+  .lesson-nav{position:sticky;top:20px;min-width:0;max-height:calc(100vh - 40px);overflow-y:auto;padding:22px;background:color-mix(in srgb,var(--surface) 94%,transparent);border:1.5px solid var(--line);border-radius:20px;box-shadow:0 16px 42px color-mix(in srgb,var(--ink) 7%,transparent);backdrop-filter:blur(12px)}
+  .lesson-brand{display:flex;align-items:center;gap:10px;margin-bottom:12px;font:700 1.05rem/1 var(--display);letter-spacing:-.02em}
+  .lesson-brand span:first-child{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:var(--blue);color:var(--on-accent);font-size:.76rem}
+  .ve-lop{display:inline-flex;align-items:center;gap:7px;min-height:42px;margin-bottom:18px;padding:0 13px;background:var(--blue-l);border-radius:11px;color:var(--blue);font-size:.9rem;font-weight:700;transition:background .2s ease}
+  .ve-lop:hover{background:var(--accent-soft)}
+  .nav-label{margin:0 0 10px;color:var(--muted);font-size:.76rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase}
+  .lesson-nav nav{display:grid;gap:5px}
+  .lesson-nav nav a{display:flex;align-items:center;gap:10px;min-height:44px;padding:10px 12px;border-radius:11px;color:var(--muted);font-size:.9rem;line-height:1.4;transition:background .2s ease,color .2s ease}
+  .lesson-nav nav a::before{content:"";width:6px;height:6px;flex:0 0 auto;border:1.5px solid currentColor;border-radius:50%}
+  .lesson-nav nav a:hover{color:var(--blue);background:var(--blue-l)}
+  .lesson-nav nav a.active{color:var(--blue);background:var(--blue-l);font-weight:600}
+  .lesson-nav nav a.active::before{background:var(--blue);border-color:var(--blue)}
+  .lesson-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+  .lesson-meta span{display:block;color:var(--muted);font-size:.78rem;line-height:1.45}
+  .lesson-meta b{display:block;margin-bottom:2px;color:var(--ink);font:700 1.05rem/1 var(--display)}
+
+  /* Đầu bài */
+  header{scroll-margin-top:24px;position:relative;min-height:250px;display:grid;align-content:end;overflow:hidden;background:linear-gradient(125deg,var(--accent),color-mix(in srgb,var(--accent) 62%,var(--accent-2)));color:var(--on-accent);border-radius:24px;padding:clamp(28px,5vw,58px);margin-bottom:32px;box-shadow:0 24px 58px color-mix(in srgb,var(--accent) 18%,transparent)}
+  header::before,header::after{content:"";position:absolute;border:1px solid color-mix(in srgb,var(--on-accent) 16%,transparent);border-radius:50%;pointer-events:none}
+  header::before{width:340px;height:340px;right:-105px;top:-175px}
+  header::after{width:210px;height:210px;right:80px;top:-120px}
+  .breadcrumb{position:relative;z-index:1;margin:0 0 32px;font-size:.82rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;opacity:.9}
+  .breadcrumb a{display:inline-flex;align-items:center;min-height:32px;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px;text-decoration-color:color-mix(in srgb,var(--on-accent) 55%,transparent)}
+  .breadcrumb a:hover{text-decoration-color:var(--on-accent)}
+  .hero-row{position:relative;z-index:1;display:flex;align-items:end;justify-content:space-between;gap:32px}
+  header h1{margin:0;font:800 clamp(2.25rem,5vw,4.8rem)/.95 var(--display);letter-spacing:-.055em}
+  header p{max-width:600px;margin:15px 0 0;opacity:.9;font-size:1rem}
+  .hero-number{font:700 clamp(4.5rem,10vw,8rem)/.72 var(--display);letter-spacing:-.07em;color:color-mix(in srgb,var(--on-accent) 17%,transparent)}
+
+  /* Tiêu đề mục lớn */
+  h2.sec{scroll-margin-top:24px;display:flex;align-items:center;gap:14px;font:700 clamp(1.25rem,2vw,1.55rem)/1.3 var(--display);letter-spacing:-.02em;margin:46px 0 18px;padding:16px 18px;background:var(--surface);color:var(--blue);border:1.5px solid var(--line);border-left:5px solid var(--blue);border-radius:0 14px 14px 0;box-shadow:0 9px 30px color-mix(in srgb,var(--ink) 4.5%,transparent)}
+  h2.sec .num{display:grid;place-items:center;min-width:37px;height:33px;padding:0 8px;background:var(--blue-l);color:var(--blue);border-radius:9px;font-size:.92rem}
+  h2.sec.red{color:var(--red);border-left-color:var(--red)} h2.sec.red .num{background:var(--red-l);color:var(--red)}
+  h3.sub{scroll-margin-top:24px;font:700 1.15rem/1.4 var(--display);color:var(--blue);margin:30px 0 12px;padding-left:13px;border-left:3px solid var(--blue)}
+
+  /* Sơ đồ kiến thức */
+  .map{border:1.5px solid color-mix(in srgb,var(--accent) 26%,transparent);border-radius:18px;padding:17px;background:var(--surface);margin:12px 0 16px;box-shadow:0 12px 36px color-mix(in srgb,var(--ink) 4.5%,transparent)}
+  .map .root{background:var(--blue);color:var(--on-accent);font-weight:700;text-align:center;padding:12px 14px;border-radius:11px;font-size:.95rem;letter-spacing:.02em}
+  .map.orange{border-color:color-mix(in srgb,var(--warn) 28%,transparent)} .map.orange .root{background:var(--orange)}
+  .map.purple{border-color:color-mix(in srgb,var(--note) 27%,transparent)} .map.purple .root{background:var(--purple)}
+  .branches{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:12px;margin-top:12px}
+  .node{min-width:0;border-radius:13px;padding:15px 17px;border:1px solid}
+  .node h4{margin:0 0 8px;font:700 1.02rem/1.35 var(--display)}
+  .node ul{margin:0;padding-left:20px}
+  .node li{margin:6px 0}
+  .n-blue{background:var(--blue-l);border-color:color-mix(in srgb,var(--accent) 22%,transparent)} .n-blue h4{color:var(--blue)}
+  .n-orange{background:var(--orange-l);border-color:color-mix(in srgb,var(--warn) 22%,transparent)} .n-orange h4{color:var(--orange)}
+  .n-green{background:var(--green-l);border-color:color-mix(in srgb,var(--success) 22%,transparent)} .n-green h4{color:var(--green)}
+  .n-purple{background:var(--purple-l);border-color:color-mix(in srgb,var(--note) 20%,transparent)} .n-purple h4{color:var(--purple)}
+  .def{background:color-mix(in srgb,var(--surface) 88%,transparent);border-left:3px solid var(--warn);padding:10px 12px;border-radius:0 9px 9px 0;margin:8px 0;font-weight:600}
+  .note{font-size:.95rem;color:var(--muted);background:var(--surface-2);border-radius:10px;padding:10px 12px;margin-top:9px}
+
+  /* Ví dụ, luyện tập và bài tập */
+  .card{min-width:0;overflow:hidden;background:var(--surface);border:1.5px solid var(--line);border-radius:15px;padding:18px 20px;margin:14px 0;box-shadow:0 8px 28px color-mix(in srgb,var(--ink) 3.5%,transparent)}
+  .card .tag{display:inline-flex;align-items:center;min-height:29px;font-weight:700;color:var(--on-accent);border-radius:8px;padding:3px 12px;font-size:.85rem;margin-bottom:8px;letter-spacing:.01em}
+  .tag.vd{background:var(--blue)} .tag.lt{background:var(--green)} .tag.vdung{background:var(--purple)} .tag.bt{background:var(--red)}
+  .card .de{margin:5px 0 9px;overflow-wrap:anywhere}
+  .giai{border-top:1px dashed var(--line);margin-top:10px;padding-top:11px}
+  .solution{margin-top:12px;border-top:1px dashed var(--line)}
+  .solution summary{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:48px;cursor:pointer;color:var(--blue);font-size:.92rem;font-weight:700;list-style:none;user-select:none}
+  .solution summary::-webkit-details-marker{display:none}
+  .solution summary::after{content:"+";display:grid;place-items:center;width:27px;height:27px;border-radius:50%;background:var(--blue-l);font-size:1.1rem;transition:transform .2s ease}
+  .solution[open] summary::after{transform:rotate(45deg)}
+  .solution .giai{margin-top:0;padding-bottom:3px}
+  .solution .giai::before{content:"Lời giải.";display:block;margin-bottom:6px;font-weight:700;color:var(--blue)}
+  .kq{max-width:100%;background:var(--green-l);border-left:3px solid var(--green);padding:8px 12px;border-radius:0 9px 9px 0;display:inline-block;margin-top:8px}
+  table.grp{display:block;width:100%;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border-collapse:collapse;margin:10px 0;white-space:nowrap}
+  table.grp td,table.grp th{border:1px solid var(--line);padding:9px 14px;text-align:center}
+  table.grp th{background:var(--blue-l);color:var(--blue)}
+  table.grp td.phim{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.06em}
+  .phim-ten{display:inline-block;padding:1px 7px;border:1px solid var(--line);border-radius:6px;background:var(--surface-2);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.92em}
+  figure{margin:16px 0;text-align:center}
+  figure svg{display:block;width:min(100%,520px);height:auto;margin-inline:auto;background:#fdfdfb;border:1px solid var(--line);border-radius:12px;padding:10px}
+  figcaption{font-size:.85rem;color:var(--muted);margin-top:6px}
+  mjx-container{overflow-x:auto;overflow-y:hidden;max-width:100%;vertical-align:middle;-webkit-overflow-scrolling:touch}
+  mjx-container:not([display="true"]){display:inline-block!important;max-width:100%!important}
+
+  /* Tài nguyên kèm bài — hiện ở cuối sidebar và cuối trang.
+     Thêm mục mới (tự luận, phiếu in…) = thêm một thẻ <a> ở cả hai chỗ. */
+  .nav-them{margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+  .lesson-nav nav.them a{color:var(--blue);background:var(--blue-l);font-weight:600}
+  .lesson-nav nav.them a::before{border-color:var(--blue)}
+  .lesson-nav nav.them a:hover{background:var(--accent-soft)}
+  .hoc-tiep{margin:46px 0 0;padding-top:30px;border-top:1px solid var(--line)}
+  .hoc-tiep .nav-label{margin-bottom:14px}
+  .tiep-luoi{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:14px}
+  .tiep-the{display:flex;align-items:center;gap:15px;min-height:64px;padding:18px 20px;background:var(--surface);border:1.5px solid var(--line);border-radius:15px;box-shadow:0 8px 28px color-mix(in srgb,var(--ink) 3.5%,transparent);transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease}
+  .tiep-the:hover{border-color:var(--blue);box-shadow:0 14px 36px color-mix(in srgb,var(--accent) 13%,transparent);transform:translateY(-2px)}
+  .tiep-ico{display:grid;place-items:center;flex:0 0 auto;width:46px;height:46px;border-radius:13px;background:var(--blue-l);color:var(--blue);font:700 1.15rem/1 var(--display)}
+  .tiep-chu{min-width:0;flex:1}
+  .tiep-chu b{display:block;font:700 1.02rem/1.3 var(--display);color:var(--ink)}
+  .tiep-chu i{display:block;margin-top:3px;font-style:normal;font-size:.88rem;color:var(--muted);line-height:1.5}
+  .tiep-mui{flex:0 0 auto;color:var(--blue);font-size:1.2rem;transition:transform .2s ease}
+  .tiep-the:hover .tiep-mui{transform:translateX(4px)}
+
+  @media (min-width:1280px){
+    .page{grid-template-columns:280px minmax(0,1fr);gap:30px}
+    .map{padding:20px}
+    .card{padding:20px 23px}
+  }
+  @media (max-width:900px){
+    .page{width:min(100% - 28px,780px);grid-template-columns:minmax(0,1fr);padding-top:14px;gap:14px}
+    .lesson-nav{position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:9px;max-height:none;overflow-y:visible;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:9px 12px;border-radius:0 0 15px 15px;border-top:0}
+    .lesson-brand{margin-bottom:0;flex:0 0 auto}
+    .lesson-brand span:last-child{display:none}
+    .ve-lop{margin:0;flex:0 0 auto;min-height:40px;padding:0 11px;font-size:.82rem;white-space:nowrap}
+    .nav-label{display:none}
+    .lesson-nav nav{display:flex;flex-wrap:nowrap;gap:6px}
+    .lesson-nav nav a{min-height:40px;padding:8px 11px;background:var(--surface-2);white-space:nowrap;font-size:.84rem}
+    .lesson-meta{display:none}
+    .nav-them{display:flex;margin:0 0 0 3px;padding:0 0 0 12px;border-top:0;border-left:1px solid var(--line)}
+    h2.sec,h3.sub{scroll-margin-top:74px}
+    .hoc-tiep{margin-top:34px;padding-top:24px}
+    header{scroll-margin-top:74px;min-height:230px;margin-bottom:22px;border-radius:18px}
+  }
+  @media (max-width:560px){
+    body{font-size:16px;line-height:1.65}
+    .page{width:min(100% - 20px,780px);padding-bottom:46px}
+    .lesson-nav{padding:10px 12px}
+    .lesson-brand span:first-child{width:32px;height:32px}
+    .lesson-nav nav a{font-size:.8rem;padding:7px 10px}
+    .ve-lop{font-size:.8rem}
+    header{min-height:215px;padding:25px 22px}
+    .breadcrumb{margin-bottom:24px;font-size:.72rem}
+    .hero-row{align-items:flex-end}
+    header h1{font-size:clamp(1.8rem,8.5vw,3.2rem)}
+    header p{font-size:.9rem;line-height:1.6}
+    .hero-number{display:none}
+    h2.sec{margin-top:34px;padding:13px 13px;gap:10px;font-size:1.08rem}
+    h2.sec .num{min-width:32px;height:30px}
+    h3.sub{margin-top:24px;font-size:1.05rem}
+    .map{padding:12px;border-radius:14px}
+    .map .root{padding:10px 10px;font-size:.82rem}
+    .node{padding:13px}
+    .card{padding:15px 14px;border-radius:13px}
+    .solution summary{min-height:46px}
+    table.grp td,table.grp th{padding:8px 11px}
+  }
+  @media print{
+    body{background:#fff}
+    .page{display:block;width:100%;padding:0}
+    .lesson-nav,.hoc-tiep{display:none}
+    header,.map,.card{box-shadow:none;break-inside:avoid}
+    .solution summary{display:none}
+    .solution:not([open])>*:not(summary){display:block}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
+
+  /* ── Phiếu học tập nhúng (PDF hiển thị ngay trong trang) ── */
+  .phieu{scroll-margin-top:80px;margin:34px 0 10px;padding:20px;background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 32px color-mix(in srgb,var(--ink) 6%,transparent)}
+  .phieu-top{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:14px}
+  .phieu-top h2{margin:0;flex:1;min-width:180px;display:flex;align-items:center;gap:10px;font:700 21px/1.2 var(--display);color:var(--ink)}
+  .phieu-top .ico{display:grid;place-items:center;width:34px;height:34px;border-radius:9px;background:var(--blue-l);color:var(--blue);font-size:18px}
+  .phieu-acts{display:flex;gap:8px;flex-wrap:wrap}
+  .phieu-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 14px;border-radius:10px;font:600 14px/1 var(--body);border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+  .phieu-btn.primary{background:var(--blue);color:var(--on-accent);border-color:var(--blue);box-shadow:0 6px 14px color-mix(in srgb,var(--accent) 20%,transparent)}
+  .phieu-frame{width:100%;height:min(85vh,1100px);border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface-2)}
+  .phieu-frame iframe{width:100%;height:100%;border:0;display:block}
+  .phieu-note{margin:11px 2px 0;color:var(--muted);font-size:13.5px}
+  .phieu-mobile{display:none}
+  /* Điện thoại: iframe PDF không ổn định → ẩn khung, hiện thẻ mở/tải */
+  @media (max-width:760px){
+    .phieu-frame{display:none}
+    .phieu-mobile{display:flex;flex-direction:column;gap:12px;align-items:flex-start;padding:22px;border:1px dashed var(--blue);border-radius:12px;background:var(--blue-l)}
+    .phieu-mobile b{font:700 16px/1.3 var(--display);color:var(--ink)}
+    .phieu-mobile span{color:var(--muted);font-size:14px}
+  }
+  @media print{.phieu{display:none}}
+
+  /* Đề bài (CHUAN_BAI 3.3): số câu nằm CÙNG DÒNG với đề, thụt lề treo.
+     Đề một dòng thì .q canh giữa để không lệch khi có \dfrac; đề nhiều dòng
+     (có a) b) hoặc bảng phương án) thêm class "dai" để nhãn bám dòng đầu. */
+  .card .de{display:flex;gap:2mm;align-items:flex-start;line-height:1.65;margin:2px 0 9px}
+  .card .de>.tag{flex:0 0 auto;margin:0}
+  .card .de>.q{flex:1;min-width:0;overflow-wrap:anywhere;align-self:center}
+  .card .de.dai>.q{align-self:flex-start}
+  .card .de mjx-container:not([display="true"]){vertical-align:middle}
+  .fig-wide svg{width:min(100%,660px)}
+  @media(max-width:560px){.card .de{gap:7px}}
+
+
+  /* ── Bản học sinh ────────────────────────────────────────────────
+     Ví dụ vẫn có đủ lời giải. Luyện tập và bài tập chỉ có đề, một gợi ý
+     và đáp số để tự đối chiếu; phần diễn giải mở sau khi nộp bài. */
+  .hs-goi-y,.hs-dap-so{margin-top:12px;border:1px dashed var(--line);border-radius:12px;background:var(--surface-2)}
+  .hs-goi-y summary,.hs-dap-so summary{padding:11px 15px;min-height:44px;display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:600;color:var(--blue);list-style:none}
+  .hs-goi-y summary::before{content:"💡"}
+  .hs-dap-so summary::before{content:"✓"}
+  .hs-goi-y summary::-webkit-details-marker,.hs-dap-so summary::-webkit-details-marker{display:none}
+  .hs-goi-y[open] summary,.hs-dap-so[open] summary{border-bottom:1px dashed var(--line)}
+  .hs-goi-y>p,.hs-dap-so>*:not(summary){margin:11px 15px}
+  .hs-nho{color:var(--muted);font-size:.9em}
+  .hs-nop{margin-top:14px}
+  .hs-nut{display:inline-flex;align-items:center;min-height:44px;padding:0 20px;border-radius:12px;background:var(--blue);color:var(--on-accent);font-weight:600;text-decoration:none}
+  .hs-nut:hover{filter:brightness(1.08)}
+</style>
+<link rel="stylesheet" href="/assets/lop-hoc.css">
+</head>
+<body>
+<div class="page">
+<aside class="lesson-nav" aria-label="Mục lục bài học">
+  <a class="lesson-brand" href="/" aria-label="Về trang chủ Vở Toán"><span aria-hidden="true">VT</span><span>Vở Toán</span></a>
+  <a class="ve-lop" href="/bai-hoc/lop-12/">← Mục lục Toán 12</a>
+  <p class="nav-label">Trong bài này</p>
+  <nav>
+    <a href="#dinh-nghia">Định nghĩa</a>
+    <a href="#tren-doan">Tìm trên một đoạn</a>
+    <a href="#bai-tap">Bài tập</a>
+  </nav>
+  <div class="lesson-meta" aria-label="Thông tin bài học">
+    <span><b>03</b>phần học</span>
+    <span><b>06</b>bài tập</span>
+  </div>
+  <div class="nav-them">
+    <p class="nav-label">Học liệu</p>
+    <nav class="them">
+      <a href="#phieu-hoc-tap">Phiếu học tập</a>
+      <a href="trac-nghiem.html">Trắc nghiệm</a>
+    </nav>
+  </div>
+</aside>
+
+<main class="lesson-content">
+<header id="top">
+  <p class="breadcrumb"><a href="/bai-hoc/lop-12/">Toán 12</a>&nbsp; · &nbsp;Chương I — Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số</p>
+  <div class="hero-row">
+    <div><h1>Bài 2. Giá trị lớn nhất và giá trị nhỏ nhất của hàm số</h1><p>Định nghĩa giá trị lớn nhất, giá trị nhỏ nhất của hàm số trên một tập; ba bước tìm chúng trên một đoạn và các bài toán tối ưu thực tế.</p></div>
+    <span class="hero-number" aria-hidden="true">02</span>
+  </div>
+</header>
+
+<h2 class="sec" id="dinh-nghia"><span class="num">1</span> GIÁ TRỊ LỚN NHẤT VÀ GIÁ TRỊ NHỎ NHẤT</h2>
+<p class="note">Từ một tấm bìa carton hình vuông cạnh \(60\) cm, người ta cắt bốn hình vuông bằng nhau ở bốn góc rồi gập thành một chiếc hộp chữ nhật không nắp. Cắt các hình vuông cạnh bao nhiêu thì thể tích chiếc hộp là lớn nhất? Đó là một bài toán <b>tìm giá trị lớn nhất</b>.</p>
+<figure>
+<svg viewBox="0 0 560 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tấm bìa hình vuông cạnh 60 xăng-ti-mét bị cắt bốn hình vuông bằng nhau cạnh x ở bốn góc; phần còn lại gập lên thành một chiếc hộp chữ nhật không có nắp." class="fig-wide">
+<polygon points="37,230 280,230 280,30 37,30" fill="none" fill-opacity="1.0" stroke="#2b2b2b" stroke-width="1.6"/>
+<polygon points="37,230 85.6,230 85.6,185 37,185" fill="#c9d3e3" fill-opacity="0.75" stroke="#2b2b2b" stroke-width="1.2"/>
+<polygon points="231.4,230 280,230 280,185 231.4,185" fill="#c9d3e3" fill-opacity="0.75" stroke="#2b2b2b" stroke-width="1.2"/>
+<polygon points="37,75 85.6,75 85.6,30 37,30" fill="#c9d3e3" fill-opacity="0.75" stroke="#2b2b2b" stroke-width="1.2"/>
+<polygon points="231.4,75 280,75 280,30 231.4,30" fill="#c9d3e3" fill-opacity="0.75" stroke="#2b2b2b" stroke-width="1.2"/>
+<polygon points="85.6,185 231.4,185 231.4,75 85.6,75" fill="none" fill-opacity="1.0" stroke="#8a8a8a" stroke-width="1.1" stroke-dasharray="4 3"/>
+<line x1="301.6" y1="230" x2="301.6" y2="30" stroke="#17a2c9" stroke-width="1.4"/>
+<line x1="293.5" y1="230" x2="309.7" y2="230" stroke="#17a2c9" stroke-width="1.4"/>
+<line x1="293.5" y1="30" x2="309.7" y2="30" stroke="#17a2c9" stroke-width="1.4"/>
+<text x="312.4" y="130" fill="#17a2c9" font-size="13" text-anchor="start">60 cm</text>
+<text x="255.7" y="247.5" fill="#17a2c9" font-size="13" text-anchor="middle" font-style="italic">x</text>
+<line x1="366.4" y1="195" x2="412.3" y2="157.5" stroke="#8a8a8a" stroke-width="1.1" stroke-dasharray="4 3"/>
+<line x1="412.3" y1="157.5" x2="536.5" y2="157.5" stroke="#8a8a8a" stroke-width="1.1" stroke-dasharray="4 3"/>
+<line x1="412.3" y1="157.5" x2="412.3" y2="102.5" stroke="#8a8a8a" stroke-width="1.1" stroke-dasharray="4 3"/>
+<polygon points="490.6,195 536.5,157.5 536.5,102.5 490.6,140" fill="#bfe3f2" fill-opacity="0.32" stroke="#2b2b2b" stroke-width="1.5"/>
+<polygon points="366.4,195 490.6,195 490.6,140 366.4,140" fill="#bfe3f2" fill-opacity="0.5" stroke="#2b2b2b" stroke-width="1.5"/>
+<polygon points="366.4,140 490.6,140 536.5,102.5 412.3,102.5" fill="#fdfdfb" fill-opacity="0.9" stroke="#2b2b2b" stroke-width="1.5"/>
+</svg>
+<figcaption>Hình 1.14 — cắt bốn góc tấm bìa rồi gập thành hộp (vẽ lại theo SGK tr.15)</figcaption>
+</figure>
+
+<h3 class="sub">Định nghĩa giá trị lớn nhất, giá trị nhỏ nhất</h3>
+<div class="map">
+  <div class="root">GIÁ TRỊ LỚN NHẤT · GIÁ TRỊ NHỎ NHẤT TRÊN TẬP \(D\)</div>
+  <div class="branches">
+    <div class="node n-blue"><h4>Giá trị lớn nhất</h4>
+      <div class="def">Cho hàm số \(y=f(x)\) xác định trên tập \(D\).</div>
+      <ul>
+        <li>Số \(M\) là <b>giá trị lớn nhất</b> của \(f(x)\) trên \(D\) nếu \(f(x)\le M\) với mọi \(x\in D\) và <b>tồn tại</b> \(x_0\in D\) sao cho \(f(x_0)=M\).</li>
+        <li>Kí hiệu \(M=\max\limits_{D}f(x)\).</li>
+      </ul>
+    </div>
+    <div class="node n-green"><h4>Giá trị nhỏ nhất</h4><ul>
+      <li>Số \(m\) là <b>giá trị nhỏ nhất</b> của \(f(x)\) trên \(D\) nếu \(f(x)\ge m\) với mọi \(x\in D\) và <b>tồn tại</b> \(x_0\in D\) sao cho \(f(x_0)=m\).</li>
+      <li>Kí hiệu \(m=\min\limits_{D}f(x)\).</li>
+    </ul></div>
+    <div class="node n-orange"><h4>Hai điều phải nhớ</h4><ul>
+      <li>Chỉ chặn trên thôi thì <b>chưa đủ</b> — phải có một điểm <b>đạt được</b> giá trị đó.</li>
+      <li>Không nói rõ tập \(D\) thì hiểu là xét trên <b>tập xác định</b>.</li>
+      <li>Cách làm chung: lập <b>bảng biến thiên</b> của hàm số trên \(D\) rồi kết luận.</li>
+    </ul></div>
+  </div>
+</div>
+<figure>
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Đồ thị hàm số y bằng x bình phương trừ 2x xét trên đoạn từ 0 đến 3, thấp nhất tại x bằng 1 với giá trị trừ 1 và cao nhất tại x bằng 3 với giá trị 3.">
+<line x1="10" y1="198.24" x2="386" y2="198.24" stroke="#2b2b2b" stroke-width="1.6"/>
+<polygon points="394,198.24 385,194.64 385,201.84" fill="#2b2b2b"/>
+<text x="392" y="216.24" fill="#17a2c9" font-size="14" font-style="italic" text-anchor="middle">x</text>
+<line x1="163.2" y1="290" x2="163.2" y2="14" stroke="#2b2b2b" stroke-width="1.6"/>
+<polygon points="163.2,6 159.6,15 166.8,15" fill="#2b2b2b"/>
+<text x="151.2" y="12" fill="#17a2c9" font-size="14" font-style="italic" text-anchor="middle">y</text>
+<text x="152.2" y="212.24" fill="#17a2c9" font-size="13" font-style="italic" text-anchor="middle">O</text>
+<line x1="40.53" y1="194.24" x2="40.53" y2="202.24" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="40.53" y="217.24" fill="#17a2c9" font-size="13" text-anchor="middle">−2</text>
+<line x1="101.87" y1="194.24" x2="101.87" y2="202.24" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="101.87" y="217.24" fill="#17a2c9" font-size="13" text-anchor="middle">−1</text>
+<line x1="224.53" y1="194.24" x2="224.53" y2="202.24" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="224.53" y="217.24" fill="#17a2c9" font-size="13" text-anchor="middle">1</text>
+<line x1="285.87" y1="194.24" x2="285.87" y2="202.24" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="285.87" y="217.24" fill="#17a2c9" font-size="13" text-anchor="middle">2</text>
+<line x1="347.2" y1="194.24" x2="347.2" y2="202.24" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="347.2" y="217.24" fill="#17a2c9" font-size="13" text-anchor="middle">3</text>
+<line x1="159.2" y1="251.84" x2="167.2" y2="251.84" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="155.2" y="256.34" fill="#17a2c9" font-size="13" text-anchor="end">−1</text>
+<line x1="159.2" y1="144.64" x2="167.2" y2="144.64" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="155.2" y="149.14" fill="#17a2c9" font-size="13" text-anchor="end">1</text>
+<line x1="159.2" y1="91.04" x2="167.2" y2="91.04" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="155.2" y="95.54" fill="#17a2c9" font-size="13" text-anchor="end">2</text>
+<line x1="159.2" y1="37.44" x2="167.2" y2="37.44" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="155.2" y="41.94" fill="#17a2c9" font-size="13" text-anchor="end">3</text>
+<path d="M 163.2 198.24 L 163.66 199.04 L 164.12 199.84 L 164.58 200.62 L 165.04 201.41 L 165.5 202.18 L 165.96 202.96 L 166.42 203.72 L 166.88 204.48 L 167.34 205.23 L 167.8 205.98 L 168.26 206.72 L 168.72 207.45 L 169.18 208.18 L 169.64 208.91 L 170.1 209.62 L 170.56 210.33 L 171.02 211.04 L 171.48 211.74 L 171.94 212.43 L 172.4 213.11 L 172.86 213.79 L 173.32 214.47 L 173.78 215.14 L 174.24 215.8 L 174.7 216.46 L 175.16 217.11 L 175.62 217.75 L 176.08 218.39 L 176.54 219.02 L 177 219.65 L 177.46 220.27 L 177.92 220.88 L 178.38 221.49 L 178.84 222.09 L 179.3 222.69 L 179.76 223.28 L 180.22 223.86 L 180.68 224.44 L 181.14 225.01 L 181.6 225.58 L 182.06 226.14 L 182.52 226.69 L 182.98 227.24 L 183.44 227.78 L 183.9 228.31 L 184.36 228.84 L 184.82 229.37 L 185.28 229.89 L 185.74 230.4 L 186.2 230.9 L 186.66 231.4 L 187.12 231.9 L 187.58 232.38 L 188.04 232.86 L 188.5 233.34 L 188.96 233.81 L 189.42 234.27 L 189.88 234.73 L 190.34 235.18 L 190.8 235.63 L 191.26 236.07 L 191.72 236.5 L 192.18 236.93 L 192.64 237.35 L 193.1 237.76 L 193.56 238.17 L 194.02 238.57 L 194.48 238.97 L 194.94 239.36 L 195.4 239.75 L 195.86 240.13 L 196.32 240.5 L 196.78 240.87 L 197.24 241.23 L 197.7 241.58 L 198.16 241.93 L 198.62 242.27 L 199.08 242.61 L 199.54 242.94 L 200 243.26 L 200.46 243.58 L 200.92 243.9 L 201.38 244.2 L 201.84 244.5 L 202.3 244.8 L 202.76 245.09 L 203.22 245.37 L 203.68 245.64 L 204.14 245.91 L 204.6 246.18 L 205.06 246.44 L 205.52 246.69 L 205.98 246.94 L 206.44 247.18 L 206.9 247.41 L 207.36 247.64 L 207.82 247.86 L 208.28 248.08 L 208.74 248.29 L 209.2 248.49 L 209.66 248.69 L 210.12 248.88 L 210.58 249.07 L 211.04 249.25 L 211.5 249.42 L 211.96 249.59 L 212.42 249.75 L 212.88 249.91 L 213.34 250.05 L 213.8 250.2 L 214.26 250.34 L 214.72 250.47 L 215.18 250.59 L 215.64 250.71 L 216.1 250.83 L 216.56 250.93 L 217.02 251.04 L 217.48 251.13 L 217.94 251.22 L 218.4 251.3 L 218.86 251.38 L 219.32 251.45 L 219.78 251.52 L 220.24 251.58 L 220.7 251.63 L 221.16 251.68 L 221.62 251.72 L 222.08 251.75 L 222.54 251.78 L 223 251.81 L 223.46 251.82 L 223.92 251.83 L 224.38 251.84 L 224.84 251.84 L 225.3 251.83 L 225.76 251.82 L 226.22 251.8 L 226.68 251.77 L 227.14 251.74 L 227.6 251.71 L 228.06 251.66 L 228.52 251.61 L 228.98 251.56 L 229.44 251.5 L 229.9 251.43 L 230.36 251.36 L 230.82 251.28 L 231.28 251.19 L 231.74 251.1 L 232.2 251 L 232.66 250.9 L 233.12 250.79 L 233.58 250.67 L 234.04 250.55 L 234.5 250.42 L 234.96 250.29 L 235.42 250.15 L 235.88 250.01 L 236.34 249.85 L 236.8 249.7 L 237.26 249.53 L 237.72 249.36 L 238.18 249.19 L 238.64 249 L 239.1 248.82 L 239.56 248.62 L 240.02 248.42 L 240.48 248.22 L 240.94 248 L 241.4 247.79 L 241.86 247.56 L 242.32 247.33 L 242.78 247.1 L 243.24 246.85 L 243.7 246.61 L 244.16 246.35 L 244.62 246.09 L 245.08 245.82 L 245.54 245.55 L 246 245.27 L 246.46 244.99 L 246.92 244.7 L 247.38 244.4 L 247.84 244.1 L 248.3 243.79 L 248.76 243.48 L 249.22 243.16 L 249.68 242.83 L 250.14 242.5 L 250.6 242.16 L 251.06 241.81 L 251.52 241.46 L 251.98 241.11 L 252.44 240.74 L 252.9 240.37 L 253.36 240 L 253.82 239.62 L 254.28 239.23 L 254.74 238.84 L 255.2 238.44 L 255.66 238.03 L 256.12 237.62 L 256.58 237.21 L 257.04 236.78 L 257.5 236.35 L 257.96 235.92 L 258.42 235.48 L 258.88 235.03 L 259.34 234.58 L 259.8 234.12 L 260.26 233.65 L 260.72 233.18 L 261.18 232.7 L 261.64 232.22 L 262.1 231.73 L 262.56 231.24 L 263.02 230.73 L 263.48 230.23 L 263.94 229.71 L 264.4 229.19 L 264.86 228.67 L 265.32 228.14 L 265.78 227.6 L 266.24 227.06 L 266.7 226.51 L 267.16 225.95 L 267.62 225.39 L 268.08 224.82 L 268.54 224.25 L 269 223.67 L 269.46 223.08 L 269.92 222.49 L 270.38 221.89 L 270.84 221.29 L 271.3 220.68 L 271.76 220.06 L 272.22 219.44 L 272.68 218.81 L 273.14 218.18 L 273.6 217.54 L 274.06 216.89 L 274.52 216.24 L 274.98 215.58 L 275.44 214.91 L 275.9 214.24 L 276.36 213.57 L 276.82 212.89 L 277.28 212.2 L 277.74 211.5 L 278.2 210.8 L 278.66 210.1 L 279.12 209.38 L 279.58 208.66 L 280.04 207.94 L 280.5 207.21 L 280.96 206.47 L 281.42 205.73 L 281.88 204.98 L 282.34 204.23 L 282.8 203.47 L 283.26 202.7 L 283.72 201.93 L 284.18 201.15 L 284.64 200.36 L 285.1 199.57 L 285.56 198.77 L 286.02 197.97 L 286.48 197.16 L 286.94 196.35 L 287.4 195.53 L 287.86 194.7 L 288.32 193.87 L 288.78 193.03 L 289.24 192.18 L 289.7 191.33 L 290.16 190.47 L 290.62 189.61 L 291.08 188.74 L 291.54 187.87 L 292 186.98 L 292.46 186.1 L 292.92 185.2 L 293.38 184.3 L 293.84 183.4 L 294.3 182.49 L 294.76 181.57 L 295.22 180.65 L 295.68 179.72 L 296.14 178.78 L 296.6 177.84 L 297.06 176.89 L 297.52 175.94 L 297.98 174.98 L 298.44 174.01 L 298.9 173.04 L 299.36 172.06 L 299.82 171.08 L 300.28 170.09 L 300.74 169.09 L 301.2 168.09 L 301.66 167.08 L 302.12 166.07 L 302.58 165.05 L 303.04 164.02 L 303.5 162.99 L 303.96 161.95 L 304.42 160.91 L 304.88 159.86 L 305.34 158.8 L 305.8 157.74 L 306.26 156.67 L 306.72 155.6 L 307.18 154.52 L 307.64 153.43 L 308.1 152.34 L 308.56 151.24 L 309.02 150.13 L 309.48 149.02 L 309.94 147.91 L 310.4 146.78 L 310.86 145.66 L 311.32 144.52 L 311.78 143.38 L 312.24 142.23 L 312.7 141.08 L 313.16 139.92 L 313.62 138.76 L 314.08 137.59 L 314.54 136.41 L 315 135.23 L 315.46 134.04 L 315.92 132.84 L 316.38 131.64 L 316.84 130.43 L 317.3 129.22 L 317.76 128 L 318.22 126.78 L 318.68 125.55 L 319.14 124.31 L 319.6 123.07 L 320.06 121.82 L 320.52 120.56 L 320.98 119.3 L 321.44 118.03 L 321.9 116.76 L 322.36 115.48 L 322.82 114.19 L 323.28 112.9 L 323.74 111.61 L 324.2 110.3 L 324.66 108.99 L 325.12 107.68 L 325.58 106.36 L 326.04 105.03 L 326.5 103.69 L 326.96 102.35 L 327.42 101.01 L 327.88 99.66 L 328.34 98.3 L 328.8 96.94 L 329.26 95.57 L 329.72 94.19 L 330.18 92.81 L 330.64 91.42 L 331.1 90.03 L 331.56 88.63 L 332.02 87.22 L 332.48 85.81 L 332.94 84.39 L 333.4 82.97 L 333.86 81.54 L 334.32 80.1 L 334.78 78.66 L 335.24 77.21 L 335.7 75.76 L 336.16 74.3 L 336.62 72.83 L 337.08 71.36 L 337.54 69.88 L 338 68.39 L 338.46 66.9 L 338.92 65.41 L 339.38 63.9 L 339.84 62.4 L 340.3 60.88 L 340.76 59.36 L 341.22 57.83 L 341.68 56.3 L 342.14 54.76 L 342.6 53.22 L 343.06 51.67 L 343.52 50.11 L 343.98 48.55 L 344.44 46.98 L 344.9 45.4 L 345.36 43.82 L 345.82 42.24 L 346.28 40.64 L 346.74 39.04 L 347.2 37.44" fill="none" stroke="#ef8b28" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="224.53" y1="198.24" x2="224.53" y2="251.84" stroke="#8a8a8a" stroke-width="1.2" stroke-dasharray="4 3"/>
+<line x1="163.2" y1="251.84" x2="224.53" y2="251.84" stroke="#8a8a8a" stroke-width="1.2" stroke-dasharray="4 3"/>
+<line x1="347.2" y1="198.24" x2="347.2" y2="37.44" stroke="#8a8a8a" stroke-width="1.2" stroke-dasharray="4 3"/>
+<line x1="163.2" y1="37.44" x2="347.2" y2="37.44" stroke="#8a8a8a" stroke-width="1.2" stroke-dasharray="4 3"/>
+<circle cx="163.2" cy="198.24" r="3.4" fill="#e8710a"/>
+<circle cx="347.2" cy="37.44" r="3.4" fill="#e8710a"/>
+<circle cx="224.53" cy="251.84" r="3.4" fill="#e8710a"/>
+</svg>
+<figcaption>Hình 1.15 — đồ thị hàm số \(y=x^2-2x\) trên đoạn \([0;3]\) (vẽ lại theo SGK tr.15)</figcaption>
+</figure>
+
+<div class="card">
+  <p class="de"><span class="tag vd">Ví dụ 1</span><span class="q">Tìm giá trị lớn nhất và giá trị nhỏ nhất của hàm số \(y=f(x)=\sqrt{1-x^2}\).</span></p>
+  <div class="giai">
+    Tập xác định của hàm số là \([-1;1]\).<br>
+    Với \(x\in(-1;1)\), ta có: \(y'=\dfrac{-x}{\sqrt{1-x^2}}\).<br>
+    \(y'=0\) khi \(x=0\).<br>
+    Lập bảng biến thiên của hàm số trên đoạn \([-1;1]\):
+    <figure class="fig-wide">
+<svg viewBox="0 0 494 162" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bảng biến thiên của hàm số căn bậc hai của 1 trừ x bình phương trên đoạn từ trừ 1 đến 1.">
+<defs><marker id="mt" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#1a2438"/></marker></defs>
+<line x1="6" y1="38" x2="488" y2="38" stroke="#4a5568" stroke-width="1.3"/>
+<line x1="6" y1="68" x2="488" y2="68" stroke="#4a5568" stroke-width="1.3"/>
+<line x1="26" y1="8" x2="26" y2="154" stroke="#4a5568" stroke-width="1.3"/>
+<text x="18" y="29" fill="#1a2438" font-size="14" text-anchor="middle" font-style="italic">x</text>
+<text x="18" y="59" fill="#1a2438" font-size="14" text-anchor="middle" font-style="italic">y'</text>
+<text x="18" y="98" fill="#1a2438" font-size="14" text-anchor="middle" font-style="italic">y</text>
+<text x="156" y="59" fill="#1a2438" font-size="15" text-anchor="middle">+</text>
+<text x="372" y="59" fill="#1a2438" font-size="15" text-anchor="middle">−</text>
+<line x1="46" y1="38" x2="46" y2="154" stroke="#4a5568" stroke-width="1.2"/>
+<line x1="50" y1="38" x2="50" y2="154" stroke="#4a5568" stroke-width="1.2"/>
+<line x1="478" y1="38" x2="478" y2="154" stroke="#4a5568" stroke-width="1.2"/>
+<line x1="482" y1="38" x2="482" y2="154" stroke="#4a5568" stroke-width="1.2"/>
+<text x="264" y="59" fill="#1a2438" font-size="13.5" text-anchor="middle">0</text>
+<text x="54" y="151" fill="#1a2438" font-size="13.5" text-anchor="start">0</text>
+<text x="264" y="95" fill="#1a2438" font-size="13.5" text-anchor="middle">1</text>
+<text x="474" y="151" fill="#1a2438" font-size="13.5" text-anchor="end">0</text>
+<text x="48" y="29" fill="#1a2438" font-size="13.5" text-anchor="middle">−1</text>
+<text x="264" y="29" fill="#1a2438" font-size="13.5" text-anchor="middle">0</text>
+<text x="480" y="29" fill="#1a2438" font-size="13.5" text-anchor="middle">1</text>
+<line x1="71.6" y1="140" x2="251.7" y2="96" stroke="#1a2438" stroke-width="1.3" marker-end="url(#mt)"/>
+<line x1="276.3" y1="96" x2="456.4" y2="140" stroke="#1a2438" stroke-width="1.3" marker-end="url(#mt)"/>
+</svg>
+</figure>
+    <span class="kq">Vậy \(\max\limits_{[-1;1]}f(x)=f(0)=1\) và \(\min\limits_{[-1;1]}f(x)=f(-1)=f(1)=0\).</span>
+  </div>
+</div>
+
+<div class="card">
+  <p class="de"><span class="tag vd">Ví dụ 2</span><span class="q">Tìm giá trị lớn nhất và giá trị nhỏ nhất (nếu có) của hàm số \(y=x-2+\dfrac{1}{x}\) trên khoảng \((0;+\infty)\).</span></p>
+  <div class="giai">
+    Ta có: \(y'=1-\dfrac{1}{x^2}\).<br>
+    \(y'=0\) khi \(x=1\), vì \(x&gt;0\).<br>
+    \(\lim\limits_{x\to0^+}y=+\infty\); \(\lim\limits_{x\to+\infty}y=+\infty\).<br>
+    Lập bảng biến thiên của hàm số trên khoảng \((0;+\infty)\):
+    <figure class="fig-wide">
+<svg viewBox="0 0 494 162" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bảng biến thiên trên khoảng 0 đến dương vô cực: hàm số giảm rồi tăng, giá trị nhỏ nhất bằng 0 tại x bằng 1.">
+<defs><marker id="mt" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#1a2438"/></marker></defs>
+<line x1="6" y1="38" x2="488" y2="38" stroke="#4a5568" stroke-width="1.3"/>
+<line x1="6" y1="68" x2="488" y2="68" stroke="#4a5568" stroke-width="1.3"/>
+<line x1="26" y1="8" x2="26" y2="154" stroke="#4a5568" stroke-width="1.3"/>
+<text x="18" y="29" fill="#1a2438" font-size="14" text-anchor="middle" font-style="italic">x</text>
+<text x="18" y="59" fill="#1a2438" font-size="14" text-anchor="middle" font-style="italic">y'</text>
+<text x="18" y="98" fill="#1a2438" font-size="14" text-anchor="middle" font-style="italic">y</text>
+<text x="156" y="59" fill="#1a2438" font-size="15" text-anchor="middle">−</text>
+<text x="372" y="59" fill="#1a2438" font-size="15" text-anchor="middle">+</text>
+<line x1="46" y1="38" x2="46" y2="154" stroke="#4a5568" stroke-width="1.2"/>
+<line x1="50" y1="38" x2="50" y2="154" stroke="#4a5568" stroke-width="1.2"/>
+<text x="264" y="59" fill="#1a2438" font-size="13.5" text-anchor="middle">0</text>
+<text x="54" y="95" fill="#1a2438" font-size="13.5" text-anchor="start">+∞</text>
+<text x="264" y="151" fill="#1a2438" font-size="13.5" text-anchor="middle">0</text>
+<text x="474" y="95" fill="#1a2438" font-size="13.5" text-anchor="end">+∞</text>
+<text x="48" y="29" fill="#1a2438" font-size="13.5" text-anchor="middle">0</text>
+<text x="264" y="29" fill="#1a2438" font-size="13.5" text-anchor="middle">1</text>
+<text x="480" y="29" fill="#1a2438" font-size="13.5" text-anchor="middle">+∞</text>
+<line x1="79.2" y1="96" x2="251.7" y2="140" stroke="#1a2438" stroke-width="1.3" marker-end="url(#mt)"/>
+<line x1="276.3" y1="140" x2="448.8" y2="96" stroke="#1a2438" stroke-width="1.3" marker-end="url(#mt)"/>
+</svg>
+</figure>
+    <span class="kq">Vậy \(\min\limits_{(0;+\infty)}y=y(1)=0\); hàm số không có giá trị lớn nhất trên khoảng \((0;+\infty)\).</span>
+  </div>
+</div>
+
+<div class="card" data-ma="lop-12/chuong-01/bai-02#vdung1">
+  <p class="de"><span class="tag vdung">Vận dụng 1</span><span class="q">Trả lời tình huống mở đầu: cắt bốn hình vuông cạnh bao nhiêu ở bốn góc tấm bìa vuông cạnh \(60\) cm để chiếc hộp gập được có thể tích lớn nhất?</span></p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>Gọi \(x\) (cm) là độ dài cạnh của các hình vuông nhỏ bị cắt, điều kiện \(0<x<30\).</p>
+    </details>
+    <details class="hs-dap-so"><summary>Đáp số để đối chiếu</summary>
+      <div class="kq">Vậy phải cắt bốn hình vuông cạnh \(10\) cm, khi đó thể tích hộp lớn nhất bằng \(16\,000\) cm³.</div>
+      <p class="hs-nho">Ra khác đáp số thì em xem lại các bước, đừng sửa vội cho khớp.</p>
+    </details>
+  </div>
+
+<div class="card" data-ma="lop-12/chuong-01/bai-02#lt2">
+  <p class="de dai"><span class="tag lt">Luyện tập 1</span><span class="q">Tìm giá trị lớn nhất và giá trị nhỏ nhất (nếu có) của các hàm số sau:<br>a) \(y=\sqrt{2x-x^2}\);<br>b) \(y=-x+\dfrac{1}{x-1}\) trên khoảng \((1;+\infty)\).</span></p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>a) Tập xác định của hàm số là \([0;2]\).</p>
+    </details>
+    <details class="hs-dap-so"><summary>Đáp số để đối chiếu</summary>
+      <div class="kq">Vậy câu a) có \(\max y=1\), \(\min y=0\); câu b) hàm số không có giá trị lớn nhất và cũng không có giá trị nhỏ nhất.</div>
+      <p class="hs-nho">Ra khác đáp số thì em xem lại các bước, đừng sửa vội cho khớp.</p>
+    </details>
+  </div>
+
+<h2 class="sec" id="tren-doan"><span class="num">2</span> TÌM GIÁ TRỊ LỚN NHẤT, NHỎ NHẤT TRÊN MỘT ĐOẠN</h2>
+<p class="note">Trên một <b>đoạn</b> \([a;b]\), hàm số liên tục luôn có cả giá trị lớn nhất lẫn giá trị nhỏ nhất. Khi ấy không cần lập bảng biến thiên: chỉ cần so sánh vài giá trị.</p>
+<figure>
+<svg viewBox="0 0 400 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Đồ thị hàm số y bằng x mũ ba trừ 2x bình phương cộng 1 trên đoạn từ trừ 1 đến 2, giá trị nhỏ nhất bằng trừ 2 tại x bằng trừ 1 và giá trị lớn nhất bằng 1 tại x bằng 0 và x bằng 2.">
+<line x1="10" y1="145" x2="386" y2="145" stroke="#2b2b2b" stroke-width="1.6"/>
+<polygon points="394,145 385,141.4 385,148.6" fill="#2b2b2b"/>
+<text x="392" y="163" fill="#17a2c9" font-size="14" font-style="italic" text-anchor="middle">x</text>
+<line x1="161.67" y1="280" x2="161.67" y2="14" stroke="#2b2b2b" stroke-width="1.6"/>
+<polygon points="161.67,6 158.07,15 165.27,15" fill="#2b2b2b"/>
+<text x="149.67" y="12" fill="#17a2c9" font-size="14" font-style="italic" text-anchor="middle">y</text>
+<text x="150.67" y="159" fill="#17a2c9" font-size="13" font-style="italic" text-anchor="middle">O</text>
+<line x1="85" y1="141" x2="85" y2="149" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="85" y="164" fill="#17a2c9" font-size="13" text-anchor="middle">−1</text>
+<line x1="238.33" y1="141" x2="238.33" y2="149" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="238.33" y="164" fill="#17a2c9" font-size="13" text-anchor="middle">1</text>
+<line x1="315" y1="141" x2="315" y2="149" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="315" y="164" fill="#17a2c9" font-size="13" text-anchor="middle">2</text>
+<line x1="157.67" y1="196.6" x2="165.67" y2="196.6" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="153.67" y="201.1" fill="#17a2c9" font-size="13" text-anchor="end">−1</text>
+<line x1="157.67" y1="248.2" x2="165.67" y2="248.2" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="153.67" y="252.7" fill="#17a2c9" font-size="13" text-anchor="end">−2</text>
+<line x1="157.67" y1="93.4" x2="165.67" y2="93.4" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="153.67" y="97.9" fill="#17a2c9" font-size="13" text-anchor="end">1</text>
+<line x1="157.67" y1="41.8" x2="165.67" y2="41.8" stroke="#2b2b2b" stroke-width="1.3"/>
+<text x="153.67" y="46.3" fill="#17a2c9" font-size="13" text-anchor="end">2</text>
+<path d="M 85 248.2 L 85.57 245.51 L 86.15 242.84 L 86.72 240.2 L 87.3 237.59 L 87.88 235.02 L 88.45 232.46 L 89.02 229.94 L 89.6 227.45 L 90.17 224.98 L 90.75 222.54 L 91.33 220.13 L 91.9 217.74 L 92.47 215.39 L 93.05 213.06 L 93.62 210.76 L 94.2 208.48 L 94.77 206.23 L 95.35 204.01 L 95.92 201.82 L 96.5 199.65 L 97.08 197.51 L 97.65 195.39 L 98.22 193.31 L 98.8 191.24 L 99.38 189.21 L 99.95 187.19 L 100.53 185.21 L 101.1 183.25 L 101.67 181.31 L 102.25 179.4 L 102.82 177.52 L 103.4 175.66 L 103.98 173.82 L 104.55 172.01 L 105.12 170.23 L 105.7 168.47 L 106.28 166.73 L 106.85 165.02 L 107.42 163.33 L 108 161.67 L 108.58 160.03 L 109.15 158.41 L 109.72 156.82 L 110.3 155.25 L 110.87 153.7 L 111.45 152.18 L 112.03 150.68 L 112.6 149.2 L 113.17 147.74 L 113.75 146.31 L 114.33 144.9 L 114.9 143.51 L 115.47 142.15 L 116.05 140.8 L 116.62 139.48 L 117.2 138.18 L 117.78 136.91 L 118.35 135.65 L 118.92 134.42 L 119.5 133.2 L 120.08 132.01 L 120.65 130.84 L 121.22 129.69 L 121.8 128.56 L 122.38 127.45 L 122.95 126.36 L 123.52 125.3 L 124.1 124.25 L 124.68 123.22 L 125.25 122.21 L 125.83 121.23 L 126.4 120.26 L 126.97 119.31 L 127.55 118.38 L 128.12 117.47 L 128.7 116.58 L 129.28 115.71 L 129.85 114.86 L 130.43 114.03 L 131 113.21 L 131.57 112.42 L 132.15 111.64 L 132.73 110.88 L 133.3 110.14 L 133.88 109.42 L 134.45 108.71 L 135.02 108.03 L 135.6 107.36 L 136.18 106.71 L 136.75 106.07 L 137.32 105.45 L 137.9 104.85 L 138.48 104.27 L 139.05 103.71 L 139.62 103.16 L 140.2 102.62 L 140.78 102.11 L 141.35 101.61 L 141.93 101.12 L 142.5 100.66 L 143.07 100.2 L 143.65 99.77 L 144.22 99.35 L 144.8 98.94 L 145.38 98.56 L 145.95 98.18 L 146.53 97.82 L 147.1 97.48 L 147.67 97.15 L 148.25 96.84 L 148.82 96.54 L 149.4 96.25 L 149.98 95.98 L 150.55 95.73 L 151.12 95.49 L 151.7 95.26 L 152.28 95.04 L 152.85 94.84 L 153.43 94.66 L 154 94.48 L 154.57 94.32 L 155.15 94.18 L 155.72 94.04 L 156.3 93.92 L 156.88 93.82 L 157.45 93.72 L 158.03 93.64 L 158.6 93.57 L 159.18 93.51 L 159.75 93.47 L 160.32 93.43 L 160.9 93.41 L 161.47 93.4 L 162.05 93.4 L 162.62 93.42 L 163.2 93.44 L 163.78 93.48 L 164.35 93.52 L 164.93 93.58 L 165.5 93.65 L 166.08 93.73 L 166.65 93.82 L 167.22 93.92 L 167.8 94.03 L 168.38 94.16 L 168.95 94.29 L 169.53 94.43 L 170.1 94.58 L 170.68 94.74 L 171.25 94.91 L 171.82 95.09 L 172.4 95.28 L 172.97 95.48 L 173.55 95.69 L 174.12 95.9 L 174.7 96.13 L 175.27 96.36 L 175.85 96.61 L 176.42 96.86 L 177 97.12 L 177.58 97.38 L 178.15 97.66 L 178.72 97.94 L 179.3 98.23 L 179.88 98.53 L 180.45 98.84 L 181.03 99.15 L 181.6 99.47 L 182.18 99.8 L 182.75 100.13 L 183.33 100.47 L 183.9 100.82 L 184.47 101.18 L 185.05 101.54 L 185.62 101.9 L 186.2 102.28 L 186.78 102.66 L 187.35 103.04 L 187.92 103.43 L 188.5 103.83 L 189.07 104.23 L 189.65 104.64 L 190.22 105.05 L 190.8 105.47 L 191.37 105.89 L 191.95 106.32 L 192.53 106.75 L 193.1 107.19 L 193.68 107.63 L 194.25 108.08 L 194.83 108.53 L 195.4 108.98 L 195.98 109.44 L 196.55 109.9 L 197.12 110.37 L 197.7 110.84 L 198.28 111.31 L 198.85 111.79 L 199.43 112.27 L 200 112.75 L 200.57 113.24 L 201.15 113.72 L 201.72 114.21 L 202.3 114.71 L 202.88 115.2 L 203.45 115.7 L 204.02 116.2 L 204.6 116.7 L 205.17 117.21 L 205.75 117.71 L 206.33 118.22 L 206.9 118.73 L 207.47 119.24 L 208.05 119.75 L 208.63 120.26 L 209.2 120.77 L 209.78 121.29 L 210.35 121.8 L 210.93 122.32 L 211.5 122.83 L 212.08 123.35 L 212.65 123.86 L 213.22 124.38 L 213.8 124.89 L 214.38 125.41 L 214.95 125.93 L 215.53 126.44 L 216.1 126.95 L 216.67 127.47 L 217.25 127.98 L 217.82 128.49 L 218.4 129 L 218.98 129.51 L 219.55 130.02 L 220.12 130.53 L 220.7 131.03 L 221.28 131.53 L 221.85 132.03 L 222.43 132.53 L 223 133.03 L 223.58 133.52 L 224.15 134.01 L 224.73 134.5 L 225.3 134.99 L 225.88 135.47 L 226.45 135.95 L 227.03 136.43 L 227.6 136.91 L 228.18 137.38 L 228.75 137.84 L 229.32 138.31 L 229.9 138.77 L 230.47 139.22 L 231.05 139.68 L 231.62 140.12 L 232.2 140.57 L 232.77 141.01 L 233.35 141.44 L 233.93 141.87 L 234.5 142.3 L 235.08 142.72 L 235.65 143.13 L 236.22 143.54 L 236.8 143.95 L 237.38 144.35 L 237.95 144.74 L 238.53 145.13 L 239.1 145.51 L 239.68 145.89 L 240.25 146.26 L 240.83 146.62 L 241.4 146.98 L 241.97 147.33 L 242.55 147.67 L 243.12 148.01 L 243.7 148.34 L 244.28 148.67 L 244.85 148.98 L 245.42 149.29 L 246 149.59 L 246.57 149.89 L 247.15 150.17 L 247.73 150.45 L 248.3 150.72 L 248.88 150.99 L 249.45 151.24 L 250.03 151.49 L 250.6 151.72 L 251.18 151.95 L 251.75 152.17 L 252.33 152.38 L 252.9 152.59 L 253.47 152.78 L 254.05 152.96 L 254.62 153.14 L 255.2 153.31 L 255.78 153.46 L 256.35 153.61 L 256.93 153.74 L 257.5 153.87 L 258.07 153.98 L 258.65 154.09 L 259.23 154.19 L 259.8 154.27 L 260.38 154.34 L 260.95 154.41 L 261.53 154.46 L 262.1 154.5 L 262.68 154.53 L 263.25 154.55 L 263.83 154.56 L 264.4 154.55 L 264.98 154.53 L 265.55 154.51 L 266.12 154.47 L 266.7 154.41 L 267.27 154.35 L 267.85 154.27 L 268.43 154.18 L 269 154.08 L 269.58 153.97 L 270.15 153.84 L 270.73 153.7 L 271.3 153.54 L 271.88 153.38 L 272.45 153.2 L 273.03 153 L 273.6 152.79 L 274.18 152.57 L 274.75 152.34 L 275.32 152.09 L 275.9 151.82 L 276.48 151.55 L 277.05 151.25 L 277.62 150.95 L 278.2 150.62 L 278.77 150.29 L 279.35 149.94 L 279.93 149.57 L 280.5 149.19 L 281.08 148.79 L 281.65 148.38 L 282.22 147.95 L 282.8 147.5 L 283.38 147.04 L 283.95 146.57 L 284.53 146.07 L 285.1 145.56 L 285.68 145.04 L 286.25 144.5 L 286.82 143.94 L 287.4 143.36 L 287.98 142.77 L 288.55 142.16 L 289.12 141.53 L 289.7 140.89 L 290.28 140.23 L 290.85 139.55 L 291.43 138.85 L 292 138.14 L 292.57 137.4 L 293.15 136.65 L 293.73 135.88 L 294.3 135.1 L 294.88 134.29 L 295.45 133.47 L 296.03 132.62 L 296.6 131.76 L 297.18 130.88 L 297.75 129.98 L 298.33 129.06 L 298.9 128.12 L 299.48 127.16 L 300.05 126.18 L 300.62 125.18 L 301.2 124.17 L 301.78 123.13 L 302.35 122.07 L 302.93 120.99 L 303.5 119.89 L 304.07 118.77 L 304.65 117.63 L 305.23 116.47 L 305.8 115.29 L 306.38 114.08 L 306.95 112.86 L 307.52 111.61 L 308.1 110.34 L 308.68 109.05 L 309.25 107.74 L 309.83 106.41 L 310.4 105.05 L 310.98 103.67 L 311.55 102.27 L 312.12 100.85 L 312.7 99.41 L 313.28 97.94 L 313.85 96.45 L 314.43 94.94 L 315 93.4" fill="none" stroke="#ef8b28" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="85" y1="145" x2="85" y2="248.2" stroke="#8a8a8a" stroke-width="1.2" stroke-dasharray="4 3"/>
+<line x1="161.67" y1="248.2" x2="85" y2="248.2" stroke="#8a8a8a" stroke-width="1.2" stroke-dasharray="4 3"/>
+<line x1="315" y1="145" x2="315" y2="93.4" stroke="#8a8a8a" stroke-width="1.2" stroke-dasharray="4 3"/>
+<line x1="161.67" y1="93.4" x2="315" y2="93.4" stroke="#8a8a8a" stroke-width="1.2" stroke-dasharray="4 3"/>
+<circle cx="85" cy="248.2" r="3.4" fill="#e8710a"/>
+<circle cx="315" cy="93.4" r="3.4" fill="#e8710a"/>
+<circle cx="161.67" cy="93.4" r="3.4" fill="#e8710a"/>
+</svg>
+<figcaption>Hình 1.16 — đồ thị hàm số \(y=x^3-2x^2+1\) trên đoạn \([-1;2]\) (vẽ lại theo SGK tr.17)</figcaption>
+</figure>
+
+<h3 class="sub">Ba bước tìm giá trị lớn nhất, nhỏ nhất trên đoạn</h3>
+<div class="map orange">
+  <div class="root">TÌM \(\max\) VÀ \(\min\) CỦA \(f(x)\) TRÊN \([a;b]\)</div>
+  <div class="branches">
+    <div class="node n-orange"><h4>Bước 1</h4><ul>
+      <li>Tìm các điểm \(x_1,x_2,\dots,x_n\) thuộc khoảng \((a;b)\), tại đó \(f'(x)\) bằng \(0\) hoặc <b>không tồn tại</b>.</li>
+    </ul></div>
+    <div class="node n-blue"><h4>Bước 2 và bước 3</h4><ul>
+      <li>Tính \(f(x_1),\dots,f(x_n)\) và <b>hai giá trị ở đầu mút</b> là \(f(a)\), \(f(b)\).</li>
+      <li>Số lớn nhất trong các số đó là \(M=\max\limits_{[a;b]}f(x)\); số nhỏ nhất là \(m=\min\limits_{[a;b]}f(x)\).</li>
+    </ul></div>
+    <div class="node n-green"><h4>Chỗ hay sai</h4><ul>
+      <li><b>Quên tính giá trị tại hai đầu mút</b> — đây là lỗi phổ biến nhất.</li>
+      <li>Lấy nghiệm của \(f'(x)=0\) nằm <b>ngoài đoạn</b> \([a;b]\) vào so sánh.</li>
+      <li>Nhầm giá trị lớn nhất với <b>giá trị cực đại</b>: hai khái niệm khác nhau.</li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="card">
+  <p class="de"><span class="tag vd">Ví dụ 3</span><span class="q">Tìm giá trị lớn nhất và giá trị nhỏ nhất của hàm số \(y=x^4-4x^2+3\) trên đoạn \([0;4]\).</span></p>
+  <div class="giai">
+    Ta có: \(y'=4x^3-8x=4x\left(x^2-2\right)\).<br>
+    \(y'=0\) khi \(x=0\) hoặc \(x=\sqrt2\), vì \(x\in[0;4]\).<br>
+    \(y(0)=3\); \(y\left(\sqrt2\right)=-1\); \(y(4)=195\).<br>
+    Lập bảng biến thiên của hàm số trên đoạn \([0;4]\):
+    <figure class="fig-wide">
+<svg viewBox="0 0 494 162" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bảng biến thiên trên đoạn từ 0 đến 4: giá trị nhỏ nhất bằng trừ 1 tại x bằng căn hai, giá trị lớn nhất bằng 195 tại x bằng 4.">
+<defs><marker id="mt" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#1a2438"/></marker></defs>
+<line x1="6" y1="38" x2="488" y2="38" stroke="#4a5568" stroke-width="1.3"/>
+<line x1="6" y1="68" x2="488" y2="68" stroke="#4a5568" stroke-width="1.3"/>
+<line x1="26" y1="8" x2="26" y2="154" stroke="#4a5568" stroke-width="1.3"/>
+<text x="18" y="29" fill="#1a2438" font-size="14" text-anchor="middle" font-style="italic">x</text>
+<text x="18" y="59" fill="#1a2438" font-size="14" text-anchor="middle" font-style="italic">y'</text>
+<text x="18" y="98" fill="#1a2438" font-size="14" text-anchor="middle" font-style="italic">y</text>
+<text x="156" y="59" fill="#1a2438" font-size="15" text-anchor="middle">−</text>
+<text x="372" y="59" fill="#1a2438" font-size="15" text-anchor="middle">+</text>
+<line x1="46" y1="38" x2="46" y2="154" stroke="#4a5568" stroke-width="1.2"/>
+<line x1="50" y1="38" x2="50" y2="154" stroke="#4a5568" stroke-width="1.2"/>
+<line x1="478" y1="38" x2="478" y2="154" stroke="#4a5568" stroke-width="1.2"/>
+<line x1="482" y1="38" x2="482" y2="154" stroke="#4a5568" stroke-width="1.2"/>
+<text x="264" y="59" fill="#1a2438" font-size="13.5" text-anchor="middle">0</text>
+<text x="54" y="95" fill="#1a2438" font-size="13.5" text-anchor="start">3</text>
+<text x="264" y="151" fill="#1a2438" font-size="13.5" text-anchor="middle">−1</text>
+<text x="474" y="95" fill="#1a2438" font-size="13.5" text-anchor="end">195</text>
+<text x="48" y="29" fill="#1a2438" font-size="13.5" text-anchor="middle">0</text>
+<text x="264" y="29" fill="#1a2438" font-size="13.5" text-anchor="middle">√2</text>
+<text x="480" y="29" fill="#1a2438" font-size="13.5" text-anchor="middle">4</text>
+<line x1="71.6" y1="96" x2="247.9" y2="140" stroke="#1a2438" stroke-width="1.3" marker-end="url(#mt)"/>
+<line x1="280.1" y1="140" x2="441.2" y2="96" stroke="#1a2438" stroke-width="1.3" marker-end="url(#mt)"/>
+</svg>
+</figure>
+    <span class="kq">Vậy \(\max\limits_{[0;4]}y=y(4)=195\) và \(\min\limits_{[0;4]}y=y\left(\sqrt2\right)=-1\).</span>
+  </div>
+</div>
+
+<div class="card">
+  <p class="de"><span class="tag vd">Ví dụ 4</span><span class="q">Tìm giá trị lớn nhất và giá trị nhỏ nhất của hàm số \(y=\sin x+\cos x\) trên đoạn \([0;2\pi]\).</span></p>
+  <div class="giai">
+    Ta có: \(y'=\cos x-\sin x\).<br>
+    \(y'=0\) khi \(\cos x=\sin x\), tức là \(x=\dfrac{\pi}{4}\) hoặc \(x=\dfrac{5\pi}{4}\), vì \(x\in[0;2\pi]\).<br>
+    \(y(0)=1\); \(y(2\pi)=1\).<br>
+    \(y\left(\dfrac{\pi}{4}\right)=\sqrt2\); \(y\left(\dfrac{5\pi}{4}\right)=-\sqrt2\).<br>
+    So sánh bốn giá trị \(1\); \(1\); \(\sqrt2\); \(-\sqrt2\).<br>
+    <span class="kq">Vậy \(\max\limits_{[0;2\pi]}y=y\left(\dfrac{\pi}{4}\right)=\sqrt2\) và \(\min\limits_{[0;2\pi]}y=y\left(\dfrac{5\pi}{4}\right)=-\sqrt2\).</span>
+  </div>
+</div>
+
+<div class="card" data-ma="lop-12/chuong-01/bai-02#lt3">
+  <p class="de dai"><span class="tag lt">Luyện tập 2</span><span class="q">Tìm giá trị lớn nhất và giá trị nhỏ nhất của các hàm số sau:<br>a) \(y=2x^3-3x^2+5x+2\) trên đoạn \([0;2]\);<br>b) \(y=(x+1)e^{-x}\) trên đoạn \([-1;1]\).</span></p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>a) Ta có: \(y'=6x^2-6x+5\).</p>
+    </details>
+    <details class="hs-dap-so"><summary>Đáp số để đối chiếu</summary>
+      <div class="kq">Vậy câu b) có \(\max\limits_{[-1;1]}y=y(0)=1\) và \(\min\limits_{[-1;1]}y=y(-1)=0\).</div>
+      <p class="hs-nho">Ra khác đáp số thì em xem lại các bước, đừng sửa vội cho khớp.</p>
+    </details>
+  </div>
+
+<div class="card" data-ma="lop-12/chuong-01/bai-02#vdung4">
+  <p class="de dai"><span class="tag vdung">Vận dụng 2</span><span class="q">Sự lây lan của một loại virus ở một địa phương được mô hình hoá bằng hàm số \(N(t)=-t^3+12t^2\) với \(0\le t\le12\), trong đó \(N\) là số người bị nhiễm bệnh (tính bằng trăm người) và \(t\) là thời gian (tuần).<br>a) Ước tính số người tối đa bị nhiễm bệnh.<br>b) Đạo hàm \(N'(t)\) biểu thị tốc độ lây lan của virus. Hỏi virus lây lan nhanh nhất khi nào?</span></p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>a) Ta có: \(N'(t)=-3t^2+24t=-3t(t-8)\).</p>
+    </details>
+    <details class="hs-dap-so"><summary>Đáp số để đối chiếu</summary>
+      <div class="kq">Vậy virus lây lan nhanh nhất vào tuần thứ \(4\), với tốc độ \(48\) trăm người mỗi tuần.</div>
+      <p class="hs-nho">Ra khác đáp số thì em xem lại các bước, đừng sửa vội cho khớp.</p>
+    </details>
+  </div>
+
+<h2 class="sec red" id="bai-tap"><span class="num">3</span> BÀI TẬP</h2>
+<p class="note">Sáu bài dưới đây gồm cả tìm giá trị lớn nhất, nhỏ nhất trên một tập bất kì lẫn trên một đoạn, và hai bài toán tối ưu thực tế.</p>
+
+<div class="card" data-ma="lop-12/chuong-01/bai-02#bt5" data-nop="1">
+  <p class="de dai"><span class="tag bt">1.10</span><span class="q">Tìm giá trị lớn nhất và giá trị nhỏ nhất (nếu có) của các hàm số sau:<br>a) \(y=-x^2+4x+3\);<br>b) \(y=x^3-2x^2+1\) trên \([0;+\infty)\);<br>c) \(y=\sqrt{4x-2x^2}\).</span></p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>a) Tập xác định của hàm số là \(\mathbb{R}\).</p>
+    </details>
+    <details class="hs-dap-so"><summary>Đáp số để đối chiếu</summary>
+      <div class="kq">Vậy câu c) có \(\max y=\sqrt2\) tại \(x=1\) và \(\min y=0\) tại \(x=0\), \(x=2\).</div>
+      <p class="hs-nho">Ra khác đáp số thì em xem lại các bước, đừng sửa vội cho khớp.</p>
+    </details>
+    <p class="hs-nop"><a class="hs-nut" href="/lop-hoc/nop.html?ma=lop-12%2Fchuong-01%2Fbai-02%23bt5">Nộp bài làm</a></p>
+  </div>
+
+<div class="card" data-ma="lop-12/chuong-01/bai-02#bt6" data-nop="1">
+  <p class="de dai"><span class="tag bt">1.11</span><span class="q">Tìm giá trị lớn nhất và giá trị nhỏ nhất (nếu có) của các hàm số sau:<br>a) \(y=x^4-2x^2+3\);<br>b) \(y=xe^{-x}\);<br>c) \(y=\sqrt{x-1}+\sqrt{3-x}\).</span></p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>a) Ta có: \(y'=4x^3-4x=4x\left(x^2-1\right)\); \(y'=0\) khi \(x=0\) hoặc \(x=\pm1\).</p>
+    </details>
+    <details class="hs-dap-so"><summary>Đáp số để đối chiếu</summary>
+      <div class="kq">Vậy câu c) có \(\max\limits_{[1;3]}y=y(2)=2\) và \(\min\limits_{[1;3]}y=y(1)=y(3)=\sqrt2\).</div>
+      <p class="hs-nho">Ra khác đáp số thì em xem lại các bước, đừng sửa vội cho khớp.</p>
+    </details>
+    <p class="hs-nop"><a class="hs-nut" href="/lop-hoc/nop.html?ma=lop-12%2Fchuong-01%2Fbai-02%23bt6">Nộp bài làm</a></p>
+  </div>
+
+<div class="card" data-ma="lop-12/chuong-01/bai-02#bt7" data-nop="1">
+  <p class="de dai"><span class="tag bt">1.12</span><span class="q">Tìm giá trị lớn nhất và giá trị nhỏ nhất của các hàm số sau:<br>a) \(y=2x^3-6x+3\) trên đoạn \([-1;2]\);<br>b) \(y=x^4-3x^2+2\) trên đoạn \([0;3]\);<br>c) \(y=\left(x^2-x\right)e^x\) trên đoạn \([0;1]\).</span></p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>a) Ta có: \(y'=6x^2-6\); \(y'=0\) khi \(x=-1\) hoặc \(x=1\).</p>
+    </details>
+    <details class="hs-dap-so"><summary>Đáp số để đối chiếu</summary>
+      <div class="kq">Vậy câu c) có \(\max\limits_{[0;1]}y=0\) tại \(x=0\) và \(x=1\); \(\min\limits_{[0;1]}y=\left(2-\sqrt5\right)e^{\frac{\sqrt5-1}{2}}\).</div>
+      <p class="hs-nho">Ra khác đáp số thì em xem lại các bước, đừng sửa vội cho khớp.</p>
+    </details>
+    <p class="hs-nop"><a class="hs-nut" href="/lop-hoc/nop.html?ma=lop-12%2Fchuong-01%2Fbai-02%23bt7">Nộp bài làm</a></p>
+  </div>
+
+<div class="card" data-ma="lop-12/chuong-01/bai-02#bt8" data-nop="1">
+  <p class="de"><span class="tag bt">1.13</span><span class="q">Trong các hình chữ nhật có chu vi là \(24\) cm, hãy tìm hình chữ nhật có diện tích lớn nhất.</span></p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>Gọi \(x\) (cm) là chiều rộng của hình chữ nhật, điều kiện \(0<x<12\).</p>
+    </details>
+    <details class="hs-dap-so"><summary>Đáp số để đối chiếu</summary>
+      <div class="kq">Vậy hình chữ nhật có diện tích lớn nhất là hình vuông cạnh \(6\) cm, diện tích \(36\) cm².</div>
+      <p class="hs-nho">Ra khác đáp số thì em xem lại các bước, đừng sửa vội cho khớp.</p>
+    </details>
+    <p class="hs-nop"><a class="hs-nut" href="/lop-hoc/nop.html?ma=lop-12%2Fchuong-01%2Fbai-02%23bt8">Nộp bài làm</a></p>
+  </div>
+
+<div class="card" data-ma="lop-12/chuong-01/bai-02#bt9" data-nop="1">
+  <p class="de"><span class="tag bt">1.14</span><span class="q">Một nhà sản xuất muốn thiết kế một chiếc hộp có dạng hình hộp chữ nhật không có nắp, có đáy là hình vuông và diện tích bề mặt bằng \(108\) cm² như Hình 1.17. Tìm các kích thước của chiếc hộp sao cho thể tích của hộp là lớn nhất.</span></p>
+  <figure>
+<svg viewBox="0 0 380 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hình hộp chữ nhật không có nắp, đáy là hình vuông cạnh x, chiều cao bằng h.">
+<line x1="64" y1="186.92" x2="136" y2="125" stroke="#8a8a8a" stroke-width="1.1" stroke-dasharray="4 3"/>
+<line x1="136" y1="125" x2="310" y2="125" stroke="#8a8a8a" stroke-width="1.1" stroke-dasharray="4 3"/>
+<line x1="136" y1="125" x2="136" y2="48.33" stroke="#8a8a8a" stroke-width="1.1" stroke-dasharray="4 3"/>
+<polygon points="238,186.92 310,125 310,48.33 238,110.26" fill="#bfe3f2" fill-opacity="0.32" stroke="#2b2b2b" stroke-width="1.5"/>
+<polygon points="64,186.92 238,186.92 238,110.26 64,110.26" fill="#bfe3f2" fill-opacity="0.5" stroke="#2b2b2b" stroke-width="1.5"/>
+<polygon points="64,110.26 238,110.26 310,48.33 136,48.33" fill="#fdfdfb" fill-opacity="0.9" stroke="#2b2b2b" stroke-width="1.5"/>
+<text x="319" y="92.56" fill="#17a2c9" font-size="14" text-anchor="start" font-style="italic">h</text>
+<text x="298" y="169.23" fill="#17a2c9" font-size="14" text-anchor="start" font-style="italic">x</text>
+<text x="151" y="207.56" fill="#17a2c9" font-size="14" text-anchor="middle" font-style="italic">x</text>
+</svg>
+<figcaption>Hình 1.17 — chiếc hộp không nắp, đáy vuông cạnh \(x\), cao \(h\) (vẽ lại theo SGK tr.19)</figcaption>
+</figure>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>Gọi \(x\) (cm) là cạnh đáy và \(h\) (cm) là chiều cao của hộp, điều kiện \(0<x<\sqrt{108}\).</p>
+    </details>
+    <details class="hs-dap-so"><summary>Đáp số để đối chiếu</summary>
+      <div class="kq">Vậy hộp có đáy là hình vuông cạnh \(6\) cm và chiều cao \(3\) cm thì thể tích lớn nhất, bằng \(108\) cm³.</div>
+      <p class="hs-nho">Ra khác đáp số thì em xem lại các bước, đừng sửa vội cho khớp.</p>
+    </details>
+    <p class="hs-nop"><a class="hs-nut" href="/lop-hoc/nop.html?ma=lop-12%2Fchuong-01%2Fbai-02%23bt9">Nộp bài làm</a></p>
+  </div>
+
+<div class="card" data-ma="lop-12/chuong-01/bai-02#bt10" data-nop="1">
+  <p class="de"><span class="tag bt">1.15</span><span class="q">Một nhà sản xuất cần làm ra những chiếc bình có dạng hình trụ với dung tích \(1\,000\) cm³. Mặt trên và mặt dưới của bình làm bằng vật liệu giá \(1{,}2\) nghìn đồng/cm², mặt bên làm bằng vật liệu giá \(0{,}75\) nghìn đồng/cm². Tìm các kích thước của bình để chi phí vật liệu là nhỏ nhất.</span></p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>Gọi \(r\) (cm) là bán kính đáy và \(h\) (cm) là chiều cao của bình, điều kiện \(r>0\).</p>
+    </details>
+    <details class="hs-dap-so"><summary>Đáp số để đối chiếu</summary>
+      <div class="kq">Vậy bình có bán kính đáy khoảng \(4{,}64\) cm và chiều cao khoảng \(14{,}8\) cm thì chi phí vật liệu nhỏ nhất.</div>
+      <p class="hs-nho">Ra khác đáp số thì em xem lại các bước, đừng sửa vội cho khớp.</p>
+    </details>
+    <p class="hs-nop"><a class="hs-nut" href="/lop-hoc/nop.html?ma=lop-12%2Fchuong-01%2Fbai-02%23bt10">Nộp bài làm</a></p>
+  </div>
+
+<section class="phieu" id="phieu-hoc-tap" aria-label="Phiếu học tập">
+  <div class="phieu-top">
+    <h2><span class="ico" aria-hidden="true">✍</span> Phiếu học tập</h2>
+    <div class="phieu-acts">
+      <a class="phieu-btn primary" href="phieu-hoc-tap.pdf" target="_blank" rel="noopener">Mở PDF</a>
+      <a class="phieu-btn" href="phieu-hoc-tap.pdf" download>⬇ Tải PDF</a>
+    </div>
+  </div>
+  <div class="phieu-frame"><iframe src="phieu-hoc-tap.pdf#view=FitH" title="Phiếu học tập — Bài 2. Giá trị lớn nhất và giá trị nhỏ nhất của hàm số" loading="lazy"></iframe></div>
+  <div class="phieu-mobile">
+    <b>Xem phiếu trên điện thoại</b>
+    <span>Trình duyệt di động có thể không hiển thị PDF ngay trong trang. Nhấn để mở hoặc tải phiếu.</span>
+    <div class="phieu-acts">
+      <a class="phieu-btn primary" href="phieu-hoc-tap.pdf" target="_blank" rel="noopener">Mở phiếu (PDF)</a>
+      <a class="phieu-btn" href="phieu-hoc-tap.pdf" download>⬇ Tải về</a>
+    </div>
+  </div>
+  <p class="phieu-note">Phiếu A4 có chỗ trống để học sinh tự ghi lý thuyết và trình bày từng bước.</p>
+</section>
+
+<section class="hoc-tiep" aria-label="Học tiếp">
+  <p class="nav-label">Học tiếp</p>
+  <div class="tiep-luoi">
+    <a class="tiep-the" href="#phieu-hoc-tap"><span class="tiep-ico" aria-hidden="true">✍</span><span class="tiep-chu"><b>Phiếu học tập</b><i>Xem &amp; in ngay trong trang, chừa chỗ học sinh ghi</i></span><span class="tiep-mui" aria-hidden="true">→</span></a>
+    <a class="tiep-the" href="trac-nghiem.html"><span class="tiep-ico" aria-hidden="true">✓</span><span class="tiep-chu"><b>Trắc nghiệm</b><i>16 câu tự kiểm tra, chấm điểm ngay</i></span><span class="tiep-mui" aria-hidden="true">→</span></a>
+    <a class="tiep-the" href="/bai-hoc/lop-12/"><span class="tiep-ico" aria-hidden="true">→</span><span class="tiep-chu"><b>Mục lục Toán 12</b><i>Chọn bài tiếp theo để học</i></span><span class="tiep-mui" aria-hidden="true">→</span></a>
+  </div>
+</section>
+</main>
+</div>
+<script>
+document.querySelectorAll('.card .tag.vd').forEach(function (tag) {
+  var card = tag.closest('.card');
+  if (!card) return;
+  Array.prototype.slice.call(card.querySelectorAll('.giai')).forEach(function (answer) {
+    if (answer.closest('.show, .solution') || answer.closest('.card') !== card) return;
+    var panel = document.createElement('div');
+    panel.className = 'show';
+    answer.parentNode.insertBefore(panel, answer);
+    panel.appendChild(answer);
+  });
+});
+
+document.querySelectorAll('.show').forEach(function (panel) {
+  var details = document.createElement('details');
+  var summary = document.createElement('summary');
+  details.className = 'solution';
+  summary.textContent = 'Xem lời giải';
+  details.appendChild(summary);
+  while (panel.firstChild) details.appendChild(panel.firstChild);
+  panel.replaceWith(details);
+  details.addEventListener('toggle', function () {
+    summary.textContent = details.open ? 'Ẩn lời giải' : 'Xem lời giải';
+  });
+});
+
+// Đánh dấu mục đang xem trên thanh mục lục
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.lesson-nav nav a[href^="#"]'));
+  var sections = links.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); }).filter(Boolean);
+  if (!sections.length) return;
+  function capNhat() {
+    var moc = window.scrollY + 140, hienId = null;
+    sections.forEach(function (s) { if (s.offsetTop <= moc) hienId = s.id; });
+    links.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + hienId); });
+  }
+  window.addEventListener('scroll', capNhat, { passive: true });
+  window.addEventListener('resize', capNhat, { passive: true });
+  capNhat();
+})();
+</script>
+<script src="/assets/lop-hoc-cauhinh.js"></script>
+<script src="/assets/lop-hoc.js"></script>
+</body>
+</html>

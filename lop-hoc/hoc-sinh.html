@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Góc học tập của em — Vở Toán</title>
+<script>
+try {
+  var luu = localStorage.getItem('vo-toan-theme');
+  if (['light','night','sand','ocean','rose','forest'].indexOf(luu) >= 0) {
+    document.documentElement.dataset.theme = luu;
+  }
+} catch (e) {}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/theme.css">
+<link rel="stylesheet" href="/assets/lop-hoc.css">
+<style>
+  :root{
+    --body:"Be Vietnam Pro",system-ui,-apple-system,sans-serif;
+    --display:"Bricolage Grotesque","Be Vietnam Pro",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  [hidden]{display:none!important}
+  body{
+    margin:0;font-family:var(--body);color:var(--ink);font-size:17px;line-height:1.6;
+    background-color:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),
+                     linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:30px 30px;
+  }
+  .trang{max-width:960px;margin:0 auto;padding:22px 18px 60px}
+  a{color:var(--blue)}
+  h1{font-family:var(--display);font-size:clamp(1.5rem,4vw,2.1rem);margin:.1em 0}
+  h2{font-family:var(--display);font-size:1.2rem;margin:0 0 12px}
+  .the{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px 22px;margin:16px 0;box-shadow:0 8px 28px color-mix(in srgb,var(--ink) 4%,transparent)}
+  .nho{color:var(--muted);font-size:.9em}
+
+  /* ── Hồ sơ ─────────────────────────────────────────────────────── */
+  .ho-so{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+  .mat{flex:0 0 auto;width:76px;height:76px;display:grid;place-items:center;font-size:40px;
+    border-radius:50%;background:var(--accent-soft);border:2px solid var(--blue)}
+  .ho-so .ten{font-family:var(--display);font-size:1.3rem;font-weight:700}
+  .con-vat{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .con-vat button{width:52px;height:52px;font-size:26px;display:grid;place-items:center;
+    background:var(--surface-2);border:2px solid var(--line);border-radius:50%;cursor:pointer}
+  .con-vat button[aria-pressed="true"]{border-color:var(--blue);background:var(--accent-soft)}
+  input[type=text]{width:100%;max-width:340px;min-height:48px;padding:0 14px;font:1rem var(--body);
+    color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:12px}
+  .nut{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;
+    font:600 1rem var(--body);border:0;border-radius:13px;background:var(--blue);color:var(--on-accent);cursor:pointer}
+  .nut.nhe{background:var(--surface);color:var(--ink);border:1px solid var(--line)}
+
+  /* ── Số liệu ───────────────────────────────────────────────────── */
+  .o-so{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+  .o-so>div{background:var(--surface-2);border-radius:14px;padding:14px 16px}
+  .o-so b{display:block;font-family:var(--display);font-size:1.9rem;line-height:1.1;color:var(--blue)}
+  .thanh{height:10px;border-radius:99px;background:var(--surface-2);overflow:hidden;margin-top:8px}
+  .thanh i{display:block;height:100%;background:var(--blue)}
+
+  /* ── Danh sách bài ─────────────────────────────────────────────── */
+  .hang{display:flex;gap:12px;align-items:flex-start;padding:13px 0;border-top:1px solid var(--line)}
+  .hang:first-child{border-top:0}
+  .hang .chinh{flex:1;min-width:0}
+  .hang .ma{font-size:.86em;color:var(--muted)}
+  .nhan{display:inline-flex;align-items:center;gap:6px;padding:3px 11px;border-radius:999px;font-size:.8em;font-weight:600}
+  /* Nhãn phải khác nhau VỀ HÌNH, không chỉ về chữ — mục 9.2. Nhiều em không đọc chữ. */
+  .nhan.may{background:transparent;border:1.5px dashed var(--warn);color:var(--warn)}
+  .nhan.duyet{background:var(--success-soft);border:1.5px solid var(--success);color:var(--success)}
+  .nhan.sua{background:var(--warn-soft);border:1.5px solid var(--warn);color:var(--warn)}
+  .nhan.cham{background:var(--surface-2);border:1.5px solid var(--line);color:var(--muted)}
+  .diem{font-family:var(--display);font-size:1.35rem;font-weight:700;color:var(--success)}
+  .moi{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--danger);margin-left:6px}
+  .trong{color:var(--muted);padding:14px 0}
+</style>
+</head>
+<body>
+
+<div class="trang">
+  <p><a href="/">← Trang chủ</a></p>
+  <h1>Góc học tập của em</h1>
+  <p class="nho" id="lop-cua-em"></p>
+
+  <div class="the" id="hop-ho-so" hidden>
+    <div class="ho-so">
+      <div class="mat" id="mat">🦊</div>
+      <div>
+        <div class="ten" id="ten-hien">…</div>
+        <div class="nho" id="ma-hien"></div>
+      </div>
+    </div>
+    <div id="sua-ho-so" hidden>
+      <p style="margin-bottom:6px"><label for="o-ten"><b>Họ và tên của em</b></label></p>
+      <input type="text" id="o-ten" maxlength="60" placeholder="Ví dụ: Nguyễn Minh An" autocomplete="name">
+      <p class="nho" id="vi-sao-ten">Thầy cô cần tên thật để biết bài này của em nào.
+        Chỉ thầy cô chủ nhiệm lớp em xem được, không ai khác.</p>
+      <p><b>Chọn con vật của em</b></p>
+      <div class="con-vat" id="con-vat" role="group" aria-label="Chọn ảnh đại diện"></div>
+      <p><button class="nut" type="button" id="luu-ho-so">Lưu</button>
+        <span class="nho" id="bao-ho-so" role="status"></span></p>
+    </div>
+    <p id="nut-sua-bao" hidden><button class="nut nhe" type="button" id="nut-sua">Đổi tên hoặc ảnh đại diện</button></p>
+  </div>
+
+  <div class="the" id="hop-so" hidden>
+    <h2>Em đang đi tới đâu</h2>
+    <div class="o-so">
+      <div><b id="s-sao">0</b>sao đã nhận</div>
+      <div><b id="s-diem">–</b>điểm trung bình</div>
+      <div><b id="s-bai">0</b>bài tập đã nộp</div>
+      <div><b id="s-tn">0</b>câu trắc nghiệm đúng</div>
+    </div>
+    <p class="nho" id="giai-thich-sao">Sao viền nét đứt là <b>tạm tính</b>, chờ thầy cô xem lại.
+      Sao đặc là <b>chính thức</b>. Thầy cô đính chính thì sao tạm tính không thành sao đặc,
+      nhưng <b>sao đã có thì không bao giờ bị lấy đi</b>.</p>
+  </div>
+
+  <div class="the" id="hop-bai" hidden>
+    <h2>Bài em đã nộp</h2>
+    <div id="ds-bai"><p class="trong">Đang tải…</p></div>
+  </div>
+
+  <div class="the" id="hop-tn" hidden>
+    <h2>Trắc nghiệm em đã làm</h2>
+    <div id="ds-tn"><p class="trong">Đang tải…</p></div>
+  </div>
+
+  <div class="the" id="hop-chua" hidden>
+    <h2>Trang này dành cho học sinh</h2>
+    <p id="chua-noi"></p>
+  </div>
+</div>
+
+<script src="/assets/lop-hoc-cauhinh.js"></script>
+<script src="/assets/lop-hoc.js"></script>
+<script>
+/* Góc học tập của học sinh — CHUAN_LOP_HOC.md mục 15.
+ *
+ * Nguyên tắc chi phối cả trang: thưởng cho NỖ LỰC và cho việc SỬA SAI. Vì vậy
+ * ở đây KHÔNG có thứ hạng trong lớp, không có bảng so sánh với bạn. Em chỉ thấy
+ * đường đi của chính mình. */
+(function () {
+  'use strict';
+
+  /* Emoji chứ không phải ảnh tải lên: ảnh khuôn mặt trẻ em là món nhạy cảm
+     nhất hệ thống có thể giữ (mục 12.3), mà bộ con vật thì vui và nhẹ tênh. */
+  var CON_VAT = ['🦊','🐻','🐼','🐨','🐯','🦁','🐸','🐧','🦉','🐢','🐬','🦄'];
+  var sb, toi, hoSo = {}, danhSachBai = [];
+
+  function thoat(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  function ngay(t) {
+    if (!t) return '';
+    var d = new Date(t);
+    return d.getDate() + '/' + (d.getMonth() + 1);
+  }
+
+  /* ── hồ sơ ─────────────────────────────────────────────────────── */
+
+  function veHoSo() {
+    document.getElementById('mat').textContent = hoSo.avatar || '🦊';
+    document.getElementById('ten-hien').textContent = hoSo.ho_ten || 'Chưa có tên';
+    document.getElementById('ma-hien').textContent = toi.ma;
+
+    var chuaCoTen = !hoSo.ho_ten;
+    document.getElementById('sua-ho-so').hidden = !chuaCoTen;
+    document.getElementById('nut-sua-bao').hidden = chuaCoTen;
+    document.getElementById('vi-sao-ten').hidden = false;
+  }
+
+  function veConVat() {
+    var o = document.getElementById('con-vat');
+    o.innerHTML = CON_VAT.map(function (c) {
+      return '<button type="button" data-con="' + c + '" aria-label="Chọn ' + c + '"'
+        + ' aria-pressed="' + (c === (hoSo.avatar || '🦊')) + '">' + c + '</button>';
+    }).join('');
+    o.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-con]');
+      if (!b) return;
+      hoSo.avatar = b.dataset.con;
+      document.getElementById('mat').textContent = hoSo.avatar;
+      o.querySelectorAll('button').forEach(function (x) {
+        x.setAttribute('aria-pressed', String(x.dataset.con === hoSo.avatar));
+      });
+    });
+  }
+
+  document.getElementById('nut-sua').addEventListener('click', function () {
+    document.getElementById('sua-ho-so').hidden = false;
+    document.getElementById('nut-sua-bao').hidden = true;
+    document.getElementById('o-ten').value = hoSo.ho_ten || '';
+  });
+
+  document.getElementById('luu-ho-so').addEventListener('click', function () {
+    var ten = document.getElementById('o-ten').value.trim();
+    var bao = document.getElementById('bao-ho-so');
+    if (ten.length < 3) { bao.textContent = 'Em ghi đủ họ và tên nhé.'; return; }
+    bao.textContent = 'Đang lưu…';
+    sb.from('hoc_sinh_ho_so').upsert({
+      hoc_sinh_id: toi.id, ho_ten: ten, avatar: hoSo.avatar || '🦊'
+    }).then(function (r) {
+      if (r.error) { bao.textContent = 'Chưa lưu được, em thử lại.'; return; }
+      hoSo.ho_ten = ten;
+      bao.textContent = 'Đã lưu.';
+      veHoSo();
+    });
+  });
+
+  /* ── số liệu và danh sách ──────────────────────────────────────── */
+
+  function nhanTrangThai(bn) {
+    if (bn.trang_thai === 'dang_cham') return '<span class="nhan cham">Đang chấm</span>';
+    if (bn.trang_thai === 'loi_cham') return '<span class="nhan cham">Thầy cô sẽ xem</span>';
+    if (bn.trang_thai === 'may_cham') return '<span class="nhan may">Máy chấm · chờ thầy cô</span>';
+    if (bn.trang_thai === 'da_duyet') return '<span class="nhan duyet">Thầy cô đã xác nhận</span>';
+    if (bn.trang_thai === 'da_sua') return '<span class="nhan sua">Thầy cô đã đính chính</span>';
+    return '';
+  }
+
+  function veDanhSachBai() {
+    var o = document.getElementById('ds-bai');
+    if (!danhSachBai.length) {
+      o.innerHTML = '<p class="trong">Em chưa nộp bài nào. Vào một bài học rồi bấm '
+        + '"Nộp bài làm" ở cuối mỗi bài tập nhé.</p>';
+      return;
+    }
+    o.innerHTML = danhSachBai.map(function (b) {
+      var nguoi = (b.cham_nguoi || [])[0];
+      var chuaDoc = (b.trang_thai === 'da_sua' || b.trang_thai === 'da_duyet')
+        && !b.luc_hoc_sinh_doc;
+      return '<div class="hang">'
+        + '<div class="chinh">'
+        +   '<div>' + nhanTrangThai(b) + (chuaDoc ? '<span class="moi" title="Có tin mới"></span>' : '') + '</div>'
+        +   '<div class="ma">' + thoat(b.bai_tap_ma) + ' · lượt ' + b.lan_thu
+        +     ' · ' + ngay(b.luc_nop) + '</div>'
+        +   (nguoi && nguoi.nhan_xet ? '<div>' + thoat(nguoi.nhan_xet) + '</div>' : '')
+        + '</div>'
+        + (nguoi && nguoi.diem != null
+            ? '<div class="diem">' + Number(nguoi.diem).toFixed(1) + '</div>' : '')
+        + '</div>';
+    }).join('');
+  }
+
+  function veSo(sao, tnDung) {
+    var coDiem = danhSachBai
+      .map(function (b) { return (b.cham_nguoi || [])[0]; })
+      .filter(function (c) { return c && c.diem != null; })
+      .map(function (c) { return Number(c.diem); });
+    document.getElementById('s-sao').textContent = sao;
+    document.getElementById('s-bai').textContent = danhSachBai.length;
+    document.getElementById('s-tn').textContent = tnDung;
+    document.getElementById('s-diem').textContent = coDiem.length
+      ? (coDiem.reduce(function (a, b) { return a + b; }, 0) / coDiem.length).toFixed(1)
+      : '–';
+  }
+
+  function veTracNghiem(cac) {
+    var o = document.getElementById('ds-tn');
+    if (!cac.length) { o.innerHTML = '<p class="trong">Em chưa làm bài trắc nghiệm nào.</p>'; return; }
+    o.innerHTML = cac.map(function (t) {
+      var pt = t.so_cau ? Math.round(t.so_dung / t.so_cau * 100) : 0;
+      return '<div class="hang"><div class="chinh">'
+        + '<div><b>' + t.so_dung + '/' + t.so_cau + ' câu đúng</b> '
+        + '<span class="ma">· ' + thoat(t.duong_dan_bai) + ' · ' + ngay(t.luc_lam) + '</span></div>'
+        + '<div class="thanh"><i style="width:' + pt + '%"></i></div>'
+        + '</div></div>';
+    }).join('');
+  }
+
+  /* ── nạp ───────────────────────────────────────────────────────── */
+
+  function nap() {
+    return Promise.all([
+      sb.from('hoc_sinh_ho_so').select('ho_ten,avatar').eq('hoc_sinh_id', toi.id).maybeSingle(),
+      sb.from('bai_nop')
+        .select('id,bai_tap_ma,lan_thu,trang_thai,luc_nop,luc_hoc_sinh_doc,cham_nguoi(nhan_xet,diem)')
+        .eq('hoc_sinh_id', toi.id).order('luc_nop', { ascending: false }),
+      sb.from('tn_lam').select('duong_dan_bai,so_dung,so_cau,luc_lam')
+        .eq('hoc_sinh_id', toi.id).order('luc_lam', { ascending: false }),
+      sb.from('sao').select('so_sao').eq('hoc_sinh_id', toi.id),
+      sb.from('lop_hoc').select('ten,khoi').eq('id', toi.lop_id).maybeSingle()
+    ]).then(function (r) {
+      hoSo = r[0].data || {};
+      danhSachBai = r[1].data || [];
+      var tn = r[2].data || [];
+      var sao = (r[3].data || []).reduce(function (a, s) { return a + s.so_sao; }, 0);
+      var lop = r[4].data;
+
+      if (lop) {
+        document.getElementById('lop-cua-em').textContent =
+          'Lớp ' + lop.ten + ' · Toán ' + lop.khoi;
+      }
+      veConVat();
+      veHoSo();
+      veSo(sao, tn.reduce(function (a, t) { return a + t.so_dung; }, 0));
+      veDanhSachBai();
+      veTracNghiem(tn);
+
+      ['hop-ho-so', 'hop-so', 'hop-bai', 'hop-tn'].forEach(function (id) {
+        document.getElementById(id).hidden = false;
+      });
+    });
+  }
+
+  /* Thầy cô duyệt bài lúc 21:40 mà em đang mở trang thì con số phải nhúc nhích
+     ngay, không đợi em tải lại. RLS vẫn được áp cho từng người nghe nên em chỉ
+     nhận được thay đổi của chính mình. */
+  function ngheThoiGianThuc() {
+    sb.channel('goc-hoc-tap')
+      .on('postgres_changes',
+        { event: '*', schema: 'public', table: 'bai_nop', filter: 'hoc_sinh_id=eq.' + toi.id },
+        function () { nap(); })
+      .on('postgres_changes',
+        { event: '*', schema: 'public', table: 'sao', filter: 'hoc_sinh_id=eq.' + toi.id },
+        function () { nap(); })
+      .subscribe();
+  }
+
+  function chua(chu) {
+    document.getElementById('hop-chua').hidden = false;
+    document.getElementById('chua-noi').innerHTML = chu;
+  }
+
+  LopHoc.sanSang().then(function () {
+    sb = LopHoc.sb();
+    toi = LopHoc.toi();
+    if (!sb) { chua('Phần lớp học chưa được bật.'); return; }
+    if (!toi) {
+      chua('Em <a href="/lop-hoc/dang-nhap.html?returnTo='
+        + encodeURIComponent(location.pathname) + '">đăng nhập</a> rồi quay lại nhé. '
+        + 'Thầy cô đang xem trang này thì vào <a href="/lop-hoc/giao-vien.html">Bảng của thầy cô</a>.');
+      return;
+    }
+    return nap().then(ngheThoiGianThuc);
+  }).catch(function () {
+    chua('Có trục trặc khi tải. Em thử tải lại trang nhé.');
+  });
+})();
+</script>
+</body>
+</html>

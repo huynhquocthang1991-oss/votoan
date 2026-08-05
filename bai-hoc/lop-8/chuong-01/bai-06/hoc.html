@@ -1,0 +1,514 @@
+<!-- FILE NÀY DO MÁY SINH RA. Đừng sửa tay.
+     Nguồn: index.html cùng thư mục. Sinh lại bằng:
+       python3 tools/tach_ban_hoc_sinh.py --that
+     Sửa ở đây là lần chạy sau mất sạch. -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bài 5. Phép chia đa thức cho đơn thức — Toán 8 (KNTT)</title>
+<script>
+MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;display=swap" rel="stylesheet">
+<script>
+try {
+  var luu = localStorage.getItem('vo-toan-theme');
+  if (['light','night','sand','ocean','rose','forest'].indexOf(luu) >= 0) {
+    document.documentElement.dataset.theme = luu;
+  }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="/assets/theme.css">
+<style>
+  :root{
+    /* Màu nằm ở /assets/theme.css — nguồn duy nhất cho cả web.
+       Đừng khai lại màu ở đây, khai lại là trang không đổi giao diện nữa. */
+    --body:"Be Vietnam Pro",system-ui,-apple-system,sans-serif;
+    --display:"Bricolage Grotesque","Be Vietnam Pro",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    margin:0;color:var(--ink);font:400 17px/1.7 var(--body);overflow-x:hidden;
+    background-color:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:30px 30px;
+  }
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 45%,transparent);outline-offset:3px;border-radius:8px}
+  .page{width:min(1580px,calc(100% - 40px));margin:0 auto;padding:24px 0 72px;display:grid;grid-template-columns:260px minmax(0,1fr);gap:24px;align-items:start}
+  .lesson-content{min-width:0}
+
+  /* Mục lục trên máy tính, thanh điều hướng gọn trên điện thoại */
+  .lesson-nav{position:sticky;top:20px;min-width:0;max-height:calc(100vh - 40px);overflow-y:auto;padding:22px;background:color-mix(in srgb,var(--surface) 94%,transparent);border:1.5px solid var(--line);border-radius:20px;box-shadow:0 16px 42px color-mix(in srgb,var(--ink) 7%,transparent);backdrop-filter:blur(12px)}
+  .lesson-brand{display:flex;align-items:center;gap:10px;margin-bottom:12px;font:700 1.05rem/1 var(--display);letter-spacing:-.02em}
+  .lesson-brand span:first-child{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:var(--blue);color:var(--on-accent);font-size:.76rem}
+  .ve-lop{display:inline-flex;align-items:center;gap:7px;min-height:42px;margin-bottom:18px;padding:0 13px;background:var(--blue-l);border-radius:11px;color:var(--blue);font-size:.9rem;font-weight:700;transition:background .2s ease}
+  .ve-lop:hover{background:var(--accent-soft)}
+  .nav-label{margin:0 0 10px;color:var(--muted);font-size:.76rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase}
+  .lesson-nav nav{display:grid;gap:5px}
+  .lesson-nav nav a{display:flex;align-items:center;gap:10px;min-height:44px;padding:10px 12px;border-radius:11px;color:var(--muted);font-size:.9rem;line-height:1.4;transition:background .2s ease,color .2s ease}
+  .lesson-nav nav a::before{content:"";width:6px;height:6px;flex:0 0 auto;border:1.5px solid currentColor;border-radius:50%}
+  .lesson-nav nav a:hover{color:var(--blue);background:var(--blue-l)}
+  .lesson-nav nav a.active{color:var(--blue);background:var(--blue-l);font-weight:600}
+  .lesson-nav nav a.active::before{background:var(--blue);border-color:var(--blue)}
+  .lesson-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+  .lesson-meta span{display:block;color:var(--muted);font-size:.78rem;line-height:1.45}
+  .lesson-meta b{display:block;margin-bottom:2px;color:var(--ink);font:700 1.05rem/1 var(--display)}
+
+  /* Đầu bài */
+  header{position:relative;min-height:250px;display:grid;align-content:end;overflow:hidden;background:linear-gradient(125deg,var(--accent),color-mix(in srgb,var(--accent) 62%,var(--accent-2)));color:var(--on-accent);border-radius:24px;padding:clamp(28px,5vw,58px);margin-bottom:32px;box-shadow:0 24px 58px color-mix(in srgb,var(--accent) 18%,transparent)}
+  header::before,header::after{content:"";position:absolute;border:1px solid color-mix(in srgb,var(--on-accent) 16%,transparent);border-radius:50%;pointer-events:none}
+  header::before{width:340px;height:340px;right:-105px;top:-175px}
+  header::after{width:210px;height:210px;right:80px;top:-120px}
+  .breadcrumb{position:relative;z-index:1;margin:0 0 32px;font-size:.82rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;opacity:.9}
+  .breadcrumb a{display:inline-flex;align-items:center;min-height:32px;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px;text-decoration-color:color-mix(in srgb,var(--on-accent) 55%,transparent)}
+  .breadcrumb a:hover{text-decoration-color:var(--on-accent)}
+  .hero-row{position:relative;z-index:1;display:flex;align-items:end;justify-content:space-between;gap:32px}
+  header h1{margin:0;font:800 clamp(2.25rem,5vw,4.8rem)/.95 var(--display);letter-spacing:-.055em;white-space:nowrap}
+  header p{max-width:600px;margin:15px 0 0;opacity:.9;font-size:1rem}
+  .hero-number{font:700 clamp(4.5rem,10vw,8rem)/.72 var(--display);letter-spacing:-.07em;color:color-mix(in srgb,var(--on-accent) 17%,transparent)}
+
+  /* Tiêu đề mục lớn */
+  h2.sec{scroll-margin-top:24px;display:flex;align-items:center;gap:14px;font:700 clamp(1.25rem,2vw,1.55rem)/1.3 var(--display);letter-spacing:-.02em;margin:46px 0 18px;padding:16px 18px;background:var(--surface);color:var(--blue);border:1.5px solid var(--line);border-left:5px solid var(--blue);border-radius:0 14px 14px 0;box-shadow:0 9px 30px color-mix(in srgb,var(--ink) 4.5%,transparent)}
+  h2.sec .num{display:grid;place-items:center;min-width:37px;height:33px;padding:0 8px;background:var(--blue-l);color:var(--blue);border-radius:9px;font-size:.92rem}
+  h2.sec.red{color:var(--red);border-left-color:var(--red)} h2.sec.red .num{background:var(--red-l);color:var(--red)}
+  h3.sub{scroll-margin-top:24px;font:700 1.15rem/1.4 var(--display);color:var(--blue);margin:30px 0 12px;padding-left:13px;border-left:3px solid var(--blue)}
+
+  /* Sơ đồ kiến thức */
+  .map{border:1.5px solid color-mix(in srgb,var(--accent) 26%,transparent);border-radius:18px;padding:17px;background:var(--surface);margin:12px 0 16px;box-shadow:0 12px 36px color-mix(in srgb,var(--ink) 4.5%,transparent)}
+  .map .root{background:var(--blue);color:var(--on-accent);font-weight:700;text-align:center;padding:12px 14px;border-radius:11px;font-size:.95rem;letter-spacing:.02em}
+  .map.orange{border-color:color-mix(in srgb,var(--warn) 28%,transparent)} .map.orange .root{background:var(--orange)}
+  .map.purple{border-color:color-mix(in srgb,var(--note) 27%,transparent)} .map.purple .root{background:var(--purple)}
+  .map.green{border-color:color-mix(in srgb,var(--success) 28%,transparent)} .map.green .root{background:var(--green)}
+  .branches{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:12px;margin-top:12px}
+  .node{min-width:0;border-radius:13px;padding:15px 17px;border:1px solid}
+  .node h4{margin:0 0 8px;font:700 1.02rem/1.35 var(--display)}
+  .node ul{margin:0;padding-left:20px}
+  .node li{margin:6px 0}
+  .n-blue{background:var(--blue-l);border-color:color-mix(in srgb,var(--accent) 22%,transparent)} .n-blue h4{color:var(--blue)}
+  .n-orange{background:var(--orange-l);border-color:color-mix(in srgb,var(--warn) 22%,transparent)} .n-orange h4{color:var(--orange)}
+  .n-green{background:var(--green-l);border-color:color-mix(in srgb,var(--success) 22%,transparent)} .n-green h4{color:var(--green)}
+  .n-purple{background:var(--purple-l);border-color:color-mix(in srgb,var(--note) 20%,transparent)} .n-purple h4{color:var(--purple)}
+  .def{background:color-mix(in srgb,var(--surface) 88%,transparent);border-left:3px solid var(--warn);padding:10px 12px;border-radius:0 9px 9px 0;margin:8px 0;font-weight:600}
+  .note{font-size:.95rem;color:var(--muted);background:var(--surface-2);border-radius:10px;padding:10px 12px;margin-top:9px}
+
+  /* Ví dụ, luyện tập và bài tập */
+  .card{min-width:0;overflow:hidden;background:var(--surface);border:1.5px solid var(--line);border-radius:15px;padding:18px 20px;margin:14px 0;box-shadow:0 8px 28px color-mix(in srgb,var(--ink) 3.5%,transparent)}
+  .card .tag{display:inline-flex;align-items:center;min-height:29px;font-weight:700;color:var(--on-accent);border-radius:8px;padding:3px 12px;font-size:.85rem;margin-bottom:8px;letter-spacing:.01em}
+  .tag.vd{background:var(--blue)} .tag.lt{background:var(--green)} .tag.vdung{background:var(--purple)} .tag.bt{background:var(--red)}
+  .card .de{margin:5px 0 9px;overflow-wrap:anywhere}
+  .giai{border-top:1px dashed var(--line);margin-top:10px;padding-top:11px}
+  .solution{margin-top:12px;border-top:1px dashed var(--line)}
+  .solution summary{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:48px;cursor:pointer;color:var(--blue);font-size:.92rem;font-weight:700;list-style:none;user-select:none}
+  .solution summary::-webkit-details-marker{display:none}
+  .solution summary::after{content:"+";display:grid;place-items:center;width:27px;height:27px;border-radius:50%;background:var(--blue-l);font-size:1.1rem;transition:transform .2s ease}
+  .solution[open] summary::after{transform:rotate(45deg)}
+  .solution .giai{margin-top:0;padding-bottom:3px}
+  .solution .giai::before{content:"Lời giải.";display:block;margin-bottom:6px;font-weight:700;color:var(--blue)}
+  .kq{max-width:100%;background:var(--green-l);border-left:3px solid var(--green);padding:8px 12px;border-radius:0 9px 9px 0;display:inline-block;margin-top:8px}
+  table.grp{display:block;width:100%;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border-collapse:collapse;margin:10px 0;white-space:nowrap}
+  table.grp td,table.grp th{border:1px solid var(--line);padding:9px 14px;text-align:center}
+  table.grp th{background:var(--blue-l);color:var(--blue)}
+  figure{margin:16px 0;text-align:center}
+  figure svg{display:block;width:min(100%,520px);height:auto;margin-inline:auto;background:#fdfdfb;border:1px solid var(--line);border-radius:12px;padding:10px}
+  figcaption{font-size:.85rem;color:var(--muted);margin-top:6px}
+  mjx-container{overflow-x:auto;overflow-y:hidden;max-width:100%;vertical-align:middle;-webkit-overflow-scrolling:touch}
+  mjx-container:not([display="true"]){display:inline-block!important;max-width:100%!important}
+
+  /* Tài nguyên kèm bài — hiện ở cuối sidebar và cuối trang.
+     Thêm mục mới (tự luận, phiếu in…) = thêm một thẻ <a> ở cả hai chỗ. */
+  .nav-them{margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+  .lesson-nav nav.them a{color:var(--blue);background:var(--blue-l);font-weight:600}
+  .lesson-nav nav.them a::before{border-color:var(--blue)}
+  .lesson-nav nav.them a:hover{background:var(--accent-soft)}
+  .hoc-tiep{margin:46px 0 0;padding-top:30px;border-top:1px solid var(--line)}
+  .hoc-tiep .nav-label{margin-bottom:14px}
+  .tiep-luoi{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:14px}
+  .tiep-the{display:flex;align-items:center;gap:15px;min-height:64px;padding:18px 20px;background:var(--surface);border:1.5px solid var(--line);border-radius:15px;box-shadow:0 8px 28px color-mix(in srgb,var(--ink) 3.5%,transparent);transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease}
+  .tiep-the:hover{border-color:var(--blue);box-shadow:0 14px 36px color-mix(in srgb,var(--accent) 13%,transparent);transform:translateY(-2px)}
+  .tiep-ico{display:grid;place-items:center;flex:0 0 auto;width:46px;height:46px;border-radius:13px;background:var(--blue-l);color:var(--blue);font:700 1.15rem/1 var(--display)}
+  .tiep-chu{min-width:0;flex:1}
+  .tiep-chu b{display:block;font:700 1.02rem/1.3 var(--display);color:var(--ink)}
+  .tiep-chu i{display:block;margin-top:3px;font-style:normal;font-size:.88rem;color:var(--muted);line-height:1.5}
+  .tiep-mui{flex:0 0 auto;color:var(--blue);font-size:1.2rem;transition:transform .2s ease}
+  .tiep-the:hover .tiep-mui{transform:translateX(4px)}
+
+  @media (min-width:1280px){
+    .page{grid-template-columns:280px minmax(0,1fr);gap:30px}
+    .map{padding:20px}
+    .card{padding:20px 23px}
+  }
+  @media (max-width:900px){
+    .page{width:min(100% - 28px,780px);grid-template-columns:minmax(0,1fr);padding-top:14px;gap:14px}
+    .lesson-nav{position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:9px;max-height:none;overflow-y:visible;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:9px 12px;border-radius:0 0 15px 15px;border-top:0}
+    .lesson-brand{margin-bottom:0;flex:0 0 auto}
+    .lesson-brand span:last-child{display:none}
+    .ve-lop{margin:0;flex:0 0 auto;min-height:40px;padding:0 11px;font-size:.82rem;white-space:nowrap}
+    .nav-label{display:none}
+    .lesson-nav nav{display:flex;flex-wrap:nowrap;gap:6px}
+    .lesson-nav nav a{min-height:40px;padding:8px 11px;background:var(--surface-2);white-space:nowrap;font-size:.84rem}
+    .lesson-meta{display:none}
+    .nav-them{display:flex;margin:0 0 0 3px;padding:0 0 0 12px;border-top:0;border-left:1px solid var(--line)}
+    h2.sec,h3.sub{scroll-margin-top:74px}
+    .hoc-tiep{margin-top:34px;padding-top:24px}
+    header{min-height:230px;margin-bottom:22px;border-radius:18px}
+  }
+  @media (max-width:560px){
+    body{font-size:16px;line-height:1.65}
+    .page{width:min(100% - 20px,780px);padding-bottom:46px}
+    .lesson-nav{padding:10px 12px}
+    .lesson-brand span:first-child{width:32px;height:32px}
+    .lesson-nav nav a{font-size:.8rem;padding:7px 10px}
+    .ve-lop{font-size:.8rem}
+    header{min-height:215px;padding:25px 22px}
+    .breadcrumb{margin-bottom:24px;font-size:.72rem}
+    .hero-row{align-items:flex-end}
+    header h1{font-size:clamp(1.8rem,8.5vw,3.2rem)}
+    header p{font-size:.9rem;line-height:1.6}
+    .hero-number{display:none}
+    h2.sec{margin-top:34px;padding:13px 13px;gap:10px;font-size:1.08rem}
+    h2.sec .num{min-width:32px;height:30px}
+    h3.sub{margin-top:24px;font-size:1.05rem}
+    .map{padding:12px;border-radius:14px}
+    .map .root{padding:10px 10px;font-size:.82rem}
+    .node{padding:13px}
+    .card{padding:15px 14px;border-radius:13px}
+    .solution summary{min-height:46px}
+    table.grp td,table.grp th{padding:8px 11px}
+  }
+  @media print{
+    body{background:#fff}
+    .page{display:block;width:100%;padding:0}
+    .lesson-nav,.hoc-tiep{display:none}
+    header,.map,.card{box-shadow:none;break-inside:avoid}
+    .solution summary{display:none}
+    .solution:not([open])>*:not(summary){display:block}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
+
+  /* ── Phiếu học tập nhúng (PDF hiển thị ngay trong trang) ── */
+  .phieu{scroll-margin-top:80px;margin:34px 0 10px;padding:20px;background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 32px color-mix(in srgb,var(--ink) 6%,transparent)}
+  .phieu-top{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:14px}
+  .phieu-top h2{margin:0;flex:1;min-width:180px;display:flex;align-items:center;gap:10px;font:700 21px/1.2 var(--display);color:var(--ink)}
+  .phieu-top .ico{display:grid;place-items:center;width:34px;height:34px;border-radius:9px;background:var(--blue-l);color:var(--blue);font-size:18px}
+  .phieu-acts{display:flex;gap:8px;flex-wrap:wrap}
+  .phieu-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 14px;border-radius:10px;font:600 14px/1 var(--body);border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+  .phieu-btn.primary{background:var(--blue);color:var(--on-accent);border-color:var(--blue);box-shadow:0 6px 14px color-mix(in srgb,var(--accent) 20%,transparent)}
+  .phieu-frame{width:100%;height:min(85vh,1100px);border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface-2)}
+  .phieu-frame iframe{width:100%;height:100%;border:0;display:block}
+  .phieu-note{margin:11px 2px 0;color:var(--muted);font-size:13.5px}
+  .phieu-mobile{display:none}
+  /* Điện thoại: iframe PDF không ổn định → ẩn khung, hiện thẻ mở/tải */
+  @media (max-width:760px){
+    .phieu-frame{display:none}
+    .phieu-mobile{display:flex;flex-direction:column;gap:12px;align-items:flex-start;padding:22px;border:1px dashed var(--blue);border-radius:12px;background:var(--blue-l)}
+    .phieu-mobile b{font:700 16px/1.3 var(--display);color:var(--ink)}
+    .phieu-mobile span{color:var(--muted);font-size:14px}
+  }
+  @media print{.phieu{display:none}}
+
+  /* ── Bản học sinh ────────────────────────────────────────────────
+     Ví dụ vẫn có đủ lời giải. Luyện tập và bài tập chỉ có đề, một gợi ý
+     và đáp số để tự đối chiếu; phần diễn giải mở sau khi nộp bài. */
+  .hs-goi-y,.hs-dap-so{margin-top:12px;border:1px dashed var(--line);border-radius:12px;background:var(--surface-2)}
+  .hs-goi-y summary,.hs-dap-so summary{padding:11px 15px;min-height:44px;display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:600;color:var(--blue);list-style:none}
+  .hs-goi-y summary::before{content:"💡"}
+  .hs-dap-so summary::before{content:"✓"}
+  .hs-goi-y summary::-webkit-details-marker,.hs-dap-so summary::-webkit-details-marker{display:none}
+  .hs-goi-y[open] summary,.hs-dap-so[open] summary{border-bottom:1px dashed var(--line)}
+  .hs-goi-y>p,.hs-dap-so>*:not(summary){margin:11px 15px}
+  .hs-nho{color:var(--muted);font-size:.9em}
+  .hs-nop{margin-top:14px}
+  .hs-nut{display:inline-flex;align-items:center;min-height:44px;padding:0 20px;border-radius:12px;background:var(--blue);color:var(--on-accent);font-weight:600;text-decoration:none}
+  .hs-nut:hover{filter:brightness(1.08)}
+</style>
+<link rel="stylesheet" href="/assets/lop-hoc.css">
+</head>
+<body>
+<div class="page">
+
+<aside class="lesson-nav" aria-label="Mục lục bài học">
+  <a class="lesson-brand" href="/" aria-label="Về trang chủ Vở Toán"><span aria-hidden="true">VT</span><span>Vở Toán</span></a>
+  <a class="ve-lop" href="/bai-hoc/lop-8/">← Mục lục Toán 8</a>
+  <p class="nav-label">Trong bài này</p>
+  <nav>
+    <a href="#phan-1">Chia đơn thức cho đơn thức</a>
+    <a href="#phan-2">Chia đa thức cho đơn thức</a>
+    <a href="#bai-tap">Bài tập cuối bài</a>
+  </nav>
+  <div class="lesson-meta" aria-label="Thông tin bài học">
+    <span><b>02</b>phần học</span>
+    <span><b>03</b>bài tập</span>
+  </div>
+  <div class="nav-them">
+    <p class="nav-label">Học liệu</p>
+    <nav class="them">
+      <a href="#phieu-hoc-tap">Phiếu học tập</a>
+      <a href="trac-nghiem.html">Trắc nghiệm</a>
+    </nav>
+  </div>
+</aside>
+
+<main class="lesson-content">
+
+<header id="top">
+  <p class="breadcrumb"><a href="/bai-hoc/lop-8/">Toán 8</a> · Chương I — Đa thức</p>
+  <div class="hero-row">
+    <div>
+      <h1>Bài 5. Phép chia đa thức cho đơn thức</h1>
+      <p>Thực hiện phép chia đơn thức cho đơn thức và đa thức cho đơn thức.</p>
+    </div>
+    <span class="hero-number" aria-hidden="true">05</span>
+  </div>
+</header>
+
+<!-- ==================================================== -->
+<!-- MỤC 1 -->
+<!-- ==================================================== -->
+<h2 class="sec" id="phan-1"><span class="num">1</span> CHIA ĐƠN THỨC CHO ĐƠN THỨC</h2>
+
+<h3 class="sub">Khái niệm chia hết và cách chia</h3>
+<div class="map">
+  <div class="root">CHIA ĐƠN THỨC CHO ĐƠN THỨC</div>
+  <div class="branches">
+    <div class="node n-blue">
+      <h4>Khái niệm chia hết</h4>
+      <div class="def">Đa thức \(A\) <b>chia hết</b> cho đa thức \(B\) (\(B\ne0\)) nếu có <b>đa thức thương</b> \(Q\) sao cho \(A=B\cdot Q\). Khi đó \(A:B=Q\) hay \(\dfrac AB=Q\).</div>
+      <div class="def">Đơn thức \(A\) chia hết cho đơn thức \(B\ (B\ne0)\) khi <b>mỗi biến của \(B\)</b> đều là biến của \(A\) với <b>số mũ không lớn hơn</b> số mũ của nó trong \(A\).</div>
+    </div>
+    <div class="node n-green">
+      <h4>Cách chia (trường hợp chia hết)</h4>
+      <ul>
+        <li>Chia <b>hệ số</b> của \(A\) cho hệ số của \(B\);</li>
+        <li>Chia <b>lũy thừa của từng biến</b> trong \(A\) cho lũy thừa của <b>cùng biến</b> đó trong \(B\);</li>
+        <li><b>Nhân</b> các kết quả tìm được với nhau.</li>
+      </ul>
+      <div class="note">Nhắc lại: cùng cơ số thì <b>trừ các số mũ tương ứng</b>, \(x^m:x^n=x^{m-n}\) (với \(m\ge n\)).</div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag vd">Ví dụ 1</span>
+  <p class="de">Cho đơn thức \(A=5x^2yz^3\).<br>
+  a) Giải thích tại sao \(A\) không chia hết cho \(B=x^2y^2z^2\).<br>
+  b) Giải thích tại sao \(A\) chia hết cho \(C=-2x^2z^2\). Tìm thương của phép chia \(A:C\).</p>
+  <div class="giai">
+    a) Số mũ của \(y\) trong \(B\) bằng 2, lớn hơn số mũ của \(y\) trong \(A\) (bằng 1).<br>
+    Do đó \(A\) không chia hết cho \(B\).<br>
+    b) Tất cả các biến trong \(C\) đều có trong \(A\); số mũ của \(x\) và \(z\) trong \(C\) cùng bằng 2, không lớn hơn số mũ của \(x\) (bằng 2) và \(z\) (bằng 3) trong \(A\). Do đó \(A\) chia hết cho \(C\).<br>
+    \(A:C=5x^2yz^3:(-2x^2z^2)=-\dfrac52yz\).
+  </div>
+</div>
+
+<div class="card" data-ma="lop-8/chuong-01/bai-06#lt1">
+  <span class="tag lt">Luyện tập 1</span>
+  <p class="de">Trong các phép chia sau đây, phép chia nào không là phép chia hết? Tại sao? Tìm thương của các phép chia còn lại:<br>
+  a) \(-15x^2y^2\) chia cho \(3x^2y\); &nbsp; b) \(6xy\) chia cho \(2yz\); &nbsp; c) \(4xy^3\) chia cho \(6xy^2\).</p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>b) không là phép chia hết vì \(2yz\) chứa biến \(z\) mà \(6xy\) không có biến \(z\).</p>
+    </details>
+    <p class="hs-nho">Bài này chưa có đáp số để đối chiếu. Em cứ làm rồi nộp, thầy cô xem giúp.</p>
+  </div>
+
+<div class="card" data-ma="lop-8/chuong-01/bai-06#vdung2">
+  <span class="tag vdung">Vận dụng 1</span>
+  <p class="de">Khối hộp chữ nhật thứ nhất có ba kích thước \(x\), \(2x\) và \(3y\); khối hộp thứ hai có diện tích đáy là \(2xy\). Tính chiều cao (cạnh bên) của khối hộp thứ hai, biết rằng hai khối hộp có cùng thể tích.</p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>Thể tích khối hộp thứ nhất: \(V=x\cdot2x\cdot3y=6x^2y\).</p>
+    </details>
+    <p class="hs-nho">Bài này chưa có đáp số để đối chiếu. Em cứ làm rồi nộp, thầy cô xem giúp.</p>
+  </div>
+
+<!-- ==================================================== -->
+<!-- MỤC 2 -->
+<!-- ==================================================== -->
+<h2 class="sec" id="phan-2"><span class="num">2</span> CHIA ĐA THỨC CHO ĐƠN THỨC</h2>
+
+<h3 class="sub">Điều kiện chia hết và quy tắc chia</h3>
+<div class="map orange">
+  <div class="root">CHIA ĐA THỨC CHO ĐƠN THỨC</div>
+  <div class="branches">
+    <div class="node n-orange">
+      <h4>Điều kiện chia hết</h4>
+      <div class="def">Đa thức \(A\) chia hết cho đơn thức \(B\) nếu <b>mọi hạng tử của \(A\)</b> <b>đều chia hết</b> cho \(B\).</div>
+    </div>
+    <div class="node n-green">
+      <h4>Quy tắc chia</h4>
+      <div class="def">Muốn chia đa thức \(A\) cho đơn thức \(B\), ta <b>chia từng hạng tử của \(A\) cho \(B\)</b> rồi <b>cộng các kết quả</b> với nhau.</div>
+      <ul>
+        <li>\((M+N):B=M:B+N:B\)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <span class="tag vd">Ví dụ 2</span>
+  <p class="de">Thực hiện phép chia \((15x^2y^4-4x^3y^3+20x^2y):5x^2y\).</p>
+  <div class="giai">
+    \((15x^2y^4-4x^3y^3+20x^2y):5x^2y\)<br>
+    \(=(15x^2y^4:5x^2y)+(-4x^3y^3:5x^2y)+(20x^2y:5x^2y)\)<br>
+    \(=3y^3-\dfrac45xy^2+4\).
+  </div>
+</div>
+
+<div class="card" data-ma="lop-8/chuong-01/bai-06#lt3">
+  <span class="tag lt">Luyện tập 2</span>
+  <p class="de">Làm tính chia \((6x^4y^3-8x^3y^4+3x^2y^2):2xy^2\).</p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>\((6x^4y^3-8x^3y^4+3x^2y^2):2xy^2\)</p>
+    </details>
+    <p class="hs-nho">Bài này chưa có đáp số để đối chiếu. Em cứ làm rồi nộp, thầy cô xem giúp.</p>
+  </div>
+
+<div class="card" data-ma="lop-8/chuong-01/bai-06#vdung4">
+  <span class="tag vdung">Vận dụng 2</span>
+  <p class="de">Tìm đa thức \(A\) sao cho \(A\cdot(-3xy)=9x^3y+3xy^3-6x^2y^2\).</p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>\(A=(9x^3y+3xy^3-6x^2y^2):(-3xy)\)</p>
+    </details>
+    <p class="hs-nho">Bài này chưa có đáp số để đối chiếu. Em cứ làm rồi nộp, thầy cô xem giúp.</p>
+  </div>
+
+<!-- ==================================================== -->
+<!-- BÀI TẬP -->
+<!-- ==================================================== -->
+<h2 class="sec red" id="bai-tap"><span class="num">BT</span> BÀI TẬP (SGK tr.24)</h2>
+
+<div class="card" data-ma="lop-8/chuong-01/bai-06#bt5" data-nop="1">
+  <span class="tag bt">1.30</span>
+  <p class="de">a) Tìm đơn thức \(M\), biết rằng \(\dfrac73x^3y^2:M=7xy^2\).<br>
+  b) Tìm đơn thức \(N\) sao cho \(N:0{,}5xy^2z=-xy\).</p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>a) \(M=\dfrac73x^3y^2:7xy^2=\left(\dfrac73:7\right)(x^3:x)(y^2:y^2)=\dfrac13x^2\).</p>
+    </details>
+    <p class="hs-nho">Bài này chưa có đáp số để đối chiếu. Em cứ làm rồi nộp, thầy cô xem giúp.</p>
+    <p class="hs-nop"><a class="hs-nut" href="/lop-hoc/nop.html?ma=lop-8%2Fchuong-01%2Fbai-06%23bt5">Nộp bài làm</a></p>
+  </div>
+
+<div class="card" data-ma="lop-8/chuong-01/bai-06#bt6" data-nop="1">
+  <span class="tag bt">1.31</span>
+  <p class="de">Cho đa thức \(A=9xy^4-12x^2y^3+6x^3y^2\). Với mỗi trường hợp sau đây, xét xem \(A\) có chia hết cho đơn thức \(B\) hay không. Thực hiện phép chia trong trường hợp \(A\) chia hết cho \(B\).<br>
+  a) \(B=3x^2y\); &nbsp; b) \(B=-3xy^2\).</p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>a) Hạng tử \(9xy^4\) không chia hết cho \(3x^2y\) vì số mũ của \(x\) trong \(B\) (bằng 2) lớn hơn số mũ của \(x\) trong hạng tử này (bằng 1).</p>
+    </details>
+    <p class="hs-nho">Bài này chưa có đáp số để đối chiếu. Em cứ làm rồi nộp, thầy cô xem giúp.</p>
+    <p class="hs-nop"><a class="hs-nut" href="/lop-hoc/nop.html?ma=lop-8%2Fchuong-01%2Fbai-06%23bt6">Nộp bài làm</a></p>
+  </div>
+
+<div class="card" data-ma="lop-8/chuong-01/bai-06#bt7" data-nop="1">
+  <span class="tag bt">1.32</span>
+  <p class="de">Thực hiện phép chia \((7y^5z^2-14y^4z^3+2{,}1y^3z^4):(-7y^3z^2)\).</p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>\((7y^5z^2-14y^4z^3+2{,}1y^3z^4):(-7y^3z^2)\)</p>
+    </details>
+    <p class="hs-nho">Bài này chưa có đáp số để đối chiếu. Em cứ làm rồi nộp, thầy cô xem giúp.</p>
+    <p class="hs-nop"><a class="hs-nut" href="/lop-hoc/nop.html?ma=lop-8%2Fchuong-01%2Fbai-06%23bt7">Nộp bài làm</a></p>
+  </div>
+
+<!-- ==================================================== -->
+<!-- PHIẾU HỌC TẬP — nhúng PDF xem/in ngay trong trang    -->
+<!-- ==================================================== -->
+<section class="phieu" id="phieu-hoc-tap" aria-label="Phiếu học tập">
+  <div class="phieu-top">
+    <h2><span class="ico" aria-hidden="true">✍</span> Phiếu học tập</h2>
+    <div class="phieu-acts">
+      <a class="phieu-btn" href="phieu-hoc-tap.pdf" target="_blank" rel="noopener">⛶ Toàn màn hình</a>
+      <a class="phieu-btn primary" href="phieu-hoc-tap.pdf" download>⬇ Tải PDF</a>
+    </div>
+  </div>
+  <div class="phieu-frame">
+    <iframe src="phieu-hoc-tap.pdf#view=FitH" title="Phiếu học tập — Bài 5. Phép chia đa thức cho đơn thức" loading="lazy"></iframe>
+  </div>
+  <div class="phieu-mobile">
+    <b>Xem phiếu trên điện thoại</b>
+    <span>Trình duyệt di động có thể không hiển thị PDF ngay trong trang. Nhấn để mở hoặc tải phiếu về máy.</span>
+    <div class="phieu-acts">
+      <a class="phieu-btn primary" href="phieu-hoc-tap.pdf" target="_blank" rel="noopener">Mở phiếu (PDF)</a>
+      <a class="phieu-btn" href="phieu-hoc-tap.pdf" download>⬇ Tải về</a>
+    </div>
+  </div>
+  <p class="phieu-note">Mẹo: bấm <b>Tải PDF</b> rồi in ra giấy A4 — bản in chuẩn, nét.</p>
+</section>
+
+<!-- ==================================================== -->
+<!-- HỌC TIẾP — tài nguyên kèm bài                        -->
+<!-- Thêm mục mới: chép một khối .tiep-the, sửa link và chữ -->
+<!-- ==================================================== -->
+<section class="hoc-tiep" aria-label="Học tiếp">
+  <p class="nav-label">Học tiếp</p>
+  <div class="tiep-luoi">
+    <a class="tiep-the" href="#phieu-hoc-tap">
+      <span class="tiep-ico" aria-hidden="true">✍</span>
+      <span class="tiep-chu">
+        <b>Phiếu học tập</b>
+        <i>Xem &amp; in ngay trong trang, chừa chỗ học sinh ghi</i>
+      </span>
+      <span class="tiep-mui" aria-hidden="true">→</span>
+    </a>
+    <a class="tiep-the" href="trac-nghiem.html">
+      <span class="tiep-ico" aria-hidden="true">✓</span>
+      <span class="tiep-chu">
+        <b>Trắc nghiệm</b>
+        <i>16 câu tự kiểm tra, chấm điểm ngay</i>
+      </span>
+      <span class="tiep-mui" aria-hidden="true">→</span>
+    </a>
+  </div>
+</section>
+
+</main>
+</div>
+<script>
+document.querySelectorAll('.card .tag.vd').forEach(function (tag) {
+  var card = tag.closest('.card');
+  if (!card) return;
+  Array.prototype.slice.call(card.querySelectorAll('.giai')).forEach(function (answer) {
+    if (answer.closest('.show, .solution') || answer.closest('.card') !== card) return;
+    var panel = document.createElement('div');
+    panel.className = 'show';
+    answer.parentNode.insertBefore(panel, answer);
+    panel.appendChild(answer);
+  });
+});
+
+document.querySelectorAll('.show').forEach(function (panel) {
+  var details = document.createElement('details');
+  var summary = document.createElement('summary');
+  details.className = 'solution';
+  summary.textContent = 'Xem lời giải';
+  details.appendChild(summary);
+  while (panel.firstChild) details.appendChild(panel.firstChild);
+  panel.replaceWith(details);
+  details.addEventListener('toggle', function () {
+    summary.textContent = details.open ? 'Ẩn lời giải' : 'Xem lời giải';
+  });
+});
+
+// Đánh dấu mục đang xem trên thanh mục lục
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.lesson-nav nav a[href^="#"]'));
+  var sections = links.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); }).filter(Boolean);
+  if (!sections.length) return;
+  function capNhat() {
+    var moc = window.scrollY + 140, hienId = null;
+    sections.forEach(function (s) { if (s.offsetTop <= moc) hienId = s.id; });
+    links.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + hienId); });
+  }
+  window.addEventListener('scroll', capNhat, { passive: true });
+  window.addEventListener('resize', capNhat, { passive: true });
+  capNhat();
+})();
+</script>
+<script src="/assets/lop-hoc-cauhinh.js"></script>
+<script src="/assets/lop-hoc.js"></script>
+</body>
+</html>

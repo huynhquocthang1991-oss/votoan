@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Nộp bài làm — Vở Toán</title>
+<script>
+MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<script>
+try {
+  var luu = localStorage.getItem('vo-toan-theme');
+  if (['light','night','sand','ocean','rose','forest'].indexOf(luu) >= 0) {
+    document.documentElement.dataset.theme = luu;
+  }
+} catch (e) {}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/theme.css">
+<link rel="stylesheet" href="/assets/lop-hoc.css">
+<style>
+  :root{
+    /* Chỉ khai font. Màu lấy từ theme.css. */
+    --body:"Be Vietnam Pro",system-ui,-apple-system,sans-serif;
+    --display:"Bricolage Grotesque","Be Vietnam Pro",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;font-family:var(--body);color:var(--ink);font-size:17px;line-height:1.6;
+    background-color:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),
+                     linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:30px 30px;
+  }
+  .trang{max-width:900px;margin:0 auto;padding:22px 18px 60px}
+  a{color:var(--blue)}
+  h1{font-family:var(--display);font-size:clamp(1.5rem,4vw,2rem);margin:.2em 0 .1em}
+  .quay{display:inline-flex;align-items:center;min-height:44px;color:var(--muted);text-decoration:none}
+  .the{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px 22px;margin:16px 0;box-shadow:0 8px 28px color-mix(in srgb,var(--ink) 4%,transparent)}
+  .de-bai{font-size:1.05em}
+  .nhan{display:inline-block;padding:3px 11px;border-radius:999px;background:var(--accent-soft);color:var(--blue);font-size:.78em;font-weight:600}
+  .luot{color:var(--muted);font-size:.9em}
+
+  /* ── Chọn cách làm bài ─────────────────────────────────────────── */
+  .cach{display:flex;flex-wrap:wrap;gap:10px;margin:4px 0 18px}
+  .cach button{flex:1 1 190px;min-height:52px;padding:10px 16px;font:600 1rem var(--body);
+    color:var(--ink);background:var(--surface-2);border:2px solid var(--line);border-radius:14px;cursor:pointer}
+  .cach button[aria-pressed="true"]{border-color:var(--blue);background:var(--accent-soft);color:var(--blue)}
+
+  /* ── Vùng viết tay ─────────────────────────────────────────────── */
+  .ve-thanh{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
+  .ve-thanh button{min-height:44px;padding:0 16px;font:600 .95rem var(--body);color:var(--ink);
+    background:var(--surface);border:1px solid var(--line);border-radius:12px;cursor:pointer}
+  .ve-thanh button[aria-pressed="true"]{background:var(--blue);color:var(--on-accent);border-color:var(--blue)}
+  .ve-thanh .day{display:flex;gap:6px;margin-left:auto}
+  .ve-thanh .day button{width:44px;padding:0;display:grid;place-items:center}
+  .khung-ve{position:relative;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff}
+  /* Nền trắng cố định, KHÔNG theo giao diện: đây là tờ giấy sẽ gửi cho máy chấm,
+     nền tối là nét viết biến mất khỏi ảnh xuất ra. */
+  .khung-ve canvas{display:block;width:100%;touch-action:none;cursor:crosshair}
+  .ve-nho{color:var(--muted);font-size:.88em;margin:8px 0 0}
+
+  /* ── Ảnh ───────────────────────────────────────────────────────── */
+  .nut{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;
+    font:600 1rem var(--body);border:0;border-radius:13px;background:var(--blue);color:var(--on-accent);cursor:pointer;text-decoration:none}
+  .nut[disabled]{opacity:.5;cursor:not-allowed}
+  .nut.nhe{background:var(--surface);color:var(--ink);border:1px solid var(--line)}
+  .anh-xem{max-width:100%;border:1px solid var(--line);border-radius:12px;margin-top:12px}
+  .bao{margin:12px 0 0;min-height:1.5em}
+  .bao.loi{color:var(--danger);font-weight:600}
+  .bao.dang{color:var(--muted)}
+
+  /* ── Kết quả chấm ──────────────────────────────────────────────── */
+  .kq-hop{margin-top:18px}
+  .kq-anh{width:100%;border:1px solid var(--line);border-radius:12px}
+  .bang-chu-thich{list-style:none;padding:0;margin:12px 0 0}
+  .bang-chu-thich li{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-top:1px solid var(--line)}
+  .cham-mau{flex:0 0 auto;width:14px;height:14px;border-radius:4px;margin-top:5px}
+  .cham-mau.sai{background:var(--danger)}
+  .cham-mau.thieu{background:var(--warn)}
+  .cham-mau.tot{background:var(--success)}
+  .ban-chep{white-space:pre-wrap;background:var(--surface-2);border-radius:12px;padding:14px 16px;font-size:.95em}
+  /* Cùng kiểu với khối gợi ý bên hoc.html — cùng một thứ thì phải trông giống nhau. */
+  .hs-goi-y{margin-top:12px;border:1px dashed var(--line);border-radius:12px;background:var(--surface-2)}
+  .hs-goi-y summary{padding:11px 15px;min-height:44px;display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:600;color:var(--blue);list-style:none}
+  .hs-goi-y summary::before{content:"💡"}
+  .hs-goi-y summary::-webkit-details-marker{display:none}
+  .hs-goi-y>p{margin:11px 15px}
+  .buoc{list-style:none;padding:0;margin:12px 0 0}
+  .buoc li{display:flex;gap:10px;padding:8px 0;border-top:1px solid var(--line)}
+  .buoc .dau{flex:0 0 auto;font-weight:700}
+  .buoc .dat{color:var(--success)}
+  .buoc .truot{color:var(--danger)}
+  @media (max-width:560px){ .trang{padding:14px 12px 50px} .the{padding:16px 14px} }
+</style>
+</head>
+<body>
+
+<div class="trang">
+  <a class="quay" id="quay" href="/">← Quay lại bài học</a>
+  <h1>Nộp bài làm</h1>
+
+  <div class="the" id="hop-de">
+    <p class="nhan" id="nhan-bai">Đang tải…</p>
+    <div class="de-bai" id="de-bai"></div>
+    <p class="luot" id="luot"></p>
+  </div>
+
+  <div class="the" id="hop-lam" hidden>
+    <div class="cach" role="group" aria-label="Chọn cách làm bài">
+      <button type="button" id="c-ve" aria-pressed="true">✍️ Viết tay ở đây</button>
+      <button type="button" id="c-chup" aria-pressed="false">📷 Chụp ảnh bài làm</button>
+      <button type="button" id="c-file" aria-pressed="false">🖼 Chọn ảnh có sẵn</button>
+    </div>
+
+    <div id="khu-ve">
+      <div class="ve-thanh">
+        <button type="button" id="v-but" aria-pressed="true">Bút</button>
+        <button type="button" id="v-tay" aria-pressed="false">Tẩy</button>
+        <div class="day">
+          <button type="button" id="v-lui" title="Hoàn tác" aria-label="Hoàn tác">↶</button>
+          <button type="button" id="v-xoa" title="Xoá hết" aria-label="Xoá hết">🗑</button>
+        </div>
+      </div>
+      <div class="khung-ve"><canvas id="giay"></canvas></div>
+      <p class="ve-nho">Dùng bút Apple Pencil thì tì tay lên màn hình vẫn viết được bình thường.
+        Bài tự lưu trong máy, lỡ tắt trang mở lại vẫn còn.</p>
+    </div>
+
+    <div id="khu-anh" hidden>
+      <p class="ve-nho">Chụp <b>riêng câu này</b>, đừng chụp cả trang — máy đọc rõ hơn nhiều.
+        Em <b>không cần ghi tên lên giấy</b> nhé.</p>
+      <label class="nut" for="tep">Chọn ảnh</label>
+      <input type="file" id="tep" accept="image/*" hidden>
+      <img class="anh-xem" id="anh-xem" hidden alt="Ảnh bài làm em vừa chọn">
+    </div>
+
+    <p class="bao" id="bao" role="status"></p>
+    <p><button class="nut" type="button" id="gui">Nộp bài</button></p>
+  </div>
+
+  <div class="the kq-hop" id="hop-kq" hidden>
+    <h2 id="kq-tieu-de">Máy đã xem bài của em</h2>
+    <div id="kq-noi-dung"></div>
+  </div>
+
+  <div class="the" id="hop-loi-giai" hidden>
+    <h2>Lời giải để em đối chiếu</h2>
+    <div id="loi-giai"></div>
+  </div>
+</div>
+
+<script src="/assets/lop-hoc-cauhinh.js"></script>
+<script src="/assets/lop-hoc.js"></script>
+<script>
+/* Trang nộp bài. Ba đường vào (viết tay / chụp / chọn ảnh) nhưng chỉ MỘT đường
+ * ra: cùng đổ về LopHoc.nop, tức cùng cách nén, cùng ngưỡng, cùng hàm chờ chấm
+ * với khối nộp trong trang bài học. */
+(function () {
+  'use strict';
+
+  var ma = new URLSearchParams(location.search).get('ma') || '';
+  var oDe = document.getElementById('de-bai');
+  var oNhan = document.getElementById('nhan-bai');
+  var oLuot = document.getElementById('luot');
+  var oBao = document.getElementById('bao');
+  var hopLam = document.getElementById('hop-lam');
+  var nutGui = document.getElementById('gui');
+  var soLanDaNop = 0;
+
+  function bao(chu, kieu) {
+    oBao.className = 'bao' + (kieu ? ' ' + kieu : '');
+    oBao.textContent = chu;
+  }
+  function thoat(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  function toanHoc(el) {
+    if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([el]);
+  }
+
+  /* ─────────────────────────────── vùng viết tay ─────────────────── */
+
+  var giay = document.getElementById('giay');
+  var ctx = giay.getContext('2d');
+  var net = [];               // [{diem:[[x,y,ap]…], tay:bool, day:số}]
+  var dangVe = null;
+  var laTay = false;
+  var CHIA = 2;               // độ nét khi xuất ra, gấp đôi bề ngang hiển thị
+  var KHOA_LUU = 'vt-net-' + ma;
+
+  /* Toạ độ lưu theo TỈ LỆ bề ngang (0–1), không lưu theo pixel: xoay ngang máy
+     hay mở lại trên màn hình khác thì nét vẫn nằm đúng chỗ cũ. */
+  function coCanvas() {
+    var rong = giay.parentElement.clientWidth;
+    /* Khối làm bài còn đang hidden thì clientWidth = 0. Đặt canvas 0×0 rồi
+       không bao giờ đo lại là học sinh nhìn thấy một vạch mỏng thay cho tờ
+       giấy — gọi lại hàm này ngay sau khi bỏ hidden. */
+    if (!rong) return;
+    var cao = Math.round(rong * 1.25);
+    giay.width = rong * CHIA;
+    giay.height = cao * CHIA;
+    giay.style.height = cao + 'px';
+    veLai();
+  }
+
+  function veNenOLy() {
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, giay.width, giay.height);
+    var o = 30 * CHIA;
+    ctx.strokeStyle = '#dbe6f5';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    for (var x = o; x < giay.width; x += o) { ctx.moveTo(x, 0); ctx.lineTo(x, giay.height); }
+    for (var y = o; y < giay.height; y += o) { ctx.moveTo(0, y); ctx.lineTo(giay.width, y); }
+    ctx.stroke();
+  }
+
+  function veMotNet(n) {
+    if (n.diem.length < 2) {
+      // Chấm đơn: một nét chỉ có một điểm thì lineTo không vẽ ra gì cả.
+      var d0 = n.diem[0];
+      ctx.beginPath();
+      ctx.fillStyle = n.tay ? '#fff' : '#12233d';
+      ctx.arc(d0[0] * giay.width, d0[1] * giay.width, (n.day * (d0[2] || 1)) / 2, 0, 6.3);
+      ctx.fill();
+      return;
+    }
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.strokeStyle = n.tay ? '#fff' : '#12233d';
+    for (var i = 1; i < n.diem.length; i++) {
+      var a = n.diem[i - 1], b = n.diem[i];
+      ctx.beginPath();
+      ctx.lineWidth = n.day * ((a[2] + b[2]) / 2 || 1);
+      ctx.moveTo(a[0] * giay.width, a[1] * giay.width);
+      ctx.lineTo(b[0] * giay.width, b[1] * giay.width);
+      ctx.stroke();
+    }
+  }
+
+  function veLai() {
+    veNenOLy();
+    net.forEach(veMotNet);
+  }
+
+  function diem(e) {
+    var r = giay.getBoundingClientRect();
+    return [
+      (e.clientX - r.left) / r.width,
+      (e.clientY - r.top) / r.width,
+      // Bút có lực nhấn thì nét đậm nhạt theo tay; chuột luôn trả 0.5.
+      e.pressure && e.pressure > 0 ? 0.6 + e.pressure : 1
+    ];
+  }
+
+  /* Chống tì tay: khi đã thấy Apple Pencil một lần thì bỏ qua mọi ngón tay.
+     Không có luật này thì cạnh bàn tay tì lên iPad vẽ ra một vệt to đùng. */
+  var daThayBut = false;
+
+  giay.addEventListener('pointerdown', function (e) {
+    if (e.pointerType === 'pen') daThayBut = true;
+    if (daThayBut && e.pointerType === 'touch') return;
+    e.preventDefault();
+    giay.setPointerCapture(e.pointerId);
+    dangVe = { diem: [diem(e)], tay: laTay, day: (laTay ? 26 : 3.4) * CHIA };
+    net.push(dangVe);
+  });
+
+  giay.addEventListener('pointermove', function (e) {
+    if (!dangVe || e.pointerId === undefined) return;
+    if (daThayBut && e.pointerType === 'touch') return;
+    e.preventDefault();
+    /* getCoalescedEvents: iPad lấy mẫu bút nhanh hơn nhịp vẽ màn hình, không
+       gom lại thì nét cong thành đường gấp khúc. */
+    var cac = e.getCoalescedEvents ? e.getCoalescedEvents() : [e];
+    for (var i = 0; i < cac.length; i++) dangVe.diem.push(diem(cac[i]));
+    veLai();
+  });
+
+  function ngungVe() {
+    if (!dangVe) return;
+    dangVe = null;
+    luuNet();
+  }
+  giay.addEventListener('pointerup', ngungVe);
+  giay.addEventListener('pointercancel', ngungVe);
+  giay.addEventListener('pointerleave', ngungVe);
+
+  /* Tự lưu vào máy. Mất bài viết tay 10 phút vì lỡ tải lại trang là học sinh
+     bỏ dùng luôn — đây không phải tính năng phụ. */
+  function luuNet() {
+    try { localStorage.setItem(KHOA_LUU, JSON.stringify(net)); } catch (e) {}
+  }
+  function docNet() {
+    try {
+      var t = localStorage.getItem(KHOA_LUU);
+      if (t) net = JSON.parse(t) || [];
+    } catch (e) { net = []; }
+  }
+
+  document.getElementById('v-but').addEventListener('click', function () { doiBut(false); });
+  document.getElementById('v-tay').addEventListener('click', function () { doiBut(true); });
+  function doiBut(tay) {
+    laTay = tay;
+    document.getElementById('v-but').setAttribute('aria-pressed', String(!tay));
+    document.getElementById('v-tay').setAttribute('aria-pressed', String(tay));
+  }
+  document.getElementById('v-lui').addEventListener('click', function () {
+    net.pop(); veLai(); luuNet();
+  });
+  document.getElementById('v-xoa').addEventListener('click', function () {
+    if (net.length && !confirm('Xoá hết bài đang viết?')) return;
+    net = []; veLai(); luuNet();
+  });
+
+  function coNetNao() { return net.some(function (n) { return !n.tay; }); }
+
+  /* Xuất tờ giấy thành ảnh. Thu cạnh dài về 1600px như mọi ảnh khác (mục 6.3):
+     canvas vẽ ở gấp đôi bề ngang cho nét mượt, nhưng gửi nguyên cỡ đó thì tốn
+     dung lượng mà máy chấm không đọc tốt hơn chút nào. */
+  var CANH_DAI = 1600;
+  function anhTuGiay() {
+    var nguon = giay;
+    var lon = Math.max(giay.width, giay.height);
+    if (lon > CANH_DAI) {
+      var t = CANH_DAI / lon;
+      nguon = document.createElement('canvas');
+      nguon.width = Math.round(giay.width * t);
+      nguon.height = Math.round(giay.height * t);
+      nguon.getContext('2d').drawImage(giay, 0, 0, nguon.width, nguon.height);
+    }
+    return new Promise(function (ok) { nguon.toBlob(ok, 'image/jpeg', 0.85); });
+  }
+
+  /* ─────────────────────────────── ảnh ───────────────────────────── */
+
+  var tep = document.getElementById('tep');
+  var anhXem = document.getElementById('anh-xem');
+  var fileDaChon = null;
+
+  tep.addEventListener('change', function () {
+    fileDaChon = tep.files[0] || null;
+    if (!fileDaChon) return;
+    anhXem.src = URL.createObjectURL(fileDaChon);
+    anhXem.hidden = false;
+    bao('');
+  });
+
+  /* ─────────────────────────────── đổi cách làm ──────────────────── */
+
+  var cach = 've';
+  [['c-ve', 've'], ['c-chup', 'chup'], ['c-file', 'file']].forEach(function (c) {
+    document.getElementById(c[0]).addEventListener('click', function () { doiCach(c[1]); });
+  });
+  function doiCach(m) {
+    cach = m;
+    document.getElementById('c-ve').setAttribute('aria-pressed', String(m === 've'));
+    document.getElementById('c-chup').setAttribute('aria-pressed', String(m === 'chup'));
+    document.getElementById('c-file').setAttribute('aria-pressed', String(m === 'file'));
+    document.getElementById('khu-ve').hidden = m !== 've';
+    document.getElementById('khu-anh').hidden = m === 've';
+    // capture="environment" mở thẳng máy ảnh sau; bỏ đi thì mở thư viện ảnh.
+    if (m === 'chup') tep.setAttribute('capture', 'environment');
+    else tep.removeAttribute('capture');
+  }
+
+  /* ─────────────────────────────── nộp ───────────────────────────── */
+
+  nutGui.addEventListener('click', function () {
+    if (soLanDaNop >= 3) return;
+    nutGui.disabled = true;
+    bao('Đang chuẩn bị bài…', 'dang');
+
+    var xong;
+    if (cach === 've') {
+      if (!coNetNao()) { bao('Em chưa viết gì cả.', 'loi'); nutGui.disabled = false; return; }
+      xong = anhTuGiay().then(function (b) { return LopHoc.nop.tuBlob(ma, b); });
+    } else {
+      if (!fileDaChon) { bao('Em chưa chọn ảnh.', 'loi'); nutGui.disabled = false; return; }
+      xong = LopHoc.nop.tuFile(ma, fileDaChon);
+    }
+
+    xong.then(function (r) {
+      bao('Đã gửi. Máy đang xem bài…', 'dang');
+      soLanDaNop++;
+      capNhatLuot();
+      return doiCham(r.bai_nop_id);
+    }).catch(function (e) {
+      var vi = e && e.message;
+      bao(vi === 'mat-mang' ? 'Máy chưa nối mạng. Em thử lại khi có mạng nhé.'
+        : vi === 'chua-dang-nhap' ? 'Em cần đăng nhập trước khi nộp bài.'
+        : vi || 'Có trục trặc, em thử lại.', 'loi');
+      nutGui.disabled = soLanDaNop >= 3;
+    });
+  });
+
+  /* Chờ máy chấm xong rồi vẽ báo cáo. Hỏi lại mỗi 2 giây; sau 90 giây thì thôi,
+     bài vẫn nằm trong hàng đợi của thầy cô nên không mất đi đâu. */
+  function doiCham(baiNopId) {
+    var sb = LopHoc.sb();
+    var lan = 0;
+    return new Promise(function (ok) {
+      (function hoi() {
+        sb.from('bai_nop').select('trang_thai').eq('id', baiNopId).single()
+          .then(function (r) {
+            var tt = r.data && r.data.trang_thai;
+            if (tt && tt !== 'dang_cham') { return veKetQua(baiNopId, tt).then(ok); }
+            if (++lan > 45) {
+              bao('Máy chấm hơi lâu. Bài của em đã tới tay thầy cô rồi, không phải nộp lại.');
+              return ok();
+            }
+            setTimeout(hoi, 2000);
+          }, function () { setTimeout(hoi, 2000); });
+      })();
+    });
+  }
+
+  function veKetQua(baiNopId, trangThai) {
+    var sb = LopHoc.sb();
+    bao('');
+    nutGui.disabled = soLanDaNop >= 3;
+
+    if (trangThai === 'loi_cham') {
+      hienKetQua('<p>Máy chưa xem được bài này. Thầy/cô sẽ xem trực tiếp giúp em — '
+        + 'em <b>không phải nộp lại</b> nhé.</p>');
+      return moLoiGiai();
+    }
+
+    return Promise.all([
+      sb.from('bai_nop').select('anh_url,lan_thu').eq('id', baiNopId).single(),
+      sb.from('cham_may').select('ket_qua_json,ket_luan,do_tin_cay')
+        .eq('bai_nop_id', baiNopId).order('luc_cham', { ascending: false }).limit(1)
+    ]).then(function (r) {
+      var bn = r[0].data, may = r[1].data && r[1].data[0];
+      if (!may) { hienKetQua('<p>Thầy/cô sẽ xem bài này giúp em nhé.</p>'); return moLoiGiai(); }
+      var k = may.ket_qua_json || {};
+
+      var html = '<p>' + thoat(k.nhan_xet_cho_hoc_sinh || '') + '</p>';
+      if (k.goi_y) html += '<p><b>Gợi ý.</b> ' + thoat(k.goi_y) + '</p>';
+
+      if (Array.isArray(k.cac_buoc) && k.cac_buoc.length) {
+        html += '<ul class="buoc">';
+        k.cac_buoc.forEach(function (b) {
+          html += '<li><span class="dau ' + (b.dat ? 'dat' : 'truot') + '">'
+            + (b.dat ? '✓' : '✗') + '</span><span>' + thoat(b.buoc)
+            + (b.loi ? ' — ' + thoat(b.loi) : '') + '</span></li>';
+        });
+        html += '</ul>';
+      }
+
+      if (Array.isArray(k.chu_thich) && k.chu_thich.length) {
+        html += '<ul class="bang-chu-thich">';
+        k.chu_thich.forEach(function (c) {
+          html += '<li><span class="cham-mau ' + thoat(c.loai) + '"></span><span>'
+            + thoat(c.chu) + '</span></li>';
+        });
+        html += '</ul>';
+      }
+
+      if (k.ban_chep) {
+        html += '<details><summary>Máy đọc bài của em thành</summary>'
+          + '<div class="ban-chep">' + thoat(k.ban_chep) + '</div></details>';
+      }
+
+      html += '<p class="ve-nho">Đây là nhận xét của máy, thầy/cô sẽ xem lại.</p>';
+      hienKetQua(html);
+
+      /* Ảnh có chú thích vẽ đè. Hỏng thì thôi, phần chữ ở trên đã đủ dùng. */
+      if (bn && bn.anh_url) {
+        LopHoc.veAnhDaCham(bn.anh_url, k.chu_thich).then(function (canvas) {
+          canvas.className = 'kq-anh';
+          var oNoi = document.getElementById('kq-noi-dung');
+          oNoi.insertBefore(canvas, oNoi.firstChild);
+        }).catch(function () {});
+      }
+      return moLoiGiai();
+    });
+  }
+
+  function hienKetQua(html) {
+    var hop = document.getElementById('hop-kq');
+    hop.hidden = false;
+    document.getElementById('kq-noi-dung').innerHTML = html;
+    toanHoc(hop);
+    hop.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  /* Nộp rồi thì mở lời giải đầy đủ. Cửa này khoá ở SERVER (hàm mo_loi_giai):
+     chưa nộp lần nào thì hàm trả null, sửa JavaScript cũng không lấy được. */
+  function moLoiGiai() {
+    return LopHoc.sb().rpc('mo_loi_giai', { ma_bai_tap: ma }).then(function (r) {
+      if (!r.data) return;
+      var hop = document.getElementById('hop-loi-giai');
+      hop.hidden = false;
+      document.getElementById('loi-giai').innerHTML = thoat(r.data).replace(/\n/g, '<br>');
+      toanHoc(hop);
+    }, function () {});
+  }
+
+  /* ─────────────────────────────── khởi động ─────────────────────── */
+
+  function capNhatLuot() {
+    var con = 3 - soLanDaNop;
+    oLuot.textContent = con > 0
+      ? 'Em còn ' + con + ' lượt nộp cho câu này.'
+      : 'Em đã dùng hết 3 lượt. Thầy/cô sẽ xem giúp em.';
+    nutGui.disabled = con <= 0;
+  }
+
+  if (!ma) {
+    oNhan.textContent = 'Thiếu mã bài';
+    oDe.textContent = 'Đường dẫn không có mã bài tập. Em quay lại trang bài học rồi bấm "Nộp bài làm" nhé.';
+    return;
+  }
+
+  // Về đúng bài học vừa đi ra: mã có dạng lop-8/chuong-01/bai-01#bt9
+  document.getElementById('quay').href = '/bai-hoc/' + ma.split('#')[0] + '/hoc.html';
+
+  doiCach('ve');
+  docNet();
+  coCanvas();
+  window.addEventListener('resize', coCanvas);
+
+  LopHoc.sanSang().then(function () {
+    var sb = LopHoc.sb();
+    if (!sb || !LopHoc.toi()) {
+      oNhan.textContent = 'Chưa đăng nhập';
+      oDe.innerHTML = 'Em <a href="/lop-hoc/dang-nhap.html?returnTo='
+        + encodeURIComponent(location.pathname + location.search) + '">đăng nhập</a> rồi nộp bài nhé.';
+      return;
+    }
+    return Promise.all([
+      sb.from('bai_tap').select('de_bai,goi_y,duong_dan_bai').eq('ma', ma).maybeSingle(),
+      LopHoc.nop.daNop(ma)
+    ]).then(function (r) {
+      var bt = r[0].data;
+      soLanDaNop = (r[1].data || []).length;
+
+      if (!bt) {
+        oNhan.textContent = 'Chưa có đề';
+        oDe.textContent = 'Bài tập này chưa được nạp lên hệ thống. Em báo thầy cô giúp nhé.';
+        return;
+      }
+      oNhan.textContent = 'Bài tập';
+      oDe.innerHTML = thoat(bt.de_bai);
+      if (bt.goi_y) {
+        oDe.innerHTML += '<details class="hs-goi-y"><summary>Gợi ý</summary><p>'
+          + thoat(bt.goi_y) + '</p></details>';
+      }
+      toanHoc(document.getElementById('hop-de'));
+      hopLam.hidden = false;
+      coCanvas();          // giờ mới đo được bề ngang thật
+      capNhatLuot();
+      if (soLanDaNop > 0) moLoiGiai();
+    });
+  });
+})();
+</script>
+</body>
+</html>

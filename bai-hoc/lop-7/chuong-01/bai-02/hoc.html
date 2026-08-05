@@ -1,0 +1,560 @@
+<!-- FILE NÀY DO MÁY SINH RA. Đừng sửa tay.
+     Nguồn: index.html cùng thư mục. Sinh lại bằng:
+       python3 tools/tach_ban_hoc_sinh.py --that
+     Sửa ở đây là lần chạy sau mất sạch. -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bài 2. Cộng, trừ, nhân, chia số hữu tỉ — Toán 7 (KNTT)</title>
+<script>
+MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;display=swap" rel="stylesheet">
+<script>
+try {
+  var luu = localStorage.getItem('vo-toan-theme');
+  if (['light','night','sand','ocean','rose','forest'].indexOf(luu) >= 0) {
+    document.documentElement.dataset.theme = luu;
+  }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="/assets/theme.css">
+<style>
+  :root{
+    /* Màu nằm ở /assets/theme.css — nguồn duy nhất cho cả web.
+       Đừng khai lại màu ở đây, khai lại là trang không đổi giao diện nữa. */
+    --body:"Be Vietnam Pro",system-ui,-apple-system,sans-serif;
+    --display:"Bricolage Grotesque","Be Vietnam Pro",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    margin:0;color:var(--ink);font:400 17px/1.7 var(--body);overflow-x:hidden;
+    background-color:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:30px 30px;
+  }
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 45%,transparent);outline-offset:3px;border-radius:8px}
+  .page{width:min(1580px,calc(100% - 40px));margin:0 auto;padding:24px 0 72px;display:grid;grid-template-columns:260px minmax(0,1fr);gap:24px;align-items:start}
+  .lesson-content{min-width:0}
+
+  /* Mục lục trên máy tính, thanh điều hướng gọn trên điện thoại */
+  .lesson-nav{position:sticky;top:20px;min-width:0;max-height:calc(100vh - 40px);overflow-y:auto;padding:22px;background:color-mix(in srgb,var(--surface) 94%,transparent);border:1.5px solid var(--line);border-radius:20px;box-shadow:0 16px 42px color-mix(in srgb,var(--ink) 7%,transparent);backdrop-filter:blur(12px)}
+  .lesson-brand{display:flex;align-items:center;gap:10px;margin-bottom:12px;font:700 1.05rem/1 var(--display);letter-spacing:-.02em}
+  .lesson-brand span:first-child{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:var(--blue);color:var(--on-accent);font-size:.76rem}
+  .ve-lop{display:inline-flex;align-items:center;gap:7px;min-height:42px;margin-bottom:18px;padding:0 13px;background:var(--blue-l);border-radius:11px;color:var(--blue);font-size:.9rem;font-weight:700;transition:background .2s ease}
+  .ve-lop:hover{background:var(--accent-soft)}
+  .nav-label{margin:0 0 10px;color:var(--muted);font-size:.76rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase}
+  .lesson-nav nav{display:grid;gap:5px}
+  .lesson-nav nav a{display:flex;align-items:center;gap:10px;min-height:44px;padding:10px 12px;border-radius:11px;color:var(--muted);font-size:.9rem;line-height:1.4;transition:background .2s ease,color .2s ease}
+  .lesson-nav nav a::before{content:"";width:6px;height:6px;flex:0 0 auto;border:1.5px solid currentColor;border-radius:50%}
+  .lesson-nav nav a:hover{color:var(--blue);background:var(--blue-l)}
+  .lesson-nav nav a.active{color:var(--blue);background:var(--blue-l);font-weight:600}
+  .lesson-nav nav a.active::before{background:var(--blue);border-color:var(--blue)}
+  .lesson-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+  .lesson-meta span{display:block;color:var(--muted);font-size:.78rem;line-height:1.45}
+  .lesson-meta b{display:block;margin-bottom:2px;color:var(--ink);font:700 1.05rem/1 var(--display)}
+
+  /* Đầu bài */
+  header{scroll-margin-top:24px;position:relative;min-height:250px;display:grid;align-content:end;overflow:hidden;background:linear-gradient(125deg,var(--accent),color-mix(in srgb,var(--accent) 62%,var(--accent-2)));color:var(--on-accent);border-radius:24px;padding:clamp(28px,5vw,58px);margin-bottom:32px;box-shadow:0 24px 58px color-mix(in srgb,var(--accent) 18%,transparent)}
+  header::before,header::after{content:"";position:absolute;border:1px solid color-mix(in srgb,var(--on-accent) 16%,transparent);border-radius:50%;pointer-events:none}
+  header::before{width:340px;height:340px;right:-105px;top:-175px}
+  header::after{width:210px;height:210px;right:80px;top:-120px}
+  .breadcrumb{position:relative;z-index:1;margin:0 0 32px;font-size:.82rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;opacity:.9}
+  .breadcrumb a{display:inline-flex;align-items:center;min-height:32px;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px;text-decoration-color:color-mix(in srgb,var(--on-accent) 55%,transparent)}
+  .breadcrumb a:hover{text-decoration-color:var(--on-accent)}
+  .hero-row{position:relative;z-index:1;display:flex;align-items:end;justify-content:space-between;gap:32px}
+  header h1{margin:0;font:800 clamp(2.25rem,5vw,4.8rem)/.95 var(--display);letter-spacing:-.055em}
+  header p{max-width:600px;margin:15px 0 0;opacity:.9;font-size:1rem}
+  .hero-number{font:700 clamp(4.5rem,10vw,8rem)/.72 var(--display);letter-spacing:-.07em;color:color-mix(in srgb,var(--on-accent) 17%,transparent)}
+
+  /* Tiêu đề mục lớn */
+  h2.sec{scroll-margin-top:24px;display:flex;align-items:center;gap:14px;font:700 clamp(1.25rem,2vw,1.55rem)/1.3 var(--display);letter-spacing:-.02em;margin:46px 0 18px;padding:16px 18px;background:var(--surface);color:var(--blue);border:1.5px solid var(--line);border-left:5px solid var(--blue);border-radius:0 14px 14px 0;box-shadow:0 9px 30px color-mix(in srgb,var(--ink) 4.5%,transparent)}
+  h2.sec .num{display:grid;place-items:center;min-width:37px;height:33px;padding:0 8px;background:var(--blue-l);color:var(--blue);border-radius:9px;font-size:.92rem}
+  h2.sec.red{color:var(--red);border-left-color:var(--red)} h2.sec.red .num{background:var(--red-l);color:var(--red)}
+  h3.sub{scroll-margin-top:24px;font:700 1.15rem/1.4 var(--display);color:var(--blue);margin:30px 0 12px;padding-left:13px;border-left:3px solid var(--blue)}
+
+  /* Sơ đồ kiến thức */
+  .map{border:1.5px solid color-mix(in srgb,var(--accent) 26%,transparent);border-radius:18px;padding:17px;background:var(--surface);margin:12px 0 16px;box-shadow:0 12px 36px color-mix(in srgb,var(--ink) 4.5%,transparent)}
+  .map .root{background:var(--blue);color:var(--on-accent);font-weight:700;text-align:center;padding:12px 14px;border-radius:11px;font-size:.95rem;letter-spacing:.02em}
+  .map.orange{border-color:color-mix(in srgb,var(--warn) 28%,transparent)} .map.orange .root{background:var(--orange)}
+  .map.purple{border-color:color-mix(in srgb,var(--note) 27%,transparent)} .map.purple .root{background:var(--purple)}
+  .branches{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:12px;margin-top:12px}
+  .node{min-width:0;border-radius:13px;padding:15px 17px;border:1px solid}
+  .node h4{margin:0 0 8px;font:700 1.02rem/1.35 var(--display)}
+  .node ul{margin:0;padding-left:20px}
+  .node li{margin:6px 0}
+  .n-blue{background:var(--blue-l);border-color:color-mix(in srgb,var(--accent) 22%,transparent)} .n-blue h4{color:var(--blue)}
+  .n-orange{background:var(--orange-l);border-color:color-mix(in srgb,var(--warn) 22%,transparent)} .n-orange h4{color:var(--orange)}
+  .n-green{background:var(--green-l);border-color:color-mix(in srgb,var(--success) 22%,transparent)} .n-green h4{color:var(--green)}
+  .n-purple{background:var(--purple-l);border-color:color-mix(in srgb,var(--note) 20%,transparent)} .n-purple h4{color:var(--purple)}
+  .def{background:color-mix(in srgb,var(--surface) 88%,transparent);border-left:3px solid var(--warn);padding:10px 12px;border-radius:0 9px 9px 0;margin:8px 0;font-weight:600}
+  .note{font-size:.95rem;color:var(--muted);background:var(--surface-2);border-radius:10px;padding:10px 12px;margin-top:9px}
+
+  /* Ví dụ, luyện tập và bài tập */
+  .card{min-width:0;overflow:hidden;background:var(--surface);border:1.5px solid var(--line);border-radius:15px;padding:18px 20px;margin:14px 0;box-shadow:0 8px 28px color-mix(in srgb,var(--ink) 3.5%,transparent)}
+  .card .tag{display:inline-flex;align-items:center;min-height:29px;font-weight:700;color:var(--on-accent);border-radius:8px;padding:3px 12px;font-size:.85rem;margin-bottom:8px;letter-spacing:.01em}
+  .tag.vd{background:var(--blue)} .tag.lt{background:var(--green)} .tag.vdung{background:var(--purple)} .tag.bt{background:var(--red)}
+  .card .de{margin:5px 0 9px;overflow-wrap:anywhere}
+  .giai{border-top:1px dashed var(--line);margin-top:10px;padding-top:11px}
+  .solution{margin-top:12px;border-top:1px dashed var(--line)}
+  .solution summary{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:48px;cursor:pointer;color:var(--blue);font-size:.92rem;font-weight:700;list-style:none;user-select:none}
+  .solution summary::-webkit-details-marker{display:none}
+  .solution summary::after{content:"+";display:grid;place-items:center;width:27px;height:27px;border-radius:50%;background:var(--blue-l);font-size:1.1rem;transition:transform .2s ease}
+  .solution[open] summary::after{transform:rotate(45deg)}
+  .solution .giai{margin-top:0;padding-bottom:3px}
+  .solution .giai::before{content:"Lời giải.";display:block;margin-bottom:6px;font-weight:700;color:var(--blue)}
+  .kq{max-width:100%;background:var(--green-l);border-left:3px solid var(--green);padding:8px 12px;border-radius:0 9px 9px 0;display:inline-block;margin-top:8px}
+  table.grp{display:block;width:100%;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border-collapse:collapse;margin:10px 0;white-space:nowrap}
+  table.grp td,table.grp th{border:1px solid var(--line);padding:9px 14px;text-align:center}
+  table.grp th{background:var(--blue-l);color:var(--blue)}
+  table.grp td.phim{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.06em}
+  .phim-ten{display:inline-block;padding:1px 7px;border:1px solid var(--line);border-radius:6px;background:var(--surface-2);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.92em}
+  figure{margin:16px 0;text-align:center}
+  figure svg{display:block;width:min(100%,520px);height:auto;margin-inline:auto;background:#fdfdfb;border:1px solid var(--line);border-radius:12px;padding:10px}
+  figcaption{font-size:.85rem;color:var(--muted);margin-top:6px}
+  mjx-container{overflow-x:auto;overflow-y:hidden;max-width:100%;vertical-align:middle;-webkit-overflow-scrolling:touch}
+  mjx-container:not([display="true"]){display:inline-block!important;max-width:100%!important}
+
+  /* Tài nguyên kèm bài — hiện ở cuối sidebar và cuối trang.
+     Thêm mục mới (tự luận, phiếu in…) = thêm một thẻ <a> ở cả hai chỗ. */
+  .nav-them{margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+  .lesson-nav nav.them a{color:var(--blue);background:var(--blue-l);font-weight:600}
+  .lesson-nav nav.them a::before{border-color:var(--blue)}
+  .lesson-nav nav.them a:hover{background:var(--accent-soft)}
+  .hoc-tiep{margin:46px 0 0;padding-top:30px;border-top:1px solid var(--line)}
+  .hoc-tiep .nav-label{margin-bottom:14px}
+  .tiep-luoi{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:14px}
+  .tiep-the{display:flex;align-items:center;gap:15px;min-height:64px;padding:18px 20px;background:var(--surface);border:1.5px solid var(--line);border-radius:15px;box-shadow:0 8px 28px color-mix(in srgb,var(--ink) 3.5%,transparent);transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease}
+  .tiep-the:hover{border-color:var(--blue);box-shadow:0 14px 36px color-mix(in srgb,var(--accent) 13%,transparent);transform:translateY(-2px)}
+  .tiep-ico{display:grid;place-items:center;flex:0 0 auto;width:46px;height:46px;border-radius:13px;background:var(--blue-l);color:var(--blue);font:700 1.15rem/1 var(--display)}
+  .tiep-chu{min-width:0;flex:1}
+  .tiep-chu b{display:block;font:700 1.02rem/1.3 var(--display);color:var(--ink)}
+  .tiep-chu i{display:block;margin-top:3px;font-style:normal;font-size:.88rem;color:var(--muted);line-height:1.5}
+  .tiep-mui{flex:0 0 auto;color:var(--blue);font-size:1.2rem;transition:transform .2s ease}
+  .tiep-the:hover .tiep-mui{transform:translateX(4px)}
+
+  @media (min-width:1280px){
+    .page{grid-template-columns:280px minmax(0,1fr);gap:30px}
+    .map{padding:20px}
+    .card{padding:20px 23px}
+  }
+  @media (max-width:900px){
+    .page{width:min(100% - 28px,780px);grid-template-columns:minmax(0,1fr);padding-top:14px;gap:14px}
+    .lesson-nav{position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:9px;max-height:none;overflow-y:visible;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:9px 12px;border-radius:0 0 15px 15px;border-top:0}
+    .lesson-brand{margin-bottom:0;flex:0 0 auto}
+    .lesson-brand span:last-child{display:none}
+    .ve-lop{margin:0;flex:0 0 auto;min-height:40px;padding:0 11px;font-size:.82rem;white-space:nowrap}
+    .nav-label{display:none}
+    .lesson-nav nav{display:flex;flex-wrap:nowrap;gap:6px}
+    .lesson-nav nav a{min-height:40px;padding:8px 11px;background:var(--surface-2);white-space:nowrap;font-size:.84rem}
+    .lesson-meta{display:none}
+    .nav-them{display:flex;margin:0 0 0 3px;padding:0 0 0 12px;border-top:0;border-left:1px solid var(--line)}
+    h2.sec,h3.sub{scroll-margin-top:74px}
+    .hoc-tiep{margin-top:34px;padding-top:24px}
+    header{scroll-margin-top:74px;min-height:230px;margin-bottom:22px;border-radius:18px}
+  }
+  @media (max-width:560px){
+    body{font-size:16px;line-height:1.65}
+    .page{width:min(100% - 20px,780px);padding-bottom:46px}
+    .lesson-nav{padding:10px 12px}
+    .lesson-brand span:first-child{width:32px;height:32px}
+    .lesson-nav nav a{font-size:.8rem;padding:7px 10px}
+    .ve-lop{font-size:.8rem}
+    header{min-height:215px;padding:25px 22px}
+    .breadcrumb{margin-bottom:24px;font-size:.72rem}
+    .hero-row{align-items:flex-end}
+    header h1{font-size:clamp(1.8rem,8.5vw,3.2rem)}
+    header p{font-size:.9rem;line-height:1.6}
+    .hero-number{display:none}
+    h2.sec{margin-top:34px;padding:13px 13px;gap:10px;font-size:1.08rem}
+    h2.sec .num{min-width:32px;height:30px}
+    h3.sub{margin-top:24px;font-size:1.05rem}
+    .map{padding:12px;border-radius:14px}
+    .map .root{padding:10px 10px;font-size:.82rem}
+    .node{padding:13px}
+    .card{padding:15px 14px;border-radius:13px}
+    .solution summary{min-height:46px}
+    table.grp td,table.grp th{padding:8px 11px}
+  }
+  @media print{
+    body{background:#fff}
+    .page{display:block;width:100%;padding:0}
+    .lesson-nav,.hoc-tiep{display:none}
+    header,.map,.card{box-shadow:none;break-inside:avoid}
+    .solution summary{display:none}
+    .solution:not([open])>*:not(summary){display:block}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
+
+  /* ── Phiếu học tập nhúng (PDF hiển thị ngay trong trang) ── */
+  .phieu{scroll-margin-top:80px;margin:34px 0 10px;padding:20px;background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 32px color-mix(in srgb,var(--ink) 6%,transparent)}
+  .phieu-top{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:14px}
+  .phieu-top h2{margin:0;flex:1;min-width:180px;display:flex;align-items:center;gap:10px;font:700 21px/1.2 var(--display);color:var(--ink)}
+  .phieu-top .ico{display:grid;place-items:center;width:34px;height:34px;border-radius:9px;background:var(--blue-l);color:var(--blue);font-size:18px}
+  .phieu-acts{display:flex;gap:8px;flex-wrap:wrap}
+  .phieu-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 14px;border-radius:10px;font:600 14px/1 var(--body);border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+  .phieu-btn.primary{background:var(--blue);color:var(--on-accent);border-color:var(--blue);box-shadow:0 6px 14px color-mix(in srgb,var(--accent) 20%,transparent)}
+  .phieu-frame{width:100%;height:min(85vh,1100px);border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface-2)}
+  .phieu-frame iframe{width:100%;height:100%;border:0;display:block}
+  .phieu-note{margin:11px 2px 0;color:var(--muted);font-size:13.5px}
+  .phieu-mobile{display:none}
+  /* Điện thoại: iframe PDF không ổn định → ẩn khung, hiện thẻ mở/tải */
+  @media (max-width:760px){
+    .phieu-frame{display:none}
+    .phieu-mobile{display:flex;flex-direction:column;gap:12px;align-items:flex-start;padding:22px;border:1px dashed var(--blue);border-radius:12px;background:var(--blue-l)}
+    .phieu-mobile b{font:700 16px/1.3 var(--display);color:var(--ink)}
+    .phieu-mobile span{color:var(--muted);font-size:14px}
+  }
+  @media print{.phieu{display:none}}
+
+  /* Đề bài (CHUAN_BAI 3.3): số câu nằm CÙNG DÒNG với đề, thụt lề treo.
+     Đề một dòng thì .q canh giữa để không lệch khi có \dfrac; đề nhiều dòng
+     (có a) b) hoặc bảng phương án) thêm class "dai" để nhãn bám dòng đầu. */
+  .card .de{display:flex;gap:2mm;align-items:flex-start;line-height:1.65;margin:2px 0 9px}
+  .card .de>.tag{flex:0 0 auto;margin:0}
+  .card .de>.q{flex:1;min-width:0;overflow-wrap:anywhere;align-self:center}
+  .card .de.dai>.q{align-self:flex-start}
+  .card .de mjx-container:not([display="true"]){vertical-align:middle}
+  .fig-wide svg{width:min(100%,660px)}
+  @media(max-width:560px){.card .de{gap:7px}}
+
+
+  /* ── Bản học sinh ────────────────────────────────────────────────
+     Ví dụ vẫn có đủ lời giải. Luyện tập và bài tập chỉ có đề, một gợi ý
+     và đáp số để tự đối chiếu; phần diễn giải mở sau khi nộp bài. */
+  .hs-goi-y,.hs-dap-so{margin-top:12px;border:1px dashed var(--line);border-radius:12px;background:var(--surface-2)}
+  .hs-goi-y summary,.hs-dap-so summary{padding:11px 15px;min-height:44px;display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:600;color:var(--blue);list-style:none}
+  .hs-goi-y summary::before{content:"💡"}
+  .hs-dap-so summary::before{content:"✓"}
+  .hs-goi-y summary::-webkit-details-marker,.hs-dap-so summary::-webkit-details-marker{display:none}
+  .hs-goi-y[open] summary,.hs-dap-so[open] summary{border-bottom:1px dashed var(--line)}
+  .hs-goi-y>p,.hs-dap-so>*:not(summary){margin:11px 15px}
+  .hs-nho{color:var(--muted);font-size:.9em}
+  .hs-nop{margin-top:14px}
+  .hs-nut{display:inline-flex;align-items:center;min-height:44px;padding:0 20px;border-radius:12px;background:var(--blue);color:var(--on-accent);font-weight:600;text-decoration:none}
+  .hs-nut:hover{filter:brightness(1.08)}
+</style>
+<link rel="stylesheet" href="/assets/lop-hoc.css">
+</head>
+<body>
+<div class="page">
+<aside class="lesson-nav" aria-label="Mục lục bài học">
+  <a class="lesson-brand" href="/" aria-label="Về trang chủ Vở Toán"><span aria-hidden="true">VT</span><span>Vở Toán</span></a>
+  <a class="ve-lop" href="/bai-hoc/lop-7/">← Mục lục Toán 7</a>
+  <p class="nav-label">Trong bài này</p>
+  <nav>
+    <a href="#cong-tru">Cộng và trừ</a>
+    <a href="#nhan-chia">Nhân và chia</a>
+    <a href="#bai-tap">Bài tập</a>
+  </nav>
+  <div class="lesson-meta" aria-label="Thông tin bài học">
+    <span><b>03</b>phần học</span>
+    <span><b>05</b>bài tập</span>
+  </div>
+  <div class="nav-them">
+    <p class="nav-label">Học liệu</p>
+    <nav class="them">
+      <a href="#phieu-hoc-tap">Phiếu học tập</a>
+      <a href="trac-nghiem.html">Trắc nghiệm</a>
+    </nav>
+  </div>
+</aside>
+
+<main class="lesson-content">
+<header id="top">
+  <p class="breadcrumb"><a href="/bai-hoc/lop-7/">Toán 7</a>&nbsp; · &nbsp;Chương I — Số hữu tỉ</p>
+  <div class="hero-row">
+    <div><h1>Bài 2. Cộng, trừ, nhân, chia số hữu tỉ</h1><p>Thực hiện bốn phép tính trong \(\mathbb{Q}\), dùng quy tắc dấu ngoặc và các tính chất để tính nhanh, giải bài toán thực tế bằng số hữu tỉ.</p></div>
+    <span class="hero-number" aria-hidden="true">02</span>
+  </div>
+</header>
+
+<h2 class="sec" id="cong-tru"><span class="num">1</span> CỘNG VÀ TRỪ HAI SỐ HỮU TỈ</h2>
+<p class="note">Một khinh khí cầu bay lên từ mặt đất theo chiều thẳng đứng với vận tốc \(0{,}8\) m/s trong \(50\) giây, sau đó giảm dần độ cao với vận tốc \(\dfrac{5}{9}\) m/s. Sau \(27\) giây kể từ khi hạ độ cao, khinh khí cầu cách mặt đất bao nhiêu mét? Muốn trả lời, ta cần cộng, trừ, nhân, chia các số hữu tỉ.</p>
+
+<h3 class="sub">Cách cộng và trừ hai số hữu tỉ</h3>
+<div class="map">
+  <div class="root">CỘNG · TRỪ TRONG TẬP HỢP CÁC SỐ HỮU TỈ</div>
+  <div class="branches">
+    <div class="node n-blue"><h4>Quy tắc</h4><ul><li>Viết hai số dưới dạng <b>phân số</b>, tốt nhất là <b>mẫu dương</b>, rồi cộng trừ như phân số.</li><li>Nếu cả hai đều là <b>số thập phân</b> thì cộng trừ trực tiếp, không cần đổi.</li></ul></div>
+    <div class="node n-green"><h4>Tính chất</h4><ul><li>Phép cộng có tính chất <b>giao hoán</b> và <b>kết hợp</b>, dùng để nhóm các số cho gọn.</li><li>Hai số <b>đối nhau</b> có tổng bằng <b>\(0\)</b>: \(a+(-a)=0\).</li></ul></div>
+    <div class="node n-orange"><h4>Quy tắc dấu ngoặc</h4><ul><li>Bỏ ngoặc có dấu \(-\) đằng trước thì <b>đổi dấu</b> mọi số hạng trong ngoặc.</li><li>Bỏ ngoặc có dấu \(+\) đằng trước thì <b>giữ nguyên dấu</b> mọi số hạng.</li></ul></div>
+  </div>
+</div>
+
+<div class="card">
+  <p class="de dai"><span class="tag vd">Ví dụ 1</span><span class="q">Tính:<br>a) \(\dfrac{2}{-3}+2{,}5+\dfrac{1}{3}+1\dfrac{1}{2}\);<br>b) \(-0{,}5+\dfrac{2}{3}+\dfrac{1}{2}\);<br>c) \((-9{,}15)+8{,}09\).</span></p>
+  <div class="giai">
+    a) Ta có: \(\dfrac{2}{-3}+2{,}5+\dfrac{1}{3}+1\dfrac{1}{2}\)<br>
+    \(=\dfrac{-2}{3}+\dfrac{5}{2}+\dfrac{1}{3}+\dfrac{3}{2}\)<br>
+    \(=\left(\dfrac{-2}{3}+\dfrac{1}{3}\right)+\left(\dfrac{5}{2}+\dfrac{3}{2}\right)\)<br>
+    \(=\dfrac{-1}{3}+4\)<br>
+    \(=\dfrac{11}{3}\).<br>
+    b) Ta có: \(-0{,}5+\dfrac{2}{3}+\dfrac{1}{2}\)<br>
+    \(=\dfrac{-1}{2}+\dfrac{2}{3}+\dfrac{1}{2}\)<br>
+    \(=\left(\dfrac{-1}{2}+\dfrac{1}{2}\right)+\dfrac{2}{3}\)<br>
+    \(=0+\dfrac{2}{3}=\dfrac{2}{3}\).<br>
+    c) \((-9{,}15)+8{,}09=-(9{,}15-8{,}09)=-1{,}06\).<br>
+    <span class="kq">Vậy a) \(\dfrac{11}{3}\); b) \(\dfrac{2}{3}\); c) \(-1{,}06\).</span>
+  </div>
+</div>
+
+<div class="card" data-ma="lop-7/chuong-01/bai-02#lt1">
+  <p class="de dai"><span class="tag lt">Luyện tập 1</span><span class="q">Tính:<br>a) \((-7)-\left(-\dfrac{5}{8}\right)\);<br>b) \(-21{,}25+13{,}3\).</span></p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>a) Ta có: \((-7)-\left(-\dfrac{5}{8}\right)\)</p>
+    </details>
+    <details class="hs-dap-so"><summary>Đáp số để đối chiếu</summary>
+      <div class="kq">Vậy a) \(-\dfrac{51}{8}\); b) \(-7{,}95\).</div>
+      <p class="hs-nho">Ra khác đáp số thì em xem lại các bước, đừng sửa vội cho khớp.</p>
+    </details>
+  </div>
+
+<div class="card">
+  <p class="de dai"><span class="tag vd">Ví dụ 2</span><span class="q">Tính \(\dfrac{8}{9}-\left[\dfrac{7}{4}-\left(\dfrac{3}{4}-\dfrac{2}{3}\right)\right]\).</span></p>
+  <div class="giai">
+    Ta có: \(\dfrac{8}{9}-\left[\dfrac{7}{4}-\left(\dfrac{3}{4}-\dfrac{2}{3}\right)\right]\)<br>
+    \(=\dfrac{8}{9}-\dfrac{7}{4}+\left(\dfrac{3}{4}-\dfrac{2}{3}\right)\)<br>
+    \(=\dfrac{8}{9}-\dfrac{7}{4}+\dfrac{3}{4}-\dfrac{2}{3}\)<br>
+    \(=\left(\dfrac{8}{9}-\dfrac{2}{3}\right)-\left(\dfrac{7}{4}-\dfrac{3}{4}\right)\)<br>
+    \(=\left(\dfrac{8}{9}-\dfrac{6}{9}\right)-1\)<br>
+    \(=\dfrac{2}{9}-1=-\dfrac{7}{9}\).<br>
+    <span class="kq">Vậy giá trị của biểu thức là \(-\dfrac{7}{9}\).</span>
+  </div>
+</div>
+
+<div class="card" data-ma="lop-7/chuong-01/bai-02#lt2">
+  <p class="de dai"><span class="tag lt">Luyện tập 2</span><span class="q">Bỏ dấu ngoặc rồi tính các tổng sau:<br>a) \(\dfrac{9}{10}-\left(\dfrac{6}{5}-\dfrac{7}{4}\right)\);<br>b) \(6{,}5+[0{,}75-(8{,}25-1{,}75)]\).</span></p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>a) Ta có: \(\dfrac{9}{10}-\left(\dfrac{6}{5}-\dfrac{7}{4}\right)\)</p>
+    </details>
+    <details class="hs-dap-so"><summary>Đáp số để đối chiếu</summary>
+      <div class="kq">Vậy a) \(\dfrac{29}{20}\); b) \(0{,}75\).</div>
+      <p class="hs-nho">Ra khác đáp số thì em xem lại các bước, đừng sửa vội cho khớp.</p>
+    </details>
+  </div>
+
+<div class="card" data-ma="lop-7/chuong-01/bai-02#vdung3">
+  <p class="de dai"><span class="tag vdung">Vận dụng 1</span><span class="q">Trong \(100\) gam khoai tây khô có \(11\) gam nước; \(6{,}6\) gam protein; \(0{,}3\) gam chất béo; \(75{,}1\) gam glucid và các chất khác. Hãy cho biết khối lượng các chất khác trong \(100\) gam khoai tây khô.</span></p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>Khối lượng bốn chất đã biết là \(11+6{,}6+0{,}3+75{,}1=93\) (gam).</p>
+    </details>
+    <details class="hs-dap-so"><summary>Đáp số để đối chiếu</summary>
+      <div class="kq">Vậy trong \(100\) gam khoai tây khô có \(7\) gam các chất khác.</div>
+      <p class="hs-nho">Ra khác đáp số thì em xem lại các bước, đừng sửa vội cho khớp.</p>
+    </details>
+  </div>
+
+<h2 class="sec" id="nhan-chia"><span class="num">2</span> NHÂN VÀ CHIA HAI SỐ HỮU TỈ</h2>
+
+<h3 class="sub">Cách nhân và chia hai số hữu tỉ</h3>
+<div class="map orange">
+  <div class="root">NHÂN · CHIA TRONG TẬP HỢP CÁC SỐ HỮU TỈ</div>
+  <div class="branches">
+    <div class="node n-orange"><h4>Quy tắc</h4><ul><li>Viết hai số dưới dạng phân số rồi nhân, chia như phân số: <b>tử nhân tử, mẫu nhân mẫu</b>.</li><li>Chia cho một số khác \(0\) là <b>nhân với số nghịch đảo</b> của nó.</li></ul></div>
+    <div class="node n-blue"><h4>Tính chất</h4><ul><li>Phép nhân cũng có tính chất <b>giao hoán</b>, <b>kết hợp</b> và <b>phân phối</b> đối với phép cộng.</li><li>Nhờ tính chất phân phối, ta <b>đặt thừa số chung</b> để tính nhanh.</li></ul></div>
+    <div class="node n-green"><h4>Với số thập phân</h4><ul><li>Hai số đều là số thập phân thì nhân, chia <b>trực tiếp</b>: \(1{,}25\cdot(-4{,}6)=-5{,}75\).</li><li>Kết quả mang dấu <b>âm</b> khi hai số <b>khác dấu</b>.</li></ul></div>
+  </div>
+</div>
+
+<div class="card">
+  <p class="de dai"><span class="tag vd">Ví dụ 3</span><span class="q">Tính:<br>a) \(\dfrac{6}{7}\cdot0{,}25\);<br>b) \(-2{,}4:\dfrac{6}{5}\).</span></p>
+  <div class="giai">
+    a) Ta có: \(\dfrac{6}{7}\cdot0{,}25\)<br>
+    \(=\dfrac{6}{7}\cdot\dfrac{25}{100}\)<br>
+    \(=\dfrac{6}{7}\cdot\dfrac{1}{4}\)<br>
+    \(=\dfrac{6}{28}=\dfrac{3}{14}\).<br>
+    b) Ta có: \(-2{,}4:\dfrac{6}{5}\)<br>
+    \(=\dfrac{-24}{10}\cdot\dfrac{5}{6}\)<br>
+    \(=\dfrac{-120}{60}=-2\).<br>
+    <span class="kq">Vậy a) \(\dfrac{3}{14}\); b) \(-2\).</span>
+  </div>
+</div>
+
+<div class="card" data-ma="lop-7/chuong-01/bai-02#lt4">
+  <p class="de dai"><span class="tag lt">Luyện tập 3</span><span class="q">Tính:<br>a) \(\left(-\dfrac{9}{13}\right)\cdot\left(-\dfrac{4}{5}\right)\);<br>b) \(-0{,}7:\dfrac{3}{2}\).</span></p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>a) Hai số cùng âm nên tích là số dương.</p>
+    </details>
+    <details class="hs-dap-so"><summary>Đáp số để đối chiếu</summary>
+      <div class="kq">Vậy a) \(\dfrac{36}{65}\); b) \(-\dfrac{7}{15}\).</div>
+      <p class="hs-nho">Ra khác đáp số thì em xem lại các bước, đừng sửa vội cho khớp.</p>
+    </details>
+  </div>
+
+<div class="card" data-ma="lop-7/chuong-01/bai-02#lt5">
+  <p class="de dai"><span class="tag lt">Luyện tập 4</span><span class="q">Tính một cách hợp lí: \(\dfrac{7}{6}\cdot3\dfrac{1}{4}+\dfrac{7}{6}\cdot(-0{,}25)\).</span></p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>Ta có: \(\dfrac{7}{6}\cdot3\dfrac{1}{4}+\dfrac{7}{6}\cdot(-0{,}25)\)</p>
+    </details>
+    <details class="hs-dap-so"><summary>Đáp số để đối chiếu</summary>
+      <div class="kq">Vậy giá trị của biểu thức là \(\dfrac{7}{2}\).</div>
+      <p class="hs-nho">Ra khác đáp số thì em xem lại các bước, đừng sửa vội cho khớp.</p>
+    </details>
+  </div>
+
+<div class="card">
+  <p class="de dai"><span class="tag vd">Ví dụ 4</span><span class="q">Trở lại bài toán mở đầu: khinh khí cầu bay lên với vận tốc \(0{,}8\) m/s trong \(50\) giây rồi hạ độ cao với vận tốc \(\dfrac{5}{9}\) m/s. Sau \(27\) giây kể từ khi hạ độ cao, khinh khí cầu cách mặt đất bao nhiêu mét?</span></p>
+  <div class="giai">
+    Trong \(50\) giây đầu, khinh khí cầu bay lên được \(0{,}8\cdot50=40\) (m).<br>
+    Sau \(27\) giây hạ độ cao, khinh khí cầu giảm được \(\dfrac{5}{9}\cdot27=15\) (m).<br>
+    Khoảng cách tới mặt đất là \(40-15=25\) (m).<br>
+    <span class="kq">Vậy sau \(27\) giây kể từ khi hạ độ cao, khinh khí cầu cách mặt đất \(25\) m.</span>
+  </div>
+</div>
+
+<div class="card" data-ma="lop-7/chuong-01/bai-02#vdung6">
+  <p class="de dai"><span class="tag vdung">Vận dụng 2</span><span class="q">Có hai tấm ảnh kích thước \(10\) cm \(\times\) \(15\) cm được in trên một tờ giấy ảnh kích thước \(21{,}6\) cm \(\times\) \(27{,}9\) cm. Nếu cắt ảnh theo đúng kích thước thì diện tích phần giấy ảnh còn lại là bao nhiêu?</span></p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>Diện tích tờ giấy ảnh là \(21{,}6\cdot27{,}9=602{,}64\) (cm\(^2\)).</p>
+    </details>
+    <details class="hs-dap-so"><summary>Đáp số để đối chiếu</summary>
+      <div class="kq">Vậy phần giấy ảnh còn lại có diện tích \(302{,}64\) cm\(^2\).</div>
+      <p class="hs-nho">Ra khác đáp số thì em xem lại các bước, đừng sửa vội cho khớp.</p>
+    </details>
+  </div>
+
+<h2 class="sec red" id="bai-tap"><span class="num">BT</span> BÀI TẬP (SGK tr.13)</h2>
+
+<div class="card" data-ma="lop-7/chuong-01/bai-02#bt7" data-nop="1">
+  <p class="de dai"><span class="tag bt">1.7</span><span class="q">Tính:<br>a) \(\dfrac{-6}{18}+\dfrac{18}{27}\);<br>b) \(2{,}5-\left(-\dfrac{6}{9}\right)\);<br>c) \(-0{,}32\cdot(-0{,}875)\);<br>d) \((-5):2\dfrac{1}{5}\).</span></p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>a) Ta có: \(\dfrac{-6}{18}+\dfrac{18}{27}=\dfrac{-1}{3}+\dfrac{2}{3}=\dfrac{1}{3}\).</p>
+    </details>
+    <details class="hs-dap-so"><summary>Đáp số để đối chiếu</summary>
+      <div class="kq">Vậy a) \(\dfrac{1}{3}\); b) \(\dfrac{19}{6}\); c) \(0{,}28\); d) \(-\dfrac{25}{11}\).</div>
+      <p class="hs-nho">Ra khác đáp số thì em xem lại các bước, đừng sửa vội cho khớp.</p>
+    </details>
+    <p class="hs-nop"><a class="hs-nut" href="/lop-hoc/nop.html?ma=lop-7%2Fchuong-01%2Fbai-02%23bt7">Nộp bài làm</a></p>
+  </div>
+
+<div class="card" data-ma="lop-7/chuong-01/bai-02#bt8" data-nop="1">
+  <p class="de dai"><span class="tag bt">1.8</span><span class="q">Tính giá trị của các biểu thức sau:<br>a) \(\left(8+2\dfrac{1}{3}-\dfrac{3}{5}\right)-(5+0{,}4)-\left(3\dfrac{1}{3}-2\right)\);<br>b) \(\left(7-\dfrac{1}{2}-\dfrac{3}{4}\right):\left(5-\dfrac{1}{4}-\dfrac{5}{8}\right)\).</span></p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>a) Ta có: \(\left(8+2\dfrac{1}{3}-\dfrac{3}{5}\right)-(5+0{,}4)-\left(3\dfrac{1}{3}-2\right)\)</p>
+    </details>
+    <details class="hs-dap-so"><summary>Đáp số để đối chiếu</summary>
+      <div class="kq">Vậy a) bằng \(3\); b) bằng \(\dfrac{46}{33}\).</div>
+      <p class="hs-nho">Ra khác đáp số thì em xem lại các bước, đừng sửa vội cho khớp.</p>
+    </details>
+    <p class="hs-nop"><a class="hs-nut" href="/lop-hoc/nop.html?ma=lop-7%2Fchuong-01%2Fbai-02%23bt8">Nộp bài làm</a></p>
+  </div>
+
+<div class="card" data-ma="lop-7/chuong-01/bai-02#bt9" data-nop="1">
+  <p class="de dai"><span class="tag bt">1.9</span><span class="q">Em hãy tìm cách "nối" bốn số \(10\); \(-2\); \(4\); \(-25\) bằng dấu các phép tính cộng, trừ, nhân, chia và dấu ngoặc để được một biểu thức có giá trị đúng bằng \(-105\).</span></p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>Ta thấy \(-25\) và \(4\) nhân với nhau cho \(-100\), gần \(-105\).</p>
+    </details>
+    <details class="hs-dap-so"><summary>Đáp số để đối chiếu</summary>
+      <div class="kq">Vậy một cách nối là \((-25)\cdot4+10:(-2)=-105\).</div>
+      <p class="hs-nho">Ra khác đáp số thì em xem lại các bước, đừng sửa vội cho khớp.</p>
+    </details>
+    <p class="hs-nop"><a class="hs-nut" href="/lop-hoc/nop.html?ma=lop-7%2Fchuong-01%2Fbai-02%23bt9">Nộp bài làm</a></p>
+  </div>
+
+<div class="card" data-ma="lop-7/chuong-01/bai-02#bt10" data-nop="1">
+  <p class="de dai"><span class="tag bt">1.10</span><span class="q">Tính một cách hợp lí: \(0{,}65\cdot78+2\dfrac{1}{5}\cdot2\,020+0{,}35\cdot78-2{,}2\cdot2\,020\).</span></p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>Ta có: \(2\dfrac{1}{5}=2{,}2\).</p>
+    </details>
+    <details class="hs-dap-so"><summary>Đáp số để đối chiếu</summary>
+      <div class="kq">Vậy giá trị của biểu thức là \(78\).</div>
+      <p class="hs-nho">Ra khác đáp số thì em xem lại các bước, đừng sửa vội cho khớp.</p>
+    </details>
+    <p class="hs-nop"><a class="hs-nut" href="/lop-hoc/nop.html?ma=lop-7%2Fchuong-01%2Fbai-02%23bt10">Nộp bài làm</a></p>
+  </div>
+
+<div class="card" data-ma="lop-7/chuong-01/bai-02#bt11" data-nop="1">
+  <p class="de dai"><span class="tag bt">1.11</span><span class="q">Ngăn đựng sách của một giá sách trong thư viện dài \(120\) cm. Người ta dự định xếp các cuốn sách dày khoảng \(2{,}4\) cm vào ngăn này. Hỏi ngăn sách đó có thể để được nhiều nhất bao nhiêu cuốn sách như vậy?</span></p>
+    <details class="hs-goi-y"><summary>Gợi ý</summary>
+      <p>Số cuốn sách xếp được nhiều nhất là \(120:2{,}4\).</p>
+    </details>
+    <details class="hs-dap-so"><summary>Đáp số để đối chiếu</summary>
+      <div class="kq">Vậy ngăn sách để được nhiều nhất \(50\) cuốn sách.</div>
+      <p class="hs-nho">Ra khác đáp số thì em xem lại các bước, đừng sửa vội cho khớp.</p>
+    </details>
+    <p class="hs-nop"><a class="hs-nut" href="/lop-hoc/nop.html?ma=lop-7%2Fchuong-01%2Fbai-02%23bt11">Nộp bài làm</a></p>
+  </div>
+
+<section class="phieu" id="phieu-hoc-tap" aria-label="Phiếu học tập">
+  <div class="phieu-top">
+    <h2><span class="ico" aria-hidden="true">✍</span> Phiếu học tập</h2>
+    <div class="phieu-acts">
+      <a class="phieu-btn primary" href="phieu-hoc-tap.pdf" target="_blank" rel="noopener">Mở PDF</a>
+      <a class="phieu-btn" href="phieu-hoc-tap.pdf" download>⬇ Tải PDF</a>
+    </div>
+  </div>
+  <div class="phieu-frame"><iframe src="phieu-hoc-tap.pdf#view=FitH" title="Phiếu học tập — Bài 2. Cộng, trừ, nhân, chia số hữu tỉ" loading="lazy"></iframe></div>
+  <div class="phieu-mobile">
+    <b>Xem phiếu trên điện thoại</b>
+    <span>Trình duyệt di động có thể không hiển thị PDF ngay trong trang. Nhấn để mở hoặc tải phiếu.</span>
+    <div class="phieu-acts">
+      <a class="phieu-btn primary" href="phieu-hoc-tap.pdf" target="_blank" rel="noopener">Mở phiếu (PDF)</a>
+      <a class="phieu-btn" href="phieu-hoc-tap.pdf" download>⬇ Tải về</a>
+    </div>
+  </div>
+  <p class="phieu-note">Phiếu A4 có chỗ trống để học sinh tự ghi lý thuyết và trình bày từng bước.</p>
+</section>
+
+<section class="hoc-tiep" aria-label="Học tiếp">
+  <p class="nav-label">Học tiếp</p>
+  <div class="tiep-luoi">
+    <a class="tiep-the" href="#phieu-hoc-tap"><span class="tiep-ico" aria-hidden="true">✍</span><span class="tiep-chu"><b>Phiếu học tập</b><i>Xem &amp; in ngay trong trang, chừa chỗ học sinh ghi</i></span><span class="tiep-mui" aria-hidden="true">→</span></a>
+    <a class="tiep-the" href="trac-nghiem.html"><span class="tiep-ico" aria-hidden="true">✓</span><span class="tiep-chu"><b>Trắc nghiệm</b><i>17 câu tự kiểm tra, chấm điểm ngay</i></span><span class="tiep-mui" aria-hidden="true">→</span></a>
+    <a class="tiep-the" href="/bai-hoc/lop-7/"><span class="tiep-ico" aria-hidden="true">→</span><span class="tiep-chu"><b>Mục lục Toán 7</b><i>Chọn bài tiếp theo để học</i></span><span class="tiep-mui" aria-hidden="true">→</span></a>
+  </div>
+</section>
+</main>
+</div>
+<script>
+document.querySelectorAll('.card .tag.vd').forEach(function (tag) {
+  var card = tag.closest('.card');
+  if (!card) return;
+  Array.prototype.slice.call(card.querySelectorAll('.giai')).forEach(function (answer) {
+    if (answer.closest('.show, .solution') || answer.closest('.card') !== card) return;
+    var panel = document.createElement('div');
+    panel.className = 'show';
+    answer.parentNode.insertBefore(panel, answer);
+    panel.appendChild(answer);
+  });
+});
+
+document.querySelectorAll('.show').forEach(function (panel) {
+  var details = document.createElement('details');
+  var summary = document.createElement('summary');
+  details.className = 'solution';
+  summary.textContent = 'Xem lời giải';
+  details.appendChild(summary);
+  while (panel.firstChild) details.appendChild(panel.firstChild);
+  panel.replaceWith(details);
+  details.addEventListener('toggle', function () {
+    summary.textContent = details.open ? 'Ẩn lời giải' : 'Xem lời giải';
+  });
+});
+
+// Đánh dấu mục đang xem trên thanh mục lục
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.lesson-nav nav a[href^="#"]'));
+  var sections = links.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); }).filter(Boolean);
+  if (!sections.length) return;
+  function capNhat() {
+    var moc = window.scrollY + 140, hienId = null;
+    sections.forEach(function (s) { if (s.offsetTop <= moc) hienId = s.id; });
+    links.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + hienId); });
+  }
+  window.addEventListener('scroll', capNhat, { passive: true });
+  window.addEventListener('resize', capNhat, { passive: true });
+  capNhat();
+})();
+</script>
+<script src="/assets/lop-hoc-cauhinh.js"></script>
+<script src="/assets/lop-hoc.js"></script>
+</body>
+</html>

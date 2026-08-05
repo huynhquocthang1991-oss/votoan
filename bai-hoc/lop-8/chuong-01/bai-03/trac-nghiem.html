@@ -11,16 +11,20 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;display=swap" rel="stylesheet">
+<script>
+try {
+  var luu = localStorage.getItem('vo-toan-theme');
+  if (['light','night','sand','ocean','rose','forest'].indexOf(luu) >= 0) {
+    document.documentElement.dataset.theme = luu;
+  }
+} catch (e) {}
+</script>
+<link rel="stylesheet" href="/assets/theme.css">
 <style>
   /* Bảng màu "vở ô ly" — dùng chung với trang bài học (index.html) và mục lục lớp. */
   :root{
-    --blue:#1b4dff; --blue-d:#0d36c7; --blue-l:#eef3ff;
-    --orange:#d84f00; --orange-l:#fff5e9;
-    --green:#2e7d32; --green-l:#edf8ee;
-    --red:#c62828; --red-l:#fff0f0;
-    --purple:#6a1b9a; --purple-l:#f7eefb;
-    --ink:#13223c; --muted:#4f5f7a; --line:#d9e2f0;
-    --paper:#fafcff; --grid:#e5ecf8; --surface:#fff;
+    /* Màu nằm ở /assets/theme.css — nguồn duy nhất cho cả web.
+       Đừng khai lại màu ở đây, khai lại là trang không đổi giao diện nữa. */
     --body:"Be Vietnam Pro",system-ui,-apple-system,sans-serif;
     --display:"Bricolage Grotesque","Be Vietnam Pro",system-ui,sans-serif;
   }
@@ -33,69 +37,69 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
     background-size:30px 30px;
   }
   a{color:inherit;text-decoration:none}
-  :focus-visible{outline:3px solid rgba(27,77,255,.45);outline-offset:3px;border-radius:8px}
+  :focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 45%,transparent);outline-offset:3px;border-radius:8px}
   .page{width:min(1580px,calc(100% - 40px));margin:0 auto;padding:24px 0 72px;display:grid;grid-template-columns:250px minmax(0,1fr);gap:24px;align-items:start}
   .lesson-content{min-width:0}
 
-  .lesson-nav{position:sticky;top:20px;min-width:0;padding:22px;background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:20px;box-shadow:0 16px 42px rgba(39,55,67,.07);backdrop-filter:blur(12px)}
+  .lesson-nav{position:sticky;top:20px;min-width:0;padding:22px;background:color-mix(in srgb,var(--surface) 92%,transparent);border:1px solid var(--line);border-radius:20px;box-shadow:0 16px 42px color-mix(in srgb,var(--ink) 7%,transparent);backdrop-filter:blur(12px)}
   .lesson-brand{display:flex;align-items:center;gap:10px;margin-bottom:28px;font:700 1rem/1 var(--display);letter-spacing:-.02em}
-  .lesson-brand span:first-child{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:var(--blue);color:#fff;font-size:.72rem}
+  .lesson-brand span:first-child{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:var(--blue);color:var(--on-accent);font-size:.72rem}
   .nav-label{margin:0 0 10px;color:var(--muted);font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
   .lesson-nav nav{display:grid;gap:5px}
-  .lesson-nav nav a{display:flex;align-items:center;gap:10px;padding:10px 11px;border-radius:10px;color:#465763;font-size:.82rem;line-height:1.35;transition:background .2s ease,color .2s ease}
+  .lesson-nav nav a{display:flex;align-items:center;gap:10px;padding:10px 11px;border-radius:10px;color:var(--muted);font-size:.82rem;line-height:1.35;transition:background .2s ease,color .2s ease}
   .lesson-nav nav a::before{content:"";width:6px;height:6px;flex:0 0 auto;border:1.5px solid currentColor;border-radius:50%}
   .lesson-nav nav a:hover{color:var(--blue);background:var(--blue-l)}
   .nav-them{margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
   .lesson-nav nav.them a{color:var(--blue);background:var(--blue-l);font-weight:600}
   .lesson-nav nav.them a::before{border-color:var(--blue)}
-  .lesson-nav nav.them a:hover{background:#dfe8ff}
+  .lesson-nav nav.them a:hover{background:var(--accent-soft)}
 
   .diem-hop{margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
   .diem-so{font:800 2.1rem/1 var(--display);color:var(--blue);letter-spacing:-.03em}
   .diem-so small{font-size:1rem;color:var(--muted);font-weight:600}
   .diem-chu{margin:6px 0 0;font-size:.74rem;color:var(--muted)}
-  .thanh{height:7px;margin-top:11px;border-radius:99px;background:#e6ecf0;overflow:hidden}
+  .thanh{height:7px;margin-top:11px;border-radius:99px;background:var(--surface-2);overflow:hidden}
   .thanh i{display:block;height:100%;width:0;border-radius:99px;background:var(--blue);transition:width .35s ease}
 
-  header{position:relative;min-height:210px;display:grid;align-content:end;overflow:hidden;background:linear-gradient(125deg,var(--blue-d),#2e62ff);color:#fff;border-radius:24px;padding:clamp(28px,5vw,52px);margin-bottom:30px;box-shadow:0 24px 58px rgba(13,54,199,.18)}
-  header::before,header::after{content:"";position:absolute;border:1px solid rgba(255,255,255,.16);border-radius:50%;pointer-events:none}
+  header{position:relative;min-height:210px;display:grid;align-content:end;overflow:hidden;background:linear-gradient(125deg,var(--accent),color-mix(in srgb,var(--accent) 62%,var(--accent-2)));color:var(--on-accent);border-radius:24px;padding:clamp(28px,5vw,52px);margin-bottom:30px;box-shadow:0 24px 58px color-mix(in srgb,var(--accent) 18%,transparent)}
+  header::before,header::after{content:"";position:absolute;border:1px solid color-mix(in srgb,var(--on-accent) 16%,transparent);border-radius:50%;pointer-events:none}
   header::before{width:340px;height:340px;right:-105px;top:-175px}
   header::after{width:210px;height:210px;right:80px;top:-120px}
   .breadcrumb{position:relative;z-index:1;margin:0 0 30px;font-size:.73rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;opacity:.78}
   .hero-row{position:relative;z-index:1;display:flex;align-items:end;justify-content:space-between;gap:32px}
   header h1{margin:0;font:800 clamp(2rem,4.4vw,3.6rem)/1 var(--display);letter-spacing:-.05em}
   header p{max-width:580px;margin:14px 0 0;opacity:.85;font-size:.94rem}
-  .hero-number{font:700 clamp(3.5rem,8vw,6rem)/.72 var(--display);letter-spacing:-.07em;color:rgba(255,255,255,.17)}
+  .hero-number{font:700 clamp(3.5rem,8vw,6rem)/.72 var(--display);letter-spacing:-.07em;color:color-mix(in srgb,var(--on-accent) 17%,transparent)}
 
-  .cau{background:var(--surface);border:1px solid var(--line);border-radius:15px;padding:19px 21px;margin:14px 0;box-shadow:0 8px 28px rgba(35,51,64,.035)}
+  .cau{background:var(--surface);border:1px solid var(--line);border-radius:15px;padding:19px 21px;margin:14px 0;box-shadow:0 8px 28px color-mix(in srgb,var(--ink) 3.5%,transparent)}
   .cau-dau{display:flex;align-items:center;gap:11px;margin-bottom:9px}
   .cau-so{display:grid;place-items:center;min-width:31px;height:31px;padding:0 8px;background:var(--blue-l);color:var(--blue);border-radius:8px;font:700 .86rem/1 var(--display)}
   .cau-de{margin:0;font-weight:600;overflow-wrap:anywhere}
   .dap-an{display:grid;gap:8px;margin-top:13px}
-  .lua-chon{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 14px;font:inherit;font-size:.94rem;color:var(--ink);background:#f7f9fb;border:1.5px solid var(--line);border-radius:11px;cursor:pointer;transition:border-color .18s ease,background .18s ease}
+  .lua-chon{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 14px;font:inherit;font-size:.94rem;color:var(--ink);background:var(--surface-2);border:1.5px solid var(--line);border-radius:11px;cursor:pointer;transition:border-color .18s ease,background .18s ease}
   .lua-chon:hover:not(:disabled){border-color:var(--blue);background:var(--blue-l)}
   .lua-chon:disabled{cursor:default}
-  .chu{display:grid;place-items:center;flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:#fff;border:1.5px solid var(--line);font-weight:700;font-size:.8rem}
+  .chu{display:grid;place-items:center;flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--surface);border:1.5px solid var(--line);font-weight:700;font-size:.8rem}
   .lua-chon.dung{border-color:var(--green);background:var(--green-l)}
-  .lua-chon.dung .chu{border-color:var(--green);background:var(--green);color:#fff}
+  .lua-chon.dung .chu{border-color:var(--green);background:var(--green);color:var(--on-success)}
   .lua-chon.sai{border-color:var(--red);background:var(--red-l)}
-  .lua-chon.sai .chu{border-color:var(--red);background:var(--red);color:#fff}
+  .lua-chon.sai .chu{border-color:var(--red);background:var(--red);color:var(--on-accent)}
   .giai-thich{display:none;margin-top:12px;padding:12px 14px;background:var(--blue-l);border-left:3px solid var(--blue);border-radius:0 9px 9px 0;font-size:.9rem}
   .giai-thich.hien{display:block}
   .giai-thich b{color:var(--blue)}
 
-  .ket-qua{display:none;margin-top:30px;padding:26px 24px;background:var(--surface);border:1px solid var(--line);border-radius:18px;text-align:center;box-shadow:0 12px 36px rgba(35,51,64,.05)}
+  .ket-qua{display:none;margin-top:30px;padding:26px 24px;background:var(--surface);border:1px solid var(--line);border-radius:18px;text-align:center;box-shadow:0 12px 36px color-mix(in srgb,var(--ink) 5%,transparent)}
   .ket-qua.hien{display:block}
   .kq-diem{font:800 3rem/1 var(--display);color:var(--blue);letter-spacing:-.04em}
   .kq-loi{margin:10px 0 0;color:var(--muted)}
-  .nut-lam-lai{margin-top:18px;padding:12px 26px;font:600 .92rem var(--body);color:#fff;background:var(--blue);border:0;border-radius:11px;cursor:pointer;transition:background .2s ease}
+  .nut-lam-lai{margin-top:18px;padding:12px 26px;font:600 .92rem var(--body);color:var(--on-accent);background:var(--blue);border:0;border-radius:11px;cursor:pointer;transition:background .2s ease}
   .nut-lam-lai:hover{background:var(--blue-d)}
 
   .hoc-tiep{margin:40px 0 0;padding-top:28px;border-top:1px solid var(--line)}
   .hoc-tiep .nav-label{margin-bottom:14px}
   .tiep-luoi{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:14px}
-  .tiep-the{display:flex;align-items:center;gap:15px;padding:18px 20px;background:var(--surface);border:1px solid var(--line);border-radius:15px;box-shadow:0 8px 28px rgba(35,51,64,.035);transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease}
-  .tiep-the:hover{border-color:var(--blue);box-shadow:0 14px 36px rgba(27,77,255,.13);transform:translateY(-2px)}
+  .tiep-the{display:flex;align-items:center;gap:15px;padding:18px 20px;background:var(--surface);border:1px solid var(--line);border-radius:15px;box-shadow:0 8px 28px color-mix(in srgb,var(--ink) 3.5%,transparent);transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease}
+  .tiep-the:hover{border-color:var(--blue);box-shadow:0 14px 36px color-mix(in srgb,var(--accent) 13%,transparent);transform:translateY(-2px)}
   .tiep-ico{display:grid;place-items:center;flex:0 0 auto;width:44px;height:44px;border-radius:12px;background:var(--blue-l);color:var(--blue);font:700 1.15rem/1 var(--display)}
   .tiep-chu{min-width:0;flex:1}
   .tiep-chu b{display:block;font:700 1rem/1.3 var(--display);color:var(--ink)}
@@ -116,7 +120,7 @@ MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
     .lesson-nav{position:static;padding:15px;border-radius:15px}
     .lesson-brand{margin-bottom:14px}
     .lesson-nav nav{display:flex;flex-wrap:wrap;gap:6px}
-    .lesson-nav nav a{padding:8px 10px;background:#f4f7f9}
+    .lesson-nav nav a{padding:8px 10px;background:var(--surface-2)}
     .nav-them{margin-top:10px;padding-top:10px}
     .diem-hop{margin-top:12px;padding-top:12px;display:flex;align-items:center;gap:14px}
     .diem-hop .thanh{flex:1;margin-top:0}
