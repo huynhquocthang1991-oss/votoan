@@ -157,6 +157,7 @@ try {
   }
   @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
 </style>
+<link rel="stylesheet" href="/assets/lop-hoc.css">
 </head>
 <body>
 <div class="page">
@@ -193,8 +194,8 @@ try {
   </div>
 </header>
 
-<div id="bo-cau">
-<div class="cau" data-dung="C" data-muc="1">
+<div id="bo-cau" data-bai="lop-12/chuong-01/bai-05">
+<div class="cau" data-ma-cau="lop-12/chuong-01/bai-05#1" data-muc="1">
     <div class="cau-dau"><span class="cau-so">1</span><p class="cau-de">Nếu \(s=s(t)\) là hàm vị trí của một vật chuyển động thẳng thì gia tốc tức thời của vật là</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(s'(t)\)</span></button>
@@ -202,10 +203,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(s''(t)\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(\dfrac{s'(t)}{t}\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Vận tốc là đạo hàm cấp một của vị trí, còn gia tốc là đạo hàm của vận tốc, tức đạo hàm cấp hai. Phương án A là vận tốc; phương án B là vận tốc trung bình kể từ lúc xuất phát; phương án D chia vận tốc cho thời gian, không phải một đại lượng vật lí của bài toán này.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="A" data-muc="1">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-05#2" data-muc="1">
     <div class="cau-dau"><span class="cau-so">2</span><p class="cau-de">Nếu \(C=C(x)\) là hàm chi phí sản xuất \(x\) đơn vị hàng hoá thì chi phí biên là</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(C'(x)\)</span></button>
@@ -213,10 +214,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(C(x+1)\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(C''(x)\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Chi phí biên là tốc độ thay đổi của chi phí theo số đơn vị hàng hoá, tức đạo hàm cấp một. Phương án B là chi phí trung bình; phương án C là tổng chi phí khi làm thêm một đơn vị, không phải phần tăng thêm; phương án D là tốc độ thay đổi của chính chi phí biên.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="B" data-muc="2">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-05#3" data-muc="2">
     <div class="cau-dau"><span class="cau-so">3</span><p class="cau-de">Một vật rơi có quãng đường \(s(t)=4{,}9t^2\) (mét). Vận tốc của vật tại thời điểm \(t=3\) giây là</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(44{,}1\) m/s</span></button>
@@ -224,10 +225,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(9{,}8\) m/s</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(14{,}7\) m/s</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> \(v(t)=s'(t)=9{,}8t\) nên \(v(3)=29{,}4\) m/s. Phương án A là quãng đường \(s(3)\) chứ không phải vận tốc; phương án C là gia tốc; phương án D lấy vận tốc trung bình \(\dfrac{s(3)}{3}\).</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="D" data-muc="2">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-05#4" data-muc="2">
     <div class="cau-dau"><span class="cau-so">4</span><p class="cau-de">Số lượng vi khuẩn trong một mẫu thử là \(P(t)=1\,000+30t^2-t^3\) (con), \(t\) tính bằng giờ. Tốc độ tăng trưởng của vi khuẩn tại \(t=10\) là</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(3\,000\) con/giờ</span></button>
@@ -235,10 +236,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(1\,000\) con/giờ</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(300\) con/giờ</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> \(P'(t)=60t-3t^2\) nên \(P'(10)=600-300=300\). Phương án A là số lượng tăng thêm so với ban đầu, tức \(P(10)-P(0)\); phương án B chỉ lấy số hạng \(60t\) mà bỏ quên \(-3t^2\); phương án C lấy hằng số \(1\,000\) trong công thức.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="B" data-muc="1">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-05#5" data-muc="1">
     <div class="cau-dau"><span class="cau-so">5</span><p class="cau-de">Bước đầu tiên khi giải một bài toán tối ưu hoá là</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>tính đạo hàm rồi giải phương trình đạo hàm bằng \(0\)</span></button>
@@ -246,10 +247,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>lập bảng biến thiên của hàm số vừa tìm được</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>kiểm tra kết quả có thoả điều kiện thực tế hay không</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Phải biết mình đang tối ưu cái gì trước đã, rồi mới chọn biến và lập hàm số. Phương án A và phương án C thuộc bước 3, khi đã có hàm số một biến; phương án D là việc cuối cùng, sau khi có nghiệm.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="D" data-muc="2">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-05#6" data-muc="2">
     <div class="cau-dau"><span class="cau-so">6</span><p class="cau-de">Trong các hình chữ nhật có chu vi \(20\) m, hình có diện tích lớn nhất là hình vuông cạnh</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(10\) m</span></button>
@@ -257,10 +258,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(2{,}5\) m</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(5\) m</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Gọi cạnh là \(x\) thì cạnh kia là \(10-x\); \(S(x)=10x-x^2\) lớn nhất tại \(x=5\). Phương án A lấy luôn nửa chu vi; phương án B chọn một số chẵn dễ tính mà không tối ưu; phương án C chia nửa chu vi cho \(4\) như thể tìm cạnh hình vuông có chu vi \(10\).</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="A" data-muc="3">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-05#7" data-muc="3">
     <div class="cau-dau"><span class="cau-so">7</span><p class="cau-de">Một hộp hình trụ có thể tích không đổi. Diện tích toàn phần của hộp nhỏ nhất khi</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>chiều cao bằng đường kính đáy</span></button>
@@ -268,10 +269,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>chiều cao gấp đôi đường kính đáy</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>chiều cao bằng nửa bán kính đáy</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Từ \(S=2\pi r^2+\dfrac{2V}{r}\) và \(S'=0\) suy ra \(\pi r^3=\dfrac{V}{2}\), thay vào \(h=\dfrac{V}{\pi r^2}\) được \(h=2r\). Phương án B dừng lại ở \(h=r\), tức giải sai một bước rút gọn; phương án C và phương án D nhân hoặc chia thêm hệ số \(2\) không đúng chỗ.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="C" data-muc="2">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-05#8" data-muc="2">
     <div class="cau-dau"><span class="cau-so">8</span><p class="cau-de">Một công ty có hàm doanh thu \(R(p)=-200p^2+8\,000p\) (nghìn đồng), \(p\) là giá bán. Doanh thu lớn nhất khi giá bán bằng</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(40\)</span></button>
@@ -279,10 +280,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(20\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(10\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> \(R'(p)=-400p+8\,000=0\) cho \(p=20\). Phương án A chia \(8\,000\) cho \(200\) mà quên hệ số \(2\) khi lấy đạo hàm; phương án B lấy \(\dfrac{8\,000}{100}\); phương án D chia đôi đáp số đúng.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="A" data-muc="3">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-05#9" data-muc="3">
     <div class="cau-dau"><span class="cau-so">9</span><p class="cau-de">Lợi nhuận của một công ty là \(P(x)=-x^3+9x^2+21x-5\) (triệu đồng) với \(x\ge0\). Lợi nhuận đạt lớn nhất khi \(x\) bằng</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(7\)</span></button>
@@ -290,10 +291,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(21\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(-1\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> \(P'(x)=-3x^2+18x+21=-3(x-7)(x+1)\) đổi dấu từ dương sang âm tại \(x=7\). Phương án B lấy hệ số của \(x^2\) làm nghiệm; phương án C lấy hệ số của \(x\); phương án D là nghiệm còn lại của \(P'(x)=0\) nhưng bị loại vì điều kiện \(x\ge0\).</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="A" data-muc="2">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-05#10" data-muc="2">
     <div class="cau-dau"><span class="cau-so">10</span><p class="cau-de">Chi phí xử lí \(x\%\) chất thải là \(C(x)=\dfrac{200x}{100-x}\) (triệu đồng), \(0\le x&lt;100\). Chi phí để xử lí \(80\%\) chất thải là</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(800\) triệu đồng</span></button>
@@ -301,10 +302,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(200\) triệu đồng</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(1\,000\) triệu đồng</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Thay \(x=80\) được \(\dfrac{200\cdot80}{20}=800\). Phương án B chỉ lấy tử chia cho \(100\), tức quên mẫu thật; phương án C lấy luôn hệ số \(200\); phương án D dùng mẫu \(16\) do tính nhầm \(100-80\).</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="B" data-muc="3">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-05#11" data-muc="3">
     <div class="cau-dau"><span class="cau-so">11</span><p class="cau-de">Một hạt chuyển động với toạ độ \(y=t^3-12t+3\) (mét). Hạt đổi chiều chuyển động tại thời điểm</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(t=0\) giây</span></button>
@@ -312,10 +313,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(t=4\) giây</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(t=12\) giây</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> \(v(t)=3t^2-12\) đổi dấu tại \(t=2\) khi \(t\ge0\). Phương án A là lúc xuất phát, vận tốc âm chứ không đổi dấu; phương án C là nghiệm của \(a(t)=6t\) nhân đôi, tức giải nhầm gia tốc; phương án D lấy luôn hệ số \(12\).</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="C" data-muc="3">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-05#12" data-muc="3">
     <div class="cau-dau"><span class="cau-so">12</span><p class="cau-de">Một mảnh đất hình chữ nhật cạnh sông chỉ cần rào ba mặt, tổng chiều dài hàng rào là \(100\) m. Diện tích lớn nhất của mảnh đất là</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(625\) m²</span></button>
@@ -323,10 +324,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(1\,250\) m²</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(1\,000\) m²</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Gọi hai cạnh vuông góc với bờ sông là \(x\), cạnh song song là \(100-2x\); \(S(x)=x(100-2x)\) lớn nhất tại \(x=25\), cho \(S=1\,250\). Phương án A lấy hình vuông cạnh \(25\); phương án B rào cả bốn mặt nên dùng nửa chu vi \(50\); phương án D chọn \(x=20\) cho số tròn mà không tối ưu.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="D" data-muc="3">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-05#13" data-muc="3">
     <div class="cau-dau"><span class="cau-so">13</span><p class="cau-de">Hàm cầu của một loại hàng hoá là \(p=100-\dfrac{x}{50}\) (nghìn đồng). Doanh thu lớn nhất khi số sản phẩm bán ra bằng</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(5\,000\)</span></button>
@@ -334,10 +335,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(100\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(2\,500\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> \(R(x)=xp=100x-\dfrac{x^2}{50}\); \(R'(x)=100-\dfrac{x}{25}=0\) cho \(x=2\,500\). Phương án A nhân \(100\) với \(50\), tức quên hệ số \(2\) của đạo hàm; phương án B lấy luôn số \(50\) ở mẫu; phương án C lấy giá trần \(100\).</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="A" data-muc="4">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-05#14" data-muc="4">
     <div class="cau-dau"><span class="cau-so">14</span><p class="cau-de">Cần làm một chiếc hộp không nắp có đáy vuông với thể tích \(32\) cm³ sao cho diện tích vật liệu nhỏ nhất. Cạnh đáy khi đó bằng</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(4\) cm</span></button>
@@ -345,10 +346,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(8\) cm</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(\sqrt[3]{32}\) cm</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Chiều cao \(h=\dfrac{32}{x^2}\) nên \(S(x)=x^2+\dfrac{128}{x}\); \(S'(x)=2x-\dfrac{128}{x^2}=0\) cho \(x^3=64\), tức \(x=4\). Phương án B là chiều cao \(h\) ứng với \(x=4\) — giải đúng nhưng dừng ở đại lượng khác; phương án C nhân đôi đáp số vì tưởng hộp có nắp; phương án D lấy căn bậc ba của thể tích, đúng cho hình lập phương chứ không cho hộp không nắp.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="B" data-muc="3">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-05#15" data-muc="3">
     <div class="cau-dau"><span class="cau-so">15</span><p class="cau-de">Anh An chèo thuyền qua con sông rộng \(3\) km rồi chạy bộ \(8\) km dọc bờ. Nếu vận tốc chèo là \(6\) km/h và vận tốc chạy là \(8\) km/h thì tổng thời gian là</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(T(x)=\dfrac{\sqrt{9+x^2}}{8}+\dfrac{8-x}{6}\)</span></button>
@@ -356,10 +357,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(T(x)=\dfrac{\sqrt{9+(8-x)^2}}{6}+\dfrac{x}{8}\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(T(x)=\dfrac{\sqrt{9+x^2}}{6}+\dfrac{x}{8}\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Quãng đường chèo là cạnh huyền \(\sqrt{9+x^2}\) chia cho vận tốc chèo \(6\); quãng đường chạy còn lại \(8-x\) chia cho \(8\). Phương án A đổi chỗ hai vận tốc; phương án C đặt \(x\) là quãng đường chạy bộ ở nửa sau nhưng vẫn dùng \(x\) như quãng đường dọc bờ ở nửa đầu; phương án D lấy nhầm quãng đường chạy bộ là \(x\).</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="A" data-muc="4">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-05#16" data-muc="4">
     <div class="cau-dau"><span class="cau-so">16</span><p class="cau-de">Một khu chung cư có \(100\) căn hộ, cho thuê hết khi giá là \(8\) triệu đồng một tháng; cứ tăng giá \(0{,}1\) triệu đồng thì thêm một căn bị bỏ trống. Doanh thu lớn nhất khi giá thuê là</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(9\) triệu đồng</span></button>
@@ -367,7 +368,7 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(10\) triệu đồng</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(18\) triệu đồng</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Số căn cho thuê được là \(180-10p\), nên \(R(p)=180p-10p^2\); \(R'(p)=180-20p=0\) cho \(p=9\). Phương án B giữ nguyên giá ban đầu, tức chưa tối ưu; phương án C chọn số tròn gần đáp số; phương án D lấy luôn hệ số \(180\) chia \(10\).</p>
+    <p class="giai-thich"></p>
   </div>
 
 </div>
@@ -405,15 +406,22 @@ try {
 
 </main>
 </div>
+<script src="/assets/lop-hoc-cauhinh.js"></script>
+<script src="/assets/lop-hoc.js"></script>
 <script>
+/* Chấm ở server — đáp án không còn nằm trong file này. CHUAN_LOP_HOC.md mục 15.1.
+ *
+ * lop-hoc.js ở trên là BẮT BUỘC: window.LopHoc do nó tạo ra. Thiếu dòng đó thì
+ * mỗi cú bấm ném ReferenceError ngay trong hàm xử lý — không rơi vào .catch()
+ * bên dưới, nên câu hỏi khoá cứng lại mà không hiện một chữ nào. */
 (function () {
   var tongSoCau = document.querySelectorAll('.cau').length;
+  var maBai = document.getElementById('bo-cau').dataset.bai;
   var oDiem = document.getElementById('diem');
   var thanhDiem = document.getElementById('thanh-diem');
   var hopKetQua = document.getElementById('ket-qua');
   var soDung = 0, soDaLam = 0;
 
-  // Tổng số câu tự đếm từ số khối .cau — thêm bớt câu không phải sửa gì ở đây.
   document.getElementById('tong-cau').textContent = tongSoCau;
   document.getElementById('kq-tong').textContent = tongSoCau;
 
@@ -430,21 +438,47 @@ try {
     hopKetQua.classList.add('hien');
   }
 
+  function bao(cau, loi) {
+    var p = cau.querySelector('.giai-thich');
+    p.innerHTML = '<b>Chưa chấm được.</b> ' + loi;
+    p.classList.add('hien');
+  }
+
   document.querySelectorAll('.cau').forEach(function (cau) {
-    var dapAnDung = cau.dataset.dung;
     cau.querySelectorAll('.lua-chon').forEach(function (nut) {
       nut.addEventListener('click', function () {
         if (cau.dataset.daLam) return;
-        cau.dataset.daLam = '1';
-        soDaLam++;
-        if (nut.dataset.chon === dapAnDung) soDung++;
-        cau.querySelectorAll('.lua-chon').forEach(function (n) {
-          n.disabled = true;
-          if (n.dataset.chon === dapAnDung) n.classList.add('dung');
-          else if (n === nut) n.classList.add('sai');
-        });
-        cau.querySelector('.giai-thich').classList.add('hien');
-        capNhatDiem();
+        cau.dataset.daLam = 'dang-cham';
+        cau.querySelectorAll('.lua-chon').forEach(function (n) { n.disabled = true; });
+
+        var hoi = window.LopHoc
+          ? LopHoc.chamTracNghiem(maBai, cau.dataset.maCau, nut.dataset.chon)
+          : Promise.reject(new Error('mat-mang'));
+
+        hoi
+          .then(function (kq) {
+            cau.dataset.daLam = '1';
+            soDaLam++;
+            if (kq.dung) soDung++;
+            cau.querySelectorAll('.lua-chon').forEach(function (n) {
+              if (n.dataset.chon === kq.dap_an) n.classList.add('dung');
+              else if (n === nut) n.classList.add('sai');
+            });
+            var p = cau.querySelector('.giai-thich');
+            p.innerHTML = '<b>Vì sao.</b> ' + kq.giai_thich;
+            p.classList.add('hien');
+            if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([p]);
+            capNhatDiem();
+          })
+          .catch(function (e) {
+            delete cau.dataset.daLam;
+            cau.querySelectorAll('.lua-chon').forEach(function (n) { n.disabled = false; });
+            var vi = e && e.message;
+            bao(cau,
+              vi === 'mat-mang' ? 'Máy chưa nối mạng. Em thử lại khi có mạng nhé.'
+              : vi === 'chua-cau-hinh' ? 'Phần chấm chưa mở. Em quay lại sau nhé.'
+              : 'Có trục trặc, em thử bấm lại.');
+          });
       });
     });
   });
@@ -458,7 +492,9 @@ try {
         n.disabled = false;
         n.classList.remove('dung', 'sai');
       });
-      cau.querySelector('.giai-thich').classList.remove('hien');
+      var p = cau.querySelector('.giai-thich');
+      p.classList.remove('hien');
+      p.innerHTML = '';
     });
     capNhatDiem();
     document.getElementById('top').scrollIntoView({ behavior: 'smooth' });

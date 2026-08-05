@@ -161,6 +161,7 @@ try {
   .he::before{content:"{";grid-column:1;grid-row:1/span 2;justify-self:center;font:400 2.5em/.75 "Times New Roman",Georgia,serif;color:var(--ink)}
   .he i{grid-column:2;display:block;font-style:normal;white-space:nowrap;margin:1px 0}
 </style>
+<link rel="stylesheet" href="/assets/lop-hoc.css">
 </head>
 <body>
 <div class="page">
@@ -197,9 +198,9 @@ try {
   </div>
 </header>
 
-<div id="bo-cau">
+<div id="bo-cau" data-bai="lop-9/chuong-01/bai-01">
 
-  <div class="cau" data-dung="C" data-muc="1">
+  <div class="cau" data-ma-cau="lop-9/chuong-01/bai-01#1" data-muc="1">
     <div class="cau-dau"><span class="cau-so">1</span><p class="cau-de">Hệ thức nào sau đây <b>là</b> phương trình bậc nhất hai ẩn?</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(x^2+y=4\)</span></button>
@@ -207,10 +208,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(3x-7y=2\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(\dfrac{2}{x}+y=1\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Phương trình bậc nhất hai ẩn có dạng \(ax+by=c\) với \(a\ne 0\) hoặc \(b\ne 0\). \(x^2+y=4\) có ẩn bậc hai; \(0x+0y=5\) có \(a=b=0\); \(\dfrac2x+y=1\) có ẩn ở mẫu — cả ba đều không đúng dạng.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="A" data-muc="1">
+  <div class="cau" data-ma-cau="lop-9/chuong-01/bai-01#2" data-muc="1">
     <div class="cau-dau"><span class="cau-so">2</span><p class="cau-de">Viết \(6x-5y=12\) dưới dạng \(ax+by=c\). Hệ số \(b\) bằng:</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(-5\)</span></button>
@@ -218,10 +219,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(6\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(12\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Hệ số của ẩn lấy <b>cả dấu</b>: \(6x-5y=6x+(-5)y\) nên \(b=-5\). Chọn \(5\) là quên dấu trừ; chọn \(6\) là nhầm sang hệ số \(a\); chọn \(12\) là nhầm sang số \(c\) ở vế phải.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="D" data-muc="1">
+  <div class="cau" data-ma-cau="lop-9/chuong-01/bai-01#3" data-muc="1">
     <div class="cau-dau"><span class="cau-so">3</span><p class="cau-de">Một nghiệm của phương trình bậc nhất hai ẩn là:</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>một giá trị của \(x\)</span></button>
@@ -229,10 +230,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>một đường thẳng</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>một cặp số \((x_0;y_0)\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Phương trình có hai ẩn nên phải cho giá trị của <b>cả hai</b> ẩn cùng lúc; nghiệm là một cặp số có thứ tự \((x_0;y_0)\). Chọn “một đường thẳng” là nhầm nghiệm với hình biểu diễn <i>tất cả</i> các nghiệm.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="B" data-muc="1">
+  <div class="cau" data-ma-cau="lop-9/chuong-01/bai-01#4" data-muc="1">
     <div class="cau-dau"><span class="cau-so">4</span><p class="cau-de">Phương trình \(3x-y=8\) có số nghiệm là:</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>một nghiệm</span></button>
@@ -240,10 +241,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>hai nghiệm</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>không có nghiệm</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Rút \(y=3x-8\): mỗi giá trị của \(x\) cho một giá trị \(y\) tương ứng, nên có vô số nghiệm. Chọn “một nghiệm” là nhớ nhầm sang phương trình bậc nhất <i>một</i> ẩn; chọn “hai nghiệm” là nhầm số ẩn với số nghiệm.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="A" data-muc="1">
+  <div class="cau" data-ma-cau="lop-9/chuong-01/bai-01#5" data-muc="1">
     <div class="cau-dau"><span class="cau-so">5</span><p class="cau-de">Trong mặt phẳng toạ độ, đường thẳng \(y=-4\):</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>song song với trục hoành</span></button>
@@ -251,10 +252,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>đi qua gốc toạ độ \(O\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>trùng với trục hoành</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> \(y=-4\) viết đủ là \(0x+y=-4\); mọi điểm của nó có tung độ \(-4\) nên đường thẳng nằm ngang, song song trục hoành và cắt trục tung tại \((0;-4)\). Chọn B là đổi vai trò hai trục; chọn D là nhầm \(y=-4\) với \(y=0\).</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="C" data-muc="2">
+  <div class="cau" data-ma-cau="lop-9/chuong-01/bai-01#6" data-muc="2">
     <div class="cau-dau"><span class="cau-so">6</span><p class="cau-de">Cặp số \((-2;y)\) là một nghiệm của phương trình \(3x+2y=4\). Giá trị của \(y\) bằng:</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(-1\)</span></button>
@@ -262,10 +263,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(5\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(10\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Thay \(x=-2\): \(-6+2y=4\), nên \(2y=10\) và \(y=5\). Chọn \(-1\) là chuyển \(-6\) sang vế phải mà không đổi dấu; chọn \(-5\) là ra đúng độ lớn nhưng sai dấu; chọn \(10\) là dừng ở \(2y=10\), quên chia cho \(2\).</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="B" data-muc="2">
+  <div class="cau" data-ma-cau="lop-9/chuong-01/bai-01#7" data-muc="2">
     <div class="cau-dau"><span class="cau-so">7</span><p class="cau-de">Nghiệm tổng quát của phương trình \(4x-y=3\) là:</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\((x;3-4x)\) với \(x\) tuỳ ý</span></button>
@@ -273,10 +274,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\((x;4x+3)\) với \(x\) tuỳ ý</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(\left(x;\dfrac{3-x}{4}\right)\) với \(x\) tuỳ ý</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Từ \(4x-y=3\) ta có \(y=4x-3\). Chọn \(3-4x\) là rút \(y\) mà quên đổi dấu cả hai vế; chọn \(4x+3\) là chuyển \(3\) sang vế phải không đổi dấu; chọn phương án cuối là rút nhầm \(x\) theo \(y\) rồi vẫn đặt vào vị trí của \(y\).</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="D" data-muc="2">
+  <div class="cau" data-ma-cau="lop-9/chuong-01/bai-01#8" data-muc="2">
     <div class="cau-dau"><span class="cau-so">8</span><p class="cau-de">Cặp số \((2;-1)\) là nghiệm của phương trình nào sau đây?</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(3x-4y=2\)</span></button>
@@ -284,10 +285,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(3x+4y=-2\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(3x+4y=2\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Thay \(x=2\), \(y=-1\) vào \(3x+4y\) được \(6-4=2\), đúng bằng vế phải. Với \(3x-4y\) được \(6+4=10\) (sai dấu hạng tử); với \(4x+3y\) được \(8-3=5\) (đổi chỗ hai hệ số); phương án \(3x+4y=-2\) đúng vế trái nhưng sai dấu vế phải.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="A" data-muc="2">
+  <div class="cau" data-ma-cau="lop-9/chuong-01/bai-01#9" data-muc="2">
     <div class="cau-dau"><span class="cau-so">9</span><p class="cau-de">Đường thẳng \(x=-3\) cắt trục hoành tại điểm có toạ độ:</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\((-3;0)\)</span></button>
@@ -295,10 +296,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\((3;0)\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\((0;3)\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Mọi điểm của đường thẳng \(x=-3\) có hoành độ \(-3\); điểm nằm trên trục hoành có tung độ \(0\), nên toạ độ là \((-3;0)\). Chọn \((0;-3)\) là viết ngược thứ tự cặp số; chọn \((3;0)\) là bỏ mất dấu trừ.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="C" data-muc="2">
+  <div class="cau" data-ma-cau="lop-9/chuong-01/bai-01#10" data-muc="2">
     <div class="cau-dau"><span class="cau-so">10</span><p class="cau-de">Hệ nào sau đây <b>là</b> hệ hai phương trình bậc nhất hai ẩn?</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span><span class="he"><i>\(x+y=3\)</i><i>\(0x+0y=2\)</i></span></span></button>
@@ -306,10 +307,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span><span class="he"><i>\(2x=4\)</i><i>\(x-3y=1\)</i></span></span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span><span class="he"><i>\(xy=6\)</i><i>\(x+y=5\)</i></span></span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> \(2x=4\) viết được thành \(2x+0y=4\) với \(a=2\ne 0\) nên vẫn là phương trình bậc nhất hai ẩn; phương trình còn lại cũng vậy. Hệ A hỏng vì \(0x+0y=2\) có \(a=b=0\); hệ B có ẩn bậc hai; hệ D có tích \(xy\) của hai ẩn.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="D" data-muc="2">
+  <div class="cau" data-ma-cau="lop-9/chuong-01/bai-01#11" data-muc="2">
     <div class="cau-dau"><span class="cau-so">11</span><p class="cau-de">Cặp số nào sau đây là nghiệm của hệ phương trình <span class="he"><i>\(x-y=3\)</i><i>\(2x+y=0\)</i></span>?</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\((-2;1)\)</span></button>
@@ -317,10 +318,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\((2;-4)\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\((1;-2)\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Với \((1;-2)\): \(x-y=1+2=3\) và \(2x+y=2-2=0\), thoả mãn <b>cả hai</b> phương trình. Cặp \((3;0)\) chỉ thoả phương trình thứ nhất, cặp \((2;-4)\) chỉ thoả phương trình thứ hai — kiểm tra một phương trình rồi dừng là hỏng; cặp \((-2;1)\) là viết ngược thứ tự của đáp án đúng.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="B" data-muc="3">
+  <div class="cau" data-ma-cau="lop-9/chuong-01/bai-01#12" data-muc="3">
     <div class="cau-dau"><span class="cau-so">12</span><p class="cau-de">Cặp số \((2;2)\) là một nghiệm của phương trình \(ax+3y=12\). Giá trị của \(a\) bằng:</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(6\)</span></button>
@@ -328,10 +329,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(-3\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(9\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Thay \(x=2\), \(y=2\): \(2a+6=12\), nên \(2a=6\) và \(a=3\). Chọn \(6\) là dừng ở \(2a=6\), quên chia cho \(2\); chọn \(-3\) là chuyển \(6\) sang vế phải sai dấu; chọn \(9\) là tính \(12-3=9\) do quên nhân \(3\) với \(y=2\).</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="A" data-muc="3">
+  <div class="cau" data-ma-cau="lop-9/chuong-01/bai-01#13" data-muc="3">
     <div class="cau-dau"><span class="cau-so">13</span><p class="cau-de">Đường thẳng \(ax+by=c\) đi qua hai điểm \((0;3)\) và \((2;0)\). Phương trình của đường thẳng đó là:</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(3x+2y=6\)</span></button>
@@ -339,10 +340,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(3x-2y=6\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(3x+2y=-6\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Thay lần lượt hai điểm vào \(3x+2y=6\): \(0+6=6\) và \(6+0=6\), đều đúng. Phương án \(2x+3y=6\) là đổi chỗ hai hệ số, nó đi qua \((3;0)\) và \((0;2)\); phương án \(3x-2y=6\) sai dấu nên không qua \((0;3)\); phương án còn lại sai dấu vế phải.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="D" data-muc="3">
+  <div class="cau" data-ma-cau="lop-9/chuong-01/bai-01#14" data-muc="3">
     <div class="cau-dau"><span class="cau-so">14</span><p class="cau-de">Cặp số \((2;1)\) là một nghiệm của hệ phương trình <span class="he"><i>\(2x+y=5\)</i><i>\(mx-y=3\)</i></span>. Giá trị của \(m\) bằng:</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(1\)</span></button>
@@ -350,10 +351,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(-2\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(2\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Cặp \((2;1)\) đã thoả phương trình thứ nhất. Thay vào phương trình thứ hai: \(2m-1=3\), nên \(2m=4\) và \(m=2\). Chọn \(1\) là chuyển \(-1\) sang vế phải không đổi dấu; chọn \(4\) là dừng ở \(2m=4\); chọn \(-2\) là sai dấu ở bước cuối.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="B" data-muc="3">
+  <div class="cau" data-ma-cau="lop-9/chuong-01/bai-01#15" data-muc="3">
     <div class="cau-dau"><span class="cau-so">15</span><p class="cau-de">Hai đường thẳng \(x+y=4\) và \(x-y=2\) cắt nhau tại điểm có toạ độ:</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\((1;3)\)</span></button>
@@ -361,10 +362,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\((4;0)\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\((2;0)\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Giao điểm có toạ độ thoả <b>cả hai</b> phương trình: \(3+1=4\) và \(3-1=2\) nên đó là \((3;1)\). Cặp \((1;3)\) là viết ngược thứ tự; \((4;0)\) chỉ nằm trên đường thứ nhất, \((2;0)\) chỉ nằm trên đường thứ hai — kiểm tra một đường rồi dừng là hỏng.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="C" data-muc="3">
+  <div class="cau" data-ma-cau="lop-9/chuong-01/bai-01#16" data-muc="3">
     <div class="cau-dau"><span class="cau-so">16</span><p class="cau-de">Hai đường thẳng \(0x+2y=-6\) và \(3x+0y=9\) cắt nhau tại điểm có toạ độ:</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\((-3;3)\)</span></button>
@@ -372,10 +373,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\((3;-3)\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\((3;-6)\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> \(0x+2y=-6\) viết gọn là \(y=-3\) (nằm ngang), \(3x+0y=9\) viết gọn là \(x=3\) (thẳng đứng); chúng cắt nhau tại \((3;-3)\). Chọn \((-3;3)\) là viết ngược thứ tự; \((9;-3)\) là quên chia \(9\) cho \(3\); \((3;-6)\) là quên chia \(-6\) cho \(2\).</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="A" data-muc="4">
+  <div class="cau" data-ma-cau="lop-9/chuong-01/bai-01#17" data-muc="4">
     <div class="cau-dau"><span class="cau-so">17</span><p class="cau-de">Một rạp chiếu phim bán vé thường giá \(60\) nghìn đồng và vé VIP giá \(100\) nghìn đồng. Một buổi chiếu bán được \(150\) vé, thu về \(11\) triệu đồng. Gọi \(x\) là số vé thường, \(y\) là số vé VIP đã bán. Hệ phương trình mô tả tình huống trên là:</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span><span class="he"><i>\(x+y=150\)</i><i>\(60x+100y=11000\)</i></span></span></button>
@@ -383,10 +384,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span><span class="he"><i>\(x+y=150\)</i><i>\(60x+100y=11\)</i></span></span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span><span class="he"><i>\(x+y=11000\)</i><i>\(60x+100y=150\)</i></span></span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Tổng số vé cho \(x+y=150\); tiền vé thường là \(60x\), tiền vé VIP là \(100y\), tổng tiền \(11\) triệu \(=11000\) nghìn đồng nên \(60x+100y=11000\). Phương án B gán nhầm giá cho từng loại vé; phương án C để lẫn đơn vị triệu với nghìn; phương án D đổi chỗ hai vế phải.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="D" data-muc="4">
+  <div class="cau" data-ma-cau="lop-9/chuong-01/bai-01#18" data-muc="4">
     <div class="cau-dau"><span class="cau-so">18</span><p class="cau-de">Cặp số \((m;m+1)\) là một nghiệm của phương trình \(2x-3y=-7\). Giá trị của \(m\) bằng:</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(-4\)</span></button>
@@ -394,7 +395,7 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(10\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(4\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Thay \(x=m\), \(y=m+1\): \(2m-3(m+1)=-7\), tức \(2m-3m-3=-7\), nên \(-m=-4\) và \(m=4\). Chọn \(-4\) là quên đổi dấu ở bước cuối; chọn \(6\) là quên nhân \(3\) với số \(1\) trong ngoặc; chọn \(10\) là bỏ ngoặc mà không đổi dấu, thành \(2m-3m+3=-7\).</p>
+    <p class="giai-thich"></p>
   </div>
 
 </div>
@@ -432,15 +433,22 @@ try {
 
 </main>
 </div>
+<script src="/assets/lop-hoc-cauhinh.js"></script>
+<script src="/assets/lop-hoc.js"></script>
 <script>
+/* Chấm ở server — đáp án không còn nằm trong file này. CHUAN_LOP_HOC.md mục 15.1.
+ *
+ * lop-hoc.js ở trên là BẮT BUỘC: window.LopHoc do nó tạo ra. Thiếu dòng đó thì
+ * mỗi cú bấm ném ReferenceError ngay trong hàm xử lý — không rơi vào .catch()
+ * bên dưới, nên câu hỏi khoá cứng lại mà không hiện một chữ nào. */
 (function () {
   var tongSoCau = document.querySelectorAll('.cau').length;
+  var maBai = document.getElementById('bo-cau').dataset.bai;
   var oDiem = document.getElementById('diem');
   var thanhDiem = document.getElementById('thanh-diem');
   var hopKetQua = document.getElementById('ket-qua');
   var soDung = 0, soDaLam = 0;
 
-  // Tổng số câu tự đếm từ số khối .cau — thêm bớt câu không phải sửa gì ở đây.
   document.getElementById('tong-cau').textContent = tongSoCau;
   document.getElementById('kq-tong').textContent = tongSoCau;
 
@@ -457,21 +465,47 @@ try {
     hopKetQua.classList.add('hien');
   }
 
+  function bao(cau, loi) {
+    var p = cau.querySelector('.giai-thich');
+    p.innerHTML = '<b>Chưa chấm được.</b> ' + loi;
+    p.classList.add('hien');
+  }
+
   document.querySelectorAll('.cau').forEach(function (cau) {
-    var dapAnDung = cau.dataset.dung;
     cau.querySelectorAll('.lua-chon').forEach(function (nut) {
       nut.addEventListener('click', function () {
         if (cau.dataset.daLam) return;
-        cau.dataset.daLam = '1';
-        soDaLam++;
-        if (nut.dataset.chon === dapAnDung) soDung++;
-        cau.querySelectorAll('.lua-chon').forEach(function (n) {
-          n.disabled = true;
-          if (n.dataset.chon === dapAnDung) n.classList.add('dung');
-          else if (n === nut) n.classList.add('sai');
-        });
-        cau.querySelector('.giai-thich').classList.add('hien');
-        capNhatDiem();
+        cau.dataset.daLam = 'dang-cham';
+        cau.querySelectorAll('.lua-chon').forEach(function (n) { n.disabled = true; });
+
+        var hoi = window.LopHoc
+          ? LopHoc.chamTracNghiem(maBai, cau.dataset.maCau, nut.dataset.chon)
+          : Promise.reject(new Error('mat-mang'));
+
+        hoi
+          .then(function (kq) {
+            cau.dataset.daLam = '1';
+            soDaLam++;
+            if (kq.dung) soDung++;
+            cau.querySelectorAll('.lua-chon').forEach(function (n) {
+              if (n.dataset.chon === kq.dap_an) n.classList.add('dung');
+              else if (n === nut) n.classList.add('sai');
+            });
+            var p = cau.querySelector('.giai-thich');
+            p.innerHTML = '<b>Vì sao.</b> ' + kq.giai_thich;
+            p.classList.add('hien');
+            if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([p]);
+            capNhatDiem();
+          })
+          .catch(function (e) {
+            delete cau.dataset.daLam;
+            cau.querySelectorAll('.lua-chon').forEach(function (n) { n.disabled = false; });
+            var vi = e && e.message;
+            bao(cau,
+              vi === 'mat-mang' ? 'Máy chưa nối mạng. Em thử lại khi có mạng nhé.'
+              : vi === 'chua-cau-hinh' ? 'Phần chấm chưa mở. Em quay lại sau nhé.'
+              : 'Có trục trặc, em thử bấm lại.');
+          });
       });
     });
   });
@@ -485,7 +519,9 @@ try {
         n.disabled = false;
         n.classList.remove('dung', 'sai');
       });
-      cau.querySelector('.giai-thich').classList.remove('hien');
+      var p = cau.querySelector('.giai-thich');
+      p.classList.remove('hien');
+      p.innerHTML = '';
     });
     capNhatDiem();
     document.getElementById('top').scrollIntoView({ behavior: 'smooth' });

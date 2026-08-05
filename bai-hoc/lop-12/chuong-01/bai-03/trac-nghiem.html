@@ -157,6 +157,7 @@ try {
   }
   @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
 </style>
+<link rel="stylesheet" href="/assets/lop-hoc.css">
 </head>
 <body>
 <div class="page">
@@ -193,8 +194,8 @@ try {
   </div>
 </header>
 
-<div id="bo-cau">
-<div class="cau" data-dung="B" data-muc="1">
+<div id="bo-cau" data-bai="lop-12/chuong-01/bai-03">
+<div class="cau" data-ma-cau="lop-12/chuong-01/bai-03#1" data-muc="1">
     <div class="cau-dau"><span class="cau-so">1</span><p class="cau-de">Đường thẳng \(y=y_0\) là tiệm cận ngang của đồ thị hàm số \(y=f(x)\) nếu</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(\lim\limits_{x\to y_0}f(x)=+\infty\) hoặc \(\lim\limits_{x\to y_0}f(x)=-\infty\)</span></button>
@@ -202,10 +203,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(f(x)=y_0\) với mọi \(x\) đủ lớn, không cần xét giới hạn</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>đồ thị hàm số \(y=f(x)\) không bao giờ cắt đường thẳng \(y=y_0\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Tiệm cận ngang được định nghĩa bằng giới hạn của hàm số khi biến ra vô cực. Phương án A là định nghĩa của tiệm cận đứng, lại còn nhầm vai trò của \(x\) và \(y\); phương án C đòi hàm số bằng hằng số, chặt hơn hẳn định nghĩa; phương án D nhầm "áp sát" với "không cắt", trong khi đồ thị vẫn được phép cắt tiệm cận ngang.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="D" data-muc="1">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-03#2" data-muc="1">
     <div class="cau-dau"><span class="cau-so">2</span><p class="cau-de">Đồ thị hàm số \(y=\dfrac{2x-3}{x+5}\) có tiệm cận ngang là</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(y=-5\)</span></button>
@@ -213,10 +214,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(y=-3\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(y=2\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Chia tử và mẫu cho \(x\) được giới hạn bằng \(2\) khi \(x\) ra vô cực. Phương án A lấy nghiệm của mẫu nhưng gọi thành đường nằm ngang; phương án B là tiệm cận đứng, không phải điều đề hỏi; phương án C lấy hạng tử tự do của tử.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="A" data-muc="1">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-03#3" data-muc="1">
     <div class="cau-dau"><span class="cau-so">3</span><p class="cau-de">Đồ thị hàm số \(y=\dfrac{x+1}{x-3}\) có tiệm cận đứng là</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(x=3\)</span></button>
@@ -224,10 +225,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(y=3\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(y=1\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Mẫu bằng \(0\) tại \(x=3\), tử tại đó bằng \(4\ne0\) nên giới hạn một bên ra vô cực. Phương án B lấy nghiệm của tử — nơi đồ thị cắt trục hoành; phương án C viết đúng số nhưng sai loại đường; phương án D là tiệm cận ngang.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="C" data-muc="2">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-03#4" data-muc="2">
     <div class="cau-dau"><span class="cau-so">4</span><p class="cau-de">Số đường tiệm cận của đồ thị hàm số \(y=\dfrac{3x-1}{x+2}\) là</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(1\)</span></button>
@@ -235,10 +236,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(2\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(0\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Đồ thị có tiệm cận đứng \(x=-2\) và tiệm cận ngang \(y=3\), tất cả là hai đường. Phương án A chỉ đếm một loại; phương án B đếm thêm một tiệm cận xiên, nhưng hàm bậc nhất trên bậc nhất không có tiệm cận xiên; phương án D cho rằng hàm phân thức không có tiệm cận.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="D" data-muc="2">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-03#5" data-muc="2">
     <div class="cau-dau"><span class="cau-so">5</span><p class="cau-de">Đường thẳng \(x=2\) có phải là tiệm cận đứng của đồ thị hàm số \(y=\dfrac{x^2-4}{x-2}\) không?</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>Có, vì mẫu triệt tiêu tại \(x=2\)</span></button>
@@ -246,10 +247,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>Không, vì hàm số nhận giá trị \(4\) tại \(x=2\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>Không, vì rút gọn được thành \(y=x+2\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Tử và mẫu cùng triệt tiêu; sau khi rút gọn thì \(\lim\limits_{x\to2}y=4\) là số hữu hạn nên không có tiệm cận đứng. Phương án A và phương án B chỉ nhìn mẫu hoặc tập xác định mà quên xét tử; phương án C kết luận đúng nhưng lí do sai, vì hàm số không xác định tại \(x=2\) nên không có giá trị tại đó.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="B" data-muc="2">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-03#6" data-muc="2">
     <div class="cau-dau"><span class="cau-so">6</span><p class="cau-de">Đồ thị hàm số \(y=\dfrac{x^2+3x+1}{x+1}\) có tiệm cận xiên là</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(y=x+3\)</span></button>
@@ -257,10 +258,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(y=x-2\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(y=2x+3\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Chia đa thức được \(y=x+2-\dfrac{1}{x+1}\), phần dư dần về \(0\) nên tiệm cận xiên là \(y=x+2\). Phương án A lấy luôn hệ số \(3\) của tử làm hạng tử tự do; phương án C đổi dấu hạng tử tự do khi chia; phương án D lấy hệ số \(3\) của hạng tử \(3x\) làm hệ số góc.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="C" data-muc="3">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-03#7" data-muc="3">
     <div class="cau-dau"><span class="cau-so">7</span><p class="cau-de">Đồ thị hàm số \(y=\dfrac{\sqrt{4x^2+1}}{x}\) có bao nhiêu tiệm cận ngang?</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(1\)</span></button>
@@ -268,10 +269,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(2\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(4\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Khi \(x\to+\infty\) giới hạn bằng \(2\), khi \(x\to-\infty\) giới hạn bằng \(-2\), nên có hai tiệm cận ngang. Phương án A quên rằng \(\sqrt{x^2}=|x|\) nên chỉ ra một giới hạn; phương án B tưởng có căn thì không có tiệm cận; phương án D đếm cả hệ số \(4\) dưới căn.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="A" data-muc="3">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-03#8" data-muc="3">
     <div class="cau-dau"><span class="cau-so">8</span><p class="cau-de">Đồ thị hàm số \(y=\dfrac{x}{x^2-4}\) có tổng cộng bao nhiêu đường tiệm cận?</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(3\)</span></button>
@@ -279,10 +280,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(1\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(4\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Hai tiệm cận đứng \(x=2\), \(x=-2\) và một tiệm cận ngang \(y=0\), tất cả là ba đường. Phương án B bỏ sót tiệm cận ngang vì thấy tử khác hằng số; phương án C chỉ đếm tiệm cận ngang; phương án D đếm thêm trục tung, nhưng \(x=0\) không làm mẫu triệt tiêu.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="C" data-muc="3">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-03#9" data-muc="3">
     <div class="cau-dau"><span class="cau-so">9</span><p class="cau-de">Chi phí loại bỏ \(p\%\) chất thải của một nhà máy là \(C(p)=\dfrac{60p}{100-p}\) (triệu đồng), \(0\le p&lt;100\). Tiệm cận đứng của đồ thị hàm số \(C(p)\) cho biết</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>chi phí không bao giờ vượt quá \(60\) triệu đồng</span></button>
@@ -290,10 +291,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>không thể loại bỏ hết \(100\%\) chất thải</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>chi phí tăng đều theo tỉ lệ phần trăm</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Vì \(\lim\limits_{p\to100^-}C(p)=+\infty\) nên chi phí vượt mọi con số khi \(p\) tiến tới \(100\). Phương án A đọc nhầm hệ số \(60\) ở tử thành một chặn trên của chi phí; phương án B đúng ở \(p=0\) nhưng không liên quan tới tiệm cận đứng; phương án D mô tả một hàm bậc nhất, trong khi hàm này tăng ngày càng nhanh.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="A" data-muc="2">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-03#10" data-muc="2">
     <div class="cau-dau"><span class="cau-so">10</span><p class="cau-de">Đồ thị hàm số \(y=x+2+\dfrac{3}{x-1}\) có các tiệm cận là</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(x=1\) và \(y=x+2\)</span></button>
@@ -301,10 +302,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(x=-1\) và \(y=x+2\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(x=1\) và \(y=x-2\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Mẫu triệt tiêu tại \(x=1\) cho tiệm cận đứng, còn phần dư \(\dfrac{3}{x-1}\) dần về \(0\) nên \(y=x+2\) là tiệm cận xiên. Phương án B lấy tử của phần dư làm tiệm cận ngang; phương án C đổi dấu nghiệm của mẫu; phương án D đổi dấu hạng tử tự do của phần nguyên.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="D" data-muc="2">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-03#11" data-muc="2">
     <div class="cau-dau"><span class="cau-so">11</span><p class="cau-de">Cho hàm số \(y=f(x)\) thoả mãn \(\lim\limits_{x\to3^+}f(x)=-\infty\) và \(\lim\limits_{x\to+\infty}f(x)=1\). Khẳng định nào sau đây đúng?</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>Đồ thị có tiệm cận đứng \(x=1\) và tiệm cận ngang \(y=3\)</span></button>
@@ -312,10 +313,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>Đồ thị chỉ có tiệm cận đứng \(x=3\), không có tiệm cận ngang</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>Đồ thị có tiệm cận đứng \(x=3\) và tiệm cận ngang \(y=1\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Giới hạn vô cực tại \(x=3\) cho tiệm cận đứng \(x=3\); giới hạn hữu hạn khi \(x\to+\infty\) cho tiệm cận ngang \(y=1\). Phương án A đổi chỗ hai con số; phương án B bịa thêm một tiệm cận xiên trong khi chỉ có giới hạn hữu hạn; phương án C bỏ sót tiệm cận ngang dù giả thiết đã cho sẵn.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="B" data-muc="3">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-03#12" data-muc="3">
     <div class="cau-dau"><span class="cau-so">12</span><p class="cau-de">Đồ thị hàm số \(y=\dfrac{mx+1}{x-2}\) có tiệm cận ngang \(y=3\) khi</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(m=-3\)</span></button>
@@ -323,10 +324,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(m=6\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(m=\dfrac{3}{2}\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Giới hạn khi \(x\) ra vô cực bằng \(m\), nên \(m=3\). Phương án A đổi dấu; phương án C nhân \(3\) với \(2\) vì tưởng phải bù cho mẫu \(x-2\); phương án D chia \(3\) cho \(2\) theo cùng nhầm lẫn đó.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="A" data-muc="4">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-03#13" data-muc="4">
     <div class="cau-dau"><span class="cau-so">13</span><p class="cau-de">Đồ thị hàm số \(y=\dfrac{x-1}{x^2-3x+2}\) có bao nhiêu tiệm cận đứng?</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(1\)</span></button>
@@ -334,10 +335,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(0\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(3\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Mẫu bằng \((x-1)(x-2)\); rút gọn với tử được \(y=\dfrac{1}{x-2}\) nên chỉ còn tiệm cận đứng \(x=2\). Phương án B đếm cả \(x=1\) mà quên rút gọn; phương án C tưởng rút gọn xong thì hết tiệm cận; phương án D đếm thêm tiệm cận ngang vào cùng một rổ.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="C" data-muc="4">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-03#14" data-muc="4">
     <div class="cau-dau"><span class="cau-so">14</span><p class="cau-de">Đồ thị hàm số \(y=\dfrac{2x^2-3x+m}{x-1}\) không có tiệm cận đứng khi</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(m=-1\)</span></button>
@@ -345,10 +346,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(m=1\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(m=2\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Muốn mất tiệm cận đứng thì tử phải triệt tiêu tại \(x=1\), tức \(2-3+m=0\) cho \(m=1\). Phương án A đổi dấu khi chuyển vế; phương án B chỉ nhìn hạng tử tự do của tử; phương án D lấy luôn hệ số của \(x^2\).</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="A" data-muc="3">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-03#15" data-muc="3">
     <div class="cau-dau"><span class="cau-so">15</span><p class="cau-de">Một mảnh vườn hình chữ nhật có diện tích \(100\) m², một cạnh dài \(x\) (m). Chu vi \(P(x)\) của mảnh vườn có tiệm cận xiên là</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(y=2x\)</span></button>
@@ -356,10 +357,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(y=200x\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(y=2x+200\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Cạnh kia bằng \(\dfrac{100}{x}\) nên \(P(x)=2x+\dfrac{200}{x}\); phần \(\dfrac{200}{x}\) dần về \(0\) nên tiệm cận xiên là \(y=2x\). Phương án B quên nhân \(2\) khi tính chu vi; phương án C nhân nhầm phần dư vào hệ số góc; phương án D giữ lại phần dư như một hằng số thay vì cho nó dần về \(0\).</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="B" data-muc="4">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-03#16" data-muc="4">
     <div class="cau-dau"><span class="cau-so">16</span><p class="cau-de">Cho hàm số \(y=\dfrac{ax+b}{x-c}\) có đồ thị nhận \(x=2\) làm tiệm cận đứng, \(y=-1\) làm tiệm cận ngang và đi qua điểm \((0;1)\). Khi đó \(a+b+c\) bằng</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(-1\)</span></button>
@@ -367,7 +368,7 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(1\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(5\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Tiệm cận đứng cho \(c=2\), tiệm cận ngang cho \(a=-1\); thay \((0;1)\) được \(\dfrac{b}{-2}=1\) nên \(b=-2\), do đó \(a+b+c=-1\). Phương án B lấy \(a=1\) vì bỏ quên dấu âm của tiệm cận ngang; phương án C cộng nhầm \(b=2\); phương án D dùng cả ba giá trị dương.</p>
+    <p class="giai-thich"></p>
   </div>
 
 </div>
@@ -405,15 +406,22 @@ try {
 
 </main>
 </div>
+<script src="/assets/lop-hoc-cauhinh.js"></script>
+<script src="/assets/lop-hoc.js"></script>
 <script>
+/* Chấm ở server — đáp án không còn nằm trong file này. CHUAN_LOP_HOC.md mục 15.1.
+ *
+ * lop-hoc.js ở trên là BẮT BUỘC: window.LopHoc do nó tạo ra. Thiếu dòng đó thì
+ * mỗi cú bấm ném ReferenceError ngay trong hàm xử lý — không rơi vào .catch()
+ * bên dưới, nên câu hỏi khoá cứng lại mà không hiện một chữ nào. */
 (function () {
   var tongSoCau = document.querySelectorAll('.cau').length;
+  var maBai = document.getElementById('bo-cau').dataset.bai;
   var oDiem = document.getElementById('diem');
   var thanhDiem = document.getElementById('thanh-diem');
   var hopKetQua = document.getElementById('ket-qua');
   var soDung = 0, soDaLam = 0;
 
-  // Tổng số câu tự đếm từ số khối .cau — thêm bớt câu không phải sửa gì ở đây.
   document.getElementById('tong-cau').textContent = tongSoCau;
   document.getElementById('kq-tong').textContent = tongSoCau;
 
@@ -430,21 +438,47 @@ try {
     hopKetQua.classList.add('hien');
   }
 
+  function bao(cau, loi) {
+    var p = cau.querySelector('.giai-thich');
+    p.innerHTML = '<b>Chưa chấm được.</b> ' + loi;
+    p.classList.add('hien');
+  }
+
   document.querySelectorAll('.cau').forEach(function (cau) {
-    var dapAnDung = cau.dataset.dung;
     cau.querySelectorAll('.lua-chon').forEach(function (nut) {
       nut.addEventListener('click', function () {
         if (cau.dataset.daLam) return;
-        cau.dataset.daLam = '1';
-        soDaLam++;
-        if (nut.dataset.chon === dapAnDung) soDung++;
-        cau.querySelectorAll('.lua-chon').forEach(function (n) {
-          n.disabled = true;
-          if (n.dataset.chon === dapAnDung) n.classList.add('dung');
-          else if (n === nut) n.classList.add('sai');
-        });
-        cau.querySelector('.giai-thich').classList.add('hien');
-        capNhatDiem();
+        cau.dataset.daLam = 'dang-cham';
+        cau.querySelectorAll('.lua-chon').forEach(function (n) { n.disabled = true; });
+
+        var hoi = window.LopHoc
+          ? LopHoc.chamTracNghiem(maBai, cau.dataset.maCau, nut.dataset.chon)
+          : Promise.reject(new Error('mat-mang'));
+
+        hoi
+          .then(function (kq) {
+            cau.dataset.daLam = '1';
+            soDaLam++;
+            if (kq.dung) soDung++;
+            cau.querySelectorAll('.lua-chon').forEach(function (n) {
+              if (n.dataset.chon === kq.dap_an) n.classList.add('dung');
+              else if (n === nut) n.classList.add('sai');
+            });
+            var p = cau.querySelector('.giai-thich');
+            p.innerHTML = '<b>Vì sao.</b> ' + kq.giai_thich;
+            p.classList.add('hien');
+            if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([p]);
+            capNhatDiem();
+          })
+          .catch(function (e) {
+            delete cau.dataset.daLam;
+            cau.querySelectorAll('.lua-chon').forEach(function (n) { n.disabled = false; });
+            var vi = e && e.message;
+            bao(cau,
+              vi === 'mat-mang' ? 'Máy chưa nối mạng. Em thử lại khi có mạng nhé.'
+              : vi === 'chua-cau-hinh' ? 'Phần chấm chưa mở. Em quay lại sau nhé.'
+              : 'Có trục trặc, em thử bấm lại.');
+          });
       });
     });
   });
@@ -458,7 +492,9 @@ try {
         n.disabled = false;
         n.classList.remove('dung', 'sai');
       });
-      cau.querySelector('.giai-thich').classList.remove('hien');
+      var p = cau.querySelector('.giai-thich');
+      p.classList.remove('hien');
+      p.innerHTML = '';
     });
     capNhatDiem();
     document.getElementById('top').scrollIntoView({ behavior: 'smooth' });

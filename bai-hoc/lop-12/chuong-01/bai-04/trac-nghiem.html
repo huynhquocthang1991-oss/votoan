@@ -157,6 +157,7 @@ try {
   }
   @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
 </style>
+<link rel="stylesheet" href="/assets/lop-hoc.css">
 </head>
 <body>
 <div class="page">
@@ -193,8 +194,8 @@ try {
   </div>
 </header>
 
-<div id="bo-cau">
-<div class="cau" data-dung="C" data-muc="1">
+<div id="bo-cau" data-bai="lop-12/chuong-01/bai-04">
+<div class="cau" data-ma-cau="lop-12/chuong-01/bai-04#1" data-muc="1">
     <div class="cau-dau"><span class="cau-so">1</span><p class="cau-de">Bước đầu tiên trong sơ đồ khảo sát hàm số \(y=f(x)\) là</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>tính đạo hàm \(f'(x)\)</span></button>
@@ -202,10 +203,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>tìm tập xác định của hàm số</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>tìm giao điểm với hai trục toạ độ</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Phải biết hàm số sống trên tập nào rồi mới xét được mọi thứ khác. Phương án A là việc của bước 2; phương án B là kết quả cuối của bước 2; phương án D thuộc bước 3, chỉ làm khi vẽ đồ thị.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="D" data-muc="1">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-04#2" data-muc="1">
     <div class="cau-dau"><span class="cau-so">2</span><p class="cau-de">Đồ thị hàm số bậc ba \(y=ax^3+bx^2+cx+d\) với \(a\ne0\) luôn có</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>một trục đối xứng và một tiệm cận ngang</span></button>
@@ -213,10 +214,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>một tâm đối xứng và một tiệm cận xiên</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>một tâm đối xứng và không có tiệm cận</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Đồ thị bậc ba nhận điểm uốn làm tâm đối xứng và không có tiệm cận vì hàm số xác định trên toàn \(\mathbb{R}\) và ra vô cực. Phương án A nhầm với đồ thị hàm bậc hai hoặc hàm phân thức; phương án B sai vì hàm bậc ba có thể không có cực trị nào; phương án C thêm một tiệm cận xiên không tồn tại.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="A" data-muc="2">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-04#3" data-muc="2">
     <div class="cau-dau"><span class="cau-so">3</span><p class="cau-de">Tâm đối xứng của đồ thị hàm số \(y=x^3-3x^2+2\) là điểm</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\((1;0)\)</span></button>
@@ -224,10 +225,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\((2;-2)\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\((1;2)\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> \(y''=6x-6\) triệt tiêu tại \(x=1\), và \(y(1)=0\). Phương án B lấy giao điểm với trục tung; phương án C lấy điểm cực tiểu; phương án D giữ đúng hoành độ nhưng lấy nhầm tung độ bằng hằng số tự do.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="B" data-muc="1">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-04#4" data-muc="1">
     <div class="cau-dau"><span class="cau-so">4</span><p class="cau-de">Đồ thị hàm số \(y=\dfrac{2x-1}{x+3}\) nhận điểm nào làm tâm đối xứng?</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\((3;2)\)</span></button>
@@ -235,10 +236,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\((2;-3)\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(\left(-3;-\dfrac{1}{3}\right)\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Tâm đối xứng là giao điểm của tiệm cận đứng \(x=-3\) và tiệm cận ngang \(y=2\). Phương án A đổi dấu hoành độ; phương án C đảo vai trò hai toạ độ; phương án D lấy giá trị của hàm số tại \(x=0\) làm tung độ.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="A" data-muc="2">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-04#5" data-muc="2">
     <div class="cau-dau"><span class="cau-so">5</span><p class="cau-de">Hàm số \(y=x^3-3x^2+3x+2\) có bảng biến thiên chỉ gồm một mũi tên đi lên. Điều đó xảy ra vì</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(y'=3(x-1)^2\ge0\) và chỉ bằng \(0\) tại một điểm</span></button>
@@ -246,10 +247,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>hàm số bậc ba nào cũng đồng biến trên \(\mathbb{R}\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>hệ số của \(x^3\) dương nên hàm số luôn tăng</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Đạo hàm là một bình phương nên không âm và chỉ triệt tiêu tại \(x=1\), đủ để hàm số đồng biến trên cả \(\mathbb{R}\). Phương án B sai vì \(y'(1)=0\); phương án C sai vì nhiều hàm bậc ba có hai cực trị; phương án D nhầm dấu hệ số bậc ba với dấu của đạo hàm.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="C" data-muc="3">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-04#6" data-muc="3">
     <div class="cau-dau"><span class="cau-so">6</span><p class="cau-de">Số giao điểm của đồ thị hàm số \(y=x^3-3x+1\) với trục hoành là</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(1\)</span></button>
@@ -257,10 +258,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(3\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(0\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Hàm số có cực đại \(y(-1)=3&gt;0\) và cực tiểu \(y(1)=-1&lt;0\); hai giá trị trái dấu nên đồ thị cắt trục hoành ba lần. Phương án A ứng với trường hợp hai giá trị cực trị cùng dấu; phương án B ứng với trường hợp một giá trị cực trị bằng \(0\); phương án D bỏ qua việc hàm bậc ba luôn có ít nhất một nghiệm.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="D" data-muc="2">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-04#7" data-muc="2">
     <div class="cau-dau"><span class="cau-so">7</span><p class="cau-de">Đồ thị hàm số \(y=\dfrac{x^2+2}{x-1}\) có tiệm cận xiên là</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(y=x-1\)</span></button>
@@ -268,10 +269,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(y=x+2\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(y=x+1\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Chia đa thức được \(y=x+1+\dfrac{3}{x-1}\), phần dư dần về \(0\). Phương án A đổi dấu hạng tử tự do khi chia; phương án B dừng lại ở hạng tử bậc nhất mà quên phần bậc không; phương án C lấy luôn số \(2\) ở tử.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="A" data-muc="3">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-04#8" data-muc="3">
     <div class="cau-dau"><span class="cau-so">8</span><p class="cau-de">Hàm số \(y=\dfrac{x^2-3x+3}{x-1}\) đạt cực đại tại</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(x=0\)</span></button>
@@ -279,10 +280,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(x=1\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(x=3\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Viết \(y=x-2+\dfrac{1}{x-1}\) thì \(y'=1-\dfrac{1}{(x-1)^2}=0\) cho \(x=0\) hoặc \(x=2\); qua \(x=0\) đạo hàm đổi từ dương sang âm nên đó là điểm cực đại. Phương án B là điểm cực tiểu; phương án C là điểm hàm số không xác định; phương án D lấy hằng số \(3\) trong tử.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="B" data-muc="2">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-04#9" data-muc="2">
     <div class="cau-dau"><span class="cau-so">9</span><p class="cau-de">Đồ thị nào sau đây có đúng hai nhánh và một tâm đối xứng?</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(y=x^3-3x\)</span></button>
@@ -290,10 +291,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(y=x^4-2x^2\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(y=\dfrac{x^2-1}{x^2+1}\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Hàm phân thức bậc nhất trên bậc nhất có hai nhánh, nhận giao điểm hai tiệm cận làm tâm đối xứng. Phương án A có tâm đối xứng nhưng đồ thị liền một nét; phương án C có trục đối xứng chứ không có tâm; phương án D cũng là hàm phân thức nhưng là hàm chẵn nên có trục đối xứng chứ không có tâm đối xứng.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="C" data-muc="3">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-04#10" data-muc="3">
     <div class="cau-dau"><span class="cau-so">10</span><p class="cau-de">Chi phí trung bình mỗi sản phẩm là \(f(x)=\dfrac{2x+45}{x}\) với \(x&gt;0\). Khi \(x\) tăng, chi phí trung bình</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>giảm và tiến tới \(0\) triệu đồng</span></button>
@@ -301,10 +302,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>giảm và luôn lớn hơn \(2\) triệu đồng</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>không đổi, luôn bằng \(2\) triệu đồng</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Viết \(f(x)=2+\dfrac{45}{x}\) thì \(f'(x)=-\dfrac{45}{x^2}&lt;0\) và \(\lim\limits_{x\to+\infty}f(x)=2\). Phương án A quên số hạng \(2\) khi lấy giới hạn; phương án B đọc nhầm chiều biến thiên và lấy hằng số \(45\) làm ngưỡng; phương án D bỏ hẳn số hạng \(\dfrac{45}{x}\).</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="D" data-muc="3">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-04#11" data-muc="3">
     <div class="cau-dau"><span class="cau-so">11</span><p class="cau-de">Đồ thị hàm số \(y=\dfrac{x+m}{x-2}\) đi qua điểm \((0;-2)\) khi</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(m=-4\)</span></button>
@@ -312,10 +313,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(m=-2\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(m=4\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Thay \(x=0\) được \(\dfrac{m}{-2}=-2\) nên \(m=4\). Phương án A quên đổi dấu khi nhân hai vế với \(-2\); phương án B lấy luôn nghiệm của mẫu; phương án C lấy luôn tung độ của điểm đã cho.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="A" data-muc="3">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-04#12" data-muc="3">
     <div class="cau-dau"><span class="cau-so">12</span><p class="cau-de">Điện trở tương đương khi mắc song song \(8\,\Omega\) với biến trở \(x\,\Omega\) là \(R(x)=\dfrac{8x}{8+x}\). Khi \(x\) tăng rất lớn thì \(R(x)\)</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>tăng dần và luôn nhỏ hơn \(8\,\Omega\)</span></button>
@@ -323,10 +324,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>giảm dần về \(0\,\Omega\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>không đổi, luôn bằng \(4\,\Omega\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> \(R'(x)=\dfrac{64}{(8+x)^2}&gt;0\) nên \(R\) tăng, còn \(\lim\limits_{x\to+\infty}R(x)=8\) nên đồ thị chỉ áp sát mà không vượt. Phương án B nhầm tiệm cận ngang với một giá trị đạt được rồi vượt qua; phương án C đảo chiều biến thiên; phương án D lấy giá trị \(R(8)=4\) rồi coi là hằng số.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="C" data-muc="4">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-04#13" data-muc="4">
     <div class="cau-dau"><span class="cau-so">13</span><p class="cau-de">Tiệm cận xiên của đồ thị hàm số \(y=\dfrac{x^2+mx+1}{x-1}\) đi qua điểm \((0;3)\) khi</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(m=3\)</span></button>
@@ -334,10 +335,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(m=2\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(m=4\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Chia đa thức được \(y=x+(m+1)+\dfrac{m+2}{x-1}\), nên tiệm cận xiên là \(y=x+m+1\); đi qua \((0;3)\) cho \(m+1=3\), tức \(m=2\). Phương án A lấy luôn tung độ làm giá trị của \(m\); phương án B đổi dấu khi chuyển vế; phương án D cộng thêm \(1\) một lần nữa.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="B" data-muc="4">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-04#14" data-muc="4">
     <div class="cau-dau"><span class="cau-so">14</span><p class="cau-de">Cho hàm số \(y=\dfrac{ax^2+bx+c}{x-1}\) có đồ thị nhận \(y=x+2\) làm tiệm cận xiên. Khi đó</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(a=1\) và \(b=2\)</span></button>
@@ -345,10 +346,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(a=2\) và \(b=1\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(a=1\) và \(b=-2\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Chia \(ax^2+bx+c\) cho \(x-1\) được thương \(ax+(a+b)\); đồng nhất với \(x+2\) cho \(a=1\) và \(a+b=2\), tức \(b=1\). Phương án A lấy luôn hệ số tự do của tiệm cận làm \(b\); phương án C nhầm \(a\) với hệ số tự do; phương án D đổi dấu \(b\).</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="A" data-muc="4">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-04#15" data-muc="4">
     <div class="cau-dau"><span class="cau-so">15</span><p class="cau-de">Đường thẳng \(y=m\) cắt đồ thị hàm số \(y=x^3-3x^2+2\) tại ba điểm phân biệt khi</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(-2&lt;m&lt;2\)</span></button>
@@ -356,10 +357,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(m=2\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(-2\le m\le2\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Hàm số có cực đại \(y(0)=2\) và cực tiểu \(y(2)=-2\); đường nằm ngang cắt ba lần khi nằm hẳn giữa hai giá trị đó. Phương án B lấy phần ngoài hai giá trị cực trị, khi đó chỉ có một giao điểm; phương án C lấy đúng giá trị cực đại, khi đó chỉ còn hai giao điểm vì có một điểm tiếp xúc; phương án D thêm cả hai đầu mút vào, mắc đúng lỗi ấy ở cả hai đầu.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="D" data-muc="3">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-04#16" data-muc="3">
     <div class="cau-dau"><span class="cau-so">16</span><p class="cau-de">Nồng độ chất khử trùng trong bể là \(f(t)=\dfrac{t}{2t+10}\) gam/lít. Sau bao lâu nồng độ đạt \(0{,}4\) gam/lít?</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(10\) phút</span></button>
@@ -367,7 +368,7 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(40\) phút</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(20\) phút</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Giải \(\dfrac{t}{2t+10}=0{,}4\) được \(t=0{,}8t+4\), nên \(t=20\). Phương án A là nghiệm khi lấy nhầm ngưỡng \(0{,}5\) rồi chia đôi; phương án B nhân \(10\) với \(2{,}5\) theo một biến đổi sai dấu; phương án C nhân đôi đáp số vì quên hệ số \(2\) ở mẫu.</p>
+    <p class="giai-thich"></p>
   </div>
 
 </div>
@@ -405,15 +406,22 @@ try {
 
 </main>
 </div>
+<script src="/assets/lop-hoc-cauhinh.js"></script>
+<script src="/assets/lop-hoc.js"></script>
 <script>
+/* Chấm ở server — đáp án không còn nằm trong file này. CHUAN_LOP_HOC.md mục 15.1.
+ *
+ * lop-hoc.js ở trên là BẮT BUỘC: window.LopHoc do nó tạo ra. Thiếu dòng đó thì
+ * mỗi cú bấm ném ReferenceError ngay trong hàm xử lý — không rơi vào .catch()
+ * bên dưới, nên câu hỏi khoá cứng lại mà không hiện một chữ nào. */
 (function () {
   var tongSoCau = document.querySelectorAll('.cau').length;
+  var maBai = document.getElementById('bo-cau').dataset.bai;
   var oDiem = document.getElementById('diem');
   var thanhDiem = document.getElementById('thanh-diem');
   var hopKetQua = document.getElementById('ket-qua');
   var soDung = 0, soDaLam = 0;
 
-  // Tổng số câu tự đếm từ số khối .cau — thêm bớt câu không phải sửa gì ở đây.
   document.getElementById('tong-cau').textContent = tongSoCau;
   document.getElementById('kq-tong').textContent = tongSoCau;
 
@@ -430,21 +438,47 @@ try {
     hopKetQua.classList.add('hien');
   }
 
+  function bao(cau, loi) {
+    var p = cau.querySelector('.giai-thich');
+    p.innerHTML = '<b>Chưa chấm được.</b> ' + loi;
+    p.classList.add('hien');
+  }
+
   document.querySelectorAll('.cau').forEach(function (cau) {
-    var dapAnDung = cau.dataset.dung;
     cau.querySelectorAll('.lua-chon').forEach(function (nut) {
       nut.addEventListener('click', function () {
         if (cau.dataset.daLam) return;
-        cau.dataset.daLam = '1';
-        soDaLam++;
-        if (nut.dataset.chon === dapAnDung) soDung++;
-        cau.querySelectorAll('.lua-chon').forEach(function (n) {
-          n.disabled = true;
-          if (n.dataset.chon === dapAnDung) n.classList.add('dung');
-          else if (n === nut) n.classList.add('sai');
-        });
-        cau.querySelector('.giai-thich').classList.add('hien');
-        capNhatDiem();
+        cau.dataset.daLam = 'dang-cham';
+        cau.querySelectorAll('.lua-chon').forEach(function (n) { n.disabled = true; });
+
+        var hoi = window.LopHoc
+          ? LopHoc.chamTracNghiem(maBai, cau.dataset.maCau, nut.dataset.chon)
+          : Promise.reject(new Error('mat-mang'));
+
+        hoi
+          .then(function (kq) {
+            cau.dataset.daLam = '1';
+            soDaLam++;
+            if (kq.dung) soDung++;
+            cau.querySelectorAll('.lua-chon').forEach(function (n) {
+              if (n.dataset.chon === kq.dap_an) n.classList.add('dung');
+              else if (n === nut) n.classList.add('sai');
+            });
+            var p = cau.querySelector('.giai-thich');
+            p.innerHTML = '<b>Vì sao.</b> ' + kq.giai_thich;
+            p.classList.add('hien');
+            if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([p]);
+            capNhatDiem();
+          })
+          .catch(function (e) {
+            delete cau.dataset.daLam;
+            cau.querySelectorAll('.lua-chon').forEach(function (n) { n.disabled = false; });
+            var vi = e && e.message;
+            bao(cau,
+              vi === 'mat-mang' ? 'Máy chưa nối mạng. Em thử lại khi có mạng nhé.'
+              : vi === 'chua-cau-hinh' ? 'Phần chấm chưa mở. Em quay lại sau nhé.'
+              : 'Có trục trặc, em thử bấm lại.');
+          });
       });
     });
   });
@@ -458,7 +492,9 @@ try {
         n.disabled = false;
         n.classList.remove('dung', 'sai');
       });
-      cau.querySelector('.giai-thich').classList.remove('hien');
+      var p = cau.querySelector('.giai-thich');
+      p.classList.remove('hien');
+      p.innerHTML = '';
     });
     capNhatDiem();
     document.getElementById('top').scrollIntoView({ behavior: 'smooth' });

@@ -157,6 +157,7 @@ try {
   }
   @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
 </style>
+<link rel="stylesheet" href="/assets/lop-hoc.css">
 </head>
 <body>
 <div class="page">
@@ -193,8 +194,8 @@ try {
   </div>
 </header>
 
-<div id="bo-cau">
-<div class="cau" data-dung="C" data-muc="1">
+<div id="bo-cau" data-bai="lop-12/chuong-01/bai-01">
+<div class="cau" data-ma-cau="lop-12/chuong-01/bai-01#1" data-muc="1">
     <div class="cau-dau"><span class="cau-so">1</span><p class="cau-de">Hàm số \(y=f(x)\) đồng biến trên khoảng \(K\) khi và chỉ khi với mọi \(x_1,x_2\in K\) mà \(x_1&lt;x_2\) thì</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(f(x_1)&gt;f(x_2)\)</span></button>
@@ -202,10 +203,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(f(x_1)&lt;f(x_2)\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(f(x_1)\le f(x_2)\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Đồng biến nghĩa là biến số tăng thì giá trị hàm số cũng tăng thật sự. Phương án A là định nghĩa của hàm số nghịch biến; phương án B là hàm hằng; phương án D cho phép hai giá trị bằng nhau nên chỉ là "không giảm", chưa đủ để gọi là đồng biến.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="A" data-muc="1">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-01#2" data-muc="1">
     <div class="cau-dau"><span class="cau-so">2</span><p class="cau-de">Cho hàm số \(y=f(x)\) có đạo hàm trên khoảng \(K\). Nếu \(f'(x)&lt;0\) với mọi \(x\in K\) thì trên \(K\) hàm số</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>nghịch biến</span></button>
@@ -213,10 +214,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>không đổi</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>có một điểm cực đại</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Đạo hàm âm trên cả khoảng thì đồ thị đi xuống từ trái sang phải, tức hàm số nghịch biến. Phương án B đổi ngược dấu; phương án C ứng với trường hợp \(f'(x)=0\) trên cả khoảng; phương án D sai vì cực trị chỉ xuất hiện ở nơi đạo hàm đổi dấu, mà ở đây đạo hàm giữ nguyên dấu âm.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="D" data-muc="2">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-01#3" data-muc="2">
     <div class="cau-dau"><span class="cau-so">3</span><p class="cau-de">Hàm số \(y=x^2-6x+1\) nghịch biến trên khoảng nào dưới đây?</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\((3;+\infty)\)</span></button>
@@ -224,10 +225,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\((0;+\infty)\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\((-\infty;3)\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> \(y'=2x-6\), \(y'&lt;0\) khi \(x&lt;3\) nên hàm số nghịch biến trên \((-\infty;3)\). Phương án A là khoảng đồng biến; phương án B lấy nhầm hệ số \(6\) làm nghiệm của \(y'\); phương án C lấy đỉnh parabol tại \(x=0\), tức quên chia đôi hệ số.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="B" data-muc="1">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-01#4" data-muc="1">
     <div class="cau-dau"><span class="cau-so">4</span><p class="cau-de">Cho hàm số \(y=f(x)\) có bảng biến thiên với \(f'(x)&gt;0\) trên \((-\infty;-2)\), \(f'(x)&lt;0\) trên \((-2;1)\) và \(f'(x)&gt;0\) trên \((1;+\infty)\). Hàm số đạt cực đại tại</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(x=1\)</span></button>
@@ -235,10 +236,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(x=-2\) và \(x=1\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(x=0\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Qua \(x=-2\) đạo hàm đổi dấu từ dương sang âm nên đó là điểm cực đại. Phương án A là điểm cực tiểu vì đạo hàm đổi từ âm sang dương; phương án C gộp cả hai loại cực trị; phương án D lấy điểm nằm giữa hai điểm tới hạn, nơi đạo hàm không đổi dấu.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="D" data-muc="2">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-01#5" data-muc="2">
     <div class="cau-dau"><span class="cau-so">5</span><p class="cau-de">Hàm số nào sau đây đồng biến trên \(\mathbb{R}\)?</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(y=-x^3+x\)</span></button>
@@ -246,10 +247,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(y=\dfrac{x-1}{x+1}\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(y=x^3+3x-1\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Với \(y=x^3+3x-1\) thì \(y'=3x^2+3&gt;0\) với mọi \(x\). Phương án A có \(y'=-3x^2+1\) đổi dấu; phương án B có \(y'=4x^3+4x\) âm khi \(x&lt;0\); phương án C tuy có đạo hàm dương nhưng tập xác định bị khuyết \(x=-1\) nên chỉ đồng biến trên từng khoảng, không phải trên \(\mathbb{R}\).</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="A" data-muc="2">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-01#6" data-muc="2">
     <div class="cau-dau"><span class="cau-so">6</span><p class="cau-de">Số điểm cực trị của hàm số \(y=x^3-3x^2+3x+2\) là</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(0\)</span></button>
@@ -257,10 +258,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(2\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(3\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> \(y'=3x^2-6x+3=3(x-1)^2\ge0\), chỉ bằng \(0\) tại \(x=1\) và không đổi dấu, nên hàm số không có cực trị. Phương án B đếm \(x=1\) là cực trị mà quên kiểm tra dấu; phương án C ngỡ hàm bậc ba luôn có hai cực trị; phương án D đếm cả số nghiệm của phương trình bậc ba.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="A" data-muc="2">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-01#7" data-muc="2">
     <div class="cau-dau"><span class="cau-so">7</span><p class="cau-de">Cho hàm số \(y=\dfrac{2x+1}{x-1}\). Khẳng định nào sau đây đúng?</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>Hàm số nghịch biến trên \((-\infty;1)\) và \((1;+\infty)\)</span></button>
@@ -268,10 +269,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>Hàm số nghịch biến trên \(\mathbb{R}\setminus\{1\}\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>Hàm số đồng biến trên \((-\infty;1)\), nghịch biến trên \((1;+\infty)\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> \(y'=\dfrac{-3}{(x-1)^2}&lt;0\) với mọi \(x\ne1\) nên hàm số nghịch biến trên từng khoảng. Phương án B đổi dấu đạo hàm; phương án C gộp hai khoảng thành một tập, trong khi lấy \(x=0\) và \(x=2\) thì giá trị hàm số lại tăng; phương án D cho đạo hàm đổi dấu qua \(x=1\), điều không xảy ra vì mẫu luôn dương.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="D" data-muc="2">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-01#8" data-muc="2">
     <div class="cau-dau"><span class="cau-so">8</span><p class="cau-de">Giá trị cực đại của hàm số \(y=-x^3+3x+1\) là</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(1\)</span></button>
@@ -279,10 +280,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(2\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(3\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> \(y'=-3x^2+3\), \(y'=0\) khi \(x=\pm1\); qua \(x=1\) đạo hàm đổi từ dương sang âm nên \(y_{C\text{Đ}}=y(1)=3\). Phương án A lấy \(y(0)\); phương án B là giá trị cực tiểu \(y(-1)\); phương án C lấy điểm cực đại \(x=1\) rồi cộng thêm hằng số, tức nhầm điểm cực đại với giá trị cực đại.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="A" data-muc="2">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-01#9" data-muc="2">
     <div class="cau-dau"><span class="cau-so">9</span><p class="cau-de">Hàm số \(y=x^4-2x^2+3\) có bao nhiêu điểm cực tiểu?</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(2\)</span></button>
@@ -290,10 +291,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(0\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(3\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> \(y'=4x^3-4x=4x\left(x^2-1\right)\) đổi dấu tại \(x=-1\), \(x=0\), \(x=1\); qua \(x=\pm1\) đạo hàm đổi từ âm sang dương nên có hai điểm cực tiểu. Phương án B đếm nhầm điểm cực đại \(x=0\); phương án C cho rằng hàm bậc bốn luôn không có cực trị; phương án D đếm cả ba nghiệm của \(y'\) mà không phân loại.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="B" data-muc="3">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-01#10" data-muc="3">
     <div class="cau-dau"><span class="cau-so">10</span><p class="cau-de">Hàm số \(y=\dfrac{x^2+3}{x}\) đạt cực tiểu tại</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(x=-\sqrt3\)</span></button>
@@ -301,10 +302,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(x=0\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(x=3\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> \(y'=\dfrac{x^2-3}{x^2}\), \(y'=0\) khi \(x=\pm\sqrt3\); qua \(x=\sqrt3\) đạo hàm đổi từ âm sang dương nên đó là điểm cực tiểu. Phương án A là điểm cực đại; phương án C là điểm hàm số không xác định nên không thể là điểm cực trị; phương án D lấy luôn hằng số \(3\) trong tử làm nghiệm.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="A" data-muc="3">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-01#11" data-muc="3">
     <div class="cau-dau"><span class="cau-so">11</span><p class="cau-de">Hàm số \(y=\dfrac{1}{3}x^3-mx^2+4x+1\) đồng biến trên \(\mathbb{R}\) khi và chỉ khi</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(-2\le m\le2\)</span></button>
@@ -312,10 +313,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(-2&lt;m&lt;2\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(m\le-2\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> \(y'=x^2-2mx+4\ge0\) với mọi \(x\) khi và chỉ khi \(\Delta'=m^2-4\le0\), tức \(-2\le m\le2\). Phương án B chỉ lấy một nửa và bỏ mất nhánh âm; phương án C loại hai đầu mút, trong khi \(m=\pm2\) cho \(y'\) bằng \(0\) tại đúng một điểm nên hàm số vẫn đồng biến; phương án D lấy nhầm chiều bất đẳng thức.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="C" data-muc="3">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-01#12" data-muc="3">
     <div class="cau-dau"><span class="cau-so">12</span><p class="cau-de">Cho hàm số bậc ba \(y=f(x)\) có \(f'(x)=(x+1)(x-2)^2\). Số điểm cực trị của hàm số là</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(2\)</span></button>
@@ -323,10 +324,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(1\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(3\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> \(f'(x)=0\) tại \(x=-1\) và \(x=2\), nhưng qua \(x=2\) thừa số \((x-2)^2\) không đổi dấu nên chỉ \(x=-1\) là điểm cực trị. Phương án A đếm cả \(x=2\) mà quên xét dấu; phương án B cho rằng đạo hàm không âm thì không có cực trị; phương án D đếm cả bội của nghiệm \(x=2\).</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="B" data-muc="3">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-01#13" data-muc="3">
     <div class="cau-dau"><span class="cau-so">13</span><p class="cau-de">Một vật chuyển động có quãng đường \(s(t)=t^3-6t^2+9t\) (mét), \(t\ge0\) tính bằng giây. Vận tốc của vật đổi chiều tại các thời điểm</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(t=2\)</span></button>
@@ -334,10 +335,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(t=0\) và \(t=3\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(t=3\) và \(t=9\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> \(v(t)=s'(t)=3t^2-12t+9=3(t-1)(t-3)\) đổi dấu tại \(t=1\) và \(t=3\). Phương án A lấy điểm mà gia tốc bằng \(0\), tức mới giải xong \(v'(t)=0\) rồi dừng; phương án C thêm mốc xuất phát \(t=0\), nơi vận tốc dương chứ không đổi chiều; phương án D lấy nhầm các hệ số \(9\) và \(3\) của biểu thức làm nghiệm.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="D" data-muc="4">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-01#14" data-muc="4">
     <div class="cau-dau"><span class="cau-so">14</span><p class="cau-de">Hàm số \(y=\dfrac{x^2-2x+m}{x-1}\) có hai điểm cực trị khi và chỉ khi</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(m&lt;1\)</span></button>
@@ -345,10 +346,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(m&gt;0\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(m&gt;1\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Ta có \(y'=\dfrac{x^2-2x+2-m}{(x-1)^2}\); hàm số có hai điểm cực trị khi tam thức \(x^2-2x+2-m\) có hai nghiệm phân biệt khác \(1\), tức \(\Delta'=m-1&gt;0\). Phương án A lấy ngược chiều bất đẳng thức; phương án B bỏ sót yêu cầu \(\Delta'&gt;0\) mà chỉ tránh nghiệm kép; phương án C dùng nhầm điều kiện \(m&gt;0\) của tử ban đầu.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="A" data-muc="4">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-01#15" data-muc="4">
     <div class="cau-dau"><span class="cau-so">15</span><p class="cau-de">Một hộp không nắp có đáy là hình vuông cạnh \(x\) (cm) và thể tích \(500\) cm³. Diện tích vật liệu làm hộp nhỏ nhất khi \(x\) bằng</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\(10\)</span></button>
@@ -356,10 +357,10 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\(500\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\(20\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Chiều cao \(h=\dfrac{500}{x^2}\) nên diện tích \(S(x)=x^2+4xh=x^2+\dfrac{2\,000}{x}\); \(S'(x)=2x-\dfrac{2\,000}{x^2}=0\) cho \(x^3=1\,000\), tức \(x=10\). Phương án B là chiều cao \(h\) ứng với \(x=10\) — giải đúng nhưng dừng ở đại lượng khác; phương án C lấy luôn thể tích làm cạnh; phương án D nhân đôi cạnh vì tưởng hộp có nắp.</p>
+    <p class="giai-thich"></p>
   </div>
 
-  <div class="cau" data-dung="C" data-muc="4">
+  <div class="cau" data-ma-cau="lop-12/chuong-01/bai-01#16" data-muc="4">
     <div class="cau-dau"><span class="cau-so">16</span><p class="cau-de">Cho hàm số \(y=f(x)\) liên tục trên \(\mathbb{R}\) và \(f'(x)=x^2(x-1)(x+2)\). Hàm số \(f(x)\) nghịch biến trên khoảng</p></div>
     <div class="dap-an">
       <button class="lua-chon" data-chon="A"><span class="chu">A</span><span>\((-2;0)\)</span></button>
@@ -367,7 +368,7 @@ try {
       <button class="lua-chon" data-chon="C"><span class="chu">C</span><span>\((-2;1)\)</span></button>
       <button class="lua-chon" data-chon="D"><span class="chu">D</span><span>\((1;+\infty)\)</span></button>
     </div>
-    <p class="giai-thich"><b>Vì sao.</b> Thừa số \(x^2\ge0\) không ảnh hưởng dấu, nên \(f'(x)&lt;0\) khi \((x-1)(x+2)&lt;0\), tức \(-2&lt;x&lt;1\). Phương án A và phương án B mỗi phương án chỉ giữ một nửa khoảng vì tưởng \(x=0\) làm đạo hàm đổi dấu; phương án D là khoảng đồng biến.</p>
+    <p class="giai-thich"></p>
   </div>
 
 </div>
@@ -405,15 +406,22 @@ try {
 
 </main>
 </div>
+<script src="/assets/lop-hoc-cauhinh.js"></script>
+<script src="/assets/lop-hoc.js"></script>
 <script>
+/* Chấm ở server — đáp án không còn nằm trong file này. CHUAN_LOP_HOC.md mục 15.1.
+ *
+ * lop-hoc.js ở trên là BẮT BUỘC: window.LopHoc do nó tạo ra. Thiếu dòng đó thì
+ * mỗi cú bấm ném ReferenceError ngay trong hàm xử lý — không rơi vào .catch()
+ * bên dưới, nên câu hỏi khoá cứng lại mà không hiện một chữ nào. */
 (function () {
   var tongSoCau = document.querySelectorAll('.cau').length;
+  var maBai = document.getElementById('bo-cau').dataset.bai;
   var oDiem = document.getElementById('diem');
   var thanhDiem = document.getElementById('thanh-diem');
   var hopKetQua = document.getElementById('ket-qua');
   var soDung = 0, soDaLam = 0;
 
-  // Tổng số câu tự đếm từ số khối .cau — thêm bớt câu không phải sửa gì ở đây.
   document.getElementById('tong-cau').textContent = tongSoCau;
   document.getElementById('kq-tong').textContent = tongSoCau;
 
@@ -430,21 +438,47 @@ try {
     hopKetQua.classList.add('hien');
   }
 
+  function bao(cau, loi) {
+    var p = cau.querySelector('.giai-thich');
+    p.innerHTML = '<b>Chưa chấm được.</b> ' + loi;
+    p.classList.add('hien');
+  }
+
   document.querySelectorAll('.cau').forEach(function (cau) {
-    var dapAnDung = cau.dataset.dung;
     cau.querySelectorAll('.lua-chon').forEach(function (nut) {
       nut.addEventListener('click', function () {
         if (cau.dataset.daLam) return;
-        cau.dataset.daLam = '1';
-        soDaLam++;
-        if (nut.dataset.chon === dapAnDung) soDung++;
-        cau.querySelectorAll('.lua-chon').forEach(function (n) {
-          n.disabled = true;
-          if (n.dataset.chon === dapAnDung) n.classList.add('dung');
-          else if (n === nut) n.classList.add('sai');
-        });
-        cau.querySelector('.giai-thich').classList.add('hien');
-        capNhatDiem();
+        cau.dataset.daLam = 'dang-cham';
+        cau.querySelectorAll('.lua-chon').forEach(function (n) { n.disabled = true; });
+
+        var hoi = window.LopHoc
+          ? LopHoc.chamTracNghiem(maBai, cau.dataset.maCau, nut.dataset.chon)
+          : Promise.reject(new Error('mat-mang'));
+
+        hoi
+          .then(function (kq) {
+            cau.dataset.daLam = '1';
+            soDaLam++;
+            if (kq.dung) soDung++;
+            cau.querySelectorAll('.lua-chon').forEach(function (n) {
+              if (n.dataset.chon === kq.dap_an) n.classList.add('dung');
+              else if (n === nut) n.classList.add('sai');
+            });
+            var p = cau.querySelector('.giai-thich');
+            p.innerHTML = '<b>Vì sao.</b> ' + kq.giai_thich;
+            p.classList.add('hien');
+            if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([p]);
+            capNhatDiem();
+          })
+          .catch(function (e) {
+            delete cau.dataset.daLam;
+            cau.querySelectorAll('.lua-chon').forEach(function (n) { n.disabled = false; });
+            var vi = e && e.message;
+            bao(cau,
+              vi === 'mat-mang' ? 'Máy chưa nối mạng. Em thử lại khi có mạng nhé.'
+              : vi === 'chua-cau-hinh' ? 'Phần chấm chưa mở. Em quay lại sau nhé.'
+              : 'Có trục trặc, em thử bấm lại.');
+          });
       });
     });
   });
@@ -458,7 +492,9 @@ try {
         n.disabled = false;
         n.classList.remove('dung', 'sai');
       });
-      cau.querySelector('.giai-thich').classList.remove('hien');
+      var p = cau.querySelector('.giai-thich');
+      p.classList.remove('hien');
+      p.innerHTML = '';
     });
     capNhatDiem();
     document.getElementById('top').scrollIntoView({ behavior: 'smooth' });
