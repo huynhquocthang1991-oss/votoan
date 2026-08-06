@@ -569,9 +569,23 @@ try {
     /* Tên bài nằm ở file tĩnh do tools/muc_luc_bai.py sinh — xem chú thích đầu
        file đó. Thiếu file thì trang vẫn chạy, chỉ hiện đường dẫn thay cho tên. */
     return fetch('/bai-hoc/muc-luc.json')
-      .then(function (r) { return r.ok ? r.json() : { bai: [] }; })
+      .then(function (r) {
+        /* Kiểm r.ok thôi là chưa đủ. /bai-hoc/* nằm sau edge function chặn đăng
+           nhập; thiếu cookie thì nó CHUYỂN HƯỚNG sang trang đăng nhập, fetch đi
+           theo chuyển hướng và trả về HTML kèm mã 200. r.json() vỡ, .catch nuốt,
+           trang lặng lẽ tụt về hiện đường dẫn thô. Bắt bằng kiểu nội dung. */
+        var kieu = r.headers.get('content-type') || '';
+        if (!r.ok || kieu.indexOf('json') < 0) {
+          throw new Error('máy chủ trả ' + r.status + ' ' + (kieu || 'không rõ kiểu'));
+        }
+        return r.json();
+      })
       .then(function (j) { mucLuc = (j && j.bai) || []; })
-      .catch(function () { mucLuc = []; });
+      .catch(function (e) {
+        mucLuc = [];
+        console.warn('Vở Toán: không lấy được muc-luc.json — ' + e.message
+          + '. Trang sẽ hiện đường dẫn thay cho tên bài.');
+      });
   }
 
   function nap() {

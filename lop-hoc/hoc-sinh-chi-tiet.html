@@ -524,9 +524,23 @@ kbd{font:600 .74rem var(--body);padding:2px 6px;border-radius:5px;
     /* Tên bài nằm ở file tĩnh (tools/muc_luc_bai.py sinh ra) chứ không ở database
        — xem chú thích đầu file đó. Thiếu file thì trang vẫn chạy, chỉ hiện mã. */
     return fetch('/bai-hoc/muc-luc.json')
-      .then(function (r) { return r.ok ? r.json() : { bai: [] }; })
+      .then(function (r) {
+        /* Kiểm r.ok thôi là chưa đủ. /bai-hoc/* nằm sau edge function chặn đăng
+           nhập; thiếu cookie thì nó CHUYỂN HƯỚNG sang trang đăng nhập, fetch đi
+           theo chuyển hướng và trả về HTML kèm mã 200. r.json() vỡ, .catch nuốt,
+           trang lặng lẽ tụt về hiện đường dẫn thô. Bắt bằng kiểu nội dung. */
+        var kieu = r.headers.get('content-type') || '';
+        if (!r.ok || kieu.indexOf('json') < 0) {
+          throw new Error('máy chủ trả ' + r.status + ' ' + (kieu || 'không rõ kiểu'));
+        }
+        return r.json();
+      })
       .then(function (j) { mucLuc = (j && j.bai) || []; })
-      .catch(function () { mucLuc = []; });
+      .catch(function (e) {
+        mucLuc = [];
+        console.warn('Vở Toán: không lấy được muc-luc.json — ' + e.message
+          + '. Trang sẽ hiện đường dẫn thay cho tên bài.');
+      });
   }
 
   function tenBai(duongDan) {
@@ -1316,6 +1330,30 @@ kbd{font:600 .74rem var(--body);padding:2px 6px;border-radius:5px;
       .subscribe();
   }
 
+
+  /* Soi access_token ra cookie cho máy chủ biên.
+   *
+   * Supabase để phiên trong localStorage, mà localStorage thì máy chủ không đọc
+   * được. Edge function chặn /bai-hoc/* (netlify/edge-functions/chan-bai-hoc.ts)
+   * chỉ nhìn cookie `vt-token`. Cho tới nay CHỈ assets/lop-hoc.js ghi cookie ấy,
+   * mà trang này không nạp file đó — nên giáo viên đăng nhập xong vào thẳng đây
+   * là không có cookie, và mọi thứ dưới /bai-hoc/ bị đá về trang đăng nhập:
+   * nút "Dạy học", và cả /bai-hoc/muc-luc.json (bảng tra tên bài) — thiếu nó thì
+   * bảng hiện đường dẫn thô thay cho tên bài mà không báo gì.
+   *
+   * Chép từ lop-hoc.js chứ không nạp cả file: file đó còn chèn thanh tài khoản
+   * của học sinh vào đầu trang, không hợp ở đây.
+   */
+  function ghiCookiePhien(s) {
+    var an = location.protocol === 'https:' ? '; Secure' : '';
+    if (s && s.access_token) {
+      var con = s.expires_at ? (s.expires_at * 1000 - Date.now()) / 1000 : 3600;
+      if (con < 0) con = 0;
+      document.cookie = 'vt-token=' + encodeURIComponent(s.access_token) +
+        '; Path=/; Max-Age=' + Math.floor(con) + '; SameSite=Lax' + an;
+    }
+  }
+
   /* ------------------------------------------------------------ khởi động */
 
   if (!CH.URL || !CH.ANON_KEY) {
@@ -1339,6 +1377,7 @@ kbd{font:600 .74rem var(--body);padding:2px 6px;border-radius:5px;
         + encodeURIComponent(location.pathname + location.search);
       return;
     }
+    ghiCookiePhien(phien);
     return sb.from('giao_vien').select('id,trang_thai').eq('id', phien.user.id).maybeSingle()
       .then(function (g) {
         if (!g.data || g.data.trang_thai !== 'hoat_dong') {
