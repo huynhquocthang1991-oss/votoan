@@ -78,6 +78,16 @@
 .lh-het-luot{margin-top:12px;padding:12px 14px;background:var(--purple-l);
   border-radius:10px;font-size:.88rem;color:var(--purple)}
 
+/* Kết quả đúng — câu em chờ đọc, cho nó đứng trước và đứng riêng. */
+.lh-dung{font-weight:700;color:var(--green);font-size:1.02rem}
+/* Chỗ lập luận chưa chắc. Vàng chứ KHÔNG đỏ: bài vẫn được tính đúng, đây là lời
+ * nhắc cho lần sau. Đỏ ở đây là vừa khen vừa gạch, em chỉ nhớ vế sau. */
+.lh-luuy{margin-top:11px;padding:10px 13px;border-radius:10px;font-size:.88rem;
+  background:rgba(255,255,255,.6);border-left:3px solid var(--orange)}
+.lh-luuy-dau{margin:0 0 5px !important;font-weight:600}
+.lh-luuy ul{margin:0;padding-left:19px}
+.lh-luuy li{margin:3px 0}
+
 /* Sao: rỗng = tạm tính, đặc = chính thức. Cùng ngôn ngữ viền đứt/viền liền. */
 .lh-sao{font-size:1.1rem;letter-spacing:2px}
 .lh-sao .tam{color:var(--muted);opacity:.55}

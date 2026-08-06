@@ -57,6 +57,16 @@ try {
   .ve-thanh button[aria-pressed="true"]{background:var(--blue);color:var(--on-accent);border-color:var(--blue)}
   .ve-thanh .day{display:flex;gap:6px;margin-left:auto}
   .ve-thanh .day button{width:44px;padding:0;display:grid;place-items:center}
+
+  /* Chọn màu mực. Nút là một chấm tròn đúng màu mực — không dán nhãn chữ, vì
+     "màu mực" là thứ nhìn thấy được, và nhãn chữ chỉ tổ chật thanh công cụ trên
+     điện thoại. Tên màu vẫn có, nằm ở aria-label cho trình đọc màn hình. */
+  .mau-day{display:flex;gap:7px;align-items:center}
+  .mau-day button{width:36px;height:36px;min-height:36px;padding:0;border-radius:50%;
+    border:2px solid var(--line);background:var(--surface);cursor:pointer;display:grid;place-items:center}
+  .mau-day button i{display:block;width:20px;height:20px;border-radius:50%}
+  .mau-day button[aria-pressed="true"]{border-color:var(--ink);
+    box-shadow:0 0 0 3px color-mix(in srgb,var(--ink) 14%,transparent)}
   .khung-ve{position:relative;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff}
   /* Nền trắng cố định, KHÔNG theo giao diện: đây là tờ giấy sẽ gửi cho máy chấm,
      nền tối là nét viết biến mất khỏi ảnh xuất ra. */
@@ -89,6 +99,16 @@ try {
   .hs-goi-y summary::before{content:"💡"}
   .hs-goi-y summary::-webkit-details-marker{display:none}
   .hs-goi-y>p{margin:11px 15px}
+  /* Kết quả đúng — nói to, nói trước. Đây là câu em chờ đọc. */
+  .ket-dung{margin:0 0 10px;font-weight:700;color:var(--success);font-size:1.06em}
+  /* Chỗ lập luận chưa chắc. Nền vàng nhạt chứ KHÔNG phải nền đỏ: đây là lời
+     nhắc cho lần sau, không phải một cái gạch sai — bài vẫn được tính đúng. */
+  .luu-y{margin-top:12px;padding:11px 15px;border-radius:12px;
+    background:color-mix(in srgb,var(--warn) 10%,transparent);
+    border:1px solid color-mix(in srgb,var(--warn) 35%,transparent)}
+  .luu-y .dau{margin:0 0 6px;font-weight:600;font-size:.95em}
+  .luu-y ul{margin:0;padding-left:20px}
+  .luu-y li{margin:4px 0}
   .buoc{list-style:none;padding:0;margin:12px 0 0}
   .buoc li{display:flex;gap:10px;padding:8px 0;border-top:1px solid var(--line)}
   .buoc .dau{flex:0 0 auto;font-weight:700}
@@ -120,6 +140,7 @@ try {
       <div class="ve-thanh">
         <button type="button" id="v-but" aria-pressed="true">Bút</button>
         <button type="button" id="v-tay" aria-pressed="false">Tẩy</button>
+        <div class="mau-day" id="v-mau" role="group" aria-label="Màu mực"></div>
         <div class="day">
           <button type="button" id="v-lui" title="Hoàn tác" aria-label="Hoàn tác">↶</button>
           <button type="button" id="v-xoa" title="Xoá hết" aria-label="Xoá hết">🗑</button>
@@ -187,11 +208,32 @@ try {
 
   var giay = document.getElementById('giay');
   var ctx = giay.getContext('2d');
-  var net = [];               // [{diem:[[x,y,ap]…], tay:bool, day:số}]
+
+  /* HAI LỚP, không phải một.
+     `lopNet` là lớp trong suốt chỉ chứa nét bút; `giay` là thứ nhìn thấy = nền
+     trắng + ô ly + lớp nét dán lên trên. Trước đây tất cả vẽ chung một lớp và
+     cái tẩy là một nét màu TRẮNG — tẩy xong thì chỗ ấy còn lại một vệt trắng
+     phủ mất cả ô ly, nhìn như tờ giấy bị bôi xoá. Có lớp riêng thì tẩy dùng
+     'destination-out', tức là khoét thủng nét bút và để nguyên ô ly bên dưới,
+     đúng như tẩy trên giấy thật. */
+  var lopNet = document.createElement('canvas');
+  var ctxNet = lopNet.getContext('2d');
+
+  var net = [];               // [{diem:[[x,y,ap]…], tay:bool, day:số, mau:'#…'}]
   var dangVe = null;
   var laTay = false;
   var CHIA = 2;               // độ nét khi xuất ra, gấp đôi bề ngang hiển thị
   var KHOA_LUU = 'vt-net-' + ma;
+
+  /* Màu mực. Đủ đậm để máy chấm đọc được trên nền trắng — mực nhạt kiểu bút
+     nhớ thì ảnh nén JPEG xong là nhoè vào nền. Màu đầu là mặc định. */
+  var MAU = [
+    { ma: '#12233d', ten: 'Mực đen' },
+    { ma: '#1c3fa8', ten: 'Mực xanh' },
+    { ma: '#c62828', ten: 'Mực đỏ' },
+    { ma: '#1b7a3e', ten: 'Mực xanh lá' }
+  ];
+  var mauDangDung = MAU[0].ma;
 
   /* Toạ độ lưu theo TỈ LỆ bề ngang (0–1), không lưu theo pixel: xoay ngang máy
      hay mở lại trên màn hình khác thì nét vẫn nằm đúng chỗ cũ. */
@@ -202,8 +244,8 @@ try {
        giấy — gọi lại hàm này ngay sau khi bỏ hidden. */
     if (!rong) return;
     var cao = Math.round(rong * 1.25);
-    giay.width = rong * CHIA;
-    giay.height = cao * CHIA;
+    giay.width = lopNet.width = rong * CHIA;
+    giay.height = lopNet.height = cao * CHIA;
     giay.style.height = cao + 'px';
     veLai();
   }
@@ -220,32 +262,73 @@ try {
     ctx.stroke();
   }
 
-  function veMotNet(n) {
-    if (n.diem.length < 2) {
-      // Chấm đơn: một nét chỉ có một điểm thì lineTo không vẽ ra gì cả.
-      var d0 = n.diem[0];
-      ctx.beginPath();
-      ctx.fillStyle = n.tay ? '#fff' : '#12233d';
-      ctx.arc(d0[0] * giay.width, d0[1] * giay.width, (n.day * (d0[2] || 1)) / 2, 0, 6.3);
-      ctx.fill();
+  /* Dán lớp nét lên nền. Rẻ hơn vẽ lại từng nét nên gọi được mỗi khung hình. */
+  function hopThanh() {
+    veNenOLy();
+    ctx.drawImage(lopNet, 0, 0);
+  }
+
+  /* Vẽ một nét lên LỚP NÉT, từ điểm thứ `tu` trở đi.
+     `tu` để vẽ nối đuôi lúc đang viết: chỉ vẽ mấy đoạn vừa thêm chứ không vẽ lại
+     cả nét. Không có nó thì viết một dòng dài xong máy bắt đầu đuối, nét chạy
+     sau đầu bút — thứ làm hỏng cảm giác viết nhanh hơn mọi thứ khác. */
+  function veMotNet(n, tu) {
+    var d = n.diem, W = lopNet.width;
+    ctxNet.globalCompositeOperation = n.tay ? 'destination-out' : 'source-over';
+    ctxNet.strokeStyle = ctxNet.fillStyle = n.mau || MAU[0].ma;
+    ctxNet.lineCap = 'round';
+    ctxNet.lineJoin = 'round';
+
+    if (d.length < 2) {
+      // Chấm đơn (dấu chấm, dấu phẩy): một điểm thì không có đoạn nào để kẻ.
+      ctxNet.beginPath();
+      ctxNet.arc(d[0][0] * W, d[0][1] * W, (n.day * (d[0][2] || 1)) / 2, 0, 6.3);
+      ctxNet.fill();
+      ctxNet.globalCompositeOperation = 'source-over';
       return;
     }
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-    ctx.strokeStyle = n.tay ? '#fff' : '#12233d';
-    for (var i = 1; i < n.diem.length; i++) {
-      var a = n.diem[i - 1], b = n.diem[i];
-      ctx.beginPath();
-      ctx.lineWidth = n.day * ((a[2] + b[2]) / 2 || 1);
-      ctx.moveTo(a[0] * giay.width, a[1] * giay.width);
-      ctx.lineTo(b[0] * giay.width, b[1] * giay.width);
-      ctx.stroke();
+
+    /* Nối bằng đường cong qua TRUNG ĐIỂM chứ không kẻ thẳng từ điểm nọ sang
+       điểm kia. Màn hình lấy mẫu bút thành một chuỗi điểm rời; nối thẳng thì mỗi
+       điểm thành một góc gãy, chữ viết nhanh nhìn ra răng cưa. Cho đường cong đi
+       qua trung điểm và lấy chính điểm lấy mẫu làm điểm điều khiển thì các đoạn
+       tiếp tuyến với nhau — nét liền một hơi, đúng như bút trên giấy. */
+    for (var i = Math.max(1, tu | 0); i < d.length; i++) {
+      var a = d[i - 1], b = d[i], truoc = d[i - 2] || a;
+      ctxNet.beginPath();
+      ctxNet.lineWidth = n.day * ((a[2] + b[2]) / 2 || 1);
+      ctxNet.moveTo((truoc[0] + a[0]) / 2 * W, (truoc[1] + a[1]) / 2 * W);
+      ctxNet.quadraticCurveTo(a[0] * W, a[1] * W, (a[0] + b[0]) / 2 * W, (b[1] + a[1]) / 2 * W);
+      ctxNet.stroke();
     }
+
+    /* Đuôi nét: đường cong dừng ở trung điểm hai điểm cuối, thiếu nửa đoạn cuối.
+       Nửa đoạn ấy chính là chỗ nhấc bút — thiếu nó thì dấu huyền, dấu sắc đều
+       cụt mất một tí. Vẽ đè lại cũng không sao: cùng màu, và cái tẩy khoét hai
+       lần vào một chỗ vẫn ra một lỗ. */
+    var p = d[d.length - 2], q = d[d.length - 1];
+    ctxNet.beginPath();
+    ctxNet.lineWidth = n.day * ((p[2] + q[2]) / 2 || 1);
+    ctxNet.moveTo((p[0] + q[0]) / 2 * W, (p[1] + q[1]) / 2 * W);
+    ctxNet.lineTo(q[0] * W, q[1] * W);
+    ctxNet.stroke();
+
+    ctxNet.globalCompositeOperation = 'source-over';
   }
 
   function veLai() {
-    veNenOLy();
-    net.forEach(veMotNet);
+    ctxNet.clearRect(0, 0, lopNet.width, lopNet.height);
+    net.forEach(function (n) { veMotNet(n, 1); });
+    hopThanh();
+  }
+
+  /* Vẽ theo nhịp khung hình. iPad bắn pointermove nhanh hơn màn hình vẽ được;
+     dán lớp nét mỗi sự kiện là làm việc thừa rồi tụt khung hình. */
+  var choKhung = false;
+  function henVe() {
+    if (choKhung) return;
+    choKhung = true;
+    requestAnimationFrame(function () { choKhung = false; hopThanh(); });
   }
 
   function diem(e) {
@@ -267,8 +350,13 @@ try {
     if (daThayBut && e.pointerType === 'touch') return;
     e.preventDefault();
     giay.setPointerCapture(e.pointerId);
-    dangVe = { diem: [diem(e)], tay: laTay, day: (laTay ? 26 : 3.4) * CHIA };
+    dangVe = {
+      diem: [diem(e)], tay: laTay, day: (laTay ? 26 : 3.4) * CHIA,
+      mau: laTay ? null : mauDangDung
+    };
     net.push(dangVe);
+    veMotNet(dangVe, 1);      // chấm đầu tiên hiện ngay, không đợi di bút
+    henVe();
   });
 
   giay.addEventListener('pointermove', function (e) {
@@ -276,15 +364,24 @@ try {
     if (daThayBut && e.pointerType === 'touch') return;
     e.preventDefault();
     /* getCoalescedEvents: iPad lấy mẫu bút nhanh hơn nhịp vẽ màn hình, không
-       gom lại thì nét cong thành đường gấp khúc. */
-    var cac = e.getCoalescedEvents ? e.getCoalescedEvents() : [e];
+       gom lại thì nét cong thành đường gấp khúc.
+       Nó trả về MẢNG RỖNG với sự kiện không do người thật sinh ra (và ở vài
+       trình duyệt, với chính sự kiện đầu tiên). Không đỡ cái rỗng ấy thì mỗi
+       nét chỉ còn đúng một chấm — bút di khắp trang mà giấy vẫn trắng. */
+    var cac = e.getCoalescedEvents ? e.getCoalescedEvents() : [];
+    if (!cac.length) cac = [e];
+    var tu = dangVe.diem.length;
     for (var i = 0; i < cac.length; i++) dangVe.diem.push(diem(cac[i]));
-    veLai();
+    /* Lùi lại một điểm: đoạn cong cuối lần trước mới vẽ tới trung điểm, đoạn
+       này phải bắt đầu từ đó thì mối nối mới liền. */
+    veMotNet(dangVe, tu - 1);
+    henVe();
   });
 
   function ngungVe() {
     if (!dangVe) return;
     dangVe = null;
+    hopThanh();
     luuNet();
   }
   giay.addEventListener('pointerup', ngungVe);
@@ -310,6 +407,36 @@ try {
     document.getElementById('v-but').setAttribute('aria-pressed', String(!tay));
     document.getElementById('v-tay').setAttribute('aria-pressed', String(tay));
   }
+
+  /* Chọn màu mực. Bấm một màu thì tự về chế độ bút — đang tẩy mà bấm màu thì ý
+     em rõ ràng là muốn viết tiếp, bắt bấm thêm nút "Bút" nữa là thừa một bước. */
+  var oMau = document.getElementById('v-mau');
+  oMau.innerHTML = MAU.map(function (m) {
+    return '<button type="button" data-mau="' + m.ma + '" aria-label="' + m.ten
+      + '" title="' + m.ten + '" aria-pressed="' + (m.ma === mauDangDung)
+      + '"><i style="background:' + m.ma + '"></i></button>';
+  }).join('');
+  oMau.addEventListener('click', function (e) {
+    var nut = e.target.closest('[data-mau]');
+    if (!nut) return;
+    mauDangDung = nut.dataset.mau;
+    oMau.querySelectorAll('[data-mau]').forEach(function (x) {
+      x.setAttribute('aria-pressed', String(x.dataset.mau === mauDangDung));
+    });
+    doiBut(false);
+    try { localStorage.setItem('vt-mau-but', mauDangDung); } catch (e2) {}
+  });
+  /* Nhớ màu em hay dùng, dùng chung cho mọi câu — đổi màu lại mỗi lần mở một câu
+     mới thì chẳng ai buồn đổi. */
+  try {
+    var mauCu = localStorage.getItem('vt-mau-but');
+    if (mauCu && MAU.some(function (m) { return m.ma === mauCu; })) {
+      mauDangDung = mauCu;
+      oMau.querySelectorAll('[data-mau]').forEach(function (x) {
+        x.setAttribute('aria-pressed', String(x.dataset.mau === mauDangDung));
+      });
+    }
+  } catch (e) {}
   document.getElementById('v-lui').addEventListener('click', function () {
     net.pop(); veLai(); luuNet();
   });
@@ -440,10 +567,39 @@ try {
       if (!may) { hienKetQua('<p>Thầy/cô sẽ xem bài này giúp em nhé.</p>'); return moLoiGiai(); }
       var k = may.ket_qua_json || {};
 
-      var html = '<p>' + thoat(k.nhan_xet_cho_hoc_sinh || '') + '</p>';
+      var html = '';
+
+      /* Kết quả đúng thì nói thẳng ra là đúng, ngay dòng đầu. Máy chấm theo KẾT
+         QUẢ chứ không theo độ giống lời giải mẫu, nên em làm tắt hay làm cách
+         khác mà ra đúng vẫn thấy dòng này. */
+      if (k.ket_luan === 'dung') {
+        html += '<p class="ket-dung">✓ Kết quả của em đúng rồi.</p>';
+      }
+
+      html += '<p>' + thoat(k.nhan_xet_cho_hoc_sinh || '') + '</p>';
       if (k.goi_y) html += '<p><b>Gợi ý.</b> ' + thoat(k.goi_y) + '</p>';
 
-      if (Array.isArray(k.cac_buoc) && k.cac_buoc.length) {
+      /* Chỗ lập luận chưa chắc. Tách hẳn khỏi phần kết luận và nói rõ "không
+         làm em mất điểm" — nếu không, em đọc thấy một danh sách lỗi ngay dưới
+         chữ "đúng" thì vẫn tưởng mình bị trừ, và lần sau ngại nộp. */
+      if (Array.isArray(k.luu_y_lap_luan) && k.luu_y_lap_luan.length) {
+        html += '<div class="luu-y"><p class="dau">'
+          + (k.ket_luan === 'dung'
+              ? 'Vài chỗ để lần sau chắc tay hơn — không làm em mất điểm nào cả:'
+              : 'Vài chỗ trong lập luận em xem lại nhé:')
+          + '</p><ul>';
+        k.luu_y_lap_luan.forEach(function (l) {
+          html += '<li>' + (l.cho ? '<b>' + thoat(l.cho) + '.</b> ' : '')
+            + thoat(l.van_de) + '</li>';
+        });
+        html += '</ul></div>';
+      }
+
+      /* Bảng điểm danh từng bước CHỈ hiện khi bài chưa đúng — nó ở đây để em
+         biết nên xem lại từ đâu. Bài đã đúng mà vẫn bày ra một cột dấu ✗ vì em
+         làm tắt vài bước thì đúng là vừa khen vừa gạch, và em chỉ nhớ mấy dấu ✗.
+         Chỗ thật sự cần nói với bài đúng nằm ở khối lưu ý bên trên rồi. */
+      if (k.ket_luan !== 'dung' && Array.isArray(k.cac_buoc) && k.cac_buoc.length) {
         html += '<ul class="buoc">';
         k.cac_buoc.forEach(function (b) {
           html += '<li><span class="dau ' + (b.dat ? 'dat' : 'truot') + '">'

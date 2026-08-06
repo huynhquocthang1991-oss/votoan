@@ -162,6 +162,19 @@ try {
   .o-diem input{width:64px;min-height:44px;padding:0 8px;font:600 1rem var(--body);text-align:center;
     color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:10px}
 
+  /* Nhận xét thêm của thầy cô. Học sinh đọc thẳng ô này (assets/lop-hoc.js), nó
+     ĐÈ LÊN lời máy — nên để ngay cạnh ba nút kết luận chứ không giấu sau một
+     nút "thêm": chỗ nào phải bấm mới thấy thì giữa giờ ra chơi không ai bấm. */
+  .o-nx{grid-column:1/-1;margin-top:2px}
+  .o-nx textarea{width:100%;min-height:52px;padding:9px 11px;font:400 .88rem/1.5 var(--body);
+    color:var(--ink);background:var(--surface-2);border:1.5px solid var(--line);
+    border-radius:11px;resize:vertical}
+  .o-nx textarea:focus{outline:2px solid var(--blue);outline-offset:1px;background:var(--surface)}
+  .nx-mau{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+  .nx-mau button{min-height:34px;padding:0 11px;font:600 .78rem var(--body);color:var(--blue);
+    background:var(--blue-l);border:0;border-radius:99px;cursor:pointer}
+  .nx-mau button:hover{filter:brightness(.96)}
+
   /* Chú thích của máy vẽ đè lên ảnh bài làm — dải ngang, không đóng khung ôm
      sát chữ (model định vị chữ viết tay chỉ chính xác cỡ vài phần trăm). */
   .khung-anh{position:relative;width:96px;flex:0 0 auto}
@@ -488,10 +501,10 @@ try {
         $('ai').textContent = g.data.ten || g.data.email;
         $('quantri').hidden = !g.data.la_admin;
         $('app').hidden = false;
-        // Tên bài phải có TRƯỚC khi vẽ bảng theo bài, không thì bảng hiện đường
-        // dẫn thô rồi mới nhảy sang tên — nhìn như trang bị lỗi.
-        napMucLuc().then(napLop);
-        napHangDoi();
+        // Tên bài phải có TRƯỚC khi vẽ bảng theo bài VÀ trước hàng đợi duyệt,
+        // không thì hai chỗ ấy hiện mã thô rồi mới nhảy sang tên — nhìn như
+        // trang bị lỗi.
+        napMucLuc().then(function () { napLop(); napHangDoi(); });
       });
   });
 
@@ -947,26 +960,45 @@ try {
         Object.keys(nhom).forEach(function (ma) {
           var kh = document.createElement('div');
           kh.className = 'nhom-cau';
-          kh.innerHTML = '<h3>' + thoatChu(ma) + ' — ' + nhom[ma].length + ' bài</h3>';
+          /* Trước đây in nguyên mã 'lop-8/chuong-01/bai-01#bt9' — không đọc nổi.
+             Giờ gọi đúng như trên trang: "Bài 1. Đơn thức · câu 1.1". */
+          kh.innerHTML = '<h3>' + thoatChu(tenBai(baiCuaMa(ma)))
+            + ' <span style="font-weight:400;color:var(--muted)">· câu '
+            + thoatChu(nhanCua(ma)) + ' · ' + nhom[ma].length + ' bài chờ</span></h3>';
           nhom[ma].forEach(function (b) { kh.appendChild(veBai(b)); });
           o.appendChild(kh);
         });
       });
   }
 
+  /* Câu hay phải gõ đi gõ lại. Bấm một cái là nối vào ô nhận xét rồi sửa tiếp —
+     KHÔNG gửi luôn: câu mẫu chỉ để đỡ gõ, lời cuối vẫn phải là của thầy cô. */
+  var CAU_MAU = [
+    'Em trình bày sạch, thầy/cô đọc rất dễ.',
+    'Kết quả đúng rồi, lần sau em viết rõ thêm bước ở giữa nhé.',
+    'Em xem lại chỗ thầy/cô khoanh rồi làm lại giúp thầy/cô nhé.',
+    'Cách làm của em khác sách nhưng đúng, thầy/cô ghi nhận.',
+    'Em nhớ ghi kết luận ở cuối bài.'
+  ];
+
   /* Gọi duyet_bai, chịu được cả bản có điểm lẫn bản chưa có (migration 005).
      PGRST202 = PostgREST không tìm thấy hàm khớp chữ ký. */
-  function duyetBai(baiNopId, ketLuan, diem) {
+  function duyetBai(baiNopId, ketLuan, nhanXet, diem) {
     return sb.rpc('duyet_bai', {
-      p_bai_nop_id: baiNopId, p_ket_luan: ketLuan, p_diem: diem
+      p_bai_nop_id: baiNopId, p_ket_luan: ketLuan, p_nhan_xet: nhanXet, p_diem: diem
     }).then(function (r) {
       var thieuHam = r.error && (r.error.code === 'PGRST202'
         || /p_diem|does not exist|function/i.test(r.error.message || ''));
       if (!thieuHam) return r;
-      return sb.rpc('duyet_bai', { p_bai_nop_id: baiNopId, p_ket_luan: ketLuan })
-        .then(function (r2) {
+      /* Bản ba tham số của 003 vẫn nhận nhận xét — chỉ điểm là mới. Bỏ luôn cả
+         nhận xét ở nhánh lùi này là thầy cô gõ xong một đoạn rồi mất trắng mà
+         màn hình vẫn báo "đã duyệt". */
+      return sb.rpc('duyet_bai', {
+        p_bai_nop_id: baiNopId, p_ket_luan: ketLuan, p_nhan_xet: nhanXet
+      }).then(function (r2) {
           if (!r2.error && diem !== null) {
-            alert('Đã duyệt, nhưng CHƯA lưu được điểm: database chưa chạy migration 005.');
+            alert('Đã duyệt và đã lưu nhận xét, nhưng CHƯA lưu được điểm: '
+              + 'database chưa chạy migration 005.');
           }
           return r2;
         });
@@ -997,6 +1029,13 @@ try {
         '<button class="nut xanh" data-kl="dung">Đúng</button>' +
         '<button class="nut cam" data-kl="sai">Sai</button>' +
         '<button class="nut nhe" data-kl="thieu_buoc">Thiếu bước</button>' +
+      '</div>' +
+      '<div class="o-nx">' +
+        '<textarea rows="2" placeholder="Nhận xét thêm cho em (không bắt buộc) — em sẽ đọc đúng câu này"' +
+          ' aria-label="Nhận xét thêm cho ' + thoatChu(b.ten_hien_thi || b.ma_hoc_sinh) + '"></textarea>' +
+        '<div class="nx-mau">' + CAU_MAU.map(function (c, i) {
+          return '<button type="button" data-mau="' + i + '">' + thoatChu(c) + '</button>';
+        }).join('') + '</div>' +
       '</div>';
 
     /* Chú thích của máy vẽ đè lên ảnh bằng dải phần trăm, không dùng canvas:
@@ -1024,6 +1063,15 @@ try {
       if (this.src) window.open(this.src, '_blank');
     });
 
+    var oNx = d.querySelector('.o-nx textarea');
+    d.querySelectorAll('[data-mau]').forEach(function (nut) {
+      nut.addEventListener('click', function () {
+        var them = CAU_MAU[+nut.dataset.mau];
+        oNx.value = oNx.value.trim() ? oNx.value.trim() + ' ' + them : them;
+        oNx.focus();
+      });
+    });
+
     d.querySelectorAll('[data-kl]').forEach(function (nut) {
       nut.addEventListener('click', function () {
         d.querySelectorAll('button').forEach(function (x) { x.disabled = true; });
@@ -1040,11 +1088,14 @@ try {
          * số, gọi kèm p_diem là Postgres báo "không tìm thấy hàm" và thầy cô
          * MẤT LUÔN khả năng duyệt — hỏng một việc đang chạy tốt để đổi lấy một
          * việc chưa dùng được. Thử lại không kèm điểm rồi nói rõ vì sao. */
-        duyetBai(b.bai_nop_id, nut.dataset.kl, diem)
+        var nhanXet = oNx.value.trim() || null;
+        duyetBai(b.bai_nop_id, nut.dataset.kl, nhanXet, diem)
           .then(function (r) {
             if (r.error) { alert(r.error.message); d.querySelectorAll('button').forEach(function (x) { x.disabled = false; }); return; }
             d.style.opacity = .35;
-            d.querySelector('.nut-cot').innerHTML = '<span class="huy u3">đã duyệt</span>';
+            d.querySelector('.o-nx').remove();
+            d.querySelector('.nut-cot').innerHTML = '<span class="huy u3">đã duyệt'
+              + (nhanXet ? ' · đã gửi nhận xét' : '') + '</span>';
             var n = +($('dem-duyet').textContent.replace(/\D/g, '') || 1) - 1;
             $('dem-duyet').textContent = n > 0 ? '(' + n + ')' : '';
           });
@@ -1103,7 +1154,7 @@ try {
     ds.forEach(function (r) { tra[r.hoc_sinh_id + '|' + r.bai_tap_ma] = r; });
 
     var h = '<table><thead><tr><th>Học sinh</th>';
-    cau.forEach(function (c, i) { h += '<th title="' + thoatChu(c) + '">C' + (i + 1) + '</th>'; });
+    cau.forEach(function (c) { h += '<th title="' + thoatChu(c) + '">' + thoatChu(nhanCua(c)) + '</th>'; });
     h += '</tr></thead><tbody>';
     hs.forEach(function (e) {
       h += '<tr><td><button class="ten-hs" data-hs="' + e.hoc_sinh_id + '">'
@@ -1134,6 +1185,7 @@ try {
    * một migration. Ngày nào lớp đông tới mức chậm thì hẵng hay.
    */
   var mucLuc = [];
+  var nhanCau = {};
 
   function napMucLuc() {
     /* Tên bài nằm ở file tĩnh do tools/muc_luc_bai.py sinh, không nằm trong
@@ -1151,21 +1203,38 @@ try {
         }
         return r.json();
       })
-      .then(function (j) { mucLuc = (j && j.bai) || []; })
+      .then(function (j) {
+        mucLuc = (j && j.bai) || [];
+        nhanCau = (j && j.nhan_cau) || {};
+      })
       .catch(function (e) {
         mucLuc = [];
+        nhanCau = {};
         console.warn('Vở Toán: không lấy được muc-luc.json — ' + e.message
           + '. Trang sẽ hiện đường dẫn thay cho tên bài.');
       });
   }
 
   function baiCuaMa(ma) { return String(ma || '').split('#')[0]; }
+  function tenBai(duongDan) {
+    var m = mucLuc.find(function (x) { return x.duong_dan === duongDan; });
+    return m ? m.ten : duongDan;
+  }
 
   /* Chỉ câu có #bt là câu học sinh NỘP ĐƯỢC. bai_tap chứa cả luyện tập và vận
      dụng (#lt, #vdung) — những câu ấy không có nút nộp, đưa vào bảng là vẽ ra
      một loạt ô trống mà cả lớp không có cách nào lấp. */
   function laCauNop(ma) { return String(ma || '').indexOf('#bt') >= 0; }
+
+  /* Tên câu ĐÚNG NHƯ IN TRÊN TRANG — "1.1", không phải "C9".
+   *
+   * Đuôi mã ('bt9') là số thứ tự của thẻ .card trong file, đếm cả luyện tập lẫn
+   * vận dụng, nên bài tập đầu tiên của bài 1 lớp 8 mang mã bt9 trong khi trên
+   * trang nó là câu 1.1. Đặt tên cột bằng đuôi mã thì thầy cô nhìn bảng phải mở
+   * bài học ra dò mới biết đang nói câu nào. Nhãn lấy từ muc-luc.json; thiếu file
+   * ấy thì lùi về đuôi mã — xấu nhưng không vỡ. */
   function soCau(ma) { return String(ma || '').split('#').pop().replace(/^bt/, ''); }
+  function nhanCua(ma) { return nhanCau[ma] || soCau(ma); }
   function so1(n) { return Number(n).toFixed(1).replace('.', ','); }
 
   /* PostgREST KHÔNG bảo đảm thứ tự mảng nhúng — tin vào [0] là có ngày đọc nhầm
@@ -1334,7 +1403,7 @@ try {
         return saiTheoCau[b] - saiTheoCau[a];
       })[0];
       if (maSaiNhat && saiTheoCau[maSaiNhat] >= 2) {
-        luuY.push('tự luận câu ' + soCau(maSaiNhat) + ' — ' + saiTheoCau[maSaiNhat] + ' em sai');
+        luuY.push('tự luận câu ' + nhanCua(maSaiNhat) + ' — ' + saiTheoCau[maSaiNhat] + ' em sai');
       }
       var tnSaiNhat = Object.keys(saiTn).sort(function (a, b) { return saiTn[b] - saiTn[a]; })[0];
       if (tnSaiNhat && saiTn[tnSaiNhat] >= 2) {
@@ -1394,7 +1463,9 @@ try {
     if (!cac.length && !dsHs.length) return '<p class="trong">Không có gì để hiện.</p>';
 
     var h = '<div class="cuon"><table><thead><tr><th>Học sinh</th>';
-    cac.forEach(function (bt) { h += '<th>C' + thoatChu(soCau(bt.ma)) + '</th>'; });
+    cac.forEach(function (bt) {
+      h += '<th title="' + thoatChu(bt.ma) + '">' + thoatChu(nhanCua(bt.ma)) + '</th>';
+    });
     h += '<th>TN đúng</th><th>Điểm</th></tr></thead><tbody>';
 
     dsHs.forEach(function (hsx) {

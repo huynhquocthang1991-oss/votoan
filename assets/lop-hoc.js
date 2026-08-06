@@ -265,6 +265,26 @@
     });
   }
 
+  /* Chỗ lập luận chưa chắc, tách khỏi kết luận đúng/sai.
+   *
+   * Máy chấm theo KẾT QUẢ (mục 7.4): em ra đúng đáp số bằng cách nào cũng là
+   * đúng. Nhưng chỗ hỏng trên đường đi thì vẫn phải nói — nói ở đây, dưới dạng
+   * lời nhắc cho lần sau, và nói rõ là không mất điểm. Trộn nó vào phần kết luận
+   * là em đọc xong không biết rốt cuộc mình đúng hay sai.
+   */
+  function luuYLapLuan(k) {
+    var ds = k && k.luu_y_lap_luan;
+    if (!Array.isArray(ds) || !ds.length) return '';
+    return '<div class="lh-luuy"><p class="lh-luuy-dau">' +
+      (k.ket_luan === 'dung'
+        ? 'Vài chỗ để lần sau chắc tay hơn — không làm em mất điểm nào cả:'
+        : 'Vài chỗ trong lập luận em xem lại nhé:') +
+      '</p><ul>' + ds.map(function (l) {
+        return '<li>' + (l && l.cho ? '<b>' + thoat(l.cho) + '.</b> ' : '') +
+               thoat(l && l.van_de) + '</li>';
+      }).join('') + '</ul></div>';
+  }
+
   function veNhanXet(baiNopId, kq) {
     return Promise.all([
       sb.from('bai_nop').select('trang_thai,luc_hoc_sinh_doc,lan_thu').eq('id', baiNopId).single(),
@@ -299,8 +319,11 @@
       } else if (may) {
         var k = may.ket_qua_json;
         html += '<div class="lh-nx lh-may"><span class="lh-huy">Máy chấm · chờ thầy cô xem lại</span>' +
+                (k.ket_luan === 'dung'
+                  ? '<p class="lh-dung">✓ Kết quả của em đúng rồi.</p>' : '') +
                 '<p>' + thoat(k.nhan_xet_cho_hoc_sinh || '') + '</p>' +
                 (k.goi_y ? '<p class="lh-goiy"><b>Gợi ý.</b> ' + thoat(k.goi_y) + '</p>' : '') +
+                luuYLapLuan(k) +
                 '</div>';
         if (bn.lan_thu >= 3 && k.ket_luan !== 'dung') {
           /* Hết 3 lượt mà vẫn sai — mục 10.1. Không để em đứng trước ô xám. */

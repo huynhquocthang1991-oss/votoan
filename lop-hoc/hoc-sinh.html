@@ -172,7 +172,8 @@ try {
       <div><b id="s-bai">0</b>bài tập đã nộp</div>
       <div><b id="s-tn">0</b>câu trắc nghiệm đúng</div>
     </div>
-    <p class="nho" id="giai-thich-sao">Sao viền nét đứt là <b>tạm tính</b>, chờ thầy cô xem lại.
+    <p class="nho" id="giai-thich-sao">Mỗi câu tự luận đúng em được <b>2 sao</b>, mỗi câu
+      trắc nghiệm đúng <b>1 sao</b>. Sao viền nét đứt là <b>tạm tính</b>, chờ thầy cô xem lại.
       Sao đặc là <b>chính thức</b>. Thầy cô đính chính thì sao tạm tính không thành sao đặc,
       nhưng <b>sao đã có thì không bao giờ bị lấy đi</b>.</p>
   </div>
@@ -210,7 +211,7 @@ try {
      nhất hệ thống có thể giữ (mục 12.3), mà bộ con vật thì vui và nhẹ tênh. */
   var CON_VAT = ['🦊','🐻','🐼','🐨','🐯','🦁','🐸','🐧','🦉','🐢','🐬','🦄'];
   var sb, toi, hoSo = {}, danhSachBai = [], tracNghiem = [], baiTap = [];
-  var mucLuc = [], khoiCuaEm = null;
+  var mucLuc = [], nhanCau = {}, khoiCuaEm = null;
 
   function thoat(s) {
     return String(s == null ? '' : s)
@@ -282,6 +283,12 @@ try {
      ra một loạt ô trống mà em không có cách nào lấp, đúng kiểu làm em nản. */
   function laCauNop(ma) { return String(ma || '').indexOf('#bt') >= 0; }
   function soCau(ma) { return String(ma || '').split('#').pop().replace(/^bt/, ''); }
+
+  /* Tên câu ĐÚNG NHƯ IN TRÊN TRANG BÀI HỌC — "1.1", không phải "9".
+     Đuôi mã đếm cả luyện tập lẫn vận dụng nên nó lệch với số câu in trong sách;
+     gọi sai số câu là em mở bài học ra dò mãi không thấy. Nhãn nằm ở
+     muc-luc.json, thiếu file ấy thì lùi về đuôi mã. */
+  function nhanCua(ma) { return nhanCau[ma] || soCau(ma); }
   function so1(n) { return Number(n).toFixed(1).replace('.', ','); }
 
   /* PostgREST không bảo đảm thứ tự mảng nhúng, nên phải tự sắp — tin vào [0] là
@@ -426,7 +433,7 @@ try {
       var chip = cac.map(function (bt) {
         var t = trangThaiChip(theoCau[bt.ma]);
         return '<span class="chip ' + t.lop + '" title="'
-          + thoat('Câu ' + soCau(bt.ma) + ' — ' + t.noi) + '">' + t.chu + '</span>';
+          + thoat('Câu ' + nhanCua(bt.ma) + ' — ' + t.noi) + '">' + t.chu + '</span>';
       }).join('');
 
       var mo = !!dangMo[d];
@@ -472,7 +479,7 @@ try {
         var chuaDoc = !bn.luc_hoc_sinh_doc
           && (bn.trang_thai === 'da_duyet' || bn.trang_thai === 'da_sua');
         return '<div class="cau">'
-          + '<div class="tren"><span class="so">Câu ' + thoat(soCau(bt.ma)) + '</span>'
+          + '<div class="tren"><span class="so">Câu ' + thoat(nhanCua(bt.ma)) + '</span>'
           +   nhanTrangThai(bn) + (chuaDoc ? '<span class="moi" title="Có tin mới"></span>' : '')
           +   '<span class="nho" style="margin:0">lượt ' + bn.lan_thu + '/3 · '
           +     thoat(ngay(bn.luc_nop)) + '</span>'
@@ -580,9 +587,13 @@ try {
         }
         return r.json();
       })
-      .then(function (j) { mucLuc = (j && j.bai) || []; })
+      .then(function (j) {
+        mucLuc = (j && j.bai) || [];
+        nhanCau = (j && j.nhan_cau) || {};
+      })
       .catch(function (e) {
         mucLuc = [];
+        nhanCau = {};
         console.warn('Vở Toán: không lấy được muc-luc.json — ' + e.message
           + '. Trang sẽ hiện đường dẫn thay cho tên bài.');
       });

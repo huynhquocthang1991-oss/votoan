@@ -302,8 +302,10 @@ kbd{font:600 .74rem var(--body);padding:2px 6px;border-radius:5px;
     <!-- sao -->
     <div class="the">
       <h2>Sao của em</h2>
-      <p class="mo-ta">Sao thưởng cho <b>nỗ lực</b>, không thưởng cho đúng ngay từ đầu:
-        sửa sai rồi đúng được nhiều sao hơn đúng luôn ở câu dễ.
+      <p class="mo-ta">Mỗi câu <b>tự luận</b> đúng được <b>2 sao</b>, mỗi câu
+        <b>trắc nghiệm</b> đúng được <b>1 sao</b> — không phân biệt câu dễ câu khó,
+        không phụ thuộc em nộp lần thứ mấy. Muốn ghi nhận riêng nỗ lực của một em
+        thì dùng nút <b>Tặng sao khích lệ</b> bên phải.
         <b>Sao đã trao thì không bao giờ lấy lại.</b></p>
       <div class="sao-dai">
         <div class="sao-to"><b id="sao-tong">★ 0</b><span>tổng cộng</span></div>
@@ -398,7 +400,7 @@ kbd{font:600 .74rem var(--body);padding:2px 6px;border-radius:5px;
   /* Tất cả dữ liệu của một em, nạp một lượt rồi vẽ. Không giữ trạng thái nào
      ngoài đây — mỗi lần realtime báo có đổi là nạp lại sạch. */
   var hs = {}, hoSo = {}, lop = {}, dsLop = [];
-  var baiNop = [], tnLam = [], sao = [], huyHieu = [], baiTap = [], mucLuc = [];
+  var baiNop = [], tnLam = [], sao = [], huyHieu = [], baiTap = [], mucLuc = [], nhanCau = {};
   var dangMo = {};          // duong_dan_bai → có đang bung ra không
   var locHienTai = 'tatca';
   var keNghe = null;
@@ -430,6 +432,12 @@ kbd{font:600 .74rem var(--body);padding:2px 6px;border-radius:5px;
   /* 'lop-8/chuong-01/bai-05#bt7' → '7'. Tiền tố bt chỉ có nghĩa với máy; thầy cô
      và học sinh gọi nó là "câu 7", đúng như số in trong sách. */
   function soCau(ma) { return String(ma || '').split('#').pop().replace(/^bt/, ''); }
+
+  /* Tên câu ĐÚNG NHƯ IN TRÊN TRANG BÀI HỌC — "1.1", không phải "9".
+     Đuôi mã đếm cả luyện tập lẫn vận dụng nên nó lệch với số câu in trong sách;
+     gọi sai số câu là em mở bài học ra dò mãi không thấy. Nhãn nằm ở
+     muc-luc.json, thiếu file ấy thì lùi về đuôi mã. */
+  function nhanCua(ma) { return nhanCau[ma] || soCau(ma); }
   function chiNgay(t) {
     var d = new Date(t);
     return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
@@ -535,9 +543,13 @@ kbd{font:600 .74rem var(--body);padding:2px 6px;border-radius:5px;
         }
         return r.json();
       })
-      .then(function (j) { mucLuc = (j && j.bai) || []; })
+      .then(function (j) {
+        mucLuc = (j && j.bai) || [];
+        nhanCau = (j && j.nhan_cau) || {};
+      })
       .catch(function (e) {
         mucLuc = [];
+        nhanCau = {};
         console.warn('Vở Toán: không lấy được muc-luc.json — ' + e.message
           + '. Trang sẽ hiện đường dẫn thay cho tên bài.');
       });
@@ -815,7 +827,7 @@ kbd{font:600 .74rem var(--body);padding:2px 6px;border-radius:5px;
       var chip = cac.map(function (bt) {
         var t = trangThaiChip(theoCau[bt.ma]);
         return '<span class="chip ' + t.lop + '" title="'
-          + thoat('Câu ' + soCau(bt.ma) + ' — ' + t.noi) + '">' + t.chu + '</span>';
+          + thoat('Câu ' + nhanCua(bt.ma) + ' — ' + t.noi) + '">' + t.chu + '</span>';
       }).join('');
 
       var daNop = cac.filter(function (bt) { return theoCau[bt.ma]; }).length;
@@ -972,7 +984,7 @@ kbd{font:600 .74rem var(--body);padding:2px 6px;border-radius:5px;
     var may = kl.may, nguoi = kl.nguoi;
     var kq = (may && may.ket_qua_json) || {};
     var t = trangThaiChip(bn);
-    var so = soCau(bt.ma);
+    var so = nhanCua(bt.ma);
 
     var d = document.createElement('div');
     d.className = 'cau';
