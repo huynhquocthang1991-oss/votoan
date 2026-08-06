@@ -1,0 +1,323 @@
+{
+ "bai": [
+  {
+   "duong_dan": "lop-7/chuong-01/bai-01",
+   "ten": "Bài 1. Tập hợp các số hữu tỉ",
+   "khoi": 7,
+   "chuong": "chuong-01",
+   "ten_chuong": "Chương I. Số hữu tỉ",
+   "thu_tu": 1,
+   "so_bai_tap": 6,
+   "so_cau_tn": 17,
+   "co_ban_hoc_sinh": true
+  },
+  {
+   "duong_dan": "lop-7/chuong-01/bai-02",
+   "ten": "Bài 2. Cộng, trừ, nhân, chia số hữu tỉ",
+   "khoi": 7,
+   "chuong": "chuong-01",
+   "ten_chuong": "Chương I. Số hữu tỉ",
+   "thu_tu": 2,
+   "so_bai_tap": 5,
+   "so_cau_tn": 17,
+   "co_ban_hoc_sinh": true
+  },
+  {
+   "duong_dan": "lop-7/chuong-01/bai-03",
+   "ten": "Luyện tập chung (Bài 1 – Bài 2)",
+   "khoi": 7,
+   "chuong": "chuong-01",
+   "ten_chuong": "Chương I. Số hữu tỉ",
+   "thu_tu": 3,
+   "so_bai_tap": 6,
+   "so_cau_tn": 17,
+   "co_ban_hoc_sinh": true
+  },
+  {
+   "duong_dan": "lop-7/chuong-01/bai-04",
+   "ten": "Bài 3. Luỹ thừa với số mũ tự nhiên của một số hữu tỉ",
+   "khoi": 7,
+   "chuong": "chuong-01",
+   "ten_chuong": "Chương I. Số hữu tỉ",
+   "thu_tu": 4,
+   "so_bai_tap": 8,
+   "so_cau_tn": 17,
+   "co_ban_hoc_sinh": true
+  },
+  {
+   "duong_dan": "lop-7/chuong-01/bai-05",
+   "ten": "Bài 4. Thứ tự thực hiện các phép tính. Quy tắc chuyển vế",
+   "khoi": 7,
+   "chuong": "chuong-01",
+   "ten_chuong": "Chương I. Số hữu tỉ",
+   "thu_tu": 5,
+   "so_bai_tap": 5,
+   "so_cau_tn": 17,
+   "co_ban_hoc_sinh": true
+  },
+  {
+   "duong_dan": "lop-7/chuong-01/bai-06",
+   "ten": "Luyện tập chung (Bài 3 – Bài 4)",
+   "khoi": 7,
+   "chuong": "chuong-01",
+   "ten_chuong": "Chương I. Số hữu tỉ",
+   "thu_tu": 6,
+   "so_bai_tap": 4,
+   "so_cau_tn": 17,
+   "co_ban_hoc_sinh": true
+  },
+  {
+   "duong_dan": "lop-7/chuong-01/bai-07",
+   "ten": "Bài tập cuối chương I",
+   "khoi": 7,
+   "chuong": "chuong-01",
+   "ten_chuong": "Chương I. Số hữu tỉ",
+   "thu_tu": 7,
+   "so_bai_tap": 4,
+   "so_cau_tn": 18,
+   "co_ban_hoc_sinh": true
+  },
+  {
+   "duong_dan": "lop-8/chuong-01/bai-01",
+   "ten": "Bài 1. Đơn thức",
+   "khoi": 8,
+   "chuong": "chuong-01",
+   "ten_chuong": "Chương I. Đa thức",
+   "thu_tu": 1,
+   "so_bai_tap": 7,
+   "so_cau_tn": 20,
+   "co_ban_hoc_sinh": true
+  },
+  {
+   "duong_dan": "lop-8/chuong-01/bai-02",
+   "ten": "Bài 2. Đa thức",
+   "khoi": 8,
+   "chuong": "chuong-01",
+   "ten_chuong": "Chương I. Đa thức",
+   "thu_tu": 2,
+   "so_bai_tap": 6,
+   "so_cau_tn": 20,
+   "co_ban_hoc_sinh": true
+  },
+  {
+   "duong_dan": "lop-8/chuong-01/bai-03",
+   "ten": "Bài 3. Phép cộng và phép trừ đa thức",
+   "khoi": 8,
+   "chuong": "chuong-01",
+   "ten_chuong": "Chương I. Đa thức",
+   "thu_tu": 3,
+   "so_bai_tap": 4,
+   "so_cau_tn": 18,
+   "co_ban_hoc_sinh": true
+  },
+  {
+   "duong_dan": "lop-8/chuong-01/bai-04",
+   "ten": "Luyện tập chung",
+   "khoi": 8,
+   "chuong": "chuong-01",
+   "ten_chuong": "Chương I. Đa thức",
+   "thu_tu": 4,
+   "so_bai_tap": 6,
+   "so_cau_tn": 20,
+   "co_ban_hoc_sinh": true
+  },
+  {
+   "duong_dan": "lop-8/chuong-01/bai-05",
+   "ten": "Bài 4. Phép nhân đa thức",
+   "khoi": 8,
+   "chuong": "chuong-01",
+   "ten_chuong": "Chương I. Đa thức",
+   "thu_tu": 5,
+   "so_bai_tap": 6,
+   "so_cau_tn": 20,
+   "co_ban_hoc_sinh": true
+  },
+  {
+   "duong_dan": "lop-8/chuong-01/bai-06",
+   "ten": "Bài 5. Phép chia đa thức cho đơn thức",
+   "khoi": 8,
+   "chuong": "chuong-01",
+   "ten_chuong": "Chương I. Đa thức",
+   "thu_tu": 6,
+   "so_bai_tap": 3,
+   "so_cau_tn": 18,
+   "co_ban_hoc_sinh": true
+  },
+  {
+   "duong_dan": "lop-8/chuong-01/bai-07",
+   "ten": "Luyện tập chung",
+   "khoi": 8,
+   "chuong": "chuong-01",
+   "ten_chuong": "Chương I. Đa thức",
+   "thu_tu": 7,
+   "so_bai_tap": 6,
+   "so_cau_tn": 18,
+   "co_ban_hoc_sinh": true
+  },
+  {
+   "duong_dan": "lop-8/chuong-01/bai-08",
+   "ten": "Bài tập cuối chương I",
+   "khoi": 8,
+   "chuong": "chuong-01",
+   "ten_chuong": "Chương I. Đa thức",
+   "thu_tu": 8,
+   "so_bai_tap": 10,
+   "so_cau_tn": 20,
+   "co_ban_hoc_sinh": true
+  },
+  {
+   "duong_dan": "lop-8/chuong-02/bai-09",
+   "ten": "Bài 6. Hiệu hai bình phương. Bình phương của một tổng hay một hiệu",
+   "khoi": 8,
+   "chuong": "chuong-02",
+   "ten_chuong": "Chương II. Hằng đẳng thức đáng nhớ và ứng dụng",
+   "thu_tu": 1,
+   "so_bai_tap": 6,
+   "so_cau_tn": 20,
+   "co_ban_hoc_sinh": true
+  },
+  {
+   "duong_dan": "lop-8/chuong-02/bai-10",
+   "ten": "Bài 7. Lập phương của một tổng. Lập phương của một hiệu",
+   "khoi": 8,
+   "chuong": "chuong-02",
+   "ten_chuong": "Chương II. Hằng đẳng thức đáng nhớ và ứng dụng",
+   "thu_tu": 2,
+   "so_bai_tap": 5,
+   "so_cau_tn": 18,
+   "co_ban_hoc_sinh": true
+  },
+  {
+   "duong_dan": "lop-8/chuong-02/bai-11",
+   "ten": "Bài 8. Tổng và hiệu hai lập phương",
+   "khoi": 8,
+   "chuong": "chuong-02",
+   "ten_chuong": "Chương II. Hằng đẳng thức đáng nhớ và ứng dụng",
+   "thu_tu": 3,
+   "so_bai_tap": 4,
+   "so_cau_tn": 18,
+   "co_ban_hoc_sinh": true
+  },
+  {
+   "duong_dan": "lop-8/chuong-02/bai-12",
+   "ten": "Luyện tập chung (Bài 6 – Bài 8)",
+   "khoi": 8,
+   "chuong": "chuong-02",
+   "ten_chuong": "Chương II. Hằng đẳng thức đáng nhớ và ứng dụng",
+   "thu_tu": 4,
+   "so_bai_tap": 6,
+   "so_cau_tn": 18,
+   "co_ban_hoc_sinh": true
+  },
+  {
+   "duong_dan": "lop-8/chuong-02/bai-13",
+   "ten": "Bài 9. Phân tích đa thức thành nhân tử",
+   "khoi": 8,
+   "chuong": "chuong-02",
+   "ten_chuong": "Chương II. Hằng đẳng thức đáng nhớ và ứng dụng",
+   "thu_tu": 5,
+   "so_bai_tap": 4,
+   "so_cau_tn": 20,
+   "co_ban_hoc_sinh": true
+  },
+  {
+   "duong_dan": "lop-8/chuong-02/bai-14",
+   "ten": "Luyện tập chung (Bài 9)",
+   "khoi": 8,
+   "chuong": "chuong-02",
+   "ten_chuong": "Chương II. Hằng đẳng thức đáng nhớ và ứng dụng",
+   "thu_tu": 6,
+   "so_bai_tap": 2,
+   "so_cau_tn": 18,
+   "co_ban_hoc_sinh": true
+  },
+  {
+   "duong_dan": "lop-8/chuong-02/bai-15",
+   "ten": "Bài tập cuối chương II",
+   "khoi": 8,
+   "chuong": "chuong-02",
+   "ten_chuong": "Chương II. Hằng đẳng thức đáng nhớ và ứng dụng",
+   "thu_tu": 7,
+   "so_bai_tap": 8,
+   "so_cau_tn": 18,
+   "co_ban_hoc_sinh": true
+  },
+  {
+   "duong_dan": "lop-9/chuong-01/bai-01",
+   "ten": "Bài 1. Khái niệm phương trình và hệ hai phương trình bậc nhất hai ẩn",
+   "khoi": 9,
+   "chuong": "chuong-01",
+   "ten_chuong": "Chương I. Phương trình và hệ hai phương trình bậc nhất hai ẩn",
+   "thu_tu": 1,
+   "so_bai_tap": 5,
+   "so_cau_tn": 18,
+   "co_ban_hoc_sinh": true
+  },
+  {
+   "duong_dan": "lop-12/chuong-01/bai-01",
+   "ten": "Bài 1. Tính đơn điệu và cực trị của hàm số",
+   "khoi": 12,
+   "chuong": "chuong-01",
+   "ten_chuong": "Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số",
+   "thu_tu": 1,
+   "so_bai_tap": 8,
+   "so_cau_tn": 16,
+   "co_ban_hoc_sinh": true
+  },
+  {
+   "duong_dan": "lop-12/chuong-01/bai-02",
+   "ten": "Bài 2. Giá trị lớn nhất và giá trị nhỏ nhất của hàm số",
+   "khoi": 12,
+   "chuong": "chuong-01",
+   "ten_chuong": "Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số",
+   "thu_tu": 2,
+   "so_bai_tap": 6,
+   "so_cau_tn": 16,
+   "co_ban_hoc_sinh": true
+  },
+  {
+   "duong_dan": "lop-12/chuong-01/bai-03",
+   "ten": "Bài 3. Đường tiệm cận của đồ thị hàm số",
+   "khoi": 12,
+   "chuong": "chuong-01",
+   "ten_chuong": "Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số",
+   "thu_tu": 3,
+   "so_bai_tap": 5,
+   "so_cau_tn": 16,
+   "co_ban_hoc_sinh": true
+  },
+  {
+   "duong_dan": "lop-12/chuong-01/bai-04",
+   "ten": "Bài 4. Khảo sát sự biến thiên và vẽ đồ thị của hàm số",
+   "khoi": 12,
+   "chuong": "chuong-01",
+   "ten_chuong": "Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số",
+   "thu_tu": 4,
+   "so_bai_tap": 5,
+   "so_cau_tn": 16,
+   "co_ban_hoc_sinh": true
+  },
+  {
+   "duong_dan": "lop-12/chuong-01/bai-05",
+   "ten": "Bài 5. Ứng dụng đạo hàm để giải quyết vấn đề thực tiễn",
+   "khoi": 12,
+   "chuong": "chuong-01",
+   "ten_chuong": "Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số",
+   "thu_tu": 5,
+   "so_bai_tap": 4,
+   "so_cau_tn": 16,
+   "co_ban_hoc_sinh": true
+  },
+  {
+   "duong_dan": "lop-12/chuong-01/bai-06",
+   "ten": "Bài tập cuối chương I",
+   "khoi": 12,
+   "chuong": "chuong-01",
+   "ten_chuong": "Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số",
+   "thu_tu": 6,
+   "so_bai_tap": 17,
+   "so_cau_tn": 16,
+   "co_ban_hoc_sinh": true
+  }
+ ]
+}

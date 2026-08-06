@@ -456,6 +456,17 @@
         return goi('cham-trac-nghiem', { bai: bai, ma_cau: maCau, chon: chon });
       });
     },
+
+    /* Xem lại một lượt trắc nghiệm đã làm: đáp án + lời giải thích của những câu
+     * em ĐÃ trả lời. Đáp án nằm ở bảng tn_dap_an, bảng đó không có policy nào
+     * nên trình duyệt không đọc thẳng được — phải qua đây. Câu em bỏ dở thì máy
+     * chủ không trả về gì, nên không có đường nào xem trước đáp án. */
+    xemLaiTracNghiem: function (bai, lanThu) {
+      if (!BAT) return Promise.reject(new Error('chua-cau-hinh'));
+      return API.sanSang().then(function () {
+        return goi('xem-lai-trac-nghiem', { bai: bai, lan_thu: lanThu });
+      });
+    },
     /* Đợi đọc xong phiên đăng nhập. Chưa cấu hình thì trả về ngay. */
     sanSang: function () { return khoiDong || Promise.resolve(); },
 

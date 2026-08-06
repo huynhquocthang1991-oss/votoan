@@ -4,18 +4,31 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Bảng của thầy cô — Vở Toán</title>
+<script>
+try {
+  var luu = localStorage.getItem('vo-toan-theme');
+  if (['light','night','sand','ocean','rose','forest'].indexOf(luu) >= 0) {
+    document.documentElement.dataset.theme = luu;
+  }
+} catch (e) {}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/theme.css">
 <style>
+  /* Màu lấy từ /assets/theme.css — nguồn duy nhất cho cả web.
+   *
+   * Trước đây trang này tự khai một bộ màu riêng, mà bộ ấy THIẾU năm biến vẫn
+   * được dùng ở dưới: --surface-2, --accent-soft, --success, --danger, --warn.
+   * Biến không khai thì cả dòng khai báo bị trình duyệt bỏ, nên lớp chú thích
+   * màu mà AI vẽ đè lên ảnh bài làm (.lop-chu-thich) HOÀN TOÀN VÔ HÌNH, và mấy
+   * ô số trong bảng chi tiết mất nền. Nạp theme.css là hết cả năm, lại được
+   * luôn sáu giao diện.
+   *
+   * Chỉ còn khai ở đây những gì theme.css không có. */
   :root{
-    --blue:#1b4dff; --blue-d:#0d36c7; --blue-l:#eef3ff;
-    --orange:#d84f00; --orange-l:#fff5e9;
-    --green:#2e7d32; --green-l:#edf8ee;
-    --red:#c62828; --red-l:#fff0f0;
-    --purple:#6a1b9a; --purple-l:#f7eefb;
-    --ink:#13223c; --muted:#4f5f7a; --line:#d9e2f0;
-    --paper:#fafcff; --grid:#e5ecf8; --surface:#fff;
+    --blue-d:color-mix(in srgb,var(--accent) 82%,#000);
     --body:"Be Vietnam Pro",system-ui,-apple-system,sans-serif;
     --display:"Bricolage Grotesque","Be Vietnam Pro",system-ui,sans-serif;
   }
@@ -30,23 +43,23 @@
     background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
     background-size:30px 30px}
   a{color:inherit;text-decoration:none}
-  :focus-visible{outline:3px solid rgba(27,77,255,.45);outline-offset:3px;border-radius:8px}
+  :focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 45%,transparent);outline-offset:3px;border-radius:8px}
   .trang{width:min(1180px,calc(100% - 32px));margin:0 auto;padding:22px 0 80px}
 
   header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
-    padding:22px 26px;background:linear-gradient(125deg,var(--blue-d),#2e62ff);color:#fff;
+    padding:22px 26px;background:linear-gradient(125deg,var(--blue-d),var(--accent));color:var(--on-accent);
     border-radius:20px;margin-bottom:22px}
   header h1{margin:0;font:800 1.5rem/1.1 var(--display);letter-spacing:-.03em}
   header .ai{font-size:.84rem;opacity:.85}
   .header-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
   header a{min-height:44px;display:inline-flex;align-items:center;padding:0 16px;
-    background:rgba(255,255,255,.16);border-radius:10px;font-size:.86rem;font-weight:600}
+    background:color-mix(in srgb,var(--on-accent) 16%,transparent);border-radius:10px;font-size:.86rem;font-weight:600}
 
   .the-tab{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
   .the-tab button{min-height:46px;padding:0 18px;font:inherit;font-weight:600;font-size:.92rem;
     color:var(--muted);background:var(--surface);border:1.5px solid var(--line);
     border-radius:12px;cursor:pointer}
-  .the-tab button[aria-selected=true]{background:var(--blue);border-color:var(--blue);color:#fff}
+  .the-tab button[aria-selected=true]{background:var(--blue);border-color:var(--blue);color:var(--on-accent)}
   .khung{display:none}
   .khung.hien{display:block}
 
@@ -57,17 +70,17 @@
 
   label{display:block;margin-bottom:12px;font-size:.82rem;font-weight:600;color:var(--muted)}
   input,select{display:block;width:100%;min-height:46px;margin-top:5px;padding:0 13px;
-    font:inherit;background:#f7f9fb;border:1.5px solid var(--line);border-radius:10px;color:var(--ink)}
+    font:inherit;background:var(--surface-2);border:1.5px solid var(--line);border-radius:10px;color:var(--ink)}
   .hang{display:flex;gap:12px;flex-wrap:wrap}
   .hang label{flex:1;min-width:130px}
 
   button.nut,a.nut{min-height:48px;padding:0 22px;font:inherit;font-weight:600;border:none;
-    border-radius:12px;cursor:pointer;background:var(--blue);color:#fff;
+    border-radius:12px;cursor:pointer;background:var(--blue);color:var(--on-accent);
     display:inline-flex;align-items:center;justify-content:center;gap:7px;text-align:center}
-  .nut.nhe{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
+  .nut.nhe{background:var(--surface);color:var(--ink);border:1.5px solid var(--line)}
   .nut.xanh{background:var(--green)}
   .nut.cam{background:var(--orange)}
-  .nut.do{background:#fff;color:var(--red);border:1.5px solid var(--red)}
+  .nut.do{background:var(--surface);color:var(--red);border:1.5px solid var(--red)}
   .nut:disabled{opacity:.5;cursor:default}
   .goi-y{margin:-6px 0 14px;font-size:.8rem;color:var(--muted)}
 
@@ -78,9 +91,9 @@
   .trong{padding:34px;text-align:center;color:var(--muted);font-size:.92rem}
 
   .ds-lop{display:grid;gap:10px}
-  .lop-khoi{background:#f7f9fb;border-radius:12px}
+  .lop-khoi{background:var(--surface-2);border-radius:12px}
   .lop-hang{display:flex;align-items:center;justify-content:space-between;gap:12px;
-    flex-wrap:wrap;padding:14px 16px;background:#f7f9fb;border-radius:12px}
+    flex-wrap:wrap;padding:14px 16px;background:var(--surface-2);border-radius:12px}
   .lop-hang b{font-family:var(--display);font-size:1.05rem}
   .lop-hang .so{font-size:.84rem;color:var(--muted)}
   .viec-lop{display:flex;gap:8px;flex-wrap:wrap}
@@ -139,7 +152,7 @@
   .bai{display:grid;grid-template-columns:96px minmax(0,1fr) auto;gap:14px;align-items:start;
     padding:14px;border:1.5px solid var(--line);border-radius:14px;margin-bottom:10px;
     background:var(--surface)}
-  .bai img{width:96px;height:96px;object-fit:cover;border-radius:10px;background:#eef1f5;cursor:zoom-in}
+  .bai img{width:96px;height:96px;object-fit:cover;border-radius:10px;background:var(--surface-2);cursor:zoom-in}
   .bai .ten{font-weight:600;font-size:.92rem}
   .bai .chep{margin:6px 0 0;font-size:.84rem;color:var(--muted);white-space:pre-wrap;
     max-height:5.2em;overflow:auto}
@@ -162,18 +175,41 @@
   .ten-hs{padding:6px 8px;min-height:36px;font:inherit;color:var(--blue);background:transparent;
     border:0;border-radius:8px;cursor:pointer;text-align:left;text-decoration:underline}
   .ten-hs:hover{background:var(--accent-soft)}
-  .ct-hop{max-width:760px;text-align:left}
-  .ct-dau{display:flex;align-items:center;gap:14px;margin-bottom:14px}
-  .ct-mat{width:56px;height:56px;display:grid;place-items:center;font-size:30px;border-radius:50%;
-    background:var(--accent-soft);border:2px solid var(--blue)}
-  .ct-ma{color:var(--muted);font-size:.86rem}
-  .ct-so{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:16px}
-  .ct-so>div{background:var(--surface-2);border-radius:12px;padding:11px 13px;font-size:.82rem;color:var(--muted)}
-  .ct-so b{display:block;font-family:var(--display);font-size:1.5rem;color:var(--blue);line-height:1.15}
-  .ct-hop h4{margin:16px 0 8px;font-family:var(--display);font-size:1rem}
-  .ct-hang{padding:11px 0;border-top:1px solid var(--line)}
-  .ct-nho{color:var(--muted);font-size:.84rem}
-  .ct-chep{white-space:pre-wrap;background:var(--surface-2);border-radius:10px;padding:10px 12px;font-size:.86rem}
+
+  /* Kết quả theo bài — một hàng một BÀI HỌC, gọi theo tên trong sách.
+     Ma trận (mục 8.4) xếp theo câu và trộn mọi bài vào một bảng C1…C40; bảng
+     này trả lời câu khác: "bài nào cả lớp đang đuối". Hai cái bổ nhau. */
+  .tb-hang{border:1.5px solid var(--line);border-radius:14px;margin-bottom:9px;
+    background:var(--surface);overflow:hidden}
+  .tb-hang.mo{border-color:var(--blue)}
+  .tb-dinh{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;
+    width:100%;padding:13px 15px;background:none;border:0;font:inherit;color:inherit;
+    text-align:left;cursor:pointer}
+  .tb-dinh:hover{background:var(--surface-2)}
+  .tb-ten{font:600 1rem/1.3 var(--display)}
+  .tb-phu{margin-top:5px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;
+    font-size:.83rem;color:var(--muted)}
+  .tb-phai{display:flex;gap:14px;align-items:center;flex-wrap:wrap;justify-content:flex-end;
+    font-size:.84rem;color:var(--muted)}
+  .tb-diem{font:700 1.05rem var(--display);color:var(--green)}
+  .tb-luu-y{color:var(--orange);font-weight:600}
+  .tb-mui{font-size:.8rem;color:var(--muted);transition:transform .15s}
+  .tb-hang.mo .tb-mui{transform:rotate(90deg)}
+  .tb-than{padding:0 15px 15px;border-top:1px dashed var(--line)}
+  .tb-nhom{margin:20px 0 9px;font:700 .8rem/1.4 var(--body);letter-spacing:.07em;
+    text-transform:uppercase;color:var(--muted)}
+  .tb-nhom:first-child{margin-top:0}
+
+  /* Chip trạng thái từng câu — khác nhau VỀ HÌNH chứ không chỉ về màu (mục 9.2),
+     để in đen trắng hoặc người mù màu vẫn đọc được. */
+  .chip{display:inline-grid;place-items:center;width:25px;height:25px;border-radius:7px;
+    font:700 .76rem/1 var(--body);border:1.5px solid transparent}
+  .chip.dung{background:var(--green-l);color:var(--green);border-color:var(--green)}
+  .chip.tam{background:transparent;color:var(--green);border:1.5px dashed var(--green)}
+  .chip.sai{background:var(--red-l);color:var(--red);border-color:var(--red)}
+  .chip.cho{background:var(--orange-l);color:var(--orange);border-color:var(--orange)}
+  .chip.trong{background:var(--surface-2);color:var(--muted);border:1.5px dotted var(--line)}
+  .day-chip{display:flex;gap:4px;flex-wrap:wrap}
 
   .huy{display:inline-block;padding:3px 9px;border-radius:99px;font-size:.7rem;font-weight:700;
     letter-spacing:.03em;text-transform:uppercase;white-space:normal}
@@ -197,32 +233,32 @@
   table{border-collapse:collapse;font-size:.86rem;min-width:100%}
   th,td{padding:7px 9px;border:1px solid var(--line);text-align:center;white-space:nowrap}
   th:first-child,td:first-child{text-align:left;position:sticky;left:0;background:var(--surface)}
-  thead th{background:#f7f9fb;font-size:.78rem;color:var(--muted)}
+  thead th{background:var(--surface-2);font-size:.78rem;color:var(--muted)}
   td.d{background:var(--green-l);color:var(--green);font-weight:700}
   td.s{background:var(--red-l);color:var(--red);font-weight:700}
   td.c{background:var(--orange-l);color:var(--orange);font-weight:700}
-  td.k{color:#c3ccd8}
+  td.k{color:color-mix(in srgb,var(--muted) 45%,transparent)}
   .chu-thich{margin-top:12px;font-size:.82rem;color:var(--muted)}
 
   .top5{display:grid;gap:8px;max-width:520px}
-  .top5 div{display:flex;align-items:center;gap:12px;padding:11px 14px;background:#f7f9fb;
+  .top5 div{display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--surface-2);
     border-radius:11px;font-size:.92rem}
   .top5 .hang-so{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;
-    background:var(--blue);color:#fff;font-weight:700;font-size:.82rem;flex:0 0 auto}
+    background:var(--blue);color:var(--on-accent);font-weight:700;font-size:.82rem;flex:0 0 auto}
 
   /* Bảng mật khẩu vừa cấp. Trước đây máy tự mở hộp In sau 300ms, và mật khẩu
      chỉ tồn tại trong lần in đó — thầy cô bấm Hủy trong hộp In, hoặc máy không
      có máy in, là mất sạch, phải đi đặt lại mật khẩu cho từng em. Giờ mật khẩu
      hiện ra ở đây và NGỒI CHỜ, đóng hay không là thầy cô quyết. */
   .phieu-nen{position:fixed;inset:0;z-index:200;display:grid;place-items:center;
-    padding:18px;background:rgba(19,34,60,.45)}
+    padding:18px;background:color-mix(in srgb,var(--ink) 45%,transparent)}
   .phieu{width:min(560px,100%);max-height:88vh;overflow:auto;padding:22px 24px;
-    background:var(--surface);border-radius:18px;box-shadow:0 26px 60px rgba(19,34,60,.3)}
+    background:var(--surface);border-radius:18px;box-shadow:var(--shadow)}
   .phieu h2{margin:0 0 4px;font:700 1.15rem/1.2 var(--display)}
   .phieu .mo-ta{margin:0 0 16px;font-size:.86rem;color:var(--muted)}
   .phieu-ds{display:grid;gap:6px;margin-bottom:16px}
   .phieu-ds div{display:flex;align-items:center;justify-content:space-between;gap:14px;
-    padding:9px 13px;background:#f7f9fb;border-radius:10px}
+    padding:9px 13px;background:var(--surface-2);border-radius:10px}
   .phieu-ds .ma{font:700 .98rem/1.2 var(--display);letter-spacing:.03em}
   .phieu-ds .mk{font:700 1.12rem/1.2 var(--display);letter-spacing:.16em}
   .phieu-viec{display:flex;gap:8px;flex-wrap:wrap}
@@ -264,6 +300,7 @@
   <div class="the-tab" role="tablist">
     <button role="tab" aria-selected="true" data-k="lop">Lớp của tôi</button>
     <button role="tab" aria-selected="false" data-k="duyet">Duyệt bài <span id="dem-duyet"></span></button>
+    <button role="tab" aria-selected="false" data-k="theobai">Kết quả theo bài</button>
     <button role="tab" aria-selected="false" data-k="theodoi">Theo dõi lớp</button>
     <button role="tab" aria-selected="false" data-k="caidat">Cài đặt</button>
   </div>
@@ -313,6 +350,18 @@
     </div>
   </section>
 
+  <!-- ---------------------------------------------------------- THEO BÀI -->
+  <section class="khung" data-k="theobai">
+    <div class="the">
+      <h2>Kết quả theo bài</h2>
+      <p class="mo-ta">Một hàng là một <b>bài học</b>, gọi theo đúng tên trong sách.
+        Bấm vào một hàng để bung ra từng em: câu nào đúng, câu nào sai, trắc nghiệm
+        được mấy câu. Bấm tên em thì sang hồ sơ riêng của em đó.</p>
+      <label style="max-width:260px">Chọn lớp<select id="chon-lop-bai"></select></label>
+      <div id="bang-theo-bai"><p class="trong">Chọn một lớp để xem.</p></div>
+    </div>
+  </section>
+
   <!-- ---------------------------------------------------------- THEO DÕI -->
   <section class="khung" data-k="theodoi">
     <div class="the">
@@ -324,7 +373,7 @@
         <span style="color:var(--green);font-weight:700">✓</span> đúng, thầy cô đã xác nhận ·
         <span style="color:var(--orange);font-weight:700">✓</span> đúng, máy chấm — chờ xác nhận ·
         <span style="color:var(--red);font-weight:700">✗</span> sai ·
-        <span style="color:#c3ccd8">–</span> chưa nộp
+        <span style="color:var(--muted)">–</span> chưa nộp
       </p>
     </div>
     <div class="the">
@@ -375,15 +424,6 @@
 <!-- Trang in A4: chỉ hiện khi bấm In -->
 <div id="in-ma"><div class="luoi" id="in-luoi"></div></div>
 
-<div class="phieu-nen" id="chi-tiet" hidden role="dialog" aria-modal="true" aria-label="Quá trình học của một học sinh">
-  <div class="phieu-hop ct-hop">
-    <div id="ct-noi"></div>
-    <div class="phieu-acts">
-      <button class="nut nhe" type="button" id="ct-dong">Đóng</button>
-    </div>
-  </div>
-</div>
-
 <script src="/assets/lop-hoc-cauhinh.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
@@ -423,7 +463,9 @@
         $('ai').textContent = g.data.ten || g.data.email;
         $('quantri').hidden = !g.data.la_admin;
         $('app').hidden = false;
-        napLop();
+        // Tên bài phải có TRƯỚC khi vẽ bảng theo bài, không thì bảng hiện đường
+        // dẫn thô rồi mới nhảy sang tên — nhìn như trang bị lỗi.
+        napMucLuc().then(napLop);
         napHangDoi();
       });
   });
@@ -515,11 +557,12 @@
         daXong.forEach(function (l) { o.appendChild(veLop(l)); });
       }
 
-      var sel = $('chon-lop');
-      sel.innerHTML = '<option value="">— chọn lớp —</option>' + dsLop.map(function (l) {
+      var muc = '<option value="">— chọn lớp —</option>' + dsLop.map(function (l) {
         return '<option value="' + l.id + '">' + thoatChu(l.ten)
           + (l.trang_thai === 'luu_tru' ? ' (đã kết thúc)' : '') + '</option>';
       }).join('');
+      ['chon-lop', 'chon-lop-bai'].forEach(function (x) { $(x).innerHTML = muc; });
+      if (lopDangXem) chonLop(lopDangXem);
     });
   }
 
@@ -985,10 +1028,28 @@
     return d;
   }
 
-  /* ------------------------------------------------------------ ma trận + top5 */
-  $('chon-lop').addEventListener('change', function () {
-    var id = this.value;
+  /* ------------------------------------------------------------ chọn lớp
+   * Hai tab cùng làm việc trên một lớp. Hai ô chọn riêng nhau là thầy cô đổi lớp
+   * ở tab này rồi sang tab kia thấy lớp cũ — rồi đọc nhầm số của lớp khác. Một
+   * biến, hai ô, đổi ô nào cũng kéo theo ô kia. */
+  var lopDangXem = '';
+
+  function chonLop(id) {
+    lopDangXem = id;
+    ['chon-lop', 'chon-lop-bai'].forEach(function (x) {
+      if ($(x).value !== id) $(x).value = id;
+    });
     if (!id) return;
+    veMaTranVaTop5(id);
+    veTheoBai(id);
+  }
+
+  ['chon-lop', 'chon-lop-bai'].forEach(function (x) {
+    $(x).addEventListener('change', function () { chonLop(this.value); });
+  });
+
+  /* ------------------------------------------------------------ ma trận + top5 */
+  function veMaTranVaTop5(id) {
     sb.from('v_ma_tran').select('*').eq('lop_id', id).order('ma_hoc_sinh').order('thu_tu')
       .then(function (r) { veMaTran(r.data || []); });
     sb.from('v_top5').select('*').eq('lop_id', id).order('hang').then(function (r) {
@@ -1002,7 +1063,7 @@
           + h.sua_dung + ' lần sửa đúng · ' + h.chuoi_ngay + ' ngày liền</span></div>';
       }).join('');
     });
-  });
+  }
 
   function veMaTran(ds) {
     var o = $('ma-tran');
@@ -1032,138 +1093,307 @@
     });
     o.innerHTML = h + '</tbody></table>';
     o.querySelectorAll('[data-hs]').forEach(function (b) {
-      b.addEventListener('click', function () { moChiTiet(b.dataset.hs); });
+      b.addEventListener('click', function () { moHoSo(b.dataset.hs); });
     });
   }
 
-  /* ------------------------------------------------------------ chi tiết một học sinh
+  /* ------------------------------------------------------------ kết quả theo bài
    *
-   * Ma trận (mục 8.4) trả lời "cả lớp hổng chỗ nào". Bảng này trả lời câu còn
-   * lại: "em này đang đi tới đâu". Hàng đợi duyệt vẫn xếp THEO CÂU (mục 8.3) —
-   * đây là chỗ để xem, không phải chỗ để duyệt, nên không mâu thuẫn.
+   * Ma trận (mục 8.4) xếp lớp × CÂU, cột đặt tên C1…C40 trộn mọi bài vào một
+   * bảng — nó trả lời "cả lớp hổng câu nào". Bảng dưới đây trả lời câu khác:
+   * "bài nào cả lớp đang đuối", và gọi bài bằng đúng tên trong sách.
+   *
+   * Tính hết ở trình duyệt từ bai_nop và tn_lam, KHÔNG thêm khung nhìn nào vào
+   * database. Một lớp 35 em nhân 171 câu là vài nghìn dòng — nhỏ hơn nhiều so
+   * với chi phí phải bảo trì thêm một view có security_invoker và nhớ chạy thêm
+   * một migration. Ngày nào lớp đông tới mức chậm thì hẵng hay.
    */
-  var hsDangXem = null, keNghe = null;
+  var mucLuc = [];
 
-  function moChiTiet(hocSinhId) {
-    hsDangXem = hocSinhId;
-    $('chi-tiet').hidden = false;
-    $('ct-noi').innerHTML = '<p class="trong">Đang tải…</p>';
-    napChiTiet();
-    ngheMotHocSinh(hocSinhId);
+  function napMucLuc() {
+    /* Tên bài nằm ở file tĩnh do tools/muc_luc_bai.py sinh, không nằm trong
+       database — xem chú thích đầu file đó. Thiếu file thì bảng vẫn chạy, chỉ
+       hiện đường dẫn thay cho tên. */
+    return fetch('/bai-hoc/muc-luc.json')
+      .then(function (r) { return r.ok ? r.json() : { bai: [] }; })
+      .then(function (j) { mucLuc = (j && j.bai) || []; })
+      .catch(function () { mucLuc = []; });
   }
 
-  function dongChiTiet() {
-    $('chi-tiet').hidden = true;
-    hsDangXem = null;
-    if (keNghe) { sb.removeChannel(keNghe); keNghe = null; }
+  function baiCuaMa(ma) { return String(ma || '').split('#')[0]; }
+
+  /* Chỉ câu có #bt là câu học sinh NỘP ĐƯỢC. bai_tap chứa cả luyện tập và vận
+     dụng (#lt, #vdung) — những câu ấy không có nút nộp, đưa vào bảng là vẽ ra
+     một loạt ô trống mà cả lớp không có cách nào lấp. */
+  function laCauNop(ma) { return String(ma || '').indexOf('#bt') >= 0; }
+  function soCau(ma) { return String(ma || '').split('#').pop().replace(/^bt/, ''); }
+  function so1(n) { return Number(n).toFixed(1).replace('.', ','); }
+
+  /* PostgREST KHÔNG bảo đảm thứ tự mảng nhúng — tin vào [0] là có ngày đọc nhầm
+     một kết luận cũ rồi tưởng thầy cô đã duyệt khác. */
+  function moiNhat(cac, cot) {
+    if (!Array.isArray(cac) || !cac.length) return null;
+    return cac.slice().sort(function (a, b) {
+      return new Date(b[cot] || 0) - new Date(a[cot] || 0);
+    })[0];
   }
-  $('ct-dong').addEventListener('click', dongChiTiet);
-  $('chi-tiet').addEventListener('click', function (e) {
-    if (e.target === this) dongChiTiet();
-  });
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && !$('chi-tiet').hidden) dongChiTiet();
-  });
 
-  function napChiTiet() {
-    var id = hsDangXem;
-    return Promise.all([
-      sb.from('hoc_sinh').select('ma,ten_hien_thi').eq('id', id).maybeSingle(),
-      sb.from('hoc_sinh_ho_so').select('ho_ten,avatar').eq('hoc_sinh_id', id).maybeSingle(),
-      sb.from('bai_nop')
-        .select('id,bai_tap_ma,lan_thu,trang_thai,luc_nop,luc_hoc_sinh_doc,'
-              + 'cham_may(ket_luan,do_tin_cay,ket_qua_json),cham_nguoi(ket_luan,nhan_xet,diem,luc_duyet)')
-        .eq('hoc_sinh_id', id).order('luc_nop', { ascending: false }),
-      sb.from('tn_lam').select('duong_dan_bai,so_dung,so_cau,luc_lam,chi_tiet_json')
-        .eq('hoc_sinh_id', id).order('luc_lam', { ascending: false }),
-      sb.from('sao').select('so_sao,trang_thai,nguon').eq('hoc_sinh_id', id)
-    ]).then(function (r) {
-      if (hsDangXem !== id) return;         // thầy cô đã đóng hoặc mở em khác
-      var hs = r[0].data || {}, ho = r[1].data || {};
-      var bai = r[2].data || [], tn = r[3].data || [], sao = r[4].data || [];
+  function ketLuanCuoi(bn) {
+    var nguoi = moiNhat(bn.cham_nguoi, 'luc_duyet');
+    var may = moiNhat(bn.cham_may, 'luc_cham');
+    return { nguoi: nguoi, may: may,
+             ket_luan: (nguoi && nguoi.ket_luan) || (may && may.ket_luan) || null,
+             daDuyet: !!nguoi };
+  }
 
-      var tongSao = sao.reduce(function (a, s) { return a + s.so_sao; }, 0);
-      var chinhThuc = sao.filter(function (s) { return s.trang_thai === 'chinh_thuc'; })
-        .reduce(function (a, s) { return a + s.so_sao; }, 0);
-      var cacDiem = bai.map(function (b) { return (b.cham_nguoi || [])[0]; })
-        .filter(function (c) { return c && c.diem != null; }).map(function (c) { return Number(c.diem); });
+  function trangThaiChip(bn) {
+    if (!bn) return { lop: 'trong', chu: '○', noi: 'chưa nộp' };
+    if (bn.trang_thai === 'dang_cham') return { lop: 'cho', chu: '⋯', noi: 'đang chấm' };
+    if (bn.trang_thai === 'loi_cham') return { lop: 'cho', chu: '⋯', noi: 'máy chưa chấm được' };
+    var kl = ketLuanCuoi(bn);
+    if (kl.ket_luan === 'dung') {
+      return kl.daDuyet ? { lop: 'dung', chu: '✓', noi: 'đúng, đã xác nhận' }
+                        : { lop: 'tam', chu: '✓', noi: 'máy chấm đúng, chờ xác nhận' };
+    }
+    if (kl.ket_luan) return { lop: 'sai', chu: '✗', noi: 'chưa đúng' };
+    return { lop: 'cho', chu: '⋯', noi: 'chờ chấm' };
+  }
 
-      var h = '<div class="ct-dau">'
-        + '<span class="ct-mat">' + (ho.avatar || '🙂') + '</span>'
-        + '<div><b>' + thoatChu(ho.ho_ten || hs.ten_hien_thi || hs.ma) + '</b>'
-        + '<div class="ct-ma">' + thoatChu(hs.ma) + '</div></div></div>';
+  var theoBaiMo = {};
 
-      h += '<div class="ct-so">'
-        + '<div><b>' + bai.length + '</b>bài đã nộp</div>'
-        + '<div><b>' + chinhThuc + '</b>sao chính thức</div>'
-        + '<div><b>' + (tongSao - chinhThuc) + '</b>sao tạm tính</div>'
-        + '<div><b>' + (cacDiem.length
-            ? (cacDiem.reduce(function (a, b) { return a + b; }, 0) / cacDiem.length).toFixed(1)
-            : '–') + '</b>điểm trung bình</div>'
+  function veTheoBai(lopId) {
+    var o = $('bang-theo-bai');
+    o.innerHTML = '<p class="trong">Đang tải…</p>';
+
+    var lop = dsLop.find(function (l) { return l.id === lopId; }) || {};
+    var dsHs = [], baiNop = [], tnLam = [], baiTap = [];
+
+    sb.from('hoc_sinh').select('id,ma,ten_hien_thi,trang_thai').eq('lop_id', lopId).order('ma')
+      .then(function (r) {
+        dsHs = (r.data || []).filter(function (h) { return h.trang_thai !== 'khong_dung'; });
+        if (!dsHs.length) return null;
+        var ids = dsHs.map(function (h) { return h.id; });
+        return Promise.all([
+          sb.from('bai_nop')
+            .select('id,hoc_sinh_id,bai_tap_ma,lan_thu,trang_thai,'
+                  + 'cham_may(ket_luan,luc_cham),cham_nguoi(ket_luan,diem,luc_duyet)')
+            .in('hoc_sinh_id', ids),
+          sb.from('tn_lam').select('hoc_sinh_id,duong_dan_bai,lan_thu,so_dung,so_cau,chi_tiet_json')
+            .in('hoc_sinh_id', ids),
+          sb.from('bai_tap').select('ma,duong_dan_bai,thu_tu')
+            .like('duong_dan_bai', 'lop-' + (lop.khoi || 0) + '/%').order('thu_tu')
+        ]);
+      })
+      .then(function (r) {
+        if (!r) { o.innerHTML = '<p class="trong">Lớp này chưa có học sinh nào.</p>'; return; }
+        baiNop = r[0].data || [];
+        tnLam = r[1].data || [];
+        baiTap = r[2].data || [];
+        dungBang(o, lop, dsHs, baiNop, tnLam, baiTap);
+      });
+  }
+
+  function dungBang(o, lop, dsHs, baiNop, tnLam, baiTap) {
+    // Lượt mới nhất của từng (em, câu). Ba lượt của một câu là MỘT ô, không phải ba.
+    var luot = {};
+    baiNop.forEach(function (b) {
+      var k = b.hoc_sinh_id + '|' + b.bai_tap_ma;
+      if (!luot[k] || b.lan_thu > luot[k].lan_thu) luot[k] = b;
+    });
+
+    // Lượt trắc nghiệm mới nhất của từng (em, bài).
+    var tn = {};
+    tnLam.forEach(function (t) {
+      var k = t.hoc_sinh_id + '|' + t.duong_dan_bai;
+      if (!tn[k] || t.lan_thu > tn[k].lan_thu) tn[k] = t;
+    });
+    // Lượt ĐẦU của cả lớp, để đếm câu trắc nghiệm nhiều em sai: lượt đầu là lúc
+    // chưa ai biết đáp án nên nó mới nói đúng về việc hiểu bài.
+    var tnDau = {};
+    tnLam.forEach(function (t) {
+      var k = t.hoc_sinh_id + '|' + t.duong_dan_bai;
+      if (!tnDau[k] || t.lan_thu < tnDau[k].lan_thu) tnDau[k] = t;
+    });
+
+    var cauCuaBai = {};
+    baiTap.forEach(function (bt) {
+      if (!laCauNop(bt.ma)) return;
+      (cauCuaBai[bt.duong_dan_bai] = cauCuaBai[bt.duong_dan_bai] || []).push(bt);
+    });
+
+    var cacBai = mucLuc.filter(function (m) { return m.khoi === lop.khoi; });
+    if (!cacBai.length) {
+      cacBai = Object.keys(cauCuaBai).sort().map(function (d) {
+        return { duong_dan: d, ten: d, ten_chuong: '', chuong: '', thu_tu: 0 };
+      });
+    }
+    var demTen = {};
+    cacBai.forEach(function (m) {
+      var k = m.chuong + '|' + m.ten;
+      demTen[k] = (demTen[k] || 0) + 1;
+    });
+
+    var html = '', chuongDangVe = null, coGi = false;
+
+    cacBai.forEach(function (m) {
+      var d = m.duong_dan;
+      var cac = cauCuaBai[d] || [];
+
+      var emNop = {}, dung = 0, sai = 0, cho = 0, diem = [], saiTheoCau = {};
+      cac.forEach(function (bt) {
+        dsHs.forEach(function (h) {
+          var bn = luot[h.id + '|' + bt.ma];
+          if (!bn) return;
+          emNop[h.id] = true;
+          var kl = ketLuanCuoi(bn);
+          var n = kl.nguoi;
+          if (n && n.diem != null) diem.push(Number(n.diem));
+          if (bn.trang_thai === 'dang_cham' || bn.trang_thai === 'loi_cham') { cho++; return; }
+          if (kl.ket_luan === 'dung') { dung++; if (!kl.daDuyet) cho++; return; }
+          if (kl.ket_luan) {
+            sai++;
+            saiTheoCau[bt.ma] = (saiTheoCau[bt.ma] || 0) + 1;
+          } else { cho++; }
+        });
+      });
+
+      var emTn = 0, tnDung = 0, tnTong = 0, saiTn = {};
+      dsHs.forEach(function (h) {
+        var t = tn[h.id + '|' + d];
+        if (t) { emTn++; tnDung += t.so_dung; tnTong += t.so_cau; }
+        var t1 = tnDau[h.id + '|' + d];
+        if (t1) {
+          (t1.chi_tiet_json || []).forEach(function (c) {
+            if (c && c.dung === false && c.ma_cau) {
+              saiTn[c.ma_cau] = (saiTn[c.ma_cau] || 0) + 1;
+            }
+          });
+        }
+      });
+
+      coGi = true;
+      if (m.ten_chuong && m.ten_chuong !== chuongDangVe) {
+        chuongDangVe = m.ten_chuong;
+        html += '<div class="tb-nhom">' + thoatChu(m.ten_chuong) + '</div>';
+      }
+
+      var soEmNop = Object.keys(emNop).length;
+      if (!soEmNop && !emTn) {
+        // Bài cả lớp chưa đụng tới: vẫn liệt kê để thầy cô thấy chỗ trống, nhưng
+        // gọn một dòng và không bung ra được — bung ra cũng chỉ toàn ô trống.
+        html += '<div class="tb-hang"><button class="tb-dinh" type="button" disabled'
+          + ' style="cursor:default;opacity:.6"><div><div class="tb-ten">'
+          + thoatChu(m.ten) + tenPhu(m, demTen) + '</div>'
+          + '<div class="tb-phu">Cả lớp chưa bắt đầu bài này</div></div>'
+          + '<div class="tb-phai"></div></button></div>';
+        return;
+      }
+
+      // Câu nhiều em sai nhất — chỗ đáng dạy lại.
+      var luuY = [];
+      var maSaiNhat = Object.keys(saiTheoCau).sort(function (a, b) {
+        return saiTheoCau[b] - saiTheoCau[a];
+      })[0];
+      if (maSaiNhat && saiTheoCau[maSaiNhat] >= 2) {
+        luuY.push('tự luận câu ' + soCau(maSaiNhat) + ' — ' + saiTheoCau[maSaiNhat] + ' em sai');
+      }
+      var tnSaiNhat = Object.keys(saiTn).sort(function (a, b) { return saiTn[b] - saiTn[a]; })[0];
+      if (tnSaiNhat && saiTn[tnSaiNhat] >= 2) {
+        luuY.push('trắc nghiệm câu ' + soCau(tnSaiNhat) + ' — ' + saiTn[tnSaiNhat] + ' em sai');
+      }
+
+      var mo = !!theoBaiMo[d];
+      html += '<div class="tb-hang' + (mo ? ' mo' : '') + '" data-bai="' + thoatChu(d) + '">'
+        + '<button class="tb-dinh" type="button" aria-expanded="' + mo + '">'
+        +   '<div><div class="tb-ten">' + thoatChu(m.ten) + tenPhu(m, demTen) + '</div>'
+        +     '<div class="tb-phu">'
+        +       '<span><b>' + soEmNop + '/' + dsHs.length + '</b> em nộp</span>'
+        +       (dung ? '<span style="color:var(--green)">' + dung + ' đúng</span>' : '')
+        +       (sai ? '<span style="color:var(--red)">' + sai + ' chưa đúng</span>' : '')
+        +       (cho ? '<span style="color:var(--orange)">' + cho + ' chờ duyệt</span>' : '')
+        +       (luuY.length ? '<span class="tb-luu-y">' + thoatChu(luuY.join(' · ')) + '</span>' : '')
+        +     '</div></div>'
+        +   '<div class="tb-phai">'
+        +     (emTn ? '<span>TN ' + emTn + ' em · TB ' + so1(tnDung / emTn) + '/'
+                    + Math.round(tnTong / emTn) + '</span>' : '')
+        +     (diem.length ? '<span class="tb-diem">' + so1(diem.reduce(function (a, b) {
+                    return a + b; }, 0) / diem.length) + '</span>' : '')
+        +     '<span class="tb-mui">›</span>'
+        +   '</div>'
+        + '</button>'
+        + (mo ? '<div class="tb-than">' + veBangEm(d, cac, dsHs, luot, tn) + '</div>' : '')
         + '</div>';
+    });
 
-      h += '<h4>Bài tự luận</h4>';
-      if (!bai.length) h += '<p class="trong">Chưa nộp bài nào.</p>';
-      else h += bai.map(function (b) {
-        var may = (b.cham_may || [])[0], nguoi = (b.cham_nguoi || [])[0];
-        return '<div class="ct-hang">'
-          + '<div><b>' + thoatChu(b.bai_tap_ma) + '</b> · lượt ' + b.lan_thu
-          + ' · ' + ngayGio(b.luc_nop) + '</div>'
-          + '<div class="ct-nho">Máy: ' + (may ? thoatChu(may.ket_luan)
-              + ' (tin cậy ' + Math.round((may.do_tin_cay || 0) * 100) + '%)' : 'chưa chấm')
-          + ' · Thầy cô: ' + (nguoi ? thoatChu(nguoi.ket_luan)
-              + (nguoi.diem != null ? ' · <b>' + Number(nguoi.diem).toFixed(1) + ' điểm</b>' : '')
-              : 'chưa duyệt') + '</div>'
-          + (may && may.ket_qua_json && may.ket_qua_json.ban_chep
-              ? '<details><summary>Máy đọc được</summary><p class="ct-chep">'
-                + thoatChu(may.ket_qua_json.ban_chep) + '</p></details>' : '')
-          + (nguoi && nguoi.nhan_xet ? '<div class="ct-nho">Nhận xét: '
-                + thoatChu(nguoi.nhan_xet) + '</div>' : '')
-          + '<div class="ct-nho">' + (b.luc_hoc_sinh_doc
-              ? 'Em đã đọc lúc ' + ngayGio(b.luc_hoc_sinh_doc)
-              : 'Em chưa mở xem nhận xét') + '</div>'
-          + '</div>';
-      }).join('');
+    o.innerHTML = coGi ? html : '<p class="trong">Khối này chưa có bài nào trên web.</p>';
 
-      h += '<h4>Trắc nghiệm</h4>';
-      if (!tn.length) h += '<p class="trong">Chưa làm bài trắc nghiệm nào.</p>';
-      else h += tn.map(function (t) {
-        var sai = (t.chi_tiet_json || []).filter(function (c) { return !c.dung; });
-        return '<div class="ct-hang"><div><b>' + t.so_dung + '/' + t.so_cau + '</b> · '
-          + thoatChu(t.duong_dan_bai) + ' · ' + ngayGio(t.luc_lam) + '</div>'
-          + (sai.length ? '<div class="ct-nho">Sai ở: ' + sai.map(function (c) {
-              return thoatChu(String(c.ma_cau).split('#').pop()) + ' (chọn ' + thoatChu(c.da_chon) + ')';
-            }).join(', ') + '</div>' : '')
-          + '</div>';
-      }).join('');
-
-      $('ct-noi').innerHTML = h;
+    o.querySelectorAll('.tb-dinh:not([disabled])').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var d = b.parentNode.dataset.bai;
+        theoBaiMo[d] = !theoBaiMo[d];
+        dungBang(o, lop, dsHs, baiNop, tnLam, baiTap);
+      });
+    });
+    o.querySelectorAll('[data-hs]').forEach(function (b) {
+      b.addEventListener('click', function (e) {
+        e.stopPropagation();
+        moHoSo(b.dataset.hs);
+      });
     });
   }
 
-  function ngayGio(t) {
-    if (!t) return '';
-    var d = new Date(t);
-    return d.getDate() + '/' + (d.getMonth() + 1) + ' '
-      + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+  /* "Luyện tập chung" có hai bài trong cùng một chương — chỉ những bài trùng tên
+     mới cần số thứ tự, gắn số vào tất cả thì cả cột đầy ngoặc đơn vô ích. */
+  function tenPhu(m, demTen) {
+    return demTen[m.chuong + '|' + m.ten] > 1 && m.thu_tu
+      ? ' <span style="font-weight:400;color:var(--muted)">(bài thứ ' + m.thu_tu
+        + ' của chương)</span>'
+      : '';
   }
 
-  /* Theo dõi thời gian thực. RLS ở 002 vẫn được áp cho từng người nghe, nên
-     thầy cô chỉ nhận được thay đổi của học sinh lớp mình. Bảng phải nằm trong
-     publication supabase_realtime — migration 005 thêm rồi. */
-  function ngheMotHocSinh(id) {
-    if (keNghe) sb.removeChannel(keNghe);
-    var loc = 'hoc_sinh_id=eq.' + id;
-    keNghe = sb.channel('hs-' + id)
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'bai_nop', filter: loc }, napChiTiet)
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'tn_lam', filter: loc }, napChiTiet)
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'sao', filter: loc }, napChiTiet)
-      /* cham_may và cham_nguoi không có cột hoc_sinh_id nên không lọc được ở
-         server. Nghe hết rồi nạp lại — mỗi lượt chấm xong là một sự kiện, không
-         phải dòng chảy liên tục, nên không đáng lo về số lần gọi. */
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'cham_may' }, napChiTiet)
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'cham_nguoi' }, napChiTiet)
-      .subscribe();
+  function veBangEm(duongDan, cac, dsHs, luot, tn) {
+    if (!cac.length && !dsHs.length) return '<p class="trong">Không có gì để hiện.</p>';
+
+    var h = '<div class="cuon"><table><thead><tr><th>Học sinh</th>';
+    cac.forEach(function (bt) { h += '<th>C' + thoatChu(soCau(bt.ma)) + '</th>'; });
+    h += '<th>TN đúng</th><th>Điểm</th></tr></thead><tbody>';
+
+    dsHs.forEach(function (hsx) {
+      h += '<tr><td><button class="ten-hs" data-hs="' + hsx.id + '">'
+        + thoatChu(hsx.ten_hien_thi || hsx.ma) + '</button></td>';
+      var diem = [];
+      cac.forEach(function (bt) {
+        var bn = luot[hsx.id + '|' + bt.ma];
+        var t = trangThaiChip(bn);
+        if (bn) {
+          var n = moiNhat(bn.cham_nguoi, 'luc_duyet');
+          if (n && n.diem != null) diem.push(Number(n.diem));
+        }
+        h += '<td><span class="chip ' + t.lop + '" title="' + thoatChu(t.noi) + '">'
+          + t.chu + '</span></td>';
+      });
+      var t2 = tn[hsx.id + '|' + duongDan];
+      h += '<td>' + (t2 ? t2.so_dung + '/' + t2.so_cau : '–') + '</td>';
+      h += '<td>' + (diem.length ? so1(diem.reduce(function (a, b) { return a + b; }, 0)
+        / diem.length) : '–') + '</td></tr>';
+    });
+
+    return h + '</tbody></table></div>';
+  }
+
+  /* ------------------------------------------------------------ hồ sơ một em
+   *
+   * Ma trận (mục 8.4) trả lời "cả lớp hổng chỗ nào". Câu còn lại — "em này đang
+   * đi tới đâu" — nay có hẳn một trang riêng: hoc-sinh-chi-tiet.html.
+   *
+   * Trước đây đó là một hộp bật lên ngay tại đây. Chuyển thành trang vì nội
+   * dung đã dài hơn một hộp chứa nổi, vì địa chỉ trang lưu lại và mở tab mới
+   * được (thầy cô hay so hai em cạnh nhau), và vì nút Back của trình duyệt phải
+   * chạy đúng. Trang ấy cũng có nút chuyển sang em kế tiếp nên không phải quay
+   * về đây giữa chừng.
+   */
+  function moHoSo(hocSinhId) {
+    location.href = '/lop-hoc/hoc-sinh-chi-tiet.html?hs=' + encodeURIComponent(hocSinhId);
   }
 
   /* ------------------------------------------------------------ khoá API */
