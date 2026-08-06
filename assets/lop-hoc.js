@@ -234,7 +234,12 @@
   }
 
   function taiLen(maBaiTap, blob) {
-    var ten = toi.id + '/' + maBaiTap.replace(/\//g, '_') + '-' + Date.now() + '.jpg';
+    /* Mã bài có dấu # (…/bai-13#bt7). Để nguyên trong đường dẫn Storage thì
+     * trình duyệt cắt phần sau # thành fragment: mọi câu trong cùng bài đụng
+     * chung một tên và ảnh đầu tiên cũng không tải lại được. Chỉ giữ bộ ký tự
+     * an toàn cho một đoạn đường dẫn; dấu / và # đều chuyển thành _. */
+    var maAnToan = maBaiTap.replace(/[^A-Za-z0-9._-]+/g, '_');
+    var ten = toi.id + '/' + maAnToan + '-' + Date.now() + '.jpg';
     return sb.storage.from('bai-lam').upload(ten, blob, { contentType: 'image/jpeg' })
       .then(function (r) {
         if (r.error) throw new Error('Gửi ảnh không được, em thử lại nhé.');
@@ -542,7 +547,13 @@
     sb = lib.createClient(CH.URL, CH.ANON_KEY);
     API.sb = function () { return sb; };
     // Bắt cả lúc đăng nhập, lúc thoát, và lúc token tự gia hạn
-    sb.auth.onAuthStateChange(function (_su, s) { ghiCookiePhien(s); });
+    sb.auth.onAuthStateChange(function (_su, s) {
+      /* Supabase tự gia hạn access token. Nếu chỉ cập nhật cookie mà giữ biến
+       * phien cũ, Storage dùng token mới nhưng Edge Function lại nhận token đã
+       * hết hạn và hiểu nhầm học sinh thành khách. */
+      phien = s;
+      ghiCookiePhien(s);
+    });
     return sb.auth.getSession();
   }).then(function (r) {
     ghiCookiePhien(r && r.data ? r.data.session : null);
