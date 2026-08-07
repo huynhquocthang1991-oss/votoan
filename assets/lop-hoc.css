@@ -82,6 +82,7 @@
 
 /* Kết quả đúng — câu em chờ đọc, cho nó đứng trước và đứng riêng. */
 .lh-dung{font-weight:700;color:var(--green);font-size:1.02rem}
+.lh-diem b{font-size:1.2em;color:var(--green)}
 /* Đếm dấu ✓. Xanh chứ KHÔNG đỏ, kể cả khi bài chưa xong: "8/9 dòng đúng" là một
  * lời ghi nhận, không phải một lời trách. Chỗ sai đã khoanh trên ảnh rồi. */
 .lh-tick{margin-top:10px !important;padding:9px 12px;border-radius:10px;font-size:.88rem;

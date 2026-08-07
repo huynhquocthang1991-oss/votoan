@@ -262,23 +262,10 @@
       });
   }
 
-  /* Học sinh xem nhận xét NGAY, có nhãn chờ duyệt (mục 9). */
-  function doiKetQua(baiNopId, kq, bao) {
-    var lan = 0;
-    return new Promise(function (ok) {
-      (function hoi() {
-        sb.from('bai_nop').select('trang_thai').eq('id', baiNopId).single()
-          .then(function (r) {
-            if (r.data && r.data.trang_thai !== 'dang_cham') {
-              bao.textContent = '';
-              return veNhanXet(baiNopId, kq).then(ok);
-            }
-            if (++lan > 40) { bao.textContent = 'Chấm hơi lâu, em quay lại sau nhé.'; return ok(); }
-            setTimeout(hoi, 1500);
-          });
-      })();
-    });
-  }
+  /* doiKetQua ĐÃ BỎ (008). Nó ngồi hỏi lại mỗi 1,5 giây xem AI chấm xong chưa —
+     việc ấy chỉ có nghĩa hồi máy tự chấm ngay lúc em nộp. Nay máy chỉ chạy khi
+     thầy cô bấm nút, nên vòng hỏi ấy chờ một chuyện có thể vài ngày nữa mới tới,
+     và chờ xong thì cũng chưa được xem gì. Em nộp xong là biết "đã nộp", hết. */
 
   /* Một dòng đếm tick, thay cho cả danh sách lỗi trước đây.
    *
@@ -296,80 +283,96 @@
            ' dòng</b> — chỗ cần xem lại đã khoanh trên ảnh.</p>';
   }
 
+  /* Nhận xét cho học sinh — VIẾT LẠI Ở 008.
+   *
+   * Luật mới, một câu: KHÔNG có gì tới tay em trước khi thầy cô bấm trả bài.
+   * Trước 008 hàm này hiện thẳng nhận xét của AI kèm nhãn "chờ thầy cô xem lại",
+   * và chính vì thế mới phải có nhánh đính chính rắc rối ở mục 9.3 — em đã đọc
+   * một kết luận, thầy cô đổi nó, phải hiện cả hai bản kèm mốc thời gian. Nay em
+   * chỉ đọc MỘT lần, sau khi thầy cô đã chốt, nên cả cái nhánh ấy không còn lý do
+   * tồn tại. Bớt được một nhánh là bớt được một chỗ sai. */
   function veNhanXet(baiNopId, kq) {
     return Promise.all([
-      sb.from('bai_nop').select('trang_thai,luc_hoc_sinh_doc,lan_thu').eq('id', baiNopId).single(),
+      sb.from('bai_nop').select('trang_thai,luc_hoc_sinh_doc').eq('id', baiNopId).single(),
       sb.from('cham_may').select('ket_qua_json,luc_cham').eq('bai_nop_id', baiNopId)
         .order('luc_cham', { ascending: false }).limit(1),
-      sb.from('cham_nguoi').select('ket_luan,nhan_xet,luc_duyet').eq('bai_nop_id', baiNopId)
+      sb.from('cham_nguoi').select('ket_luan,nhan_xet,diem,luc_duyet').eq('bai_nop_id', baiNopId)
         .order('luc_duyet', { ascending: false }).limit(1)
     ]).then(function (r) {
       var bn = r[0].data, may = (r[1].data || [])[0], nguoi = (r[2].data || [])[0];
       if (!bn) return;
 
-      var html = '';
-      var daDoc = !!bn.luc_hoc_sinh_doc;
+      var daTra = bn.trang_thai === 'da_duyet' || bn.trang_thai === 'da_sua';
 
-      if (nguoi && bn.trang_thai === 'da_sua' && daDoc) {
-        /* Đính chính điều học sinh ĐÃ ĐỌC. Tuyệt đối không ghi đè lặng lẽ —
-         * mục 9.3. Hiện cả hai bản, có mốc thời gian. */
-        html += '<details class="lh-cu"><summary>AI chấm · ' + gio(may && may.luc_cham) +
-                '</summary><p>' + thoat(may ? may.ket_qua_json.nhan_xet_cho_hoc_sinh : '') + '</p></details>';
-        html += '<div class="lh-nx lh-sua"><span class="lh-huy">GIÁO VIÊN ĐÃ CHẤM · ' +
-                gio(nguoi.luc_duyet) + '</span><p>' + thoat(nguoi.nhan_xet || '') + '</p></div>';
-      } else if (nguoi) {
-        html += '<div class="lh-nx lh-duyet"><span class="lh-huy">GIÁO VIÊN ĐÃ CHẤM</span><p>' +
-                thoat(nguoi.nhan_xet || (may ? may.ket_qua_json.nhan_xet_cho_hoc_sinh : '')) + '</p></div>';
-      } else if (bn.trang_thai === 'loi_cham') {
-        /* AI chấm không chạy được (migration 004). Không nói "máy hỏng" — với em
-         * thì thông tin dùng được duy nhất là bài đã tới tay thầy cô và không cần
-         * nộp lại. Bài đang nằm trong hàng đợi duyệt nên chắc chắn có người xem. */
-        html += '<div class="lh-nx lh-may"><span class="lh-huy">Đã gửi tới thầy/cô</span>' +
-                '<p>Bài của em thầy/cô sẽ xem và nhận xét trực tiếp nhé. ' +
-                'Em không phải nộp lại đâu.</p></div>';
-      } else if (may) {
+      /* Chưa trả thì chỉ nói một câu: bài đã tới nơi. Không hé lộ máy đã chấm
+         hay chưa — với em thì đó không phải thông tin dùng được, mà lại làm em
+         tưởng có cái gì đó sắp hiện ra. */
+      if (!daTra) {
+        kq.innerHTML = '<div class="lh-nx lh-may"><span class="lh-huy">Đã nộp</span>' +
+                       '<p>Thầy/cô sẽ chấm và trả lại cho em nhé.</p></div>';
+        return;
+      }
+
+      var html = '';
+
+      /* Lời thầy cô lên đầu — đó là kết luận cuối cùng. */
+      if (nguoi) {
+        html += '<div class="lh-nx lh-duyet"><span class="lh-huy">THẦY/CÔ ĐÃ CHẤM</span>' +
+                (nguoi.ket_luan === 'dung'
+                  ? '<p class="lh-dung">✓ Bài của em đúng.</p>' : '') +
+                (nguoi.diem != null
+                  ? '<p class="lh-diem">Điểm: <b>' + thoat(String(nguoi.diem)) + '</b></p>' : '') +
+                (nguoi.nhan_xet ? '<p>' + thoat(nguoi.nhan_xet) + '</p>' : '') +
+                '</div>';
+      }
+
+      /* Phần AI đi sau, và chỉ khi máy có chấm thật. Thầy cô chấm tay không qua
+         máy thì khối này không có gì để vẽ — đúng, và không phải lỗi. */
+      if (may && may.ket_qua_json) {
         var k = may.ket_qua_json;
-        html += '<div class="lh-nx lh-may"><span class="lh-huy">AI chấm · chờ thầy cô xem lại</span>' +
-                (k.ket_luan === 'dung'
-                  ? '<p class="lh-dung">✓ Kết quả của em đúng rồi.</p>' : '') +
+        html += '<div class="lh-nx lh-may"><span class="lh-huy">AI xem bài của em</span>' +
                 '<p>' + thoat(k.nhan_xet_cho_hoc_sinh || '') + '</p>' +
                 tomTatDong(k) +
                 (k.goi_y ? '<p class="lh-goiy"><b>Gợi ý.</b> ' + thoat(k.goi_y) + '</p>' : '') +
                 '</div>';
-        if (bn.lan_thu >= 3 && k.ket_luan !== 'dung') {
-          /* Hết 3 lượt mà vẫn sai — mục 10.1. Không để em đứng trước ô xám. */
-          html += '<p class="lh-het-luot">Câu này khó với em thật rồi. ' +
-                  'Thầy/cô sẽ xem giúp em nhé.</p>';
-        }
       }
+
       kq.innerHTML = html;
       if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([kq]);
 
-      if (!daDoc) {
+      /* Đánh dấu đã đọc CHỈ khi thật sự có cái để đọc. Ghi mốc lúc em còn đang
+         chờ thì cột luc_hoc_sinh_doc nói dối, mà nó là căn cứ để biết em đã xem
+         nhận xét hay chưa. */
+      if (!bn.luc_hoc_sinh_doc) {
         sb.from('bai_nop').update({ luc_hoc_sinh_doc: new Date().toISOString() })
           .eq('id', baiNopId).then(function () {});
       }
     });
   }
 
+  /* MỘT LƯỢT NỘP (008). Trước đây chỗ này đếm "Lượt 2/3"; nay chỉ có nộp hay
+     chưa nộp, nên nhãn nói trạng thái bài chứ không nói con số. */
   function capNhatLuot(ma, hop) {
-    sb.from('bai_nop').select('id,lan_thu').eq('bai_tap_ma', ma)
-      .eq('hoc_sinh_id', toi.id).order('lan_thu', { ascending: false })
+    sb.from('bai_nop').select('id,trang_thai').eq('bai_tap_ma', ma)
+      .eq('hoc_sinh_id', toi.id).limit(1)
       .then(function (r) {
-        var ds = r.data || [];
+        var bn = (r.data || [])[0];
         var o = hop.querySelector('.lh-luot');
-        o.textContent = ds.length ? 'Lượt ' + ds.length + '/3' : '';
-        if (ds.length) veNhanXet(ds[0].id, hop.querySelector('.lh-kq'));
+        if (!bn) { o.textContent = ''; return; }
 
-        /* Hết lượt thì khoá luôn nút "Làm bài" ở card này. Nút do bộ sinh
+        var daTra = bn.trang_thai === 'da_duyet' || bn.trang_thai === 'da_sua';
+        o.textContent = daTra ? 'Đã chấm' : 'Đã nộp · chờ thầy cô chấm';
+        veNhanXet(bn.id, hop.querySelector('.lh-kq'));
+
+        /* Nộp rồi thì khoá nút "Làm bài" ở card này. Nút do bộ sinh
            tach_ban_hoc_sinh.py đặt sẵn trong HTML, không phải do đây vẽ ra —
-           để em bấm sang nop.html rồi mới biết mình hết lượt là thừa một cú
-           bấm và một lần hụt hẫng. */
+           để em bấm sang nop.html rồi mới biết mình đã nộp là thừa một cú bấm
+           và một lần hụt hẫng. */
         var nut = hop.parentElement && hop.parentElement.querySelector('.hs-nop .hs-nut');
-        if (ds.length >= 3 && nut) {
+        if (nut) {
           nut.classList.add('lh-khoa');
-          nut.textContent = 'Đã dùng hết 3 lượt';
-          nut.removeAttribute('href');
+          nut.textContent = daTra ? 'Đã chấm — xem nhận xét' : 'Đã nộp bài';
+          if (!daTra) nut.removeAttribute('href');
         }
       });
   }
@@ -530,7 +533,8 @@
           return taiLen(ma, blob);
         });
       },
-      theoDoi: function (baiNopId, oKq, oBao) { return doiKetQua(baiNopId, oKq, oBao); },
+      /* theoDoi đã bỏ ở 008 cùng với doiKetQua — không còn vòng chờ AI nào để
+         theo dõi. Không trang nào gọi nó. */
       daNop: function (ma) {
         return sb.from('bai_nop')
           .select('id,lan_thu,trang_thai,luc_nop')

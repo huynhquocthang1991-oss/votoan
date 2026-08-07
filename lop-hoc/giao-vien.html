@@ -12,6 +12,13 @@ try {
   }
 } catch (e) {}
 </script>
+<!-- MathJax: bản chép bài làm của học sinh có công thức viết bằng LaTeX (cham-bai
+     yêu cầu model bọc trong \( \)). Không có dòng này thì thầy cô đọc phải
+     "\(\dfrac{3}{4}\)" thay vì thấy phân số. -->
+<script>
+MathJax = { tex: { inlineMath: [['\\(','\\)']] }, chtml: { scale: 1.02 } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&display=swap" rel="stylesheet">
@@ -231,6 +238,31 @@ try {
   .chip.sai{background:var(--red-l);color:var(--red);border-color:var(--red)}
   .chip.cho{background:var(--orange-l);color:var(--orange);border-color:var(--orange)}
   .chip.trong{background:var(--surface-2);color:var(--muted);border:1.5px dotted var(--line)}
+  .chip.chua{background:var(--surface-2);color:var(--blue);border:1.5px solid var(--blue)}
+
+  /* Ô nào bấm được để chấm thì phải TRÔNG như bấm được. Ô "chưa nộp" thì không. */
+  button.chip{cursor:pointer;font:inherit;font-size:.8rem;font-weight:700;padding:0}
+  button.chip:hover{transform:scale(1.15)}
+  button.chip:disabled{cursor:default;transform:none}
+
+  /* ---- thanh chấm bằng AI, đứng đầu mỗi bài học khi bung ra ---- */
+  .khay-cham{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0 10px;
+    padding:12px 14px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line)}
+  .khay-cham .nut{min-height:42px;font-size:.85rem;padding:0 16px}
+  .khay-cham .ghi{color:var(--muted);font-size:.86rem;flex:1;min-width:180px}
+  .khay-cham .ghi b{color:var(--ink)}
+  .cham-chay{color:var(--blue);font-weight:600;font-size:.86rem}
+  .cham-loi{color:var(--red);font-weight:600;font-size:.86rem}
+
+  /* Nút chấm riêng của một em, nằm ngay cạnh tên trong bảng. */
+  .nut-em{min-height:30px;padding:0 9px;font:inherit;font-size:.74rem;font-weight:700;
+    border-radius:7px;border:1.5px solid var(--blue);background:transparent;color:var(--blue);
+    cursor:pointer;margin-left:6px}
+  .nut-em:disabled{opacity:.4;cursor:default}
+
+  /* Bản chép có công thức MathJax — đừng để nó tràn ngang ra khỏi cột. */
+  .chep{overflow-x:auto}
+  .chep mjx-container{display:inline-block !important;margin:0 1px !important}
   .day-chip{display:flex;gap:4px;flex-wrap:wrap}
 
   .huy{display:inline-block;padding:3px 9px;border-radius:99px;font-size:.7rem;font-weight:700;
@@ -361,8 +393,10 @@ try {
   <section class="khung" data-k="duyet">
     <div class="the">
       <h2>Bài chờ duyệt</h2>
-      <p class="mo-ta"><b>Bài AI chấm “đúng” mà chưa chắc nằm trên đầu</b> — em đã đọc
-        rồi, AI nhầm thì không ai biết.</p>
+      <p class="mo-ta"><b>Không bài nào tới tay học sinh trước khi thầy cô bấm trả.</b>
+        Bài AI chấm “đúng” mà chưa chắc nằm trên đầu; bài chưa chấm nằm cuối —
+        thầy cô chấm tay ngay tại đây, hoặc bấm AI chấm trước ở tab
+        <b>Kết quả theo bài</b>.</p>
       <div id="ds-duyet"><p class="trong">Đang tải…</p></div>
     </div>
   </section>
@@ -955,6 +989,7 @@ try {
         ds.forEach(function (b) { (nhom[b.bai_tap_ma] = nhom[b.bai_tap_ma] || []).push(b); });
 
         o.innerHTML = '';
+        o.appendChild(khayDuyetLoat(ds));
         Object.keys(nhom).forEach(function (ma) {
           var kh = document.createElement('div');
           kh.className = 'nhom-cau';
@@ -966,7 +1001,73 @@ try {
           nhom[ma].forEach(function (b) { kh.appendChild(veBai(b)); });
           o.appendChild(kh);
         });
+        dungCongThuc(o);
       });
+  }
+
+  /* Công thức trong bản chép là LaTeX, phải bảo MathJax dựng lại sau mỗi lần
+     thay nội dung. Thẻ <script> nạp bằng async nên lúc trang vừa mở MathJax có
+     thể chưa có — không có phép thử này thì lần vẽ đầu tiên văng lỗi và cả hàng
+     đợi không hiện ra. Lần vẽ sau MathJax đã sẵn, chữ tự thành công thức. */
+  function dungCongThuc(o) {
+    if (window.MathJax && MathJax.typesetPromise) {
+      MathJax.typesetPromise([o]).catch(function () {});
+    }
+  }
+
+  /* Duyệt hàng loạt theo đúng kết luận của AI.
+   *
+   * Không có nút này thì "chấm cả lớp bằng AI" chỉ giải quyết được nửa việc:
+   * máy chấm 40 bài trong ba phút rồi thầy cô ngồi bấm 40 lần. Nhưng nó CHỈ
+   * nhận những bài máy đã chấm và có kết luận rõ ràng — bài máy chưa chấm,
+   * máy hỏng, hoặc máy nói "không đọc được" thì phải tự tay xem, và những bài
+   * AI nói ĐÚNG mà độ tin cậy thấp (ưu tiên 1) cũng bị loại ra: đó đúng là loại
+   * bài mà duyệt hàng loạt gây hại nhất — em đọc thấy "đúng" mà thật ra sai. */
+  function khayDuyetLoat(ds) {
+    var duoc = ds.filter(function (b) {
+      return b.trang_thai === 'may_cham' && b.uu_tien !== 1
+        && ['dung', 'sai', 'thieu_buoc'].indexOf(b.may_ket_luan) >= 0;
+    });
+    var k = document.createElement('div');
+    k.className = 'khay-cham';
+    k.innerHTML = '<span class="ghi">'
+      + (duoc.length
+          ? 'Có <b>' + duoc.length + '</b> bài AI đã chấm rõ ràng. Duyệt hàng loạt để '
+            + 'trả về cho các em, rồi quay lại xem kỹ những bài còn lại.'
+          : 'Không có bài nào đủ rõ để duyệt hàng loạt — những bài dưới đây đều '
+            + 'cần thầy cô tự xem.')
+      + '</span>'
+      + '<button class="nut" type="button"' + (duoc.length ? '' : ' disabled')
+      + '>Duyệt ' + duoc.length + ' bài theo AI</button>'
+      + '<span class="ghi-loat"></span>';
+
+    var oGhi = k.querySelector('.ghi-loat');
+    k.querySelector('button').addEventListener('click', function () {
+      if (!confirm('Trả ' + duoc.length + ' bài về cho các em theo đúng kết luận của AI?\n\n'
+        + 'Em sẽ đọc được nhận xét ngay. Việc này không lùi lại được.')) return;
+      k.querySelector('button').disabled = true;
+
+      var xong = 0, hong = 0;
+      // Tuần tự: duyet_bai còn cắm sao và ghi cham_nguoi, thả song song hàng chục
+      // lệnh ghi vào cùng mấy bảng ấy chỉ đổi lấy vài giây mà thêm chỗ để hỏng.
+      duoc.reduce(function (chuoi, b) {
+        return chuoi.then(function () {
+          return duyetBai(b.bai_nop_id, b.may_ket_luan, null, null)
+            .then(function (r) { if (r.error) hong++; else xong++; })
+            .catch(function () { hong++; })
+            .then(function () {
+              oGhi.className = 'ghi-loat cham-chay';
+              oGhi.textContent = 'Đã trả ' + xong + '/' + duoc.length + '…';
+            });
+        });
+      }, Promise.resolve()).then(function () {
+        oGhi.className = 'ghi-loat ' + (hong ? 'cham-loi' : 'cham-chay');
+        oGhi.textContent = hong ? ('Trả được ' + xong + ', ' + hong + ' bài lỗi.')
+                                : ('Đã trả ' + xong + ' bài cho các em.');
+        napHangDoi();
+      });
+    });
+    return k;
   }
 
   /* Câu hay phải gõ đi gõ lại. Bấm một cái là nối vào ô nhận xét rồi sửa tiếp —
@@ -1017,19 +1118,35 @@ try {
     d.className = 'bai';
     /* AI không chấm được thì bài vẫn phải vào đây (migration 004) — nói thẳng là
      * AI hỏng, đừng để thầy cô tưởng đây là một kết luận của AI. */
-    var mayHong = b.trang_thai !== 'may_cham';
-    var nhan = mayHong ? '<span class="huy u1">AI chưa chấm được — cần chấm tay</span>'
+    /* Ba tình cảnh khác hẳn nhau, đừng gộp (008):
+       - cho_cham: chưa ai chấm. Thầy cô đọc thẳng ảnh mà chấm, hoặc sang tab
+         "Kết quả theo bài" bấm AI chấm trước.
+       - loi_cham: máy đã thử và hỏng.
+       - may_cham: máy có kết quả, thầy cô soát lại. */
+    var chuaCham = b.trang_thai === 'cho_cham';
+    var mayHong = b.trang_thai === 'loi_cham';
+    var nhan = chuaCham ? '<span class="huy u3">chưa chấm — thầy cô chấm tay, hoặc bấm AI ở tab “Kết quả theo bài”</span>'
+             : mayHong ? '<span class="huy u1">AI chưa chấm được — cần chấm tay</span>'
              : b.uu_tien === 1 ? '<span class="huy u1">AI chấm đúng nhưng chưa chắc</span>'
              : b.uu_tien === 2 ? '<span class="huy u2">cần xem gấp</span>'
              : '<span class="huy u3">AI chấm sai</span>';
     d.innerHTML =
       '<img alt="Bài làm của ' + thoatChu(b.ten_hien_thi || b.ma_hoc_sinh) + '" data-anh="' + thoatChu(b.anh_url) + '">' +
       '<div><div class="ten">' + thoatChu(b.ten_hien_thi || b.ma_hoc_sinh) +
-      ' · lượt ' + b.lan_thu + '/3 ' + nhan + (b.qua_han ? ' <span class="huy u2">quá hạn</span>' : '') + '</div>' +
+      ' · ' + thoatChu(nhanCua(b.bai_tap_ma)) + ' ' + nhan +
+      (b.qua_han ? ' <span class="huy u2">quá hạn</span>' : '') + '</div>' +
       demTick(kq) +
-      '<p class="chep">' + thoatChu(mayHong
+      /* Bản chép vẫn đi qua thoatChu, và MathJax vẫn dựng được công thức trong
+         đó. thoatChu chỉ đổi < > & thành thực thể HTML; dấu \ và { } — thứ
+         LaTeX cần — không bị đụng tới. Mà MathJax đọc textContent, tức là bản
+         trình duyệt đã giải mã ngược, nên cả `&` trong \begin{cases} cũng về
+         đúng nguyên dạng. Chặn được thẻ HTML do model sinh ra mà không mất chữ
+         nào của công thức. */
+      '<p class="chep">' + (chuaCham
+        ? 'Em đã nộp, chưa ai chấm. Thầy cô xem ảnh rồi chấm luôn ở đây.'
+        : mayHong
         ? 'Em đã nộp nhưng AI chấm không chạy được, nên em chưa nhận được nhận xét nào.'
-        : (kq.ban_chep || '(AI không chép được bài làm)')) + '</p></div>' +
+        : thoatChu(kq.ban_chep) || '(AI không chép được bài làm)') + '</p></div>' +
       '<div class="nut-cot">' +
         '<label class="o-diem">Điểm<input type="number" min="0" max="10" step="0.5" ' +
           'inputmode="decimal" placeholder="–" aria-label="Điểm cho bài này"></label>' +
@@ -1263,8 +1380,13 @@ try {
 
   function trangThaiChip(bn) {
     if (!bn) return { lop: 'trong', chu: '○', noi: 'chưa nộp' };
+    /* cho_cham là trạng thái mới của 008: em nộp rồi, chưa ai chấm. Nó phải
+       TRÔNG KHÁC hẳn "đang chấm" — một cái là việc đang chạy, một cái là việc
+       đang chờ thầy cô bấm nút. Lẫn hai thứ này là thầy cô ngồi đợi một việc
+       không bao giờ tự xảy ra. */
+    if (bn.trang_thai === 'cho_cham') return { lop: 'chua', chu: '•', noi: 'đã nộp — chưa chấm, bấm để chấm' };
     if (bn.trang_thai === 'dang_cham') return { lop: 'cho', chu: '⋯', noi: 'đang chấm' };
-    if (bn.trang_thai === 'loi_cham') return { lop: 'cho', chu: '⋯', noi: 'AI chưa chấm được' };
+    if (bn.trang_thai === 'loi_cham') return { lop: 'cho', chu: '⋯', noi: 'AI chưa chấm được — bấm để chấm lại' };
     var kl = ketLuanCuoi(bn);
     if (kl.ket_luan === 'dung') {
       return kl.daDuyet ? { lop: 'dung', chu: '✓', noi: 'đúng, đã xác nhận' }
@@ -1455,6 +1577,42 @@ try {
         moHoSo(b.dataset.hs);
       });
     });
+
+    /* Ba nút chấm. Chỗ ghi tiến độ tìm theo đường dẫn bài học, vì một lúc có thể
+       bung nhiều bài học và mỗi bài có khay riêng. */
+    function oGhiCua(d) { return o.querySelector('[data-ghi="' + d + '"]'); }
+
+    o.querySelectorAll('[data-cham-lop]').forEach(function (b) {
+      b.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var d = b.dataset.chamLop, ids = [];
+        (cauCuaBai[d] || []).forEach(function (bt) {
+          dsHs.forEach(function (hsx) {
+            var bn = luot[hsx.id + '|' + bt.ma];
+            if (canCham(bn)) ids.push(bn.id);
+          });
+        });
+        if (!ids.length) return;
+        if (!confirm('Chấm ' + ids.length + ' bài của cả lớp bằng AI?\n\n'
+          + 'Tiền chấm tính vào khoá API của thầy cô. Đừng đóng trang giữa chừng.')) return;
+        chamMe(ids, oGhiCua(d));
+      });
+    });
+
+    o.querySelectorAll('[data-cham-hs]').forEach(function (b) {
+      b.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var ids = (b.dataset.ids || '').split(',').filter(Boolean);
+        if (ids.length) chamMe(ids, oGhiCua(b.dataset.chamHs));
+      });
+    });
+
+    o.querySelectorAll('[data-cham-1]').forEach(function (b) {
+      b.addEventListener('click', function (e) {
+        e.stopPropagation();
+        chamMe([b.dataset.cham1], oGhiCua(b.dataset.bai));
+      });
+    });
   }
 
   /* "Luyện tập chung" có hai bài trong cùng một chương — chỉ những bài trùng tên
@@ -1466,18 +1624,127 @@ try {
       : '';
   }
 
+  /* ------------------------------------------------------------ chấm bằng AI
+   *
+   * Từ migration 008 máy CHỈ chấm khi thầy cô bảo chấm. Ba nút, một cỗ máy bên
+   * dưới: chấm một bài lẻ (bấm thẳng vào ô), chấm cả bài học của một em, chấm cả
+   * lớp cho một bài học.
+   *
+   * VÒNG LẶP NẰM Ở TRÌNH DUYỆT, cố ý không gom vào một lệnh gọi edge function.
+   * Một lớp 40 em nhân 8 câu là 320 lượt gọi model — không edge function nào
+   * chạy hết chừng ấy trong hạn thời gian của nó, và nếu gom thì hỏng ở bài thứ
+   * 200 là mất trắng cả mẻ mà không ai biết đã chấm tới đâu. Chấm từng bài ở đây
+   * thì thầy cô nhìn thấy tiến độ, và một bài hỏng chỉ là một bài hỏng.
+   */
+
+  /* Ba bài một lúc. Chấm tuần tự thì cả lớp mất gần một tiếng; thả hết một lúc
+     thì đụng trần số lượt/phút của khoá API và hỏng hàng loạt vì lý do chẳng
+     liên quan gì tới bài làm. Ba là chỗ đứng được cho cả khoá miễn phí. */
+  var CHAM_SONG_SONG = 3;
+  var dangCham = false;
+
+  /* Bài đáng đưa cho máy: em đã nộp mà chưa ai chấm, hoặc máy đã thử và hỏng.
+     Bài máy chấm rồi (may_cham) KHÔNG nằm trong mẻ hàng loạt — muốn chấm lại thì
+     bấm thẳng vào ô, đó là việc có chủ ý chứ không phải việc quét cả lượt. */
+  function canCham(bn) {
+    return !!bn && (bn.trang_thai === 'cho_cham' || bn.trang_thai === 'loi_cham');
+  }
+
+  function canhRoiTrang(e) { e.preventDefault(); e.returnValue = ''; }
+
+  function chamMe(dsId, oGhi) {
+    if (dangCham || !dsId.length) return;
+    dangCham = true;
+    window.addEventListener('beforeunload', canhRoiTrang);
+    document.querySelectorAll('.khay-cham .nut, .nut-em, button.chip')
+      .forEach(function (n) { n.disabled = true; });
+
+    var tong = dsId.length, xong = 0, hong = 0, i = 0;
+
+    function ve() {
+      oGhi.className = 'cham-chay';
+      oGhi.textContent = 'Đang chấm ' + xong + '/' + tong + '…'
+        + (hong ? ' (' + hong + ' bài chưa chấm được)' : '');
+    }
+    ve();
+
+    function keTiep() {
+      if (i >= tong) return Promise.resolve();
+      return goi('cham-bai', { bai_nop_id: dsId[i++] })
+        .catch(function () { hong++; })
+        .then(function () { xong++; ve(); return keTiep(); });
+    }
+
+    var chay = [];
+    for (var k = 0; k < Math.min(CHAM_SONG_SONG, tong); k++) chay.push(keTiep());
+
+    Promise.all(chay).then(function () {
+      dangCham = false;
+      window.removeEventListener('beforeunload', canhRoiTrang);
+      oGhi.className = hong ? 'cham-loi' : 'cham-chay';
+      oGhi.textContent = hong
+        ? 'Xong ' + (tong - hong) + '/' + tong + '. ' + hong + ' bài máy không đọc '
+          + 'được — chúng nằm ở tab “Bài chờ duyệt” để thầy cô chấm tay.'
+        : 'Đã chấm xong ' + tong + ' bài. Sang tab “Bài chờ duyệt” để đọc và trả bài.';
+      napHangDoi();
+      // Nạp lại bảng để ô đổi màu. Đặt sau cùng vì nó vẽ lại cả khối, kể cả dòng
+      // chữ vừa viết ở trên — nên giữ lại lời nhắn bằng biến ngoài.
+      nhanCham[oGhi.dataset.ghi] = { chu: oGhi.textContent, lop: oGhi.className };
+      if (lopDangXem) veTheoBai(lopDangXem);
+    });
+  }
+
+  /* Lời nhắn sau khi chấm xong, giữ qua một lần vẽ lại bảng. Không có nó thì
+     thầy cô bấm chấm, chờ, rồi bảng nhấp nháy một cái và mọi dấu vết biến mất —
+     không biết vừa chấm được bao nhiêu bài. */
+  var nhanCham = {};
+
   function veBangEm(duongDan, cac, dsHs, luot, tn) {
     if (!cac.length && !dsHs.length) return '<p class="trong">Không có gì để hiện.</p>';
 
-    var h = '<div class="cuon"><table><thead><tr><th>Học sinh</th>';
+    // Đếm trước để nút nói được con số, chứ không bắt thầy cô bấm rồi mới biết.
+    var canLop = [];
+    dsHs.forEach(function (hsx) {
+      cac.forEach(function (bt) {
+        var bn = luot[hsx.id + '|' + bt.ma];
+        if (canCham(bn)) canLop.push(bn.id);
+      });
+    });
+
+    var nh = nhanCham[duongDan] || { chu: '', lop: '' };
+    var h = '<div class="khay-cham">'
+      + '<span class="ghi">Máy chỉ chấm khi thầy cô bảo chấm. '
+      + (canLop.length ? '<b>' + canLop.length + '</b> bài đang chờ chấm.'
+                       : 'Không còn bài nào chờ chấm.')
+      + '</span>'
+      + '<button class="nut" type="button" data-cham-lop="' + thoatChu(duongDan) + '"'
+      +   (canLop.length ? '' : ' disabled') + '>Chấm cả lớp bằng AI</button>'
+      + '<span class="' + thoatChu(nh.lop) + '" data-ghi="' + thoatChu(duongDan) + '">'
+      +   thoatChu(nh.chu) + '</span>'
+      + '</div>';
+
+    h += '<div class="cuon"><table><thead><tr><th>Học sinh</th>';
     cac.forEach(function (bt) {
       h += '<th title="' + thoatChu(bt.ma) + '">' + thoatChu(nhanCua(bt.ma)) + '</th>';
     });
     h += '<th>TN đúng</th><th>Điểm</th></tr></thead><tbody>';
 
     dsHs.forEach(function (hsx) {
+      var canEm = [];
+      cac.forEach(function (bt) {
+        var b = luot[hsx.id + '|' + bt.ma];
+        if (canCham(b)) canEm.push(b.id);
+      });
+
       h += '<tr><td><button class="ten-hs" data-hs="' + hsx.id + '">'
-        + thoatChu(hsx.ten_hien_thi || hsx.ma) + '</button></td>';
+        + thoatChu(hsx.ten_hien_thi || hsx.ma) + '</button>'
+        + (canEm.length
+            ? '<button class="nut-em" type="button" data-cham-hs="' + thoatChu(duongDan)
+              + '" data-ids="' + canEm.join(',') + '" title="Chấm ' + canEm.length
+              + ' bài chưa chấm của em này">AI ' + canEm.length + '</button>'
+            : '')
+        + '</td>';
+
       var diem = [];
       cac.forEach(function (bt) {
         var bn = luot[hsx.id + '|' + bt.ma];
@@ -1486,8 +1753,17 @@ try {
           var n = moiNhat(bn.cham_nguoi, 'luc_duyet');
           if (n && n.diem != null) diem.push(Number(n.diem));
         }
-        h += '<td><span class="chip ' + t.lop + '" title="' + thoatChu(t.noi) + '">'
-          + t.chu + '</span></td>';
+        /* Ô nào có bài nộp thì bấm được để chấm lẻ — kể cả bài máy đã chấm rồi
+           (chấm lại) và bài đã trả cho em thì KHÔNG (server chặn ở 409, nhưng
+           chặn luôn ở đây để nút không mời gọi một việc chắc chắn hỏng). */
+        var bamDuoc = bn && bn.trang_thai !== 'da_duyet' && bn.trang_thai !== 'da_sua'
+                         && bn.trang_thai !== 'dang_cham';
+        h += '<td>' + (bamDuoc
+          ? '<button class="chip ' + t.lop + '" type="button" data-cham-1="' + bn.id
+            + '" data-bai="' + thoatChu(duongDan) + '" title="' + thoatChu(t.noi) + '">'
+            + t.chu + '</button>'
+          : '<span class="chip ' + t.lop + '" title="' + thoatChu(t.noi) + '">'
+            + t.chu + '</span>') + '</td>';
       });
       var t2 = tn[hsx.id + '|' + duongDan];
       h += '<td>' + (t2 ? t2.so_dung + '/' + t2.so_cau : '–') + '</td>';

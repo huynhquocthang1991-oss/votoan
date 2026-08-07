@@ -175,10 +175,14 @@ try {
       <div><b id="s-bai">0</b>bài tập đã nộp</div>
       <div><b id="s-tn">0</b>câu trắc nghiệm đúng</div>
     </div>
+    <!-- Từ 008 không còn sao "tạm tính": bài tự luận chỉ được sao khi thầy cô
+         trả bài và kết luận là đúng (hàm duyet_bai), trắc nghiệm thì chấm xong
+         là có ngay. Nói về sao nét đứt nữa là nói về một thứ em sẽ không bao giờ
+         nhìn thấy. -->
     <p class="nho" id="giai-thich-sao">Mỗi câu tự luận đúng em được <b>2 sao</b>, mỗi câu
-      trắc nghiệm đúng <b>1 sao</b>. Sao viền nét đứt là <b>tạm tính</b>, chờ thầy cô xem lại.
-      Sao đặc là <b>chính thức</b>. Giáo viên chấm lại thì sao tạm tính không thành sao đặc,
-      nhưng <b>sao đã có thì không bao giờ bị lấy đi</b>.</p>
+      trắc nghiệm đúng <b>1 sao</b>. Sao của bài tự luận tính khi <b>thầy cô chấm và
+      trả bài</b>; trắc nghiệm thì có ngay khi em làm xong. Và
+      <b>sao đã có thì không bao giờ bị lấy đi</b>.</p>
   </div>
 
   <div class="the" id="hop-bai" hidden>
@@ -326,15 +330,19 @@ try {
      "kém" — em đọc trang này một mình, không có ai ngồi cạnh giải thích. */
   function trangThaiChip(bn) {
     if (!bn) return { lop: 'trong', chu: '○', noi: 'em chưa nộp câu này' };
-    if (bn.trang_thai === 'dang_cham') return { lop: 'cho', chu: '⋯', noi: 'AI đang chấm' };
-    if (bn.trang_thai === 'loi_cham') {
-      return { lop: 'cho', chu: '⋯', noi: 'thầy cô sẽ xem giúp em' };
+
+    /* CHƯA TRẢ BÀI THÌ EM KHÔNG THẤY KẾT QUẢ (008). Trước bản này, bài AI vừa
+       chấm xong hiện luôn dấu ✓ nét đứt "chờ thầy cô xem lại" — tức là em đã
+       biết kết quả trước khi có người đọc, và nếu thầy cô chấm khác thì cái ô ấy
+       đổi sau lưng em. Nay mọi bài chưa trả đều là một ô "đã nộp" như nhau, dù
+       máy đã chấm hay chưa: đó là sự thật duy nhất em cần biết lúc này. */
+    if (bn.trang_thai !== 'da_duyet' && bn.trang_thai !== 'da_sua') {
+      return { lop: 'cho', chu: '•', noi: 'em đã nộp — thầy cô sẽ chấm và trả lại' };
     }
+
     var kl = ketLuanCuoi(bn);
     if (kl.ket_luan === 'dung') {
-      return kl.daDuyet
-        ? { lop: 'dung', chu: '✓', noi: 'đúng — thầy cô đã xác nhận' }
-        : { lop: 'tam', chu: '✓', noi: 'AI chấm đúng, chờ thầy cô xem lại' };
+      return { lop: 'dung', chu: '✓', noi: 'đúng — thầy cô đã xác nhận' };
     }
     /* Thiếu bước và sai GIỐNG NHAU về sao — cả hai đều chưa có sao, em nộp lại
        ra đúng thì lấy đủ 2. Nhưng KHÁC nhau ở đây, chỗ em nhìn: bỏ dở giữa chừng
@@ -356,13 +364,13 @@ try {
     return d ? ' (' + d.dung + '/' + d.tong + ' dòng đúng)' : '';
   }
 
+  /* Ba trạng thái trước khi trả bài (cho_cham, dang_cham, may_cham, loi_cham)
+     nói với em CÙNG MỘT CÂU. Phân biệt chúng ở đây là kể cho em nghe chuyện nội
+     bộ của máy, mà em thì không làm gì được với thông tin ấy — xem 008. */
   function nhanTrangThai(bn) {
-    if (bn.trang_thai === 'dang_cham') return '<span class="nhan cham">Đang chấm</span>';
-    if (bn.trang_thai === 'loi_cham') return '<span class="nhan cham">Thầy cô sẽ xem</span>';
-    if (bn.trang_thai === 'may_cham') return '<span class="nhan may">AI chấm · chờ thầy cô</span>';
-    if (bn.trang_thai === 'da_duyet') return '<span class="nhan duyet">Thầy cô đã xác nhận</span>';
-    if (bn.trang_thai === 'da_sua') return '<span class="nhan sua">GIÁO VIÊN ĐÃ CHẤM</span>';
-    return '';
+    if (bn.trang_thai === 'da_duyet') return '<span class="nhan duyet">Thầy cô đã chấm</span>';
+    if (bn.trang_thai === 'da_sua') return '<span class="nhan sua">Thầy cô đã chấm</span>';
+    return '<span class="nhan cham">Đã nộp · chờ thầy cô chấm</span>';
   }
 
   /* ── số liệu ───────────────────────────────────────────────────── */
@@ -497,8 +505,7 @@ try {
         return '<div class="cau">'
           + '<div class="tren"><span class="so">Câu ' + thoat(nhanCua(bt.ma)) + '</span>'
           +   nhanTrangThai(bn) + (chuaDoc ? '<span class="moi" title="Có tin mới"></span>' : '')
-          +   '<span class="nho" style="margin:0">lượt ' + bn.lan_thu + '/3 · '
-          +     thoat(ngay(bn.luc_nop)) + '</span>'
+          +   '<span class="nho" style="margin:0">nộp ' + thoat(ngay(bn.luc_nop)) + '</span>'
           +   (nguoi && nguoi.diem != null
                 ? '<span class="diem" style="margin-left:auto">' + so1(nguoi.diem) + '</span>'
                 : '')
