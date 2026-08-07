@@ -7,7 +7,7 @@
    "chuong": "chuong-01",
    "ten_chuong": "Chương I. Số hữu tỉ",
    "thu_tu": 1,
-   "so_bai_tap": 6,
+   "so_bai_tap": 11,
    "so_cau_tn": 17,
    "co_ban_hoc_sinh": true
   },
@@ -18,7 +18,7 @@
    "chuong": "chuong-01",
    "ten_chuong": "Chương I. Số hữu tỉ",
    "thu_tu": 2,
-   "so_bai_tap": 5,
+   "so_bai_tap": 11,
    "so_cau_tn": 17,
    "co_ban_hoc_sinh": true
   },
@@ -40,7 +40,7 @@
    "chuong": "chuong-01",
    "ten_chuong": "Chương I. Số hữu tỉ",
    "thu_tu": 4,
-   "so_bai_tap": 8,
+   "so_bai_tap": 15,
    "so_cau_tn": 17,
    "co_ban_hoc_sinh": true
   },
@@ -51,7 +51,7 @@
    "chuong": "chuong-01",
    "ten_chuong": "Chương I. Số hữu tỉ",
    "thu_tu": 5,
-   "so_bai_tap": 5,
+   "so_bai_tap": 8,
    "so_cau_tn": 17,
    "co_ban_hoc_sinh": true
   },
@@ -73,7 +73,7 @@
    "chuong": "chuong-01",
    "ten_chuong": "Chương I. Số hữu tỉ",
    "thu_tu": 7,
-   "so_bai_tap": 4,
+   "so_bai_tap": 5,
    "so_cau_tn": 18,
    "co_ban_hoc_sinh": true
   },
@@ -84,7 +84,7 @@
    "chuong": "chuong-01",
    "ten_chuong": "Chương I. Đa thức",
    "thu_tu": 1,
-   "so_bai_tap": 7,
+   "so_bai_tap": 15,
    "so_cau_tn": 20,
    "co_ban_hoc_sinh": true
   },
@@ -95,7 +95,7 @@
    "chuong": "chuong-01",
    "ten_chuong": "Chương I. Đa thức",
    "thu_tu": 2,
-   "so_bai_tap": 6,
+   "so_bai_tap": 12,
    "so_cau_tn": 20,
    "co_ban_hoc_sinh": true
   },
@@ -106,7 +106,7 @@
    "chuong": "chuong-01",
    "ten_chuong": "Chương I. Đa thức",
    "thu_tu": 3,
-   "so_bai_tap": 4,
+   "so_bai_tap": 7,
    "so_cau_tn": 18,
    "co_ban_hoc_sinh": true
   },
@@ -128,7 +128,7 @@
    "chuong": "chuong-01",
    "ten_chuong": "Chương I. Đa thức",
    "thu_tu": 5,
-   "so_bai_tap": 6,
+   "so_bai_tap": 11,
    "so_cau_tn": 20,
    "co_ban_hoc_sinh": true
   },
@@ -139,7 +139,7 @@
    "chuong": "chuong-01",
    "ten_chuong": "Chương I. Đa thức",
    "thu_tu": 6,
-   "so_bai_tap": 3,
+   "so_bai_tap": 7,
    "so_cau_tn": 18,
    "co_ban_hoc_sinh": true
   },
@@ -172,7 +172,7 @@
    "chuong": "chuong-02",
    "ten_chuong": "Chương II. Hằng đẳng thức đáng nhớ và ứng dụng",
    "thu_tu": 1,
-   "so_bai_tap": 6,
+   "so_bai_tap": 12,
    "so_cau_tn": 20,
    "co_ban_hoc_sinh": true
   },
@@ -183,7 +183,7 @@
    "chuong": "chuong-02",
    "ten_chuong": "Chương II. Hằng đẳng thức đáng nhớ và ứng dụng",
    "thu_tu": 2,
-   "so_bai_tap": 5,
+   "so_bai_tap": 10,
    "so_cau_tn": 18,
    "co_ban_hoc_sinh": true
   },
@@ -194,7 +194,7 @@
    "chuong": "chuong-02",
    "ten_chuong": "Chương II. Hằng đẳng thức đáng nhớ và ứng dụng",
    "thu_tu": 3,
-   "so_bai_tap": 4,
+   "so_bai_tap": 7,
    "so_cau_tn": 18,
    "co_ban_hoc_sinh": true
   },
@@ -216,7 +216,7 @@
    "chuong": "chuong-02",
    "ten_chuong": "Chương II. Hằng đẳng thức đáng nhớ và ứng dụng",
    "thu_tu": 5,
-   "so_bai_tap": 4,
+   "so_bai_tap": 10,
    "so_cau_tn": 20,
    "co_ban_hoc_sinh": true
   },
@@ -249,7 +249,7 @@
    "chuong": "chuong-01",
    "ten_chuong": "Chương I. Phương trình và hệ hai phương trình bậc nhất hai ẩn",
    "thu_tu": 1,
-   "so_bai_tap": 5,
+   "so_bai_tap": 11,
    "so_cau_tn": 18,
    "co_ban_hoc_sinh": true
   },
@@ -260,7 +260,7 @@
    "chuong": "chuong-01",
    "ten_chuong": "Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số",
    "thu_tu": 1,
-   "so_bai_tap": 8,
+   "so_bai_tap": 15,
    "so_cau_tn": 16,
    "co_ban_hoc_sinh": true
   },
@@ -271,7 +271,7 @@
    "chuong": "chuong-01",
    "ten_chuong": "Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số",
    "thu_tu": 2,
-   "so_bai_tap": 6,
+   "so_bai_tap": 10,
    "so_cau_tn": 16,
    "co_ban_hoc_sinh": true
   },
@@ -282,7 +282,7 @@
    "chuong": "chuong-01",
    "ten_chuong": "Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số",
    "thu_tu": 3,
-   "so_bai_tap": 5,
+   "so_bai_tap": 10,
    "so_cau_tn": 16,
    "co_ban_hoc_sinh": true
   },
@@ -293,7 +293,7 @@
    "chuong": "chuong-01",
    "ten_chuong": "Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số",
    "thu_tu": 4,
-   "so_bai_tap": 5,
+   "so_bai_tap": 8,
    "so_cau_tn": 16,
    "co_ban_hoc_sinh": true
   },
@@ -304,7 +304,7 @@
    "chuong": "chuong-01",
    "ten_chuong": "Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số",
    "thu_tu": 5,
-   "so_bai_tap": 4,
+   "so_bai_tap": 8,
    "so_cau_tn": 16,
    "co_ban_hoc_sinh": true
   },

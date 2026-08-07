@@ -175,14 +175,23 @@ try {
     background:var(--blue-l);border:0;border-radius:99px;cursor:pointer}
   .nx-mau button:hover{filter:brightness(.96)}
 
-  /* Chú thích của máy vẽ đè lên ảnh bài làm — dải ngang, không đóng khung ôm
+  /* Bài chấm của AI vẽ đè lên ảnh bài làm — dải ngang, không đóng khung ôm
      sát chữ (model định vị chữ viết tay chỉ chính xác cỡ vài phần trăm). */
   .khung-anh{position:relative;width:96px;flex:0 0 auto}
+  .dem-tick{margin:6px 0 0;font-size:.82rem;font-weight:600;color:var(--green)}
   .lop-chu-thich{position:absolute;inset:0;pointer-events:none}
   .lop-chu-thich i{position:absolute;left:0;right:0;border-radius:3px}
-  .lop-chu-thich i.sai{background:color-mix(in srgb,var(--danger) 26%,transparent);outline:1.5px solid var(--danger)}
-  .lop-chu-thich i.thieu{background:color-mix(in srgb,var(--warn) 26%,transparent);outline:1.5px solid var(--warn)}
-  .lop-chu-thich i.tot{background:color-mix(in srgb,var(--success) 22%,transparent);outline:1.5px solid var(--success)}
+  /* Dòng ĐÚNG: một dấu ✓ ở lề phải, không tô nền — chín phần mười số dòng rơi vào
+     đây, tô nền cả chín dòng thì ảnh thành một mảng màu và thầy cô không đọc nổi
+     bài làm nữa. Nét ✓ vẽ bằng hai cạnh của một ô vuông xoay 45°, không dùng ký
+     tự "✓" của font: font hệ thống mỗi máy vẽ một kiểu. */
+  .lop-chu-thich i.dung{left:auto;right:.5%;width:1.1em;display:flex;align-items:center}
+  .lop-chu-thich i.dung::before{content:"";width:.42em;height:.78em;margin:0 auto;
+    border:2px solid var(--danger);border-top:0;border-left:0;transform:rotate(40deg)}
+  .lop-chu-thich i.sai{background:color-mix(in srgb,var(--danger) 26%,transparent);
+    outline:1.5px solid var(--danger);right:1.6em}
+  .lop-chu-thich i.chua_chat{background:color-mix(in srgb,var(--warn) 26%,transparent);
+    outline:1.5px solid var(--warn);right:1.6em}
 
   /* Bảng chi tiết một học sinh */
   .ten-hs{padding:6px 8px;min-height:36px;font:inherit;color:var(--blue);background:transparent;
@@ -322,10 +331,8 @@ try {
   <section class="khung hien" data-k="lop">
     <div class="the">
       <h2>Mở lớp mới</h2>
-      <p class="mo-ta">Máy sinh sẵn mã và mật khẩu cho từng em, hiện ra ngay trên màn
-        hình để thầy cô in một trang A4 rồi cắt thành từng mẩu phát cho học sinh.
-        <b>Mật khẩu chỉ hiện một lần</b>, nhưng bảng đó nằm chờ đến khi thầy cô tự
-        đóng — in xong hay ghi lại xong rồi hãy đóng.</p>
+      <p class="mo-ta">Mã và mật khẩu của cả lớp hiện ra ngay sau khi tạo, in một
+        trang A4 là cắt phát được. <b>Mật khẩu chỉ hiện một lần.</b></p>
       <form id="f-lop">
         <div class="hang">
           <label>Tên lớp<input id="l-ten" placeholder="8A" maxlength="10" required></label>
@@ -336,18 +343,16 @@ try {
           <label>Sĩ số<input id="l-so" type="number" min="1" max="60" value="32" required></label>
           <label>Năm học<input id="l-nam" value="2026-2027" required></label>
         </div>
-        <p class="goi-y">Tên lớp thành mã của học sinh (<b>8A</b> → <b>8A-07</b>) nên
-          chỉ dùng chữ không dấu và số, không dấu cách. Thiếu em thì thêm sau, thừa mã
-          thì xoá được — cứ điền sĩ số hiện có.</p>
-        <button class="nut" type="submit">Tạo lớp và sinh mã</button>
+        <p class="goi-y">Tên lớp thành mã của em (<b>8A</b> → <b>8A-07</b>): chữ không
+          dấu và số, không dấu cách. Sĩ số điền theo hiện có, thêm bớt sau được.</p>
+        <button class="nut" type="submit">Tạo lớp</button>
       </form>
       <p class="bao" id="bao-lop" role="status"></p>
     </div>
 
     <div class="the">
       <h2>Lớp của tôi</h2>
-      <p class="mo-ta">Mỗi lớp có nút <b>Dạy học</b> mở thẳng học liệu của khối đó —
-        chiếu lên bảng là dạy được luôn.</p>
+      <p class="mo-ta">Nút <b>Dạy học</b> mở thẳng học liệu của khối, chiếu lên bảng là dạy được.</p>
       <div class="ds-lop" id="ds-lop"><p class="trong">Đang tải…</p></div>
     </div>
   </section>
@@ -356,9 +361,8 @@ try {
   <section class="khung" data-k="duyet">
     <div class="the">
       <h2>Bài chờ duyệt</h2>
-      <p class="mo-ta">Xếp theo mức cần xem trước. <b>Bài máy chấm “đúng” mà chưa
-        chắc chắn nằm trên đầu</b> — học sinh đã đọc rồi, nếu máy nhầm thì em yên tâm
-        mang lỗi đi tiếp mà không ai biết. Bài máy chấm sai thì em sẽ tự kêu lên.</p>
+      <p class="mo-ta"><b>Bài AI chấm “đúng” mà chưa chắc nằm trên đầu</b> — em đã đọc
+        rồi, AI nhầm thì không ai biết.</p>
       <div id="ds-duyet"><p class="trong">Đang tải…</p></div>
     </div>
   </section>
@@ -367,9 +371,7 @@ try {
   <section class="khung" data-k="theobai">
     <div class="the">
       <h2>Kết quả theo bài</h2>
-      <p class="mo-ta">Một hàng là một <b>bài học</b>, gọi theo đúng tên trong sách.
-        Bấm vào một hàng để bung ra từng em: câu nào đúng, câu nào sai, trắc nghiệm
-        được mấy câu. Bấm tên em thì sang hồ sơ riêng của em đó.</p>
+      <p class="mo-ta">Bấm một hàng để bung ra từng em. Bấm tên em để sang hồ sơ riêng.</p>
       <label style="max-width:260px">Chọn lớp<select id="chon-lop-bai"></select></label>
       <div id="bang-theo-bai"><p class="trong">Chọn một lớp để xem.</p></div>
     </div>
@@ -384,16 +386,15 @@ try {
       <div class="cuon" id="ma-tran"><p class="trong">Chọn một lớp để xem.</p></div>
       <p class="chu-thich">
         <span style="color:var(--green);font-weight:700">✓</span> đúng, thầy cô đã xác nhận ·
-        <span style="color:var(--orange);font-weight:700">✓</span> đúng, máy chấm — chờ xác nhận ·
+        <span style="color:var(--orange);font-weight:700">✓</span> đúng, AI chấm — chờ xác nhận ·
         <span style="color:var(--red);font-weight:700">✗</span> sai ·
         <span style="color:var(--muted)">–</span> chưa nộp
       </p>
     </div>
     <div class="the">
       <h2>Top 5 chăm chỉ</h2>
-      <p class="mo-ta">Xếp theo <b>nỗ lực</b>: số lần sửa sai thành đúng, chuỗi ngày làm bài,
-        số câu đã làm. Không xếp theo số câu đúng — làm vậy thì em giỏi sẵn luôn đứng đầu
-        và em cuối bảng bỏ cuộc. Chỉ hiện 5 em, không hiện thứ hạng của những em còn lại.</p>
+      <p class="mo-ta">Xếp theo <b>nỗ lực</b> (sửa sai thành đúng, chuỗi ngày làm bài),
+        không theo số câu đúng. Chỉ hiện 5 em.</p>
       <div class="top5" id="top5"><p class="trong">Chọn một lớp ở trên.</p></div>
     </div>
   </section>
@@ -402,9 +403,8 @@ try {
   <section class="khung" data-k="caidat">
     <div class="the">
       <h2>Khoá API để chấm bài</h2>
-      <p class="mo-ta">Mỗi thầy cô dùng khoá của mình, nên tiền chấm bài tính vào tài khoản
-        của thầy cô. Khoá được mã hoá và giữ ở máy chủ, <b>không bao giờ tải về máy học sinh</b>.
-        Dán vào rồi thì không xem lại được, chỉ thay bằng khoá khác.</p>
+      <p class="mo-ta">Tiền chấm bài tính vào tài khoản của thầy cô. Khoá mã hoá ở máy chủ,
+        <b>không tải về máy học sinh</b>. Dán rồi thì không xem lại được, chỉ thay khoá khác.</p>
       <form id="f-khoa">
         <label>Khoá API<input id="k-khoa" type="password" placeholder="dán khoá vào đây" required></label>
         <button class="nut" type="submit">Lưu khoá</button>
@@ -426,11 +426,10 @@ try {
     <p class="mo-ta" id="phieu-mo-ta"></p>
     <div class="phieu-ds" id="phieu-ds"></div>
     <div class="phieu-viec">
-      <button class="nut" type="button" id="phieu-in">In trang A4 để cắt phát</button>
-      <button class="nut nhe" type="button" id="phieu-dong">Đã xong, đóng lại</button>
+      <button class="nut" type="button" id="phieu-in">In A4</button>
+      <button class="nut nhe" type="button" id="phieu-dong">Xong</button>
     </div>
-    <p class="phieu-canh">Đóng bảng này là mật khẩu mất hẳn — máy chủ chỉ giữ bản
-      băm, không ai đọc lại được. Em nào quên thì dùng nút <b>Đặt lại mật khẩu</b>.</p>
+    <p class="phieu-canh">Đóng là mật khẩu mất hẳn. Em nào quên thì <b>Đặt lại mật khẩu</b>.</p>
   </div>
 </div>
 
@@ -677,8 +676,8 @@ try {
       +       ' · <span class="si">…</span> học sinh</div></div>'
       +   '<div class="viec-lop">'
       +     '<span class="cho-day-hoc"></span>'
-      +     '<button class="nut nhe" data-viec="xem">Danh sách học sinh</button>'
-      +     '<button class="nut nhe" data-viec="them">Thêm học sinh</button>'
+      +     '<button class="nut nhe" data-viec="xem">Học sinh</button>'
+      +     '<button class="nut nhe" data-viec="them">Thêm em</button>'
       +   '</div>'
       + '</div>'
       /* Khay thêm em mở ra tại chỗ. Trước đây là confirm() rồi cứng nhắc thêm
@@ -687,15 +686,14 @@ try {
       +   '<label>Thêm mấy em?<input type="number" min="1" max="30" value="1"></label>'
       +   '<button class="nut" data-viec="cap-ma">Cấp mã</button>'
       +   '<button class="nut nhe" data-viec="thoi-them">Thôi</button>'
-      +   '<p>Mã cấp tiếp NGAY SAU số lớn nhất đang có, không lấp vào chỗ mã đã bỏ —'
-      +   ' mã cũ có thể đã gắn với bài em khác từng nộp.</p>'
+      +   '<p>Mã cấp tiếp ngay sau số lớn nhất đang có, không lấp chỗ mã đã bỏ.</p>'
       + '</div>'
       + '<div class="ds-hs" hidden></div>'
       + '<div class="lop-cuoi" hidden>'
       +   '<p class="ghi">' + (luuTru
-            ? 'Lớp này đã kết thúc. Dữ liệu vẫn còn nguyên, mở lại lúc nào cũng được.'
-            : 'Hết năm học thì <b>kết thúc lớp</b> — lớp thu vào mục riêng, bài và sao '
-              + 'của các em vẫn còn. <b>Xoá</b> chỉ được khi cả lớp chưa làm bài nào.')
+            ? 'Đã kết thúc. Dữ liệu còn nguyên, mở lại lúc nào cũng được.'
+            : '<b>Kết thúc lớp</b>: thu vào mục riêng, bài và sao vẫn còn. '
+              + '<b>Xoá</b> chỉ được khi cả lớp chưa làm bài nào.')
       +   '</p>'
       +   '<button class="nut nhe" data-viec="doi-luu-tru">'
       +     (luuTru ? 'Mở lại lớp' : 'Kết thúc lớp') + '</button>'
@@ -716,7 +714,7 @@ try {
     function moDanhSach() {
       khu.hidden = false;
       cuoi.hidden = false;
-      nutXem.textContent = 'Ẩn danh sách';
+      nutXem.textContent = 'Ẩn';
       napHocSinh(l, d);
     }
 
@@ -724,7 +722,7 @@ try {
       if (!khu.hidden) {
         khu.hidden = true;
         cuoi.hidden = true;
-        nutXem.textContent = 'Danh sách học sinh';
+        nutXem.textContent = 'Học sinh';
         return;
       }
       moDanhSach();
@@ -870,12 +868,12 @@ try {
     e.innerHTML = '<div class="ma">' + thoatChu(h.ma) + '</div>'
       + '<input placeholder="Minh A." maxlength="30">'
       + '<div class="viec">'
-      +   '<button class="nut nhe" data-v="mk">Đặt lại mật khẩu</button>'
+      +   '<button class="nut nhe" data-v="mk">Mật khẩu mới</button>'
       +   '<button class="nut nhe" data-v="tt">' + (tat ? 'Dùng lại' : 'Không dùng') + '</button>'
       /* Nút Xoá CHỈ hiện với em chưa có dữ liệu gì — mã sinh thừa. Em đã nộp bài
        * thì không có nút này, vì việc đúng với em đó là "Không dùng": mã ngừng
        * đăng nhập được mà bài cũ vẫn còn (mục 4.3). */
-      +   (chuaLamGi ? '<button class="nut do" data-v="xoa">Xoá mã</button>' : '')
+      +   (chuaLamGi ? '<button class="nut do" data-v="xoa">Xoá</button>' : '')
       + '</div>';
 
     // Gán bằng thuộc tính chứ không nhét vào chuỗi HTML: tên có dấu nháy là hỏng thẻ.
@@ -1005,24 +1003,33 @@ try {
     });
   }
 
+  /* "7/9 dòng đúng" — thầy cô liếc là biết bài này gãy nhiều hay ít, khỏi phóng
+     to ảnh ra đếm. Chỗ gãy nằm ngay trên ảnh bên cạnh. */
+  function demTick(kq) {
+    var d = window.LopHoc && LopHoc.demDong(kq);
+    if (!d) return '';
+    return '<p class="dem-tick">' + d.dung + '/' + d.tong + ' dòng đúng</p>';
+  }
+
   function veBai(b) {
     var kq = b.may_ket_qua || {};
     var d = document.createElement('div');
     d.className = 'bai';
-    /* Máy không chấm được thì bài vẫn phải vào đây (migration 004) — nói thẳng là
-     * máy hỏng, đừng để thầy cô tưởng đây là một kết luận của máy. */
+    /* AI không chấm được thì bài vẫn phải vào đây (migration 004) — nói thẳng là
+     * AI hỏng, đừng để thầy cô tưởng đây là một kết luận của AI. */
     var mayHong = b.trang_thai !== 'may_cham';
-    var nhan = mayHong ? '<span class="huy u1">máy chưa chấm được — cần chấm tay</span>'
-             : b.uu_tien === 1 ? '<span class="huy u1">máy chấm đúng nhưng chưa chắc</span>'
+    var nhan = mayHong ? '<span class="huy u1">AI chưa chấm được — cần chấm tay</span>'
+             : b.uu_tien === 1 ? '<span class="huy u1">AI chấm đúng nhưng chưa chắc</span>'
              : b.uu_tien === 2 ? '<span class="huy u2">cần xem gấp</span>'
-             : '<span class="huy u3">máy chấm sai</span>';
+             : '<span class="huy u3">AI chấm sai</span>';
     d.innerHTML =
       '<img alt="Bài làm của ' + thoatChu(b.ten_hien_thi || b.ma_hoc_sinh) + '" data-anh="' + thoatChu(b.anh_url) + '">' +
       '<div><div class="ten">' + thoatChu(b.ten_hien_thi || b.ma_hoc_sinh) +
       ' · lượt ' + b.lan_thu + '/3 ' + nhan + (b.qua_han ? ' <span class="huy u2">quá hạn</span>' : '') + '</div>' +
+      demTick(kq) +
       '<p class="chep">' + thoatChu(mayHong
-        ? 'Em đã nộp nhưng máy chấm không chạy được, nên em chưa nhận được nhận xét nào.'
-        : (kq.ban_chep || '(máy không chép được bài làm)')) + '</p></div>' +
+        ? 'Em đã nộp nhưng AI chấm không chạy được, nên em chưa nhận được nhận xét nào.'
+        : (kq.ban_chep || '(AI không chép được bài làm)')) + '</p></div>' +
       '<div class="nut-cot">' +
         '<label class="o-diem">Điểm<input type="number" min="0" max="10" step="0.5" ' +
           'inputmode="decimal" placeholder="–" aria-label="Điểm cho bài này"></label>' +
@@ -1031,21 +1038,21 @@ try {
         '<button class="nut nhe" data-kl="thieu_buoc">Thiếu bước</button>' +
       '</div>' +
       '<div class="o-nx">' +
-        '<textarea rows="2" placeholder="Nhận xét thêm cho em (không bắt buộc) — em sẽ đọc đúng câu này"' +
+        '<textarea rows="2" placeholder="Nhận xét thêm (em sẽ đọc)"' +
           ' aria-label="Nhận xét thêm cho ' + thoatChu(b.ten_hien_thi || b.ma_hoc_sinh) + '"></textarea>' +
         '<div class="nx-mau">' + CAU_MAU.map(function (c, i) {
           return '<button type="button" data-mau="' + i + '">' + thoatChu(c) + '</button>';
         }).join('') + '</div>' +
       '</div>';
 
-    /* Chú thích của máy vẽ đè lên ảnh bằng dải phần trăm, không dùng canvas:
-     * ảnh co giãn theo bề ngang cột thì dải tự co theo, khỏi vẽ lại. */
+    /* Bài chấm vẽ đè lên ảnh bằng dải phần trăm, không dùng canvas: ảnh co giãn
+     * theo bề ngang cột thì dấu tự co theo, khỏi vẽ lại. */
     var boc = d.querySelector('img').parentNode;
-    if (Array.isArray(kq.chu_thich) && kq.chu_thich.length) {
+    if (Array.isArray(kq.dong) && kq.dong.length) {
       var lop = document.createElement('div');
       lop.className = 'lop-chu-thich';
-      lop.innerHTML = kq.chu_thich.map(function (c) {
-        return '<i class="' + thoatChu(c.loai) + '" style="top:' + (c.tu * 100).toFixed(1)
+      lop.innerHTML = kq.dong.map(function (c) {
+        return '<i class="' + thoatChu(c.dau) + '" style="top:' + (c.tu * 100).toFixed(1)
           + '%;height:' + Math.max(1.5, (c.den - c.tu) * 100).toFixed(1) + '%" title="'
           + thoatChu(c.chu) + '"></i>';
       }).join('');
@@ -1257,11 +1264,11 @@ try {
   function trangThaiChip(bn) {
     if (!bn) return { lop: 'trong', chu: '○', noi: 'chưa nộp' };
     if (bn.trang_thai === 'dang_cham') return { lop: 'cho', chu: '⋯', noi: 'đang chấm' };
-    if (bn.trang_thai === 'loi_cham') return { lop: 'cho', chu: '⋯', noi: 'máy chưa chấm được' };
+    if (bn.trang_thai === 'loi_cham') return { lop: 'cho', chu: '⋯', noi: 'AI chưa chấm được' };
     var kl = ketLuanCuoi(bn);
     if (kl.ket_luan === 'dung') {
       return kl.daDuyet ? { lop: 'dung', chu: '✓', noi: 'đúng, đã xác nhận' }
-                        : { lop: 'tam', chu: '✓', noi: 'máy chấm đúng, chờ xác nhận' };
+                        : { lop: 'tam', chu: '✓', noi: 'AI chấm đúng, chờ xác nhận' };
     }
     if (kl.ket_luan) return { lop: 'sai', chu: '✗', noi: 'chưa đúng' };
     return { lop: 'cho', chu: '⋯', noi: 'chờ chấm' };

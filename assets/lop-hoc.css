@@ -52,7 +52,9 @@
 .lh-nut-chup{display:inline-flex;align-items:center;justify-content:center;
   min-height:48px;padding:0 22px;background:var(--blue);color:#fff;border-radius:12px;
   font-weight:600;cursor:pointer}
-.lh-nut-chup.lh-khoa{background:#e6ecf0;color:var(--muted);cursor:default}
+/* Hết 3 lượt. Dùng cho cả nút "Làm bài" (thẻ <a> do tach_ban_hoc_sinh.py sinh) —
+   nút xám không còn href thì bấm không đi đâu, đúng như ý. */
+.lh-nut-chup.lh-khoa,.hs-nut.lh-khoa{background:#e6ecf0;color:var(--muted);cursor:default}
 
 .lh-bao{margin:12px 0 0;font-size:.86rem;color:var(--muted);min-height:1.2em}
 .lh-bao.loi{color:var(--red)}
@@ -80,13 +82,10 @@
 
 /* Kết quả đúng — câu em chờ đọc, cho nó đứng trước và đứng riêng. */
 .lh-dung{font-weight:700;color:var(--green);font-size:1.02rem}
-/* Chỗ lập luận chưa chắc. Vàng chứ KHÔNG đỏ: bài vẫn được tính đúng, đây là lời
- * nhắc cho lần sau. Đỏ ở đây là vừa khen vừa gạch, em chỉ nhớ vế sau. */
-.lh-luuy{margin-top:11px;padding:10px 13px;border-radius:10px;font-size:.88rem;
-  background:rgba(255,255,255,.6);border-left:3px solid var(--orange)}
-.lh-luuy-dau{margin:0 0 5px !important;font-weight:600}
-.lh-luuy ul{margin:0;padding-left:19px}
-.lh-luuy li{margin:3px 0}
+/* Đếm dấu ✓. Xanh chứ KHÔNG đỏ, kể cả khi bài chưa xong: "8/9 dòng đúng" là một
+ * lời ghi nhận, không phải một lời trách. Chỗ sai đã khoanh trên ảnh rồi. */
+.lh-tick{margin-top:10px !important;padding:9px 12px;border-radius:10px;font-size:.88rem;
+  background:rgba(255,255,255,.6);border-left:3px solid var(--green)}
 
 /* Sao: rỗng = tạm tính, đặc = chính thức. Cùng ngôn ngữ viền đứt/viền liền. */
 .lh-sao{font-size:1.1rem;letter-spacing:2px}

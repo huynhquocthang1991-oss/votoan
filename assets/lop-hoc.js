@@ -115,22 +115,40 @@
 
   /* ------------------------------------------------------------ chú thích lên ảnh */
 
-  /* Vẽ nhận xét của máy đè lên chính ảnh bài làm.
+  /* Vẽ bài chấm đè lên chính ảnh bài làm — kiểu thầy chấm vở.
    *
    * CỐ Ý KHÔNG để model sinh ảnh mới: nó sẽ vẽ lại bài của học sinh thành một
    * bài khác, chữ Việt hỏng, và mỗi lần chạy ra một kiểu. Ở đây model chỉ trả
-   * TOẠ ĐỘ (mục "chu_thich" trong cham-bai), còn nét vẽ là của mình — chuẩn,
-   * lặp lại được, không tốn thêm đồng API nào.
+   * TOẠ ĐỘ (mảng "dong" trong cham-bai), còn nét vẽ là của mình — chuẩn, lặp
+   * lại được, không tốn thêm đồng API nào.
    *
-   * Vẽ DẢI NGANG chứ không đóng khung ôm sát chữ: model định vị chữ viết tay
-   * chỉ chính xác cỡ vài phần trăm chiều cao ảnh, khung ôm sát mà lệch là đóng
-   * vào dòng bên cạnh.
+   * DẤU ✓ TỪNG DÒNG là phần chính, không phải phần trang trí. Chín phần mười
+   * dấu trên trang phải là ✓. Em nhìn cột tick chạy xuống tới đâu thì biết mình
+   * đi đúng tới đó — đó là thứ nói với em nhiều hơn mọi lời nhận xét.
+   *
+   * Dấu ✓ nằm ở LỀ PHẢI chứ không đè lên chữ: nó chỉ cần chỉ đúng DÒNG, mà lề
+   * thì luôn trống. Chỗ sai thì khoanh cả dải ngang chứ không ôm sát chữ —
+   * model định vị chữ viết tay chỉ chính xác cỡ vài phần trăm chiều cao ảnh,
+   * khung ôm sát mà lệch là khoanh vào dòng bên cạnh.
    */
-  var MAU_CHU_THICH = {
-    sai:   { vien: '#c62828', nen: 'rgba(198,40,40,.14)',  chu: '#fff' },
-    thieu: { vien: '#d84f00', nen: 'rgba(216,79,0,.14)',   chu: '#fff' },
-    tot:   { vien: '#2e7d32', nen: 'rgba(46,125,50,.14)',  chu: '#fff' }
+  var MUC_DO = {
+    dung:      { muc: '#c62828' },
+    sai:       { muc: '#c62828', nen: 'rgba(198,40,40,.13)' },
+    chua_chat: { muc: '#d84f00', nen: 'rgba(216,79,0,.13)' }
   };
+
+  /* Nét ✓ vẽ tay bằng hai đoạn thẳng, không dùng ký tự "✓" của font: font hệ
+     thống mỗi máy vẽ một kiểu, có máy còn ra ô vuông rỗng. */
+  function veDauTick(ctx, x, y, co, mau) {
+    ctx.strokeStyle = mau;
+    ctx.lineWidth = Math.max(2, co / 5);
+    ctx.lineCap = ctx.lineJoin = 'round';
+    ctx.beginPath();
+    ctx.moveTo(x - co * 0.42, y);
+    ctx.lineTo(x - co * 0.12, y + co * 0.34);
+    ctx.lineTo(x + co * 0.45, y - co * 0.40);
+    ctx.stroke();
+  }
 
   function veChuThich(anh, danhSach) {
     var c = document.createElement('canvas');
@@ -140,30 +158,50 @@
     ctx.drawImage(anh, 0, 0);
 
     var don = Math.max(12, Math.round(c.width / 46));   // cỡ chữ theo bề ngang ảnh
-    (danhSach || []).forEach(function (ct) {
-      var mau = MAU_CHU_THICH[ct.loai] || MAU_CHU_THICH.sai;
-      var y = ct.tu * c.height;
-      var cao = Math.max(don * 1.2, (ct.den - ct.tu) * c.height);
+    var leX = c.width - don * 1.1;                      // cột dấu ✓ ở mép phải
 
-      ctx.fillStyle = mau.nen;
-      ctx.fillRect(0, y, c.width, cao);
-      ctx.strokeStyle = mau.vien;
+    (danhSach || []).forEach(function (d) {
+      var kieu = MUC_DO[d.dau] || MUC_DO.dung;
+      var y = d.tu * c.height;
+      var cao = Math.max(don * 1.2, (d.den - d.tu) * c.height);
+
+      if (d.dau === 'dung') {
+        veDauTick(ctx, leX, y + cao / 2, don, kieu.muc);
+        return;
+      }
+
+      /* Chỗ hỏng: khoanh dải ngang. Chừa cột dấu ✓ bên phải để vòng khoanh
+         không nuốt mất mấy dấu tick của những dòng ngay trên và dưới nó. */
+      var rongKhoanh = leX - don * 0.6;
+      ctx.fillStyle = kieu.nen;
+      ctx.fillRect(0, y, rongKhoanh, cao);
+      ctx.strokeStyle = kieu.muc;
       ctx.lineWidth = Math.max(2, c.width / 300);
-      ctx.strokeRect(ctx.lineWidth / 2, y, c.width - ctx.lineWidth, cao);
+      ctx.strokeRect(ctx.lineWidth / 2, y, rongKhoanh - ctx.lineWidth, cao);
 
-      if (!ct.chu) return;
+      if (!d.chu) return;
       ctx.font = '600 ' + don + 'px "Be Vietnam Pro",system-ui,sans-serif';
-      var rong = ctx.measureText(ct.chu).width + don;
-      /* Nhãn nằm trong lòng ảnh, ưu tiên mép phải; dải sát mép dưới thì lật
-         nhãn lên trên, không thì chữ rơi ra ngoài khung. */
+      var rong = ctx.measureText(d.chu).width + don;
+      /* Chữ bên lề nằm trong lòng ảnh, ưu tiên mép phải; dải sát mép dưới thì
+         lật nhãn lên trên, không thì chữ rơi ra ngoài khung. */
       var nx = Math.max(0, c.width - rong - don / 2);
       var ny = y + cao + don * 1.4 < c.height ? y + cao : y - don * 1.4;
-      ctx.fillStyle = mau.vien;
+      ctx.fillStyle = kieu.muc;
       ctx.fillRect(nx, ny, rong, don * 1.4);
-      ctx.fillStyle = mau.chu;
-      ctx.fillText(ct.chu, nx + don / 2, ny + don * 1.02);
+      ctx.fillStyle = '#fff';
+      ctx.fillText(d.chu, nx + don / 2, ny + don * 1.02);
     });
     return c;
+  }
+
+  /* Đếm để nói với em "8/9 dòng đúng". Một con số làm được việc mà cả đoạn văn
+     không làm nổi: nó cho em thấy mình đi được bao xa, kể cả khi bài chưa xong. */
+  function demDong(k) {
+    var ds = k && k.dong;
+    if (!Array.isArray(ds) || !ds.length) return null;
+    var dung = 0;
+    ds.forEach(function (d) { if (d && d.dau === 'dung') dung++; });
+    return { dung: dung, tong: ds.length };
   }
 
   /* Ảnh trong Storage là riêng tư nên phải xin đường dẫn ký hạn giờ. */
@@ -187,49 +225,26 @@
 
   /* ------------------------------------------------------------ nộp bài */
 
+  /* MỘT lối vào, không phải hai.
+   *
+   * Trước bản này mỗi card có cả nút "Chụp / chọn ảnh" ngay tại chỗ LẪN đường
+   * dẫn "Nộp bài làm" sang nop.html — hai cách nộp cùng một câu, đặt cạnh nhau,
+   * làm được những việc khác nhau (ở đây chỉ chụp được ảnh, sang kia mới viết
+   * tay được). Em phải đoán xem nên bấm cái nào.
+   *
+   * Giờ card chỉ còn nút "Làm bài" đi sang nop.html, và khối này chỉ làm một
+   * việc: cho em xem lại bài đã chấm. */
   function veKhoiNop(bt) {
     var ma = bt.dataset.ma;
     var hop = document.createElement('div');
     hop.className = 'lh-nop';
     hop.innerHTML =
       '<div class="lh-nop-dau">' +
-        '<b>Nộp bài làm</b>' +
+        '<b>Bài làm của em</b>' +
         '<span class="lh-luot"></span>' +
       '</div>' +
-      '<p class="lh-dan">Chụp <b>riêng câu này</b>, đừng chụp cả trang — máy đọc rõ hơn nhiều. ' +
-      'Em <b>không cần ghi tên lên giấy</b> nhé.</p>' +
-      '<label class="lh-nut-chup">Chụp / chọn ảnh' +
-        '<input type="file" accept="image/*" capture="environment" hidden>' +
-      '</label>' +
-      '<p class="lh-bao" role="status"></p>' +
       '<div class="lh-kq"></div>';
     bt.appendChild(hop);
-
-    var nhap = hop.querySelector('input');
-    var bao = hop.querySelector('.lh-bao');
-    var kq = hop.querySelector('.lh-kq');
-
-    nhap.addEventListener('change', function () {
-      var f = nhap.files[0];
-      if (!f) return;
-      bao.className = 'lh-bao dang';
-      bao.textContent = 'Đang xử lí ảnh…';
-      nenAnh(f).then(function (blob) {
-        bao.textContent = 'Đang gửi…';
-        return taiLen(ma, blob);
-      }).then(function (r) {
-        bao.className = 'lh-bao';
-        bao.textContent = 'Đã gửi. Đang chấm…';
-        return doiKetQua(r.bai_nop_id, kq, bao);
-      }).catch(function (e) {
-        bao.className = 'lh-bao loi';
-        bao.textContent = e.message === 'mat-mang'
-          ? 'Máy chưa nối mạng. Bài của em được giữ lại, gửi sau khi có mạng nhé.'
-          : e.message;
-        nhap.value = '';
-      });
-    });
-
     capNhatLuot(ma, hop);
   }
 
@@ -265,24 +280,20 @@
     });
   }
 
-  /* Chỗ lập luận chưa chắc, tách khỏi kết luận đúng/sai.
+  /* Một dòng đếm tick, thay cho cả danh sách lỗi trước đây.
    *
-   * Máy chấm theo KẾT QUẢ (mục 7.4): em ra đúng đáp số bằng cách nào cũng là
-   * đúng. Nhưng chỗ hỏng trên đường đi thì vẫn phải nói — nói ở đây, dưới dạng
-   * lời nhắc cho lần sau, và nói rõ là không mất điểm. Trộn nó vào phần kết luận
-   * là em đọc xong không biết rốt cuộc mình đúng hay sai.
-   */
-  function luuYLapLuan(k) {
-    var ds = k && k.luu_y_lap_luan;
-    if (!Array.isArray(ds) || !ds.length) return '';
-    return '<div class="lh-luuy"><p class="lh-luuy-dau">' +
-      (k.ket_luan === 'dung'
-        ? 'Vài chỗ để lần sau chắc tay hơn — không làm em mất điểm nào cả:'
-        : 'Vài chỗ trong lập luận em xem lại nhé:') +
-      '</p><ul>' + ds.map(function (l) {
-        return '<li>' + (l && l.cho ? '<b>' + thoat(l.cho) + '.</b> ' : '') +
-               thoat(l && l.van_de) + '</li>';
-      }).join('') + '</ul></div>';
+   * AI chấm theo KẾT QUẢ (mục 7.4): em ra đúng đáp số bằng cách nào cũng là
+   * đúng. Chỗ hỏng trên đường đi thì đã nằm ngay trên ảnh, khoanh đúng dòng —
+   * chép nó xuống đây lần nữa thành ra em đọc hai lần cùng một lỗi. Ở đây chỉ
+   * cần con số: em đi được bao xa. */
+  function tomTatDong(k) {
+    var d = demDong(k);
+    if (!d) return '';
+    if (d.dung === d.tong) {
+      return '<p class="lh-tick">Cả ' + d.tong + ' dòng đều đúng.</p>';
+    }
+    return '<p class="lh-tick">Em làm đúng <b>' + d.dung + '/' + d.tong +
+           ' dòng</b> — chỗ cần xem lại đã khoanh trên ảnh.</p>';
   }
 
   function veNhanXet(baiNopId, kq) {
@@ -302,15 +313,15 @@
       if (nguoi && bn.trang_thai === 'da_sua' && daDoc) {
         /* Đính chính điều học sinh ĐÃ ĐỌC. Tuyệt đối không ghi đè lặng lẽ —
          * mục 9.3. Hiện cả hai bản, có mốc thời gian. */
-        html += '<details class="lh-cu"><summary>Nhận xét tự động · ' + gio(may && may.luc_cham) +
+        html += '<details class="lh-cu"><summary>AI chấm · ' + gio(may && may.luc_cham) +
                 '</summary><p>' + thoat(may ? may.ket_qua_json.nhan_xet_cho_hoc_sinh : '') + '</p></details>';
-        html += '<div class="lh-nx lh-sua"><span class="lh-huy">Thầy/cô đính chính · ' +
+        html += '<div class="lh-nx lh-sua"><span class="lh-huy">GIÁO VIÊN ĐÃ CHẤM · ' +
                 gio(nguoi.luc_duyet) + '</span><p>' + thoat(nguoi.nhan_xet || '') + '</p></div>';
       } else if (nguoi) {
-        html += '<div class="lh-nx lh-duyet"><span class="lh-huy">Thầy/cô đã xác nhận</span><p>' +
+        html += '<div class="lh-nx lh-duyet"><span class="lh-huy">GIÁO VIÊN ĐÃ CHẤM</span><p>' +
                 thoat(nguoi.nhan_xet || (may ? may.ket_qua_json.nhan_xet_cho_hoc_sinh : '')) + '</p></div>';
       } else if (bn.trang_thai === 'loi_cham') {
-        /* Máy chấm không chạy được (migration 004). Không nói "máy hỏng" — với em
+        /* AI chấm không chạy được (migration 004). Không nói "máy hỏng" — với em
          * thì thông tin dùng được duy nhất là bài đã tới tay thầy cô và không cần
          * nộp lại. Bài đang nằm trong hàng đợi duyệt nên chắc chắn có người xem. */
         html += '<div class="lh-nx lh-may"><span class="lh-huy">Đã gửi tới thầy/cô</span>' +
@@ -318,12 +329,12 @@
                 'Em không phải nộp lại đâu.</p></div>';
       } else if (may) {
         var k = may.ket_qua_json;
-        html += '<div class="lh-nx lh-may"><span class="lh-huy">Máy chấm · chờ thầy cô xem lại</span>' +
+        html += '<div class="lh-nx lh-may"><span class="lh-huy">AI chấm · chờ thầy cô xem lại</span>' +
                 (k.ket_luan === 'dung'
                   ? '<p class="lh-dung">✓ Kết quả của em đúng rồi.</p>' : '') +
                 '<p>' + thoat(k.nhan_xet_cho_hoc_sinh || '') + '</p>' +
+                tomTatDong(k) +
                 (k.goi_y ? '<p class="lh-goiy"><b>Gợi ý.</b> ' + thoat(k.goi_y) + '</p>' : '') +
-                luuYLapLuan(k) +
                 '</div>';
         if (bn.lan_thu >= 3 && k.ket_luan !== 'dung') {
           /* Hết 3 lượt mà vẫn sai — mục 10.1. Không để em đứng trước ô xám. */
@@ -349,9 +360,16 @@
         var o = hop.querySelector('.lh-luot');
         o.textContent = ds.length ? 'Lượt ' + ds.length + '/3' : '';
         if (ds.length) veNhanXet(ds[0].id, hop.querySelector('.lh-kq'));
-        if (ds.length >= 3) {
-          hop.querySelector('.lh-nut-chup').classList.add('lh-khoa');
-          hop.querySelector('input').disabled = true;
+
+        /* Hết lượt thì khoá luôn nút "Làm bài" ở card này. Nút do bộ sinh
+           tach_ban_hoc_sinh.py đặt sẵn trong HTML, không phải do đây vẽ ra —
+           để em bấm sang nop.html rồi mới biết mình hết lượt là thừa một cú
+           bấm và một lần hụt hẫng. */
+        var nut = hop.parentElement && hop.parentElement.querySelector('.hs-nop .hs-nut');
+        if (ds.length >= 3 && nut) {
+          nut.classList.add('lh-khoa');
+          nut.textContent = 'Đã dùng hết 3 lượt';
+          nut.removeAttribute('href');
         }
       });
   }
@@ -521,12 +539,13 @@
       }
     },
 
-    /* Ảnh bài làm + chú thích của máy, trả về canvas đã vẽ xong. */
+    /* Ảnh bài làm + dấu chấm của AI, trả về canvas đã vẽ xong. */
     anhDaChamGoc: duongDanAnh,
     veChuThichLen: veChuThich,
-    veAnhDaCham: function (anhUrl, chuThich) {
+    demDong: demDong,
+    veAnhDaCham: function (anhUrl, dong) {
       return duongDanAnh(anhUrl).then(napAnh).then(function (anh) {
-        return veChuThich(anh, chuThich);
+        return veChuThich(anh, dong);
       });
     },
     dangNhapHocSinh: function (ma, matKhau) {

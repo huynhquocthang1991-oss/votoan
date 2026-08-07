@@ -68,7 +68,7 @@ try {
   .mau-day button[aria-pressed="true"]{border-color:var(--ink);
     box-shadow:0 0 0 3px color-mix(in srgb,var(--ink) 14%,transparent)}
   .khung-ve{position:relative;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff}
-  /* Nền trắng cố định, KHÔNG theo giao diện: đây là tờ giấy sẽ gửi cho máy chấm,
+  /* Nền trắng cố định, KHÔNG theo giao diện: đây là tờ giấy sẽ gửi cho AI chấm,
      nền tối là nét viết biến mất khỏi ảnh xuất ra. */
   .khung-ve canvas{display:block;width:100%;touch-action:none;cursor:crosshair}
   .ve-nho{color:var(--muted);font-size:.88em;margin:8px 0 0}
@@ -101,19 +101,11 @@ try {
   .hs-goi-y>p{margin:11px 15px}
   /* Kết quả đúng — nói to, nói trước. Đây là câu em chờ đọc. */
   .ket-dung{margin:0 0 10px;font-weight:700;color:var(--success);font-size:1.06em}
-  /* Chỗ lập luận chưa chắc. Nền vàng nhạt chứ KHÔNG phải nền đỏ: đây là lời
-     nhắc cho lần sau, không phải một cái gạch sai — bài vẫn được tính đúng. */
-  .luu-y{margin-top:12px;padding:11px 15px;border-radius:12px;
-    background:color-mix(in srgb,var(--warn) 10%,transparent);
-    border:1px solid color-mix(in srgb,var(--warn) 35%,transparent)}
-  .luu-y .dau{margin:0 0 6px;font-weight:600;font-size:.95em}
-  .luu-y ul{margin:0;padding-left:20px}
-  .luu-y li{margin:4px 0}
-  .buoc{list-style:none;padding:0;margin:12px 0 0}
-  .buoc li{display:flex;gap:10px;padding:8px 0;border-top:1px solid var(--line)}
-  .buoc .dau{flex:0 0 auto;font-weight:700}
-  .buoc .dat{color:var(--success)}
-  .buoc .truot{color:var(--danger)}
+  /* Đếm dấu ✓. Xanh kể cả khi bài chưa xong — "8/9 dòng đúng" là lời ghi nhận
+     phần em đã đi được, không phải lời trách phần còn thiếu. */
+  .dem-tick{margin:10px 0 0;padding:10px 14px;border-radius:12px;font-size:.95em;
+    background:color-mix(in srgb,var(--success) 10%,transparent);
+    border:1px solid color-mix(in srgb,var(--success) 32%,transparent)}
   @media (max-width:560px){ .trang{padding:14px 12px 50px} .the{padding:16px 14px} }
 </style>
 </head>
@@ -121,7 +113,7 @@ try {
 
 <div class="trang">
   <a class="quay" id="quay" href="/">← Quay lại bài học</a>
-  <h1>Nộp bài làm</h1>
+  <h1>Làm bài</h1>
 
   <div class="the" id="hop-de">
     <p class="nhan" id="nhan-bai">Đang tải…</p>
@@ -130,10 +122,12 @@ try {
   </div>
 
   <div class="the" id="hop-lam" hidden>
+    <!-- HAI lối, không phải ba. "Chụp ảnh" và "Chọn ảnh có sẵn" trước đây là hai
+         nút riêng cho cùng một việc — chỉ khác nhau đúng một thuộc tính capture,
+         mà hộp chọn tệp của điện thoại vốn đã hỏi "Máy ảnh hay Thư viện?" rồi. -->
     <div class="cach" role="group" aria-label="Chọn cách làm bài">
       <button type="button" id="c-ve" aria-pressed="true">✍️ Viết tay ở đây</button>
-      <button type="button" id="c-chup" aria-pressed="false">📷 Chụp ảnh bài làm</button>
-      <button type="button" id="c-file" aria-pressed="false">🖼 Chọn ảnh có sẵn</button>
+      <button type="button" id="c-file" aria-pressed="false">📷 Ảnh hoặc PDF</button>
     </div>
 
     <div id="khu-ve">
@@ -152,11 +146,11 @@ try {
     </div>
 
     <div id="khu-anh" hidden>
-      <p class="ve-nho">Chụp <b>riêng câu này</b>, đừng chụp cả trang — máy đọc rõ hơn nhiều.
+      <p class="ve-nho">Chụp <b>riêng câu này</b>, đừng chụp cả trang — AI đọc rõ hơn nhiều.
         Em <b>không cần ghi tên lên giấy</b> nhé.</p>
-      <label class="nut" for="tep">Chọn ảnh</label>
-      <input type="file" id="tep" accept="image/*" hidden>
-      <img class="anh-xem" id="anh-xem" hidden alt="Ảnh bài làm em vừa chọn">
+      <label class="nut" for="tep">Chọn ảnh hoặc PDF</label>
+      <input type="file" id="tep" accept="image/*,application/pdf,.pdf" hidden>
+      <img class="anh-xem" id="anh-xem" hidden alt="Bài làm em vừa chọn">
     </div>
 
     <p class="bao" id="bao" role="status"></p>
@@ -164,7 +158,7 @@ try {
   </div>
 
   <div class="the kq-hop" id="hop-kq" hidden>
-    <h2 id="kq-tieu-de">Máy đã xem bài của em</h2>
+    <h2 id="kq-tieu-de">AI đã chấm bài của em</h2>
     <div id="kq-noi-dung"></div>
   </div>
 
@@ -225,7 +219,7 @@ try {
   var CHIA = 2;               // độ nét khi xuất ra, gấp đôi bề ngang hiển thị
   var KHOA_LUU = 'vt-net-' + ma;
 
-  /* Màu mực. Đủ đậm để máy chấm đọc được trên nền trắng — mực nhạt kiểu bút
+  /* Màu mực. Đủ đậm để AI chấm đọc được trên nền trắng — mực nhạt kiểu bút
      nhớ thì ảnh nén JPEG xong là nhoè vào nền. Màu đầu là mặc định. */
   var MAU = [
     { ma: '#12233d', ten: 'Mực đen' },
@@ -449,7 +443,7 @@ try {
 
   /* Xuất tờ giấy thành ảnh. Thu cạnh dài về 1600px như mọi ảnh khác (mục 6.3):
      canvas vẽ ở gấp đôi bề ngang cho nét mượt, nhưng gửi nguyên cỡ đó thì tốn
-     dung lượng mà máy chấm không đọc tốt hơn chút nào. */
+     dung lượng mà AI chấm không đọc tốt hơn chút nào. */
   var CANH_DAI = 1600;
   function anhTuGiay() {
     var nguon = giay;
@@ -468,32 +462,99 @@ try {
 
   var tep = document.getElementById('tep');
   var anhXem = document.getElementById('anh-xem');
-  var fileDaChon = null;
+  var fileDaChon = null;      // ảnh gốc, hoặc ảnh dựng từ trang 1 của PDF
+  var blobPdf = null;         // ảnh PDF đã chuyển, gửi thẳng bằng tuBlob
+
+  /* PDF → ảnh, chuyển ngay trên máy em.
+   *
+   * Gửi thẳng file PDF lên cho model thì model đọc được, nhưng đường về gãy: cả
+   * phần chấm hiển thị bằng cách VẼ ĐÈ dấu ✓ lên ảnh bài làm, mà canvas không vẽ
+   * được PDF. Đổi thành ảnh ngay từ đầu thì mọi thứ phía sau dùng lại được hết.
+   *
+   * pdf.js nạp lúc cần chứ không nạp sẵn: gần như em nào cũng nộp ảnh chụp, bắt
+   * mọi người tải 350 KB thư viện cho một số ít là không đáng. */
+  var PDF_GOC = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/';
+
+  function docPdf(file) {
+    return import(/* webpackIgnore: true */ PDF_GOC + 'build/pdf.min.mjs').then(function (pdfjs) {
+      pdfjs.GlobalWorkerOptions.workerSrc = PDF_GOC + 'build/pdf.worker.min.mjs';
+      return file.arrayBuffer().then(function (buf) {
+        /* cMap và standard_fonts phải trỏ về CDN. Bỏ trống thì pdf.js đi tìm ở
+           đường dẫn tương đối của trang này, nhận 404, và tệp nào có phông không
+           nhúng sẵn sẽ ra một trang trắng không báo lỗi gì. */
+        return pdfjs.getDocument({
+          data: buf,
+          cMapUrl: PDF_GOC + 'cmaps/', cMapPacked: true,
+          standardFontDataUrl: PDF_GOC + 'standard_fonts/'
+        }).promise;
+      });
+    }).then(function (tai) {
+      var soTrang = tai.numPages;
+      return tai.getPage(1).then(function (trang) {
+        /* Phóng để cạnh dài ra đúng CANH_DAI. Lấy nguyên cỡ mặc định thì chữ
+           viết tay scan ra bé quá, AI đọc không nổi. */
+        var goc = trang.getViewport({ scale: 1 });
+        var ti = CANH_DAI / Math.max(goc.width, goc.height);
+        var khung = trang.getViewport({ scale: ti });
+        var c = document.createElement('canvas');
+        c.width = Math.round(khung.width);
+        c.height = Math.round(khung.height);
+        var g = c.getContext('2d');
+        g.fillStyle = '#fff';       // PDF nền trong suốt sẽ ra ảnh đen nếu không tô
+        g.fillRect(0, 0, c.width, c.height);
+        return trang.render({ canvasContext: g, viewport: khung }).promise
+          .then(function () {
+            return new Promise(function (ok) {
+              c.toBlob(function (b) { ok({ blob: b, soTrang: soTrang }); }, 'image/jpeg', 0.85);
+            });
+          });
+      });
+    });
+  }
 
   tep.addEventListener('change', function () {
-    fileDaChon = tep.files[0] || null;
-    if (!fileDaChon) return;
-    anhXem.src = URL.createObjectURL(fileDaChon);
-    anhXem.hidden = false;
-    bao('');
+    var f = tep.files[0] || null;
+    fileDaChon = null;
+    blobPdf = null;
+    anhXem.hidden = true;
+    if (!f) return;
+
+    var laPdf = f.type === 'application/pdf' || /\.pdf$/i.test(f.name);
+    if (!laPdf) {
+      fileDaChon = f;
+      anhXem.src = URL.createObjectURL(f);
+      anhXem.hidden = false;
+      bao('');
+      return;
+    }
+
+    bao('Đang mở tệp PDF…', 'dang');
+    docPdf(f).then(function (r) {
+      blobPdf = r.blob;
+      anhXem.src = URL.createObjectURL(r.blob);
+      anhXem.hidden = false;
+      /* Chỉ lấy trang đầu. Nói thẳng ra chứ không im: em nộp tệp 3 trang rồi
+         nhận nhận xét về mỗi trang 1 mà không hiểu vì sao là tệ nhất. */
+      bao(r.soTrang > 1
+        ? 'Tệp có ' + r.soTrang + ' trang, chỉ trang đầu được nộp. Câu này ở trang khác thì em tách ra nhé.'
+        : '');
+    }).catch(function () {
+      bao('Không mở được tệp PDF này. Em chụp ảnh bài làm rồi nộp giúp nhé.', 'loi');
+    });
   });
 
   /* ─────────────────────────────── đổi cách làm ──────────────────── */
 
   var cach = 've';
-  [['c-ve', 've'], ['c-chup', 'chup'], ['c-file', 'file']].forEach(function (c) {
+  [['c-ve', 've'], ['c-file', 'file']].forEach(function (c) {
     document.getElementById(c[0]).addEventListener('click', function () { doiCach(c[1]); });
   });
   function doiCach(m) {
     cach = m;
     document.getElementById('c-ve').setAttribute('aria-pressed', String(m === 've'));
-    document.getElementById('c-chup').setAttribute('aria-pressed', String(m === 'chup'));
     document.getElementById('c-file').setAttribute('aria-pressed', String(m === 'file'));
     document.getElementById('khu-ve').hidden = m !== 've';
     document.getElementById('khu-anh').hidden = m === 've';
-    // capture="environment" mở thẳng máy ảnh sau; bỏ đi thì mở thư viện ảnh.
-    if (m === 'chup') tep.setAttribute('capture', 'environment');
-    else tep.removeAttribute('capture');
   }
 
   /* ─────────────────────────────── nộp ───────────────────────────── */
@@ -507,13 +568,18 @@ try {
     if (cach === 've') {
       if (!coNetNao()) { bao('Em chưa viết gì cả.', 'loi'); nutGui.disabled = false; return; }
       xong = anhTuGiay().then(function (b) { return LopHoc.nop.tuBlob(ma, b); });
-    } else {
-      if (!fileDaChon) { bao('Em chưa chọn ảnh.', 'loi'); nutGui.disabled = false; return; }
+    } else if (blobPdf) {
+      /* Trang PDF đã dựng sẵn thành ảnh sạch, đi đường tuBlob như nét viết tay —
+         không chạy lại bộ đo độ mờ, vì nền trắng luôn bị nó chấm là "ảnh mờ". */
+      xong = LopHoc.nop.tuBlob(ma, blobPdf);
+    } else if (fileDaChon) {
       xong = LopHoc.nop.tuFile(ma, fileDaChon);
+    } else {
+      bao('Em chưa chọn ảnh hoặc tệp PDF.', 'loi'); nutGui.disabled = false; return;
     }
 
     xong.then(function (r) {
-      bao('Đã gửi. Máy đang xem bài…', 'dang');
+      bao('Đã gửi. AI đang xem bài…', 'dang');
       soLanDaNop++;
       capNhatLuot();
       return doiCham(r.bai_nop_id);
@@ -526,7 +592,7 @@ try {
     });
   });
 
-  /* Chờ máy chấm xong rồi vẽ báo cáo. Hỏi lại mỗi 2 giây; sau 90 giây thì thôi,
+  /* Chờ AI chấm xong rồi vẽ báo cáo. Hỏi lại mỗi 2 giây; sau 90 giây thì thôi,
      bài vẫn nằm trong hàng đợi của thầy cô nên không mất đi đâu. */
   function doiCham(baiNopId) {
     var sb = LopHoc.sb();
@@ -538,7 +604,7 @@ try {
             var tt = r.data && r.data.trang_thai;
             if (tt && tt !== 'dang_cham') { return veKetQua(baiNopId, tt).then(ok); }
             if (++lan > 45) {
-              bao('Máy chấm hơi lâu. Bài của em đã tới tay thầy cô rồi, không phải nộp lại.');
+              bao('AI chấm hơi lâu. Bài của em đã tới tay thầy cô rồi, không phải nộp lại.');
               return ok();
             }
             setTimeout(hoi, 2000);
@@ -553,7 +619,7 @@ try {
     nutGui.disabled = soLanDaNop >= 3;
 
     if (trangThai === 'loi_cham') {
-      hienKetQua('<p>Máy chưa xem được bài này. Thầy/cô sẽ xem trực tiếp giúp em — '
+      hienKetQua('<p>AI chưa xem được bài này. Thầy/cô sẽ xem trực tiếp giúp em — '
         + 'em <b>không phải nộp lại</b> nhé.</p>');
       return moLoiGiai();
     }
@@ -569,7 +635,7 @@ try {
 
       var html = '';
 
-      /* Kết quả đúng thì nói thẳng ra là đúng, ngay dòng đầu. Máy chấm theo KẾT
+      /* Kết quả đúng thì nói thẳng ra là đúng, ngay dòng đầu. AI chấm theo KẾT
          QUẢ chứ không theo độ giống lời giải mẫu, nên em làm tắt hay làm cách
          khác mà ra đúng vẫn thấy dòng này. */
       if (k.ket_luan === 'dung') {
@@ -577,58 +643,44 @@ try {
       }
 
       html += '<p>' + thoat(k.nhan_xet_cho_hoc_sinh || '') + '</p>';
+
+      /* Đếm dấu ✓ — phần ghi nhận. Em bỏ dở giữa chừng vẫn nhìn thấy mình đi
+         được bao xa, và đó là thứ giữ em ở lại làm tiếp. */
+      var dem = LopHoc.demDong(k);
+      if (dem) {
+        html += '<p class="dem-tick">' + (dem.dung === dem.tong
+          ? 'Cả <b>' + dem.tong + ' dòng</b> đều đúng.'
+          : 'Em làm đúng <b>' + dem.dung + '/' + dem.tong + ' dòng</b>.') + '</p>';
+      }
+
       if (k.goi_y) html += '<p><b>Gợi ý.</b> ' + thoat(k.goi_y) + '</p>';
 
-      /* Chỗ lập luận chưa chắc. Tách hẳn khỏi phần kết luận và nói rõ "không
-         làm em mất điểm" — nếu không, em đọc thấy một danh sách lỗi ngay dưới
-         chữ "đúng" thì vẫn tưởng mình bị trừ, và lần sau ngại nộp. */
-      if (Array.isArray(k.luu_y_lap_luan) && k.luu_y_lap_luan.length) {
-        html += '<div class="luu-y"><p class="dau">'
-          + (k.ket_luan === 'dung'
-              ? 'Vài chỗ để lần sau chắc tay hơn — không làm em mất điểm nào cả:'
-              : 'Vài chỗ trong lập luận em xem lại nhé:')
-          + '</p><ul>';
-        k.luu_y_lap_luan.forEach(function (l) {
-          html += '<li>' + (l.cho ? '<b>' + thoat(l.cho) + '.</b> ' : '')
-            + thoat(l.van_de) + '</li>';
-        });
-        html += '</ul></div>';
-      }
-
-      /* Bảng điểm danh từng bước CHỈ hiện khi bài chưa đúng — nó ở đây để em
-         biết nên xem lại từ đâu. Bài đã đúng mà vẫn bày ra một cột dấu ✗ vì em
-         làm tắt vài bước thì đúng là vừa khen vừa gạch, và em chỉ nhớ mấy dấu ✗.
-         Chỗ thật sự cần nói với bài đúng nằm ở khối lưu ý bên trên rồi. */
-      if (k.ket_luan !== 'dung' && Array.isArray(k.cac_buoc) && k.cac_buoc.length) {
-        html += '<ul class="buoc">';
-        k.cac_buoc.forEach(function (b) {
-          html += '<li><span class="dau ' + (b.dat ? 'dat' : 'truot') + '">'
-            + (b.dat ? '✓' : '✗') + '</span><span>' + thoat(b.buoc)
-            + (b.loi ? ' — ' + thoat(b.loi) : '') + '</span></li>';
-        });
-        html += '</ul>';
-      }
-
-      if (Array.isArray(k.chu_thich) && k.chu_thich.length) {
+      /* Chữ ghi bên lề, chép lại thành danh sách cho em đọc được bằng trình đọc
+         màn hình và trên máy màn hình nhỏ — cùng nội dung với dấu trên ảnh, chỉ
+         khác cách trình bày. Dòng đúng không vào đây: cái cột dấu ✓ trên ảnh đã
+         nói hết, liệt kê lại chín dòng "đúng" chỉ tổ dài. */
+      var choSua = (k.dong || []).filter(function (d) { return d.dau !== 'dung' && d.chu; });
+      if (choSua.length) {
         html += '<ul class="bang-chu-thich">';
-        k.chu_thich.forEach(function (c) {
-          html += '<li><span class="cham-mau ' + thoat(c.loai) + '"></span><span>'
-            + thoat(c.chu) + '</span></li>';
+        choSua.forEach(function (d) {
+          html += '<li><span class="cham-mau ' + (d.dau === 'sai' ? 'sai' : 'thieu')
+            + '"></span><span>' + thoat(d.chu) + '</span></li>';
         });
         html += '</ul>';
       }
 
       if (k.ban_chep) {
-        html += '<details><summary>Máy đọc bài của em thành</summary>'
+        html += '<details><summary>AI đọc bài của em thành</summary>'
           + '<div class="ban-chep">' + thoat(k.ban_chep) + '</div></details>';
       }
 
-      html += '<p class="ve-nho">Đây là nhận xét của máy, thầy/cô sẽ xem lại.</p>';
+      html += '<p class="ve-nho">Đây là nhận xét của AI, thầy/cô sẽ xem lại.</p>';
       hienKetQua(html);
 
-      /* Ảnh có chú thích vẽ đè. Hỏng thì thôi, phần chữ ở trên đã đủ dùng. */
+      /* Ảnh đã chấm — dấu ✓ từng dòng, khoanh chỗ hỏng. Đây mới là phần chính,
+         nên nó nằm TRÊN CÙNG. Hỏng thì thôi, phần chữ ở trên đã đủ dùng. */
       if (bn && bn.anh_url) {
-        LopHoc.veAnhDaCham(bn.anh_url, k.chu_thich).then(function (canvas) {
+        LopHoc.veAnhDaCham(bn.anh_url, k.dong).then(function (canvas) {
           canvas.className = 'kq-anh';
           var oNoi = document.getElementById('kq-noi-dung');
           oNoi.insertBefore(canvas, oNoi.firstChild);

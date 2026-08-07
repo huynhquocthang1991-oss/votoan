@@ -185,16 +185,21 @@ kbd{font:600 .74rem var(--body);padding:2px 6px;border-radius:5px;
 .moc{margin-top:7px;font-size:.78rem;color:var(--muted)}
 .nx{margin-top:7px;font-size:.84rem}
 
-/* Chú thích của máy vẽ đè lên ảnh — dải ngang theo phần trăm, không đóng khung
+/* Bài chấm của AI vẽ đè lên ảnh — dải ngang theo phần trăm, không đóng khung
    ôm sát chữ (model định vị chữ viết tay chỉ chính xác cỡ vài phần trăm). */
 .lop-chu-thich{position:absolute;inset:0;pointer-events:none}
 .lop-chu-thich i{position:absolute;left:0;right:0;border-radius:3px}
+/* Dòng ĐÚNG: một dấu ✓ ở lề phải, không tô nền — chín phần mười số dòng rơi vào
+   đây, tô nền cả chín dòng thì ảnh thành một mảng màu và thầy cô không đọc nổi
+   bài làm nữa. Nét ✓ vẽ bằng hai cạnh của một ô vuông xoay 45°, không dùng ký
+   tự "✓" của font: font hệ thống mỗi máy vẽ một kiểu. */
+.lop-chu-thich i.dung{left:auto;right:.5%;width:1.1em;display:flex;align-items:center}
+.lop-chu-thich i.dung::before{content:"";width:.42em;height:.78em;margin:0 auto;
+  border:2px solid var(--danger);border-top:0;border-left:0;transform:rotate(40deg)}
 .lop-chu-thich i.sai{background:color-mix(in srgb,var(--danger) 26%,transparent);
-  outline:1.5px solid var(--danger)}
-.lop-chu-thich i.thieu{background:color-mix(in srgb,var(--warn) 26%,transparent);
-  outline:1.5px solid var(--warn)}
-.lop-chu-thich i.tot{background:color-mix(in srgb,var(--success) 22%,transparent);
-  outline:1.5px solid var(--success)}
+  outline:1.5px solid var(--danger);right:1.6em}
+.lop-chu-thich i.chua_chat{background:color-mix(in srgb,var(--warn) 26%,transparent);
+  outline:1.5px solid var(--warn);right:1.6em}
 
 .viec-cau{display:grid;gap:7px;min-width:126px}
 .viec-cau .nut{min-height:40px;font-size:.82rem;padding:0 12px}
@@ -302,17 +307,14 @@ kbd{font:600 .74rem var(--body);padding:2px 6px;border-radius:5px;
     <!-- sao -->
     <div class="the">
       <h2>Sao của em</h2>
-      <p class="mo-ta">Mỗi câu <b>tự luận</b> đúng được <b>2 sao</b>, mỗi câu
-        <b>trắc nghiệm</b> đúng được <b>1 sao</b> — không phân biệt câu dễ câu khó,
-        không phụ thuộc em nộp lần thứ mấy. Muốn ghi nhận riêng nỗ lực của một em
-        thì dùng nút <b>Tặng sao khích lệ</b> bên phải.
-        <b>Sao đã trao thì không bao giờ lấy lại.</b></p>
+      <p class="mo-ta">Tự luận đúng <b>2 sao</b>, trắc nghiệm đúng <b>1 sao</b> — không
+        phụ thuộc độ khó hay lần nộp thứ mấy. <b>Sao đã trao không lấy lại.</b></p>
       <div class="sao-dai">
         <div class="sao-to"><b id="sao-tong">★ 0</b><span>tổng cộng</span></div>
         <span class="vien dac" id="sao-dac">★ 0 chính thức</span>
         <span class="vien tam" id="sao-tam">☆ 0 tạm tính · chờ thầy cô xem</span>
         <button class="nut" type="button" id="mo-tang" style="margin-left:auto">
-          ★ Tặng sao khích lệ</button>
+          ★ Tặng sao</button>
       </div>
       <div class="sao-nguon" id="sao-nguon"></div>
       <div class="sao-tang" id="sao-tang"></div>
@@ -325,12 +327,11 @@ kbd{font:600 .74rem var(--body);padding:2px 6px;border-radius:5px;
     <!-- theo bài -->
     <div class="the">
       <h2>Từng bài một</h2>
-      <p class="mo-ta">Bấm vào một bài để xem từng câu: máy chấm gì, thầy cô kết luận gì,
-        em đã đọc nhận xét chưa. Duyệt được ngay tại đây, không phải quay về hàng đợi.</p>
+      <p class="mo-ta">Bấm một bài để xem từng câu và duyệt ngay tại đây.</p>
       <div class="loc" id="loc" role="group" aria-label="Lọc danh sách bài">
         <button type="button" data-loc="tatca" aria-pressed="true">Tất cả</button>
-        <button type="button" data-loc="cholam" aria-pressed="false">Có việc chờ thầy cô</button>
-        <button type="button" data-loc="dadung" aria-pressed="false">Em đã đụng tới</button>
+        <button type="button" data-loc="cholam" aria-pressed="false">Chờ thầy cô</button>
+        <button type="button" data-loc="dadung" aria-pressed="false">Em đã làm</button>
       </div>
       <div id="ds-bai"><p class="trong">Đang tải…</p></div>
     </div>
@@ -338,8 +339,7 @@ kbd{font:600 .74rem var(--body);padding:2px 6px;border-radius:5px;
     <!-- chuyên cần -->
     <div class="the">
       <h2>Chuyên cần 30 ngày</h2>
-      <p class="mo-ta">Ô đậm là ngày có làm bài — tự luận hoặc trắc nghiệm đều tính.
-        Đây là dấu vết chuyên cần, không phải biểu đồ điểm số.</p>
+      <p class="mo-ta">Ô đậm là ngày có làm bài. Đây là chuyên cần, không phải điểm số.</p>
       <div class="lich" id="lich"></div>
       <p class="ghi" id="ghi-lich"></p>
     </div>
@@ -425,6 +425,11 @@ kbd{font:600 .74rem var(--body);padding:2px 6px;border-radius:5px;
   var CHU_KET_LUAN = { dung: 'đúng', sai: 'chưa đúng', thieu_buoc: 'thiếu bước',
                        khong_doc_duoc: 'không đọc được bài' };
   function chuKetLuan(k) { return CHU_KET_LUAN[k] || k || ''; }
+  /* "· 7/9 dòng đúng" — liếc là biết bài gãy nhiều hay ít, khỏi phóng to ảnh đếm. */
+  function demTick(kq) {
+    var d = window.LopHoc && LopHoc.demDong(kq);
+    return d ? ' · ' + d.dung + '/' + d.tong + ' dòng đúng' : '';
+  }
   function lopKetLuan(k) {
     return k === 'dung' ? 'dung' : k === 'thieu_buoc' ? 'thieu' : 'sai';
   }
@@ -508,18 +513,18 @@ kbd{font:600 .74rem var(--body);padding:2px 6px;border-radius:5px;
   function trangThaiChip(bn) {
     if (!bn) return { lop: 'trong', chu: '○', noi: 'chưa nộp' };
     if (bn.trang_thai === 'dang_cham') return { lop: 'cho', chu: '⋯', noi: 'đang chấm' };
-    if (bn.trang_thai === 'loi_cham') return { lop: 'cho', chu: '⋯', noi: 'máy chưa chấm được' };
+    if (bn.trang_thai === 'loi_cham') return { lop: 'cho', chu: '⋯', noi: 'AI chưa chấm được' };
     var kl = ketLuanCuoi(bn);
     if (kl.ket_luan === 'dung') {
       return kl.daDuyet
         ? { lop: 'dung', chu: '✓', noi: 'đúng, thầy cô đã xác nhận' }
-        : { lop: 'tam', chu: '✓', noi: 'máy chấm đúng, chờ thầy cô' };
+        : { lop: 'tam', chu: '✓', noi: 'AI chấm đúng, chờ thầy cô' };
     }
     if (kl.ket_luan) return { lop: 'sai', chu: '✗', noi: 'chưa đúng' };
     return { lop: 'cho', chu: '⋯', noi: 'chờ chấm' };
   }
 
-  /* Bài nào còn việc của thầy cô: máy chấm xong chờ xác nhận, hoặc máy hỏng. */
+  /* Bài nào còn việc của thầy cô: AI chấm xong chờ xác nhận, hoặc AI hỏng. */
   function conViec(bn) {
     if (!bn) return false;
     if (bn.trang_thai === 'may_cham') return !moiNhat(bn.cham_nguoi, 'luc_duyet');
@@ -1001,10 +1006,10 @@ kbd{font:600 .74rem var(--body);padding:2px 6px;border-radius:5px;
             ? '<span class="kl chua">chờ thầy cô</span>' : '') + '</div>'
     +   '<p class="de">' + (bt.de_bai || '') + '</p>'
     +   '<div class="doi-cham">'
-    +     '<div><span class="ai">Máy</span>' + (may
+    +     '<div><span class="ai">AI</span>' + (may
             ? '<span class="kl ' + lopKetLuan(may.ket_luan) + '">'
               + chuKetLuan(may.ket_luan) + '</span><span style="color:var(--muted)">tin cậy '
-              + Math.round((may.do_tin_cay || 0) * 100) + '%</span>'
+              + Math.round((may.do_tin_cay || 0) * 100) + '%' + demTick(kq) + '</span>'
             : '<span style="color:var(--muted)">'
               + (bn.trang_thai === 'loi_cham'
                   ? 'không chạy được — em nộp lúc ' + thoat(ngayGio(bn.luc_nop))
@@ -1018,11 +1023,11 @@ kbd{font:600 .74rem var(--body);padding:2px 6px;border-radius:5px;
             : '<span class="kl chua">chưa duyệt</span>') + '</div>'
     +   '</div>'
     +   (nguoi && may && nguoi.ket_luan !== may.ket_luan
-          ? '<div class="lech">Thầy cô đã đính chính máy.'
+          ? '<div class="lech">Giáo viên đã chấm lại.'
             + (bn.luc_hoc_sinh_doc
-                ? ' Em đọc bản của máy lúc ' + thoat(ngayGio(bn.luc_hoc_sinh_doc))
+                ? ' Em đọc bản của AI lúc ' + thoat(ngayGio(bn.luc_hoc_sinh_doc))
                   + ', nên trang của em hiện cả hai bản kèm mốc thời gian.'
-                : ' Em chưa kịp đọc bản của máy nên không thấy gì lạ.') + '</div>'
+                : ' Em chưa kịp đọc bản của AI nên không thấy gì lạ.') + '</div>'
           : '')
     +   (nguoi && nguoi.nhan_xet
           ? '<div class="nx">Nhận xét: ' + thoat(nguoi.nhan_xet) + '</div>' : '')
@@ -1032,12 +1037,12 @@ kbd{font:600 .74rem var(--body);padding:2px 6px;border-radius:5px;
     + '</div>'
     + '<div class="viec-cau"></div>';
 
-    // Chú thích của máy vẽ đè lên ảnh.
-    if (Array.isArray(kq.chu_thich) && kq.chu_thich.length) {
+    // Bài chấm vẽ đè lên ảnh: ✓ từng dòng, khoanh chỗ hỏng.
+    if (Array.isArray(kq.dong) && kq.dong.length) {
       var lopCt = document.createElement('div');
       lopCt.className = 'lop-chu-thich';
-      lopCt.innerHTML = kq.chu_thich.map(function (c) {
-        return '<i class="' + thoat(c.loai) + '" style="top:' + (c.tu * 100).toFixed(1)
+      lopCt.innerHTML = kq.dong.map(function (c) {
+        return '<i class="' + thoat(c.dau) + '" style="top:' + (c.tu * 100).toFixed(1)
           + '%;height:' + Math.max(1.5, (c.den - c.tu) * 100).toFixed(1) + '%" title="'
           + thoat(c.chu) + '"></i>';
       }).join('');
@@ -1059,7 +1064,7 @@ kbd{font:600 .74rem var(--body);padding:2px 6px;border-radius:5px;
   function veNutDuyet(khu, bn, kl) {
     if (kl.daDuyet) {
       /* Đã duyệt rồi thì không bày sẵn ba nút — bấm nhầm là ghi thêm một dòng
-         cham_nguoi nữa và bảng đo độ chính xác của máy (mục 11) lệch theo. */
+         cham_nguoi nữa và bảng đo độ chính xác của AI (mục 11) lệch theo. */
       var doi = document.createElement('button');
       doi.className = 'nut nhe';
       doi.type = 'button';

@@ -92,6 +92,9 @@ try {
   .chip.dung{background:var(--success-soft);color:var(--success);border-color:var(--success)}
   .chip.tam{background:transparent;color:var(--success);border:2px dashed var(--success)}
   .chip.sai{background:var(--danger-soft);color:var(--danger);border-color:var(--danger)}
+  /* Thiếu bước KHÁC sai. Cùng là chưa có sao, nhưng em bỏ dở giữa chừng mà
+     nhìn thấy đúng cái ô đỏ như em làm sai hẳn thì oan cho em. */
+  .chip.thieu{background:var(--warn-soft);color:var(--warn);border-color:var(--warn)}
   .chip.cho{background:var(--warn-soft);color:var(--warn);border-color:var(--warn)}
   .chip.trong{border:2px dotted var(--line)}
 
@@ -174,7 +177,7 @@ try {
     </div>
     <p class="nho" id="giai-thich-sao">Mỗi câu tự luận đúng em được <b>2 sao</b>, mỗi câu
       trắc nghiệm đúng <b>1 sao</b>. Sao viền nét đứt là <b>tạm tính</b>, chờ thầy cô xem lại.
-      Sao đặc là <b>chính thức</b>. Thầy cô đính chính thì sao tạm tính không thành sao đặc,
+      Sao đặc là <b>chính thức</b>. Giáo viên chấm lại thì sao tạm tính không thành sao đặc,
       nhưng <b>sao đã có thì không bao giờ bị lấy đi</b>.</p>
   </div>
 
@@ -323,7 +326,7 @@ try {
      "kém" — em đọc trang này một mình, không có ai ngồi cạnh giải thích. */
   function trangThaiChip(bn) {
     if (!bn) return { lop: 'trong', chu: '○', noi: 'em chưa nộp câu này' };
-    if (bn.trang_thai === 'dang_cham') return { lop: 'cho', chu: '⋯', noi: 'máy đang chấm' };
+    if (bn.trang_thai === 'dang_cham') return { lop: 'cho', chu: '⋯', noi: 'AI đang chấm' };
     if (bn.trang_thai === 'loi_cham') {
       return { lop: 'cho', chu: '⋯', noi: 'thầy cô sẽ xem giúp em' };
     }
@@ -331,21 +334,34 @@ try {
     if (kl.ket_luan === 'dung') {
       return kl.daDuyet
         ? { lop: 'dung', chu: '✓', noi: 'đúng — thầy cô đã xác nhận' }
-        : { lop: 'tam', chu: '✓', noi: 'máy chấm đúng, chờ thầy cô xem lại' };
+        : { lop: 'tam', chu: '✓', noi: 'AI chấm đúng, chờ thầy cô xem lại' };
     }
+    /* Thiếu bước và sai GIỐNG NHAU về sao — cả hai đều chưa có sao, em nộp lại
+       ra đúng thì lấy đủ 2. Nhưng KHÁC nhau ở đây, chỗ em nhìn: bỏ dở giữa chừng
+       là vàng, sai hẳn mới đỏ. Trước đây cả hai dùng chung lớp 'sai' nên em làm
+       được tám phần mười nhìn thấy đúng cái ô đỏ như em làm sai từ dòng đầu. */
     if (kl.ket_luan === 'thieu_buoc') {
-      return { lop: 'sai', chu: '!', noi: 'còn thiếu bước — em xem lại nhé' };
+      return { lop: 'thieu', chu: '!', noi: 'còn thiếu bước — em xem lại nhé' + tienDo(kl) };
     }
-    if (kl.ket_luan) return { lop: 'sai', chu: '✗', noi: 'chưa đúng — em thử lại nhé' };
+    if (kl.ket_luan) {
+      return { lop: 'sai', chu: '✗', noi: 'chưa đúng — em thử lại nhé' + tienDo(kl) };
+    }
     return { lop: 'cho', chu: '⋯', noi: 'đang chờ chấm' };
+  }
+
+  /* "8/9 dòng đúng". Bài chưa xong thì con số này là thứ duy nhất nói với em
+     rằng em đã đi được một quãng — không có nó, ô vuông chỉ nói em chưa xong. */
+  function tienDo(kl) {
+    var d = kl.may && window.LopHoc && LopHoc.demDong(kl.may.ket_qua_json);
+    return d ? ' (' + d.dung + '/' + d.tong + ' dòng đúng)' : '';
   }
 
   function nhanTrangThai(bn) {
     if (bn.trang_thai === 'dang_cham') return '<span class="nhan cham">Đang chấm</span>';
     if (bn.trang_thai === 'loi_cham') return '<span class="nhan cham">Thầy cô sẽ xem</span>';
-    if (bn.trang_thai === 'may_cham') return '<span class="nhan may">Máy chấm · chờ thầy cô</span>';
+    if (bn.trang_thai === 'may_cham') return '<span class="nhan may">AI chấm · chờ thầy cô</span>';
     if (bn.trang_thai === 'da_duyet') return '<span class="nhan duyet">Thầy cô đã xác nhận</span>';
-    if (bn.trang_thai === 'da_sua') return '<span class="nhan sua">Thầy cô đã đính chính</span>';
+    if (bn.trang_thai === 'da_sua') return '<span class="nhan sua">GIÁO VIÊN ĐÃ CHẤM</span>';
     return '';
   }
 
@@ -608,7 +624,7 @@ try {
          lúc ấy em vẫn nên biết máy đọc ra sao. */
       sb.from('bai_nop')
         .select('id,bai_tap_ma,lan_thu,trang_thai,luc_nop,luc_hoc_sinh_doc,'
-              + 'cham_may(ket_luan,luc_cham),cham_nguoi(ket_luan,nhan_xet,diem,luc_duyet)')
+              + 'cham_may(ket_luan,ket_qua_json,luc_cham),cham_nguoi(ket_luan,nhan_xet,diem,luc_duyet)')
         .eq('hoc_sinh_id', toi.id).order('luc_nop', { ascending: false }),
       sb.from('tn_lam').select('duong_dan_bai,lan_thu,so_dung,so_cau,luc_lam')
         .eq('hoc_sinh_id', toi.id).order('lan_thu', { ascending: false }),
