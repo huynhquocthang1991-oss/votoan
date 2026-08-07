@@ -661,10 +661,13 @@ try {
 
       html += '<h3 class="dau-may">AI xem bài của em</h3>';
 
-      /* AI chấm theo KẾT QUẢ chứ không theo độ giống lời giải mẫu, nên em làm
-         tắt hay làm cách khác mà ra đúng vẫn thấy dòng này. */
+      /* "dung" nay nghĩa là ĐƯỜNG ĐI VỮNG chứ không chỉ là con số khớp (chốt
+         07/08/2026), nên câu chữ phải nói về cả bài chứ không riêng đáp số. Em
+         làm tắt hay làm cách khác sách mà lập luận chắc vẫn thấy dòng này. */
       if (k.ket_luan === 'dung') {
-        html += '<p class="ket-dung">✓ Kết quả của em đúng rồi.</p>';
+        html += '<p class="ket-dung">✓ Bài của em làm chắc, đường đi đúng.</p>';
+      } else if (k.ket_luan === 'thieu_buoc') {
+        html += '<p class="ket-thieu">Em hiểu đúng hướng rồi, còn một chỗ chưa kín.</p>';
       }
 
       html += '<p>' + thoat(k.nhan_xet_cho_hoc_sinh || '') + '</p>';

@@ -269,10 +269,12 @@
 
   /* Một dòng đếm tick, thay cho cả danh sách lỗi trước đây.
    *
-   * AI chấm theo KẾT QUẢ (mục 7.4): em ra đúng đáp số bằng cách nào cũng là
-   * đúng. Chỗ hỏng trên đường đi thì đã nằm ngay trên ảnh, khoanh đúng dòng —
-   * chép nó xuống đây lần nữa thành ra em đọc hai lần cùng một lỗi. Ở đây chỉ
-   * cần con số: em đi được bao xa. */
+   * AI chấm bám sát bài em trình bày (mục 7.4, chốt 07/08/2026), nên chỗ hỏng
+   * trên đường đi đã nằm ngay trên ảnh, khoanh đúng dòng — chép nó xuống đây lần
+   * nữa thành ra em đọc hai lần cùng một lỗi. Ở đây chỉ cần con số: em đi được
+   * bao xa. Dòng đếm này càng quan trọng từ khi kết luận xét theo đường đi: em
+   * làm đúng 8/9 dòng mà kết luận là "thiếu bước" thì con số ấy là thứ nói cho
+   * em biết mình đã chắc tới đâu. */
   function tomTatDong(k) {
     var d = demDong(k);
     if (!d) return '';
